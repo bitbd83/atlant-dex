@@ -40,6 +40,7 @@ module.exports = {
       'components': `@/components`,
       'layouts': `@/layouts`,
       'pages': `@/pages`,
+      'modals': `@/modals`,
       'services': `@/services`,
       'variables': `@/sass/variables.scss`,
       'styles': `@/sass/`,
