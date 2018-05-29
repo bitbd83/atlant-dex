@@ -43,9 +43,9 @@ export default {
       default: '',
     },
     isLoading: {
-      type: String,
+      type: Boolean,
       required: false,
-      default: '',
+      default: false,
     },
   },
 };

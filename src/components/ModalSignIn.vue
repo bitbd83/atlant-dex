@@ -2,7 +2,7 @@
 ModalLayout
   .singIn
     Icon.singIn__icon(id="signin")
-    form.singIn__content(v-if="step == 0" @submit.prevent="signIn()")
+    form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")
       .singIn__headerContent
         .singIn__title Sign in
         .singIn__other( @click="openSignUp") Sign up
