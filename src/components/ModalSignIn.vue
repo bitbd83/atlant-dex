@@ -14,7 +14,6 @@ ModalLayout
           .singIn__checkboxLabel Remember me
       BButton.singIn__button(color="malachite" rounded type="submit") Let me in
       .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
-    .singIn__other(@click="openSignUp") Sign up
     Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
