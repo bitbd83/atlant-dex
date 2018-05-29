@@ -65,7 +65,7 @@ export default {
   },
   computed: {
     ...mapState('quotes', {
-      quotes: 'quotesInfo',
+      quotes: 'info',
     }),
     filteredQuotes() {
       if (!this.search) return this.quotes;
