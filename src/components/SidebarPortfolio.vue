@@ -10,25 +10,27 @@
         Icon.portfolio__chngIcon(id="arrow", :class="{'portfolio__chngIcon--neg': percChng < 0}")
         .portfolio__changeAmt(:class="{'portfolio__changeAmt--neg': percChng < 0}") {{percChng}}%
       //.portfolio__headerText 24 hr change
-  .portfolio__item
-    .portfolio__headerLine
-      .portfolio__header Coins:
-      Icon.portfolio__icon(id="refresh" @click="getBalances")
-    SidebarPortfolioBalance.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
-     :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
-    //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
-      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
-    //- Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
-  //- .portfolio__item
-    .portfolio__headerLine
-      .portfolio__header Fiat:
-      Icon.portfolio__icon(id="refresh")
-    BalanceItem(v-for="bal in getUserBalancesInFiat", :key="bal.currency",
-      :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
+  .portfolio__content(v-scrollbar="")
+    .portfolio__item
+      .portfolio__headerLine
+        .portfolio__header Coins:
+        Icon.portfolio__icon(id="refresh" @click="getBalances")
+      SidebarPortfolioBalance.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
+      :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
+      //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
+        :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
+      //- Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
+    //- .portfolio__item
+      .portfolio__headerLine
+        .portfolio__header Fiat:
+        Icon.portfolio__icon(id="refresh")
+      BalanceItem(v-for="bal in getUserBalancesInFiat", :key="bal.currency",
+        :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex';
+import {scrollbar} from '@/directives';
 import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 
@@ -65,6 +67,9 @@ export default {
   created() {
     this.getBalances();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     Dropdown,
     SidebarPortfolioBalance,
@@ -78,12 +83,8 @@ export default {
 
 .portfolio {
   position: relative;
-  &:after {
-    display: block;
-    content: '';
-    height: 1px;
-    border-top: 1px solid #00334C;
-  }
+  display: flex;
+  flex-direction: column;
   &__icon {
     $size: 14px;
     height: $size;
@@ -98,9 +99,7 @@ export default {
   }
   &__item {
     padding: 32px 18px 32px 25px;
-    border-bottom: 1px solid #032537;
     font-size: 12px;
-    border-top: 1px solid #00334C;
     &--header {
       font-weight: 700;
     }
@@ -114,6 +113,9 @@ export default {
       margin-bottom: 21px;
       align-items: flex-end;
     }
+  }
+  &__content {
+    position: relative;
   }
   &__balance {
     color: #31edd7;

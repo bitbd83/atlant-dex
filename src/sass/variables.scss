@@ -22,6 +22,10 @@ $color__red: #f34856;
 
 $background__shadow__gradient__to__right: linear-gradient(to right, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
 
+// transition
+
+$transition__sidebarAction: margin-left .5s ease-out;
+
 // Old
 $color_blue: #02344E;
 $color_daintree: #02293f;

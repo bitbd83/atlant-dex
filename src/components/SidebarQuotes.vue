@@ -15,17 +15,19 @@
     .quotes__headerLine
       input.quotes__search(type="text", placeholder="Search" v-model="search")
       Icon.quotes__searchIcon(id="search")
-  .quotes__item(v-show="quotes")
-    .quotes__headerLine
-      .quotes__header Coins:
-      Icon.quotes__icon(id="refresh")
-    SidebarQuotesItem(v-for="chart in filteredQuotes", :key="chart.currency",
-    :currency="chart.currency.toLowerCase()", :price="chart.price", :priceChng="chart.change", :cap="chart.cap", :volume="chart.volume",
-    :isActive="activeCur == chart.currency", @click.native="openChart(chart.currency)")
+  .quotes__content(v-scrollbar="")
+    .quotes__item(v-show="quotes")
+      .quotes__headerLine
+        .quotes__header Coins:
+        Icon.quotes__icon(id="refresh")
+      SidebarQuotesItem(v-for="chart in filteredQuotes", :key="chart.currency",
+      :currency="chart.currency.toLowerCase()", :price="chart.price", :priceChng="chart.change", :cap="chart.cap", :volume="chart.volume",
+      :isActive="activeCur == chart.currency", @click.native="openChart(chart.currency)")
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
+import {scrollbar} from '@/directives';
 import {getCryptoName} from 'services/misc';
 import Dropdown from './Dropdown';
 import SidebarQuotesItem from './SidebarQuotesItem';
@@ -106,6 +108,9 @@ export default {
   created() {
     this.getApiRequest();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     SidebarQuotesItem,
     Dropdown,
@@ -119,11 +124,11 @@ export default {
 
 .quotes {
   position: relative;
-  &:after {
-    display: block;
-    content: '';
-    height: 1px;
-    border-top: 1px solid #00334C;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    position: relative;
   }
   &__icon {
     $size: 14px;

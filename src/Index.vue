@@ -1,24 +1,20 @@
 <template lang='pug'>
-.main(:class="{'main--withSidebar': showSidebar}")
+.main
   .main__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'main__body--modalOpened': modalOpenedDesktop}")
-    .main__leftSide(:class="`main__leftSide--${(showSidebar) ? 'shown' : 'hidden'}`")
-      Sidebar.main__sidebar(v-scrollbar="")
-      Toolbar.main__toolbar
-    .main__content(:class="{'main__content--withSidebar': showSidebar}")
-      .main__shadows(v-show="isPageOpened()")
-        .main__shadow--top
-        .main__shadow--bottom
-      TheHeader
-      MainPage(v-if="!isPageOpened()")
-      TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
-      MyOrdersPage(v-if="isPageOpened('myOrders')")
-      VerificationPage(v-if="isPageOpened('verification')")
-      VerificationAdminPage(v-if="isPageOpened('verificationAdmin')")
-      AccountInformation(v-if="isPageOpened('accountInformation')")
-      SecuritySettingsPage(v-if="isPageOpened('securitySettings')")
-      SecurityLogPage(v-if="isPageOpened('securityLog')")
-      FAQ(v-if="isPageOpened('faq')")
-      NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
+    Sidebar
+    .main__content
+      .main__page
+        MainLayout(v-if="!isPageOpened()")
+        TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
+        MyOrdersPage(v-if="isPageOpened('myOrders')")
+        VerificationPage(v-if="isPageOpened('verification')")
+        VerificationAdminPage(v-if="isPageOpened('verificationAdmin')")
+        AccountInformation(v-if="isPageOpened('accountInformation')")
+        SecuritySettingsPage(v-if="isPageOpened('securitySettings')")
+        SecurityLogPage(v-if="isPageOpened('securityLog')")
+        FAQ(v-if="isPageOpened('faq')")
+        NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
+      TheFooter
   //- Modals
   InDemoModal(v-if="isModalOpened('inDemo')")
   ResetModal(v-else-if="isModalOpened('reset')")
@@ -41,11 +37,8 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
-import {scrollbar} from '@/directives';
-import TheHeader from 'components/TheHeader';
 import TheFooter from 'components/TheFooter';
 import Sidebar from 'components/Sidebar';
-import Toolbar from 'components/Toolbar';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
@@ -54,7 +47,7 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
-import MainPage from 'pages/MainPage';
+import MainLayout from 'layouts/MainLayout';
 import InDemoModal from 'modals/InDemoModal';
 import ResetModal from 'modals/ResetModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
@@ -224,15 +217,10 @@ export default {
     }
     this.updateOverflow();
   },
-  directives: {
-    scrollbar,
-  },
   components: {
     TheFooter,
     Sidebar,
-    TheHeader,
-    Toolbar,
-    MainPage,
+    MainLayout,
     TransactionHistoryPage,
     MyOrdersPage,
     NotificationHistoryPage,
@@ -268,63 +256,31 @@ export default {
 @import 'variables';
 
 .main {
-  max-height: 100vh;
-  overflow: hidden;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  height: 100vh;
   &__body {
     display: flex;
+    width: 100%;
+    height: 100%;
     // min-width: 1250px;
-    min-height: 100vh;
+    // min-height: 750px;
+    overflow: auto;
     margin-left: auto;
     margin-right: auto;
     &--modalOpened {
       filter: blur(10px);
     }
   }
-  &__leftSide {
-    display: flex;
-    width: $leftSide_width;
-    // height: 100%;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
-    transition: left $sidebar_speed linear;
-    &--hidden {
-      left: -280px;
-    }
-  }
-  &__sidebar {
-    width: $sidebar_width;
-    position: relative;
-    overflow-y: hidden;
-  }
-  &__toolbar {
-    width: $toolbar_width;
-  }
   &__content {
     position: relative;
-    width: calc(100% - #{$toolbar_width});
-    min-height: 100vh;
-    margin-left: auto;
-    transition: width $sidebar_speed linear;
-    &--withSidebar {
-      width: calc(100% - #{$leftSide_width});
-    }
+    display: flex;
+    flex: 2;
+    flex-direction: column;
   }
-  &--withSidebar {
-    overflow: hidden;
-  }
-  &__shadow {
-    &--bottom {
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-      height: 300px;
-      background: $background__shadow__gradient__to__top;
-    }
+  &__page {
+    display: flex;
+    flex: 2;
   }
 }
 </style>

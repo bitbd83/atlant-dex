@@ -119,12 +119,13 @@ export default {
 
 <style lang="scss" scoped>
 @import 'variables';
+
 .notificationHistory {
-    &__redText {
-      color: $color_red;
-    }
-    &__capital {
-      text-transform: capitalize;
-    }
+  &__redText {
+    color: $color_red;
+  }
+  &__capital {
+    text-transform: capitalize;
+  }
 }
 </style>

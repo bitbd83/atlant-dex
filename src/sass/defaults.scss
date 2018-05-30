@@ -12,10 +12,10 @@ html {
 body {
   height: 100%;
   margin: 0 auto;
-  color: #ffffff;
+  color: $color__black;
   line-height: 1.2;
   font-family: "Roboto";
-  background-color: $color_blue;
+  background: $backgroud__white;
 }
 
 

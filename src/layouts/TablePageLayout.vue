@@ -2,21 +2,22 @@
 .tablePage
   TablePageLayoutHeader
   .tablePage__body
-    .tablePage__content
+    .tablePage__content(v-scrollbar="")
       slot
       TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
-      Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-      .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
-        .tablePage__panelActions.panel__checkbox
-          Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-        .tablePage__panelActions(v-if="getRepeat") Repeat
-        .tablePage__panelActions(v-if="getCancel") Cancel
-        .tablePage__panelActions(v-if="getDelete") Delete
-        .tablePage__panelActions(v-if="getExport") Export
+    Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
+    //- .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
+    //-   .tablePage__panelActions.panel__checkbox
+    //-     Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
+    //-   .tablePage__panelActions(v-if="getRepeat") Repeat
+    //-   .tablePage__panelActions(v-if="getCancel") Cancel
+    //-   .tablePage__panelActions(v-if="getDelete") Delete
+    //-   .tablePage__panelActions(v-if="getExport") Export
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import {scrollbar} from '@/directives';
 import Checkbox from 'components/Checkbox';
 import Pagination from 'components/Pagination';
 import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
@@ -54,6 +55,9 @@ export default {
     toggleCheckboxes() {
       this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
     },
+  },
+  directives: {
+    scrollbar,
   },
   props: {
     title: {
@@ -127,14 +131,21 @@ export default {
 $panelHeight: 58px;
 .tablePage {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   &__body {
-    height: 100%;
     display: flex;
+    flex-direction: column;
+
   }
   &__content {
-    width: 100%;
+    position: relative;
     padding: 36px;
     border-top: 1px solid $color_tangaroa;
+    display: flex;
+    flex-direction: column;
+    flex: 2;
   }
   &__panel {
     z-index: 1.6;

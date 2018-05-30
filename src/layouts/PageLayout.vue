@@ -2,13 +2,14 @@
 .page
   PageHeader(:title="title")
   .page__body
-    .page__sidebar(v-if="sidebar")
+    .page__sidebar(v-if="sidebar" v-scrollbar="")
       PageNavigation
-    .page__content
+    .page__content(v-scrollbar="")
       slot
 </template>
 
 <script>
+import {scrollbar} from '@/directives';
 import PageHeader from 'components/PageLayoutHeader';
 import PageNavigation from 'components/PageLayoutNavigation';
 
@@ -25,6 +26,9 @@ export default {
       required: false,
     },
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     PageHeader,
     PageNavigation,
@@ -35,13 +39,16 @@ export default {
 <style lang="scss">
 @import 'variables';
 .page {
-  min-height: 100%;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   &__body {
     height: 100%;
     display: flex;
   }
   &__content {
+    position: relative;
     width: 100%;
     padding: 36px;
     border-top: 1px solid $color_tangaroa;

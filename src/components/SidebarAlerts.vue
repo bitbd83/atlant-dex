@@ -10,17 +10,19 @@
         no-padding,
         preselect-first,
       )
-  .alerts__item
-    SidebarAlertsItem(currency='btc', level="12%", dropped)
-  .alerts__item
-    SidebarAlertsItem(currency='zec', level="$364.75")
-  .alerts__addAllerts(:class="(showSidebar) ? '' : 'alerts__addAllerts--hidden'")
-    Icon(id="alert").alerts__addAllertsIcon
-    | ADD NEW ALERT
+  .alerts__content(v-scrollbar="")
+    .alerts__item
+      SidebarAlertsItem(currency='btc', level="12%", dropped)
+    .alerts__item
+      SidebarAlertsItem(currency='zec', level="$364.75")
+    .alerts__addAllerts(:class="(showSidebar) ? '' : 'alerts__addAllerts--hidden'")
+      Icon(id="alert").alerts__addAllertsIcon
+      | ADD NEW ALERT
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import {scrollbar} from '@/directives';
 import Dropdown from './Dropdown';
 import SidebarAlertsItem from './SidebarAlertsItem';
 
@@ -46,6 +48,9 @@ export default {
       this.selectedCur = cur;
     },
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     Dropdown,
     SidebarAlertsItem,
@@ -59,6 +64,8 @@ export default {
 
 .alerts {
   position: relative;
+  display: flex;
+  flex-direction: column;
   &:after {
     display: block;
     content: '';
@@ -93,6 +100,9 @@ export default {
     width: 100px;
     font-size: 12px;
     text-transform: none;
+  }
+  &__content {
+    position: relative;
   }
   &__addAllerts {
     cursor: pointer;
