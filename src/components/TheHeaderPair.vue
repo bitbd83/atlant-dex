@@ -83,12 +83,6 @@ export default {
   created() {
     this.getPairs();
     this.getPairInfo();
-    console.log('pairs', this.pairs);
-
-    console.log('baseCurrency', this.baseCurrency);
-    console.log('quoteCurrency', this.quoteCurrency);
-    console.log('baseCurrencyOptions', this.baseCurrencyOptions);
-    console.log('quoteCurrencyOptions', this.quoteCurrencyOptions);
   },
   components: {
     Dropdown,
