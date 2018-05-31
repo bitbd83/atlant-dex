@@ -1,5 +1,5 @@
 <template lang="pug">
-PageLayout(title="Security settings", title2="Security settings" :sidebar="true")
+PageLayout(title="Security settings", :sidebar="true")
   .securitySettings
     .securitySettings__title Main
     .securitySettings__item

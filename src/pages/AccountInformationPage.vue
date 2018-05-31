@@ -1,5 +1,5 @@
 <template lang="pug">
-PageLayout(title="Account information", title2="", :sidebar="true")
+PageLayout(title="Account information", :sidebar="true")
   .accountInfo
     .accountInfo__title General information
     .accountInfo__content

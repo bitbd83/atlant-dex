@@ -1,5 +1,5 @@
 <template lang="pug">
-PageLayout(title="Security log", title2="Authorization sheet", :sidebar="true")
+PageLayout(title="Security log", :sidebar="true")
   .securityLog
     .table
       table.table__body

@@ -1,7 +1,6 @@
 <template lang="pug">
 PageLayout(
   title="Verification",
-  title2="Please upload the following files in order to verify your account:",
   :sidebar="true"
 )
   .verification
