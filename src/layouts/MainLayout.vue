@@ -35,13 +35,13 @@ export default {
     flex-direction: column;
     flex: 1;
     z-index: 1;
-    background: $backgroud__white;
+    background: $background__white;
   }
   &__another {
     position: relative;
     display: flex;
     flex: 1;
-    background: $backgroud__grey_white;
+    background: $background__grey_white;
     margin-left: 0;
     transition: $transition__sidebarAction;
     &--activeSidebar {

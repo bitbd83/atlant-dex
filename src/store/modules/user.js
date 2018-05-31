@@ -7,7 +7,7 @@ export default {
       status: 0,
       portfolioValue: 0,
     },
-    userCurrencies: ['USD', 'BTC', 'ETH', 'LTC'],
+    userCurrencies: ['USD', 'BTC', 'ETH', 'LTC', 'ATL'],
     transactionFees: [],
     account: {
       currency: '',
@@ -59,12 +59,12 @@ export default {
     },
     getUserBalancesInCrypto(state) {
       return state.portfolio.balances.filter((balance) => {
-        return balance.isCrypto === true;
+        return balance.isCrypto === true && balance.currency !== 'USD';
       });
     },
     getUserBalancesInFiat(state) {
       return state.portfolio.balances.filter((balance) => {
-        return balance.isCrypto === false;
+        return balance.currency === 'USD';
       });
     },
     getPortofolioValue(state) {

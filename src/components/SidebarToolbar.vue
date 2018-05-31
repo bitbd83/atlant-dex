@@ -120,8 +120,7 @@ export default {
   justify-content: space-between;
   height: 100%;
   padding: 15px 0;
-  background-color: $backgroud__blue;
-  border-left: 1px solid $color_tangaroa;
+  background-color: $background__blue;
   z-index: 1;
   flex-shrink: 0;
   &__iconWrap {

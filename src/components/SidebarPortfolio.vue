@@ -11,21 +11,27 @@
         .portfolio__changeAmt(:class="{'portfolio__changeAmt--neg': percChng < 0}") {{percChng}}%
       //.portfolio__headerText 24 hr change
   .portfolio__content(v-scrollbar="")
-    .portfolio__item
-      .portfolio__headerLine
-        .portfolio__header Coins:
-        Icon.portfolio__icon(id="refresh" @click="getBalances")
-      SidebarPortfolioBalance.portfolio__balanceItem(v-for="bal in getUserBalancesInCrypto", :key="bal.currency", :data="bal",
-      :isActive="bal.currency === selectedCur", @click.native="openCur(bal.currency)")
-      //- BalanceItem(v-for="bal in balances", v-if="bal.isCrypto && bal.availableFunds == 0 && showAll", :key="bal.currency",
-        :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
-      //- Icon.portfolio__EllipsisIcon(v-if="!showAll" id="ellipsis" @click="toggleShowAll()")
-    //- .portfolio__item
-      .portfolio__headerLine
-        .portfolio__header Fiat:
-        Icon.portfolio__icon(id="refresh")
-      BalanceItem(v-for="bal in getUserBalancesInFiat", :key="bal.currency",
-        :data="bal", :isActive="bal.currency == selectedCur", :isCrypto="bal.isCrypto", @click.native="openCur(bal.currency)")
+    Accordion(title="Tokens & Coins:"
+              isSidebar
+              :isLoading="getUserBalancesInCrypto.length > 0"
+    )
+      .portfolio__item
+        SidebarPortfolioBalance.portfolio__balanceItem(
+          v-for="bal in getUserBalancesInCrypto",
+          :key="bal.currency",
+          :data="bal",
+          :isActive="bal.currency === selectedCur",
+          @click.native="openCur(bal.currency)"
+        )
+    Accordion(title="Currencies:" isSidebar :isLoading="getUserBalancesInFiat.length > 0")
+      .portfolio__item
+        SidebarPortfolioBalance.portfolio__balanceItem(
+          v-for="bal in getUserBalancesInFiat",
+          :key="bal.currency",
+          :data="bal",
+          :isActive="bal.currency === selectedCur",
+          @click.native="openCur(bal.currency)"
+        )
 </template>
 
 <script>
@@ -33,6 +39,7 @@ import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
+import Accordion from 'components/Accordion';
 
 export default {
   data() {
@@ -60,9 +67,6 @@ export default {
     toCurrencyFormat(amount) {
       return amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
     },
-    // toggleShowAll() {
-    //   this.showAll = true;
-    // },
   },
   created() {
     this.getBalances();
@@ -73,6 +77,7 @@ export default {
   components: {
     Dropdown,
     SidebarPortfolioBalance,
+    Accordion,
   },
 };
 

@@ -61,12 +61,23 @@ export default {
     transition: $transition__sidebarAction;
   }
   &__content {
+    position: relative;
     width: 270px;
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    background: $backgroud__white;
+    background: $background__blue;
+
+    color: $color__white;
     position: relative;
+    &:before {
+      content: "";
+      position: absolute;
+      right: 0;
+      width: 47px;
+      height: 100%;
+      background-image: linear-gradient(270deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    }
   }
 
   &__item {
