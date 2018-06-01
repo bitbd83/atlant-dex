@@ -4,8 +4,14 @@
     .accordion__background(:class="{'accordion__background--sidebar' : isSidebar, 'accordion__background--active' : isShow}")
     .accordion__title(v-if="title" :class="{'accordion__title--active' : isShow, 'accordion__title--sidebar' : isSidebar}") {{title}}
     Icon(id="triangle" :class="{'accordion__icon--sidebar' : isSidebar, 'accordion__icon--active' : isShow}").accordion__icon
-  transition(name="accordion__anim")
-    .accordion__content(:class="{'accordion__content--active': isShow && isLoading}"  v-show="isShow && isLoading" @click.stop="()=>{}")
+  transition(
+    name="transition"
+    v-on:before-enter="transitionAccordionBeforeEnter"
+    v-on:enter="transitionAccordionEnter"
+    v-on:before-leave="transitionAccordionBeforeLeave"
+    v-on:leave="transitionAccordionLeave"
+    )
+    .accordion__content(:id="customID" v-show="isShow" @click.stop="()=>{}")
       slot
 </template>
 
@@ -15,11 +21,14 @@
    data() {
      return {
        isShow: true,
+       customID: '',
      };
    },
    computed: {
      contentHeight() {
-       return document.querySelector;
+      if (document.getElementById(this.customID) != null) {
+        return document.querySelector('.accordion__content').scrollHeight;
+      };
      },
    },
    methods: {
@@ -38,7 +47,19 @@
     setShow() {
       this.isShow = !this.isShow;
     },
-   },
+  },
+  watch: {
+    contentHeight() {
+      console.log(this.contentHeight);
+      console.log('height:', document.querySelector('.accordion__content').height);
+
+      document.getElementById(this.customID).height = 100 + 'px';
+    },
+  },
+  created() {
+    this.customID = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+  },
+
    props: {
      title: {
        type: String,
@@ -49,11 +70,6 @@
       type: [Boolean, String],
       required: false,
       default: false,
-    },
-    isLoading: {
-      type: Boolean,
-      required: false,
-      default: true,
     },
    },
  };
@@ -124,30 +140,9 @@
     }
   }
   &__content {
-    max-height: 0;
-    transition: max-height 1s cubic-bezier(.25,.8,.5,1);
+    height: 0;
     overflow: hidden;
-    &--active {
-      max-height: 500px;
-      transition: max-height 1s ease-in;
-    }
-  }
-  &__anim-fade-enter-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  &__anim-fade-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  &__anim-fade-enter, &__anim-fade-leave-to {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    transition: all .5s cubic-bezier(.25,.8,.5,1);
   }
 }
-// @keyframes triangleTransition {
-//   // 10% {
-//   //   background: #E55541;
-//   // }
-//   50% {
-//     transform: scale(0);
-//   }
-// }
  </style>
