@@ -8,12 +8,9 @@
       Chart
   .gridItem__tile.gridItem__tile--history(v-if="this.component === 'history'" )
     .gridItem__tileContent.gridItem__tileContent--history
-      TileHeader.gridItem__tileHeader.gridItem__tileHeader--history(title='History of trades' center)
-      .gridItem__containerWitchOverflow(v-scrollbar="")
-        History
+      History
   .gridItem__tile(v-if="this.component === 'book'")
     .gridItem__tileContent.gridItem__tileContent--books
-      TileHeader.gridItem__tileHeader.gridItem__tileHeader--book(title='Order book' center)
       .gridItem__booksTitle
         .gridItem__tile
           OrderBookHeader
@@ -27,11 +24,9 @@
   .gridItem__tile(v-if="this.component === 'orders'")
     .gridItem__tileContent.gridItem__tileContent--orders
       .gridItem__tileContent--ordersTop
-        TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Open orders')
         Orders(:isActive="true")
       .gridItem__ordersSep
       .gridItem__tileContent--ordersBottom
-        TileHeader.gridItem__tileHeader.gridItem__tileHeader--orders(title='Completed orders')
         Orders
   Icon.gridItem__deleteTile(id="trash", @click="removeGridLayout(component)" v-show="isEdit")
 </template>
@@ -39,7 +34,6 @@
 <script>
 import {mapState, mapMutations} from 'vuex';
 import {scrollbar} from '@/directives';
-import TileHeader from './TileHeader';
 import BuySell from './BuySell';
 import Chart from './Chart';
 import Orders from './Orders';
@@ -72,7 +66,6 @@ export default {
     scrollbar,
   },
   components: {
-    TileHeader,
     BuySell,
     Chart,
     Orders,
@@ -95,7 +88,7 @@ export default {
   &__tile {
     width: 100%;
     height: 100%;
-    background-color: $color_blue;
+    background-color: $color__white;
   }
   &__tileContent {
     width: 100%;
