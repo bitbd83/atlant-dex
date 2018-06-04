@@ -94,6 +94,7 @@ export default {
     },
     addNewTrade(state, obj) {
       state.trades.unshift(obj);
+      state.trades.splice(-1, 1);
     },
   },
   actions: {

@@ -35,7 +35,7 @@ const store = new Vuex.Store({
   },
   plugins: [createPersistedState({
     paths: [
-      'grid.gridData',
+      // 'grid.gridData',
       'membership.token',
       'membership.userId',
       'membership.refreshToken',

@@ -1,74 +1,60 @@
 <template lang="pug">
 .grid
-  UserVisibility(hide-on-logout)
-    .grid__edit(@click="setIsEdit") Edit
-  GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
-  GridLayout(
-      :layout="(gridData)",
-      :col-num="12",
-      :row-height="60",
-      :is-draggable="isEdit",
-      :is-resizable="isEdit",
-      :vertical-compact="true",
-      :margin="[0, 0]",
-      :use-css-transforms="true",
-      @layout-updated="layoutUpdatedEvent",
-    )
-    GridItem(
-        v-for="(item, index) in (gridData)",
-        :key="index",
-        :x="item.x",
-        :y="item.y",
-        :w="item.w",
-        :h="item.h",
-        :i="item.i",
-        :minW="item.minW",
-        :minH="item.minH",
-        :maxH="item.maxH",
-      )
-      GridItems(
-        :component="item.i",
-        :index="index"
-      )
+  // UserVisibility(hide-on-logout)
+  //  .grid__edit(@click="setIsEdit") Edit
+  // GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
+  Draggable.grid__draggable(v-model="grid", :options="{handle: '.gridTile__header'}")
+    GridTile(v-for="item in grid", :key="item.order", :data="item")
 </template>
 
 <script>
-import VueGridLayout from 'vue-grid-layout';
 import {mapState, mapMutations, mapGetters} from 'vuex';
+import Draggable from 'vuedraggable';
 import UserVisibility from 'components/UserVisibility';
-import GridItems from './GridItems';
+import GridTile from './GridTile';
 import GridPanel from './GridPanel';
 
-const GridLayout = VueGridLayout.GridLayout;
-const GridItem = VueGridLayout.GridItem;
-
 export default {
+  data() {
+    return {
+      resizeSensor: {},
+    };
+  },
   computed: {
-    ...mapState('grid', {
-      allGridLayout: 'allGridLayout',
-      gridData: 'gridData',
-      isEdit: 'isEdit',
-    }),
+    ...mapState('grid', [
+      'allGridLayout',
+      'gridData',
+      'isEdit',
+    ]),
     ...mapGetters('grid', {
-      getHiddenLayout: 'getHiddenLayout',
+      // getHiddenLayout: 'getHiddenLayout',
     }),
+    grid: {
+      get() {
+        return this.gridData;
+      },
+      set(value) {
+        this.changeGrid(value);
+      },
+    },
   },
   methods: {
     ...mapMutations('grid', {
       changeGrid: 'changeGrid',
       setIsEdit: 'setIsEdit',
     }),
-    layoutUpdatedEvent(newLayout) {
-      this.changeGrid(newLayout);
-      // console.log('Updated layout: ', newLayout);
-    },
+
+    // layoutUpdatedEvent(newLayout) {
+    //   this.changeGrid(newLayout);
+    // },
+  },
+  mounted() {
   },
   components: {
-    GridLayout,
-    GridItem,
-    GridItems,
     GridPanel,
     UserVisibility,
+    Draggable,
+    GridTile,
   },
 };
 </script>

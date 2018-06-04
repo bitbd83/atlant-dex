@@ -1,21 +1,36 @@
 <template lang='pug'>
 .gridTile
   .gridTile__header
-    .title.gridTile__title {{title}}
+    .title.gridTile__title {{data.name}}:
     Icon.gridTile__icon(id="hide")
-  .gridTile__content
-    slot
+  .gridTile__content(:class="'gridTile__content--' + data.name")
+    History(v-if="data.name === 'history'")
+    Orders(:isActive="true" v-if="data.name === 'openOrders'")
+    Orders(v-if="data.name === 'closedOrders'")
 </template>
 
 <script>
+import Chart from './Chart';
+import Orders from './Orders';
+import OrderBook from './OrderBook';
+import OrderBookHeader from './OrderBookHeader';
+import History from './History';
 
 export default {
   props: {
-    title: {
-      type: String,
-      default: '',
+    data: {
+      type: Object,
       required: true,
     },
+  },
+  components: {
+    Chart,
+    Orders,
+    OrderBook,
+    OrderBookHeader,
+    History,
+  },
+  mounted() {
   },
 };
 </script>
@@ -28,14 +43,17 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: $default_spacing;
   &__header {
     min-height: 42px;
+    max-height: 42px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex: 42px;
     border-left: 7px solid $color__blue;
     margin-bottom: 13px;
+    cursor: move;
   }
   &__title {
     margin-left: 20px;
@@ -47,8 +65,25 @@ export default {
     cursor: pointer;
   }
   &__content {
+    position: relative;
     display: flex;
     overflow: hidden;
+    resize: vertical;
+    min-height: 80px;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      border-color: transparent;
+      border-style: solid;
+    }
+    &::after {
+      border-width: 13px;
+      border-right-color: $color__blue;
+      border-bottom-color: $color__blue;
+    }
   }
 }
 </style>
