@@ -10,73 +10,63 @@
     v-on:enter="transitionAccordionEnter"
     v-on:before-leave="transitionAccordionBeforeLeave"
     v-on:leave="transitionAccordionLeave"
-    )
-    .accordion__content(:id="customID" v-show="isShow" @click.stop="()=>{}")
+  )
+    .accordion__content(v-show="isShow" @click.stop="()=>{}")
       slot
 </template>
 
  <script>
+import smoothHeight from 'vue-smooth-height';
 
- export default {
-   data() {
-     return {
-       isShow: true,
-       customID: '',
-     };
-   },
-   computed: {
-     contentHeight() {
-      if (document.getElementById(this.customID) != null) {
-        return document.querySelector('.accordion__content').scrollHeight;
-      };
-     },
-   },
-   methods: {
+export default {
+  data() {
+    return {
+      isShow: true,
+    };
+  },
+  methods: {
     transitionAccordionBeforeEnter(el) {
       el.style.height = '0';
     },
     transitionAccordionEnter(el) {
       el.style.height = el.scrollHeight + 'px';
+      el.style.height = null;
     },
     transitionAccordionBeforeLeave(el) {
       el.style.height = el.scrollHeight + 'px';
     },
     transitionAccordionLeave(el) {
+      el.style.height = el.scrollHeight + 'px';
       el.style.height = '0';
     },
     setShow() {
       this.isShow = !this.isShow;
     },
   },
-  watch: {
-    contentHeight() {
-      console.log(this.contentHeight);
-      console.log('height:', document.querySelector('.accordion__content').height);
-
-      document.getElementById(this.customID).height = 100 + 'px';
+  mixins: [smoothHeight],
+  mounted() {
+    this.$smoothElement({
+      el: this.$el.lastChild,
+      transition: 'height .5s',
+    });
+  },
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: '',
     },
-  },
-  created() {
-    this.customID = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-  },
-
-   props: {
-     title: {
-       type: String,
-       required: false,
-       default: '',
-     },
     isSidebar: {
       type: [Boolean, String],
       required: false,
       default: false,
     },
-   },
- };
- </script>
+  },
+};
+</script>
 
  <style lang="scss">
- @import 'variables';
+@import "variables";
 
 .accordion {
   display: flex;
@@ -96,13 +86,13 @@
     background: $background__blue;
     height: 100%;
     width: 100%;
-    transition: width .2s ease-out;
+    transition: width 0.2s ease-out;
     &--sidebar {
       background: $background__white;
     }
     &--active {
       width: 10px;
-      transition: width .2s ease-out;
+      transition: width 0.2s ease-out;
     }
   }
   &__title {
@@ -112,10 +102,10 @@
     text-transform: uppercase;
     padding-left: 21px;
     color: $color__white;
-      transition: all .3s ease-in;
+    transition: all 0.3s ease-in;
     &--active {
       color: $color__blue;
-      transition: all .3s ease-in;
+      transition: all 0.3s ease-in;
     }
     &--sidebar {
       font-size: 14px;
@@ -126,13 +116,13 @@
   &__icon {
     z-index: 1;
     fill: $fill__white;
-    margin-right: 27px;
-    width: 14px !important;
-    height: 9px !important;
-    transition: all .3s ease-in;
+    margin-right: 17px;
+    width: 14px;
+    height: 9px;
+    transition: all 0.3s ease-in;
     &--active {
       transform: rotate(180deg);
-      transition: all .3s ease-in;
+      transition: all 0.3s ease-in;
       fill: $fill__blue;
     }
     &--sidebar {
@@ -140,9 +130,8 @@
     }
   }
   &__content {
-    height: 0;
     overflow: hidden;
-    transition: all .5s cubic-bezier(.25,.8,.5,1);
+    transition: all 0.5s;
   }
 }
- </style>
+</style>
