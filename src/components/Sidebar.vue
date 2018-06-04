@@ -1,9 +1,6 @@
 <template lang='pug'>
 .sidebar(:class="{'sidebar--visible' : showSidebar}")
   .sidebar__content
-    .sidebar__item.sidebar__item--logo(@click="getOpenPage('generalsettings')")
-      // Icon.sidebar__logo(id="logo")
-      h1.sidebar__title ATLANT EXCHANGE
     SidebarPortfolio(v-if="section == 'wallet'")
     SidebarQuotes(v-if="section == 'charts'")
     SidebarAlerts(v-if="section == 'alert'")
@@ -84,32 +81,6 @@ export default {
     padding: 32px 18px 32px 25px;
     font-size: 12px;
     position: relative;
-    &--logo {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 14px;
-      font-weight: bold;
-      color: red;
-      cursor: pointer;
-      padding-top: 30px;
-      padding-bottom: 20px;
-      height: 50px;
-    }
-  }
-  &__headerText {
-    font-size: 10px;
-    text-transform: lowercase;
-    font-weight: 400;
-  }
-  &__title {
-    color: #ffffff;
-    font-size: 10px;
-    line-height: 20px;
-    height: 20px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-right: 50px;
   }
 }
 </style>

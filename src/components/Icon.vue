@@ -15,10 +15,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.svgIcon{
-  $size: 16px;
-  width: $size;
-  height: $size;
-}
-</style>

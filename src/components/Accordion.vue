@@ -116,9 +116,9 @@ export default {
   &__icon {
     z-index: 1;
     fill: $fill__white;
-    margin-right: 27px;
-    width: 14px !important;
-    height: 9px !important;
+    margin-right: 17px;
+    width: 14px;
+    height: 9px;
     transition: all 0.3s ease-in;
     &--active {
       transform: rotate(180deg);
@@ -130,14 +130,8 @@ export default {
     }
   }
   &__content {
-    // height: 100%;
     overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
-
-    &--active {
-      height: auto;
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
-    }
+    transition: all 0.5s;
   }
 }
 </style>
