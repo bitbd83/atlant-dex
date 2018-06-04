@@ -4,13 +4,15 @@
     .accordion__background(:class="{'accordion__background--sidebar' : isSidebar, 'accordion__background--active' : isShow}")
     .accordion__title(v-if="title" :class="{'accordion__title--active' : isShow, 'accordion__title--sidebar' : isSidebar}") {{title}}
     Icon(id="triangle" :class="{'accordion__icon--sidebar' : isSidebar, 'accordion__icon--active' : isShow}").accordion__icon
-  //- transition(
-  //-   name="transition"
-  //-   v-on:before-leave="transitionAccordionBeforeLeave"
-  //-   v-on:leave="transitionAccordionLeave"
-  //-   )
-  .accordion__content(:class="{'accordion__content--active' : isShow}" @click.stop="()=>{}")
-    slot
+  transition(
+    name="transition"
+    v-on:before-enter="transitionAccordionBeforeEnter"
+    v-on:enter="transitionAccordionEnter"
+    v-on:before-leave="transitionAccordionBeforeLeave"
+    v-on:leave="transitionAccordionLeave"
+  )
+    .accordion__content(v-show="isShow" @click.stop="()=>{}")
+      slot
 </template>
 
  <script>
@@ -28,13 +30,13 @@ export default {
     },
     transitionAccordionEnter(el) {
       el.style.height = el.scrollHeight + 'px';
-      // el.style.height = 'auto';
+      el.style.height = null;
     },
     transitionAccordionBeforeLeave(el) {
-      el.style.height = el.offsetHeight + 'px';
-      // el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
     },
     transitionAccordionLeave(el) {
+      el.style.height = el.scrollHeight + 'px';
       el.style.height = '0';
     },
     setShow() {
@@ -46,7 +48,6 @@ export default {
     this.$smoothElement({
       el: this.$el.lastChild,
       transition: 'height .5s',
-      hideOverflow: true,
     });
   },
   props: {
@@ -129,7 +130,7 @@ export default {
     }
   }
   &__content {
-    height: 0;
+    // height: 100%;
     overflow: hidden;
     transition: all 0.5s cubic-bezier(0.25, 0.8, 0.5, 1);
 
