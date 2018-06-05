@@ -2,13 +2,13 @@
 .sidebar(:class="{'sidebar--visible' : showSidebar}")
   .sidebar__content
     SidebarPortfolio(v-if="section == 'wallet'")
-    SidebarQuotes(v-if="section == 'charts'")
-    SidebarAlerts(v-if="section == 'alert'")
+    SidebarQuotes(v-if="section == 'quotes'")
+    SidebarAlerts(v-if="section == 'alerts'")
   SidebarToolbar
 </template>
 
 <script>
-import {mapMutations, mapState, mapGetters} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import SidebarPortfolio from './SidebarPortfolio';
 import SidebarAlerts from './SidebarAlerts';
 import SidebarQuotes from './SidebarQuotes';
@@ -23,16 +23,6 @@ export default {
     ...mapGetters('misc', [
       'section',
     ]),
-  },
-  methods: {
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
-    getOpenPage() {
-      this.openPage({
-        name: '',
-      });
-    },
   },
   components: {
     SidebarPortfolio,

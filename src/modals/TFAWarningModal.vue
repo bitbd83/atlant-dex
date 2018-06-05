@@ -16,22 +16,22 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
 import ModalLayout from '@/layouts/ModalLayout';
 import BButton from 'components/BButton';
 
 export default {
   name: 'TFAWarningModal',
   methods: {
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
     ...mapMutations('modal', {
       closeModal: 'close',
     }),
+    ...mapActions('page', [
+      'getOpenPage',
+    ]),
     onYesClick() {
       this.closeModal();
-      this.openPage({name: 'securitySettings'});
+      this.getOpenPage('securitySettings');
     },
     onNoClick() {
       this.closeModal();

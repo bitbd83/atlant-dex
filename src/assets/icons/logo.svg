@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="39px" viewBox="0 0 38 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>Atom_logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="MAIN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Toolbar_main" transform="translate(-30.000000, -31.000000)" fill="#FFFFFF">
+            <g id="Group" transform="translate(28.000000, 29.000000)">
+                <g id="Atom_logo">
+                    <rect id="Rectangle" transform="translate(14.567901, 21.481481) rotate(27.000000) translate(-14.567901, -21.481481) " x="9.38271605" y="0.49382716" width="10.3703704" height="41.9753086" rx="5.18518519"></rect>
+                    <path d="M33.8277767,22.2232304 L39.4295486,33.2173268 C40.684392,35.6800956 39.7051749,38.6938158 37.2424061,39.9486592 C34.7796373,41.2035025 31.7659171,40.2242855 30.5110737,37.7615167 L28.1405223,33.1090475 L33.8277767,22.2232304 Z" id="Combined-Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

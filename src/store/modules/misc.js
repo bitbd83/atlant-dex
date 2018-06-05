@@ -2,8 +2,8 @@ import {sidebarSections} from '@/config';
 
 export default {
   state: {
-    showSidebar: true,
-    section: 'wallet',
+    showSidebar: false,
+    section: '',
   },
   getters: {
     section(state, getters, rootState, rootGetters) {
@@ -28,10 +28,21 @@ export default {
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
     },
+    hiddenSidebar(state) {
+      if (state.showSidebar) {
+        state.showSidebar = false;
+        state.section = '';
+      };
+    },
     setSidebar(state, showSidebar) {
       state.showSidebar = showSidebar;
     },
     setSection(state, section) {
+      if (state.section === section) {
+        state.showSidebar = false;
+        state.section = '';
+        return;
+      }
       state.section = section;
       if (state.showSidebar === false) state.showSidebar = true;
     },

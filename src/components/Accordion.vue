@@ -30,7 +30,6 @@ export default {
     },
     transitionAccordionEnter(el) {
       el.style.height = el.scrollHeight + 'px';
-      el.style.height = null;
     },
     transitionAccordionBeforeLeave(el) {
       el.style.height = el.scrollHeight + 'px';
@@ -131,7 +130,7 @@ export default {
   }
   &__content {
     overflow: hidden;
-    transition: all 0.5s;
+    transition: height 0.5s;
   }
 }
 </style>

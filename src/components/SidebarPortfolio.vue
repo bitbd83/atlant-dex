@@ -177,11 +177,11 @@ export default {
       height: 3px;
       background: $background__white;
       transition: transform .3s ease-in;
-      transform: scale3d(0,1,1);
+      transform: scale3d(1,1,1);
     }
     &:hover:after {
       transition: transform .3s ease-out;
-      transform: scale3d(1,1,1);
+      transform: scale3d(0,1,1);
     }
   }
   &__content {
