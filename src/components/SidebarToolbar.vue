@@ -25,36 +25,43 @@
           Icon.toolbar__icon(id="map" :class="{'toolbar__icon--active' : (currentPage === 'map')}")
           .toolbar__title(:class="{'toolbar__title--active' : (currentPage == 'map')}") Map
   .toolbar__group
-    UserVisibility(
-      hide-on-logout,
-      :onLoginClick="() => getOpenPage('accountInformation')"
-    )
-      .toolbar__bottomWrap
-        Icon.toolbar__icon(
-          :id="(currentPage === 'accountInformation') ? 'user-active' : 'user'",
-        )
-        .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
-    UserVisibility(
-      hide-on-logout,
-      :onLoginClick="() => getOpenPage('transactionHistory')"
-    )
-      .toolbar__bottomWrap
-        Icon.toolbar__icon(
-          :id="(currentPage === 'transactionHistory') ? 'history-active' : 'history'",
-        )
-    .toolbar__bottomWrap
-      a(
-        href="https://medium.com/@atlantio"
-        target="_blank"
+    Accordion(isToolbar)
+      UserVisibility(
+        hide-on-logout,
+        :onLoginClick="() => getOpenPage('accountInformation')"
       )
-        Icon.toolbar__icon(
-          id='info',
+        .toolbar__bottomWrap
+          transition(name="toolbar__iconFade")
+            Icon.toolbar__icon.toolbar__icon--bottom(
+              :id="(currentPage === 'accountInformation') ? 'user-active' : 'user'",
+              :key="(currentPage === 'accountInformation') ? 'user-active' : 'user'"
+            )
+          .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
+      UserVisibility(
+        hide-on-logout,
+        :onLoginClick="() => getOpenPage('transactionHistory')"
+      )
+        .toolbar__bottomWrap
+          transition(name="toolbar__iconFade")
+            Icon.toolbar__icon.toolbar__icon--bottom(
+              :id="(currentPage === 'transactionHistory') ? 'history-active' : 'history'",
+              :key="(currentPage === 'transactionHistory') ? 'history-active' : 'history'",
+            )
+      .toolbar__bottomWrap
+        a(
+          href="https://medium.com/@atlantio"
+          target="_blank"
         )
+          Icon.toolbar__icon(
+            id='info',
+          )
+    Icon.toolbar__points(id="points")
 </template>
 
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {sidebarSections} from '@/config';
+import Accordion from 'components/Accordion';
 import UserVisibility from './UserVisibility';
 
 export default {
@@ -106,6 +113,7 @@ export default {
     },
   },
   components: {
+    Accordion,
     UserVisibility,
   },
 };
@@ -147,7 +155,7 @@ export default {
     border-radius: 5px;
     width: 56px;
     height: 58px;
-    transition: all .5s;
+    transition: all 1s;
     border: 1px solid transparent;
     margin: 45px auto;
     cursor: pointer;
@@ -159,8 +167,8 @@ export default {
       height: 75px;
     }
     &:hover {
-      border: 1px solid white;
-      transition: all .5s;
+      // border: 1px solid white;
+      transition: all 1s;
       width: 73px;
       height: 75px;
     }
@@ -170,11 +178,15 @@ export default {
     width: 24px;
     fill: #fff;
     margin-bottom: 9px;
+    cursor: pointer;
     &--active {
       fill: $fill__blue;
     }
     &:not(:last-of-type) {
       margin-bottom: 32px;
+    }
+    &--bottom {
+      position: absolute;
     }
   }
   &__title {
@@ -204,6 +216,31 @@ export default {
     font-family: Roboto;
     font-size: 11px;
     font-weight: 900;
+  }
+  &__bottomWrap {
+    position: relative;
+    height: 26px;
+    &:first-child {
+      margin-top: 28px;
+    }
+    &:not(:first-child):not(:last-child){
+      margin: 44px auto;
+    }
+
+  }
+  &__points {
+    width: 22px;
+    height: 4px;
+    opacity: .2;
+    fill: $fill__white;
+    margin: auto;
+    margin-bottom: 5px;
+  }
+  &__iconFade-enter-active, &__iconFade-leave-active {
+    transition: opacity .75s;
+  }
+  &__iconFade-enter, &__iconFade-leave-to {
+    opacity: 0;
   }
 }
 </style>
