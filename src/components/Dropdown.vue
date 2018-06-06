@@ -109,11 +109,10 @@ export default {
     color: $color_white;
     cursor: pointer;
     display: block;
-    min-height: 32px;
     outline: 0;
     position: relative;
     text-align: left;
-    width: 100%;
+    margin-right: 28px;
     &--active /deep/ &__tags {
       border-color: $input-border-color-highlight;
     }
@@ -131,7 +130,7 @@ export default {
         padding: 0;
         position: relative;
         transition: border .1s ease;
-        vertical-align: top;
+        vertical-align: middle;
         width: 100%;
 
         &::placeholder {
@@ -146,28 +145,37 @@ export default {
       &__tags {
         align-items: center;
         background: transparent;
-        border-radius: 0;
-        border: $input-border;
         display: flex;
-        font-size: 1em;
-        line-height: 1em;
-        min-height: 32px;
+        font-size: 14px;
+        font-weight: 500;
         transition: $input-transition;
-        padding: $input-padding;
-        padding-right: 28px;
+        padding: 0 !important;
 
-        &:hover {
-          border-color: $input-border-color-highlight;
+        &:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 3px;
+          bottom: -7px;
+          background: $background__white;
+          transition: transform .3s ease-in;
+          transform: scale3d(1,1,1);
+        }
+
+        &:hover:after {
+          transition: transform .3s ease-out;
+          transform: scale3d(0,1,1);
         }
       }
 
       &__content-wrapper {
         position: absolute;
+        top: calc(100% + 4px);
+        overflow: auto;
         display: block;
         background: $color-white;
         min-width: 100%;
         max-height: 240px;
-        overflow: auto;
         z-index: 3;
         color: #00354D;
       }
@@ -219,17 +227,17 @@ export default {
       &__select {
         position: absolute;
         height: 100%;
-        right: 0;
+        right: -28px;
         top: 0;
         padding: 0 9px;
         transition: transform .2s ease;
         display: flex;
         align-items: center;
         &:before {
-          border-style: solid;
-          border-width: 5px 5px 0;
-          border-color: $color_white transparent transparent;
           content: "";
+          border-style: solid;
+          border-width: 9px 6px 0;
+          border-color: $color_white transparent transparent;
         }
       }
 
