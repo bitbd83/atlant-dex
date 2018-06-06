@@ -4,29 +4,20 @@
   .quoteItem__currencyContainer
     .quoteItem__main
       .quoteItem__row
-        .quoteItem__currencyName(:class="activeClass") {{currency}}
-        .quoteItem__price {{price}}
+        .quoteItem__currencyName() {{currency}}
+        .quoteItem__price ${{price}}
       .quoteItem__row
-        .quoteItem__currencyFull {{fullCurrencyName()}}
         .quoteItem__change
           Icon.quoteItem__chngIcon(id="arrow", :class="{'.quoteItem__chngIcon--neg': priceChng < 0}")
-          .quoteItem__changeAmt(:class="{'.quoteItem__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
+          .quoteItem__changeAmt {{absPriceChng}}%
     .quoteItem__additional(v-if="isActive")
-      .quoteItem__separator —
-        .quoteItem__details #[.quoteItem__detail Market Cap] #[span.quoteItem__number ${{toCurrencyFormat(cap)}}]
-        .quoteItem__details #[.quoteItem__detail Volume] #[span.quoteItem__number ${{toCurrencyFormat(volume)}}]
-      .quoteItem__separator —
-      .quoteItem__deposit
-        Icon.quoteItem__depositIcon(id="deposit")
-        .quoteItem__actionText(@click="makeDeposit()") Make deposit
-      .quoteItem__separator —
+      .quoteItem__details #[.quoteItem__detail Market Cap] #[span.quoteItem__number ${{toCurrencyFormat(cap)}}]
+      .quoteItem__details #[.quoteItem__detail Volume] #[span.quoteItem__number ${{toCurrencyFormat(volume)}}]
   Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive")
   Icon.quoteItem__icon.quoteItem__icon--triagle(id="triangle2" v-show="isActive")
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
-import {getCryptoName} from 'services/misc';
 
 export default {
   data() {
@@ -34,38 +25,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('membership', [
-      'isLoggedIn',
-    ]),
-    activeClass() {
-      return (this.isActive) ? '.quoteItem__currencyName--active' : '';
-    },
     absPriceChng() {
       return Math.abs(this.priceChng);
     },
   },
   methods: {
-    ...mapMutations('modal', {
-      openModal: 'open',
-    }),
-    fullCurrencyName() {
-      const name = this.currency.toUpperCase();
-      return getCryptoName(name);
-    },
-    makeDeposit() {
-      if (this.isLoggedIn) {
-        this.openModal({
-          name: 'cryptoDeposit',
-          data: {
-            currency: this.currency,
-          },
-        });
-      } else {
-        this.openModal({
-          name: 'signUp',
-        });
-      }
-    },
     toCurrencyFormat(amount) {
       return amount.replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
     },
@@ -127,22 +91,19 @@ export default {
     margin-bottom: 10px;
   }
   &__currencyIcon {
-    $size: 25px;
+    $size: 27px;
     width: $size;
     height: $size;
-    margin-right: 13px;
+    margin-top: -5px;
+    margin-right: 12px;
   }
   &__currencyName {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 700;
     text-transform: uppercase;
-    &--active {
-      color: #ffc600;
-    }
   }
   &__price {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
   }
   &__icon{
@@ -164,12 +125,14 @@ export default {
   }
   &__change {
     display: flex;
-    align-items: center;
+    flex: 2;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   &__chngIcon {
-    width: 11px;
-    height: 9px;
-    margin-right: 3px;
+    width: 7px;
+    height: 6px;
+    margin-right: 9px;
     fill: $color_green;
     &--neg {
       fill: $color_red;
@@ -177,12 +140,10 @@ export default {
     }
   }
   &__changeAmt {
-    font-size: 14px;
-    font-weight: bold;
-    color: $color_green;
-    &--neg {
-      color: $color_red;
-    }
+    font-size: 12px;
+    line-height: 9px;
+    font-weight: 400;
+    color: $color_white;
   }
   &__deposit {
     margin: 18px 0;
@@ -201,10 +162,12 @@ export default {
     margin-right: 11px;
   }
   &__details {
-    margin: 18px 0;
     display: flex;
-    font-size: 11px;
-    color: #5b87a0;
+    justify-content: space-between;
+    display: flex;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 30px;
   }
   &__detail {
     width: 70px;

@@ -73,4 +73,27 @@ export default {
     position: relative;
   }
 }
+.sidebarChild {
+  &__headerContainer {
+    padding: 40px 18px 32px 25px;
+  }
+  &__headerLine {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    &:first-of-type {
+      margin-bottom: 35px;
+      align-items: flex-end;
+    }
+  }
+  &__title {
+    color: $color__white;
+    font-family: Supply;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+}
 </style>
