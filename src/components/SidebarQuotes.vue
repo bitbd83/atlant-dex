@@ -48,7 +48,7 @@ export default {
     return {
       fiatCurrencies: ['USD'],
       selectedFiatCurrency: 'USD',
-      aviableTimestamps: ['12h', '24h'],
+      aviableTimestamps: ['1h', '24h', '1w'],
       selectedTimestamp: '12h',
       search: '',
       activeCur: 'btc',
@@ -85,18 +85,20 @@ export default {
     openChart(cur) {
       this.activeCur = cur;
     },
-//    isSearched(cur) {
-//      return cur.includes(this.search);
-//    },
     getApiRequest() {
       this.getQuotesInfo({
-        period: '24h',
+        period: this.selectedTimestamp,
         currencies: this.aviableQuotesToQueryString,
       });
     },
   },
   created() {
     this.getApiRequest();
+  },
+  watch: {
+    selectedTimestamp() {
+      this.getApiRequest();
+    },
   },
   directives: {
     scrollbar,

@@ -9,7 +9,7 @@
         Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="")
       .quoteItem__row
         .quoteItem__change
-          Icon.quoteItem__chngIcon(id="arrow", :class="{'.quoteItem__chngIcon--neg': priceChng < 0}")
+          Icon.quoteItem__chngIcon(id="arrow", :class="{'quoteItem__chngIcon--neg': (priceChng < 0)}")
           .quoteItem__changeAmt {{changeFormat(absPriceChng, 2)}}%
     transition(
       name="transition"
