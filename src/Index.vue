@@ -113,7 +113,6 @@ export default {
       addNewTrade: 'addNewTrade',
     }),
     ...mapMutations('user', {
-      setNotificationsCounter: 'setNotificationsCounter',
       changePortfolio: 'changePortfolio',
     }),
     ...mapActions('membership', {
@@ -138,9 +137,6 @@ export default {
             text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
             type: 'info',
           });
-          if (data.notificationType < 7) {
-            this.setNotificationsCounter(this.notificationsCounter + 1);
-          }
         };
       });
       this.$hub.on('newOrder', (data) => {

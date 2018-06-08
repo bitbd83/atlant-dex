@@ -36,7 +36,6 @@
               :id="(currentPage === 'accountInformation') ? 'user-active' : 'user'",
               :key="(currentPage === 'accountInformation') ? 'user-active' : 'user'"
             )
-          .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
       UserVisibility(
         hide-on-logout,
         :onLoginClick="() => getOpenPage('transactionHistory')"
@@ -73,9 +72,6 @@ export default {
   computed: {
     ...mapState('misc', [
       'showSidebar',
-    ]),
-    ...mapState('user', [
-      'notificationsCounter',
     ]),
     ...mapGetters('misc', [
       'section',

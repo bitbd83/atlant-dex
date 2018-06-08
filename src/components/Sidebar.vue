@@ -18,7 +18,6 @@ export default {
   computed: {
     ...mapState('misc', [
       'showSidebar',
-
     ]),
     ...mapGetters('misc', [
       'section',

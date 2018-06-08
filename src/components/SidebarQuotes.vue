@@ -39,9 +39,9 @@
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import {getCryptoName} from 'services/misc';
-import Dropdown from './Dropdown';
+import Dropdown from 'components/Dropdown';
 import Accordion from 'components/Accordion';
-import SidebarQuotesItem from './SidebarQuotesItem';
+import SidebarQuotesItem from 'components/SidebarQuotesItem';
 
 export default {
   data() {

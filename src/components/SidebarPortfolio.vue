@@ -7,7 +7,7 @@
       .portfolio__balance $ {{toCurrencyFormat(portfolioValue)}}
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
-        span.portfolio__balanceChangedText {{percChng}}%
+        span.portfolio__balanceChangedText {{toCurrencyFormat(percChng)}}%
     .sidebarChild__headerLine
       .portfolio__action Make deposit
       .portfolio__action Withdraw
@@ -19,7 +19,7 @@
       .portfolio__add
         Icon.portfolio__addIcon(id="icon__add")
         .portfolio__addText NEW
-    Accordion(title="Currencies:" isSidebar :isLoading="getUserBalancesInFiat.length > 0")
+    Accordion(title="Currencies:" isSidebar)
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInFiat"
       )
@@ -34,6 +34,7 @@ import {scrollbar} from '@/directives';
 import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 import Accordion from 'components/Accordion';
+import {toPricesFormatWitchPointsAndPoints} from '@/mixins';
 
 export default {
   data() {
@@ -59,7 +60,7 @@ export default {
       this.selectedCur = cur;
     },
     toCurrencyFormat(amount) {
-      return amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
+      return toPricesFormatWitchPointsAndPoints(amount, 2);
     },
     setContentActiveBGHeight(index) {
       return (index + 1) * 80 + 'px';

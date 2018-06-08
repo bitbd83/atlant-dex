@@ -1,10 +1,8 @@
 <template lang='pug'>
 .balance
-  .balance__background(:style="`top: ${bgPosition}px`")
   .balance__content(
     v-for="(bal, index) in data",
     :key="bal.currency",
-    v-on:mouseover="hoverEvent(index)"
   )
     Icon.balance__currencyIcon(:id="'cur_' + setCurrency(bal.currency)")
     .balance__currencyContainer
@@ -13,12 +11,13 @@
         .balance__changeIconContainer
           Icon.balance__changeIcon(id="triangle-up")
         .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
-          .balance__currencyBalance {{toCurrencyFormat(bal.availableFunds)}}
-          .balance__equivBalance ${{toCurrencyFormat(bal.balanceFiat)}}
+          .balance__currencyBalance {{changeFormat(bal.availableFunds)}}
+          .balance__equivBalance ${{changeFormat(bal.balanceFiat)}}
     Icon.balance__icon.balance__icon--alert(id="alert-inactive")
 </template>
 
 <script>
+import {toPricesFormatWitchPointsAndComma} from '@/mixins';
 
 export default {
   data() {
@@ -27,17 +26,11 @@ export default {
     };
   },
   methods: {
-    toCurrencyFormat(amount) {
-      if (typeof amount == 'undefined') return false;
-      return amount.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
-    },
-    hoverEvent(index) {
-      this.bgPosition = index * 89;
+    changeFormat(amount, fixedTo = 2) {
+      return toPricesFormatWitchPointsAndComma(amount, 2);
     },
     setCurrency(curr) {
-      if (typeof curr == 'string') {
-        return curr.toLowerCase();
-      }
+      if (typeof curr == 'string') return curr.toLowerCase();
     },
   },
   props: {
@@ -60,32 +53,17 @@ export default {
 .balance {
   position: relative;
   margin-top: 24px;
-  &:hover {
-    .balance__background {
-      opacity: .1;
-    }
-  }
-  &__background {
-    position: absolute;
-    top: 0;
-    height: 75px;
-    opacity: 0;
-    width: 100%;
-    background: $background__white;
-    transition: top .3s, opacity .3s;
-    z-index: 0;
-  }
   &__content {
     position: relative;
     display: flex;
     height: 75px;
     padding: 16px 16px 0 24px;
     margin-bottom: 14px;
+    background: transparent;
+    transition: background .5s;
     &:hover {
-      .balance__amount--zero {
-        transition: opacity 0.5s;
-        opacity: 1;
-      }
+      background: $background__blue_white;
+      transition: background .5s;
     }
   }
   &__currencyContainer {
