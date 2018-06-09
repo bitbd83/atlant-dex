@@ -28,6 +28,7 @@
   TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
   EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
   EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
+  AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
   Status(v-else-if="isModalOpened('status')")
 </template>
 
@@ -60,6 +61,7 @@ import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
+import AddNewAlertModal from 'modals/AddNewAlertModal';
 import Status from 'components/Status';
 
 export default {
@@ -115,6 +117,9 @@ export default {
     ...mapMutations('user', {
       changePortfolio: 'changePortfolio',
     }),
+    ...mapMutations('alerts', [
+      'updateSidebarAlert',
+    ]),
     ...mapActions('membership', {
       dropUser: 'dropUser',
     }),
@@ -125,6 +130,10 @@ export default {
       'getTokens',
       'getProfileData',
       'getCurrencies',
+    ]),
+    ...mapActions('alerts', [
+      'insertSidebarAlert',
+      'resetAlertsList',
     ]),
     updateOverflow() {
       // document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
@@ -154,6 +163,13 @@ export default {
       this.$hub.on('newTradeStatistic', (data) => {
       });
       this.$hub.on('orderBookChanged', (data) => {
+      });
+      this.$hub.on('newAlert', (data) => {
+        this.insertSidebarAlert(data);
+        this.resetAlertsList();
+      });
+      this.$hub.on('alertTriggered', (data) => {
+        this.updateSidebarAlert(data);
       });
     },
     modalChangeStyleforBody() {
@@ -238,6 +254,7 @@ export default {
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,
+    AddNewAlertModal,
   },
 };
 </script>

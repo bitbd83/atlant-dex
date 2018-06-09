@@ -1,9 +1,12 @@
 <template lang='pug'>
 .sidebar(:class="{'sidebar--visible' : showSidebar}")
-  .sidebar__content
-    SidebarPortfolio(v-if="section == 'wallet'")
-    SidebarQuotes(v-if="section == 'quotes'")
-    SidebarAlerts(v-if="section == 'alerts'")
+  .sidebar__container
+    transition-group(name="sidebar__fadeSections").sidebar__content
+      .sidebar__sections(:key="section")
+        SidebarPortfolio(v-if="section == 'wallet'")
+        SidebarQuotes(v-if="section == 'quotes'")
+        SidebarAlerts(v-if="section == 'alerts'")
+    .sidebar__copyright © Atlant Inc., 2018
   SidebarToolbar
 </template>
 
@@ -42,34 +45,64 @@ export default {
   height: 100%;
   margin-left: -270px;
   transition: $transition__sidebarAction;
+  background: $background__blue;
   &--visible {
     margin-left: 0;
     transition: $transition__sidebarAction;
   }
-  &__content {
+  &__container {
     position: relative;
     width: 270px;
     display: flex;
-    flex-direction: column;
     min-height: 100%;
-    background: $background__blue;
-
+    flex-direction: column;
     color: $color__white;
-    position: relative;
     &:before {
       content: "";
       position: absolute;
       right: 0;
       width: 47px;
       height: 100%;
-      background-image: linear-gradient(270deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(to right, hsla(206,70%,70%,0) 30%,hsla(0,0%,0%,.1) 100%);
     }
+  }
+  &__content {
+    flex: 2;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+  }
+
+  &__fadeSections {
+    &-enter-active, &-leave-active {
+      transition: opacity .75s;
+    }
+    &-enter, &-leave-to {
+      opacity: 0;
+    }
+  }
+
+  &__sections {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   &__item {
     padding: 32px 18px 32px 25px;
     font-size: 12px;
     position: relative;
+  }
+
+  &__copyright {
+    display: block;
+    margin: 19px 24px;
+    font-size: 10px;
+    font-weight: 400;
   }
 }
 .sidebarChild {

@@ -84,6 +84,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin-bottom: 38px;
+
   &__header {
     position: relative;
     display: flex;
@@ -91,10 +92,12 @@ export default {
     align-items: center;
     height: 42px;
     background: $background__white;
+
     &--toolbar {
       background: transparent;
     }
   }
+
   &__background {
     z-index: 0;
     position: absolute;
@@ -102,17 +105,21 @@ export default {
     height: 100%;
     width: 100%;
     transition: width 0.2s ease-out;
+
     &--sidebar {
       background: $background__white;
     }
+
     &--active {
       width: 10px;
       transition: width 0.2s ease-out;
     }
+
     &--toolbar {
       background: transparent;
     }
   }
+
   &__title {
     position: relative;
     font-size: 16px;
@@ -121,16 +128,19 @@ export default {
     padding-left: 21px;
     color: $color__white;
     transition: color 0.3s ease-in;
+
     &--active {
       color: $color__blue;
       transition: color 0.3s ease-in;
     }
+
     &--sidebar {
       font-size: 14px;
       color: $color__blue;
       text-transform: none;
     }
   }
+
   &__icon {
     cursor: pointer;
     z-index: 1;
@@ -145,19 +155,26 @@ export default {
       transition: transform 0.3s ease-in;
       fill: $fill__blue;
     }
+
     &--sidebar {
       fill: $fill__blue;
     }
+
     &--toolbar {
       fill: $fill__white;
       margin: auto;
       transform: rotate(180deg);
     }
+
     &--toolbarActive {
       transform: rotate(0deg);
     }
   }
+
   &__content {
+    position: relative;
+     display: flex;
+    flex-direction: column;
     overflow: hidden;
     transition: height 0.5s;
   }
