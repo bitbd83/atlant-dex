@@ -12,14 +12,14 @@
       .portfolio__action Make deposit
       .portfolio__action Withdraw
   .portfolio__content(v-scrollbar="")
-    Accordion(title="Tokens & Coins:" isSidebar)
+    Accordion(title="Tokens & Coins:" isSidebar :isHidden="getUserBalancesInCrypto.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInCrypto"
       )
       .portfolio__add
         Icon.portfolio__addIcon(id="icon__add")
         .portfolio__addText NEW
-    Accordion(title="Currencies:" isSidebar)
+    Accordion(title="Currencies:" isSidebar :isHidden="getUserBalancesInFiat.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInFiat"
       )

@@ -16,16 +16,14 @@
           :id="sect.name",
           :class="isActive(sect.name)",
         )
-        .toolbar__title(:class="{'toolbar__title--active' : (sect.name == section)}") {{sect.title}}
     UserVisibility(
       hide-on-logout,
       :onLoginClick="() => getOpenPage('map')"
     )
       .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : (currentPage === 'map')}")
           Icon.toolbar__icon(id="map" :class="{'toolbar__icon--active' : (currentPage === 'map')}")
-          .toolbar__title(:class="{'toolbar__title--active' : (currentPage == 'map')}") Map
   .toolbar__group
-    Accordion(isToolbar)
+    Accordion(isToolbar).toolbar__accordion
       UserVisibility(
         hide-on-logout,
         :onLoginClick="() => getOpenPage('accountInformation')"
@@ -51,7 +49,7 @@
           href="https://medium.com/@atlantio"
           target="_blank"
         )
-          Icon.toolbar__icon(
+          Icon.toolbar__icon.toolbar__icon--bottom(
             id='info',
           )
     Icon.toolbar__points(id="points")
@@ -120,27 +118,29 @@ export default {
 @import 'variables';
 
 .toolbar {
-  width: 100px;
+  width: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 100%;
   padding: 15px 0;
-  padding-top: 30px;
+  padding-top: 33px;
   background-color: $background__blue;
   z-index: 1;
   flex-shrink: 0;
 
   &__logo {
-    width: 38px;
-    height: 39px;
+    width: 27px;
+    height: 29px;
     fill: $fill__white;
     cursor: pointer;
     margin: auto;
-    margin-bottom: 75px;
+    margin-bottom: 57px;
   }
+
   &__iconWrap {
+    $size: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -148,59 +148,57 @@ export default {
     position: relative;
     background: transparent;
     box-shadow: 0 5px 4px transparent;
-    border-radius: 5px;
-    width: 56px;
-    height: 58px;
-    transition: all 1s;
-    border: 1px solid transparent;
-    margin: 45px auto;
+    border-radius: 2px;
+    width: $size;
+    height: $size;
+    margin: 21px auto;
+    padding: 0;
     cursor: pointer;
+    transition: margin .5s linear,
+                background .5s linear;
+
     &--active {
-      transition: background .5s, box-shadow .5s;
-      background: #ffffff;
+      background: $background__white;
       box-shadow: 0 5px 4px rgba(13, 16, 89, 0.28);
-      width: 73px;
-      height: 75px;
-    }
-    &:hover {
-      // border: 1px solid white;
-      transition: all 1s;
-      width: 73px;
-      height: 75px;
+      margin: 32px auto;
+      transition: margin .5s linear,
+                  background .5s linear;
     }
   }
+
   &__icon {
-    height: 26px;
-    width: 24px;
-    fill: #fff;
-    margin-bottom: 9px;
+    height: 20px;
+    width: 20px;
+    fill: $fill__white;
+    transition: fill .5s;
     cursor: pointer;
+
+    &:hover {
+      transition: fill .5s;
+      fill: $fill__blue_sky;
+    }
+
     &--active {
       fill: $fill__blue;
+
+      &:hover {
+        fill: $fill__blue;
+      }
     }
+
     &:not(:last-of-type) {
       margin-bottom: 32px;
     }
+
     &--bottom {
       position: absolute;
+
+      &:hover {
+        fill: $fill__white;
+      }
     }
   }
-  &__title {
-    color: #004dff;
-    font-family: Supply;
-    font-size: 16px;
-    line-height: 15px;
-    font-weight: 400;
-    letter-spacing: -0.3px;
-    height: 0px;
-    overflow: hidden;
-    transition: height .5s;
-    &--active {
-      height: 15px;
-      overflow: visible;
-      transition: height .5s;
-    }
-  }
+
   &__notifications {
     position: absolute;
     top: -2px;
@@ -213,28 +211,36 @@ export default {
     font-size: 11px;
     font-weight: 900;
   }
+
+  &__accordion {
+    margin-bottom: 29px;
+  }
+
   &__bottomWrap {
     position: relative;
     height: 26px;
+
     &:first-child {
       margin-top: 28px;
     }
-    &:not(:first-child):not(:last-child){
-      margin: 44px auto;
-    }
 
+    &:not(:first-child):not(:last-child){
+      margin: 34px auto;
+    }
   }
+
   &__points {
     width: 22px;
     height: 4px;
     opacity: .2;
     fill: $fill__white;
     margin: auto;
-    margin-bottom: 5px;
   }
+
   &__iconFade-enter-active, &__iconFade-leave-active {
     transition: opacity .75s;
   }
+
   &__iconFade-enter, &__iconFade-leave-to {
     opacity: 0;
   }

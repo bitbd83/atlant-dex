@@ -13,7 +13,7 @@
         preselect-first,
       )
   .alerts__content(ref="wrap")
-    Accordion(title="Tokens & Coins:" isSidebar)
+    Accordion(title="Tokens & Coins:" isSidebar :isHidden="sidebarAlerts.length == 0")
       .alerts__itemContainer(v-scrollbar="")
         AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
         AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")

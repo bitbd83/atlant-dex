@@ -19,17 +19,16 @@
     v-on:before-leave="transitionAccordionBeforeLeave"
     v-on:leave="transitionAccordionLeave"
   )
-    .accordion__content(v-if="isShow" @click.stop="()=>{}")
+    .accordion__content(v-show="isShow" @click.stop="()=>{}")
       slot
 </template>
 
- <script>
-import smoothHeight from 'vue-smooth-height';
+<script>
 
 export default {
   data() {
     return {
-      isShow: true,
+      isShow: false,
     };
   },
   methods: {
@@ -38,6 +37,10 @@ export default {
     },
     transitionAccordionEnter(el) {
       el.style.height = el.scrollHeight + 'px';
+
+      setTimeout(() => {
+        el.style.height = 'auto';
+      }, 500);
     },
     transitionAccordionBeforeLeave(el) {
       el.style.height = el.scrollHeight + 'px';
@@ -49,13 +52,21 @@ export default {
     setShow() {
       this.isShow = !this.isShow;
     },
+    firstShowSidebar() {
+      setTimeout(() => {
+        this.isShow = true;
+      }, 500);
+    },
   },
-  mixins: [smoothHeight],
   mounted() {
-    this.$smoothElement({
-      el: this.$el.lastChild,
-      transition: 'height .5s',
-    });
+    if (this.isHidden === false) {
+      this.firstShowSidebar();
+    }
+  },
+  watch: {
+    isHidden() {
+      this.firstShowSidebar();
+    },
   },
   props: {
     title: {
@@ -69,6 +80,11 @@ export default {
       default: false,
     },
     isToolbar: {
+      type: [Boolean, String],
+      required: false,
+      default: false,
+    },
+    isHidden: {
       type: [Boolean, String],
       required: false,
       default: false,
@@ -173,10 +189,8 @@ export default {
 
   &__content {
     position: relative;
-     display: flex;
-    flex-direction: column;
-    overflow: hidden;
     transition: height 0.5s;
+    overflow: hidden;
   }
 }
 </style>

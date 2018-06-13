@@ -43,20 +43,23 @@ export default {
   position: relative;
   display: flex;
   height: 100%;
-  margin-left: -270px;
+  margin-left: -300px;
   transition: $transition__sidebarAction;
   background: $background__blue;
+
   &--visible {
     margin-left: 0;
     transition: $transition__sidebarAction;
   }
+
   &__container {
     position: relative;
-    width: 270px;
+    width: 300px;
     display: flex;
     min-height: 100%;
     flex-direction: column;
     color: $color__white;
+
     &:before {
       content: "";
       position: absolute;
@@ -66,6 +69,7 @@ export default {
       background: linear-gradient(to right, hsla(206,70%,70%,0) 30%,hsla(0,0%,0%,.1) 100%);
     }
   }
+
   &__content {
     flex: 2;
     display: flex;
@@ -77,6 +81,7 @@ export default {
     &-enter-active, &-leave-active {
       transition: opacity .75s;
     }
+
     &-enter, &-leave-to {
       opacity: 0;
     }
@@ -106,20 +111,24 @@ export default {
   }
 }
 .sidebarChild {
+
   &__headerContainer {
     padding: 40px 18px 32px 25px;
   }
+
   &__headerLine {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     flex-wrap: wrap;
     margin-bottom: 28px;
+
     &:first-of-type {
       margin-bottom: 35px;
       align-items: flex-end;
     }
   }
+
   &__title {
     color: $color__white;
     font-family: Supply;

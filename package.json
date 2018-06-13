@@ -30,7 +30,6 @@
     "vue-mugen-scroll": "^0.2.5",
     "vue-multiselect": "2.1.0",
     "vue-router": "3.0.1",
-    "vue-smooth-height": "^1.5.0",
     "vuelidate": "0.6.1",
     "vuex": "3.0.1",
     "vuex-persistedstate": "2.0.0"

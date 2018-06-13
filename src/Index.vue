@@ -271,13 +271,13 @@ export default {
 .main {
   position: relative;
   display: flex;
+  min-width: 1000px;
+  min-height: 700px;
   height: 100vh;
   &__body {
     display: flex;
     width: 100%;
     height: 100%;
-    // min-width: 1250px;
-    // min-height: 750px;
     overflow: auto;
     margin-left: auto;
     margin-right: auto;
