@@ -6,7 +6,7 @@
         Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
         .quoteItem__currencyName() {{currency}}
         .quoteItem__price ${{changeFormat(price, 2)}}
-        Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="")
+        Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
       .quoteItem__row
         .quoteItem__change
           Icon.quoteItem__chngIcon(id="arrow", :class="{'quoteItem__chngIcon--neg': (priceChng < 0)}")

@@ -66,6 +66,7 @@ export default {
         sortBy: data.sortBy,
         isSortAscending: data.ascending,
         triggeredFirst: data.isSidebar ? true : false,
+        active: data.isSidebar ? true : false,
       }).then((response) => {
         if (data.isSidebar) {
           commit('setSidebarAlerts', response.data);
@@ -92,6 +93,11 @@ export default {
     resetAlertsList({state, dispatch}, data) {
       dispatch('getAlertsList', {
         page: state.alertsPage,
+      });
+    },
+    disableAlertInSidebar({commit}, alertId) {
+      return Alerts.disableAlert(alertId).then(() => {
+        commit('removeSidebarAlert', alertId);
       });
     },
     deleteAlert({commit, dispatch}, data) {
