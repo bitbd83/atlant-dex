@@ -18,7 +18,7 @@ PageLayout(title="Account information", :sidebar="true")
           .accountInfo__param Verification status:
           .accountInfo__value.accountInfo__value--inline
             .accountInfo__rating(v-show="account.verificationRating") Tier {{account.verificationRating}}
-            .link.accountInfo__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="openPage({name: 'verification'})") Upgrade
+            .link.accountInfo__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="getOpenPage('verification')") Upgrade
         .accountInfo__item
           .accountInfo__param Email:
           .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
@@ -47,7 +47,7 @@ PageLayout(title="Account information", :sidebar="true")
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
 import Checkbox from 'components/Checkbox';
@@ -79,9 +79,9 @@ export default {
     ...mapActions('user', [
       'getProfileData',
     ]),
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
+    ...mapActions('page', [
+      'getOpenPage',
+    ]),
     setPrefCurrencyFromFlag(value) {
       this.setPreferredCurrency(getCountryCurrency(value));
     },

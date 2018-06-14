@@ -1,54 +1,64 @@
 <template lang='pug'>
 .toolbar
   .toolbar__group
-    Icon.toolbar__icon(
-      :id="(showSidebar) ? 'cross' : 'hamburger'",
-      @click='toggleSidebar',
+    Icon.toolbar__logo(id="logo"
+                      @click="getOpenPage('')",
     )
     UserVisibility(
-      v-for="section in sidebarSections",
-      :key="section.name",
-      :hide-on-logout="!section.isShowOnLogout"
+      v-for="sect in sidebarSections",
+      :key="sect.name",
+      :hide-on-logout="!sect.isShowOnLogout"
     )
-      Icon.toolbar__icon(
-        :id="section.name",
-        :class="isActive(section.name)",
-        @click="setSection(section.name)",
+      .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : sect.name == section}",
+                        @click="setSection(sect.name)"
       )
-  .toolbar__group
-    UserVisibility(
-      hide-on-logout,
-      :onLoginClick="() => getOpenPage('notificationHistory')"
-    )
-      .toolbar__iconWrap
         Icon.toolbar__icon(
-          id='icon-notification',
-          :class="{'toolbar__icon--active': (currentPage === 'notificationHistory')}",
+          :id="sect.name",
+          :class="isActive(sect.name)",
         )
-        .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
     UserVisibility(
       hide-on-logout,
-      :onLoginClick="() => getOpenPage('accountInformation')"
+      :onLoginClick="() => getOpenPage('map')"
     )
-      Icon.toolbar__icon(
-        id='user',
-        :class="{'toolbar__icon--active': isProfilePageOpened}"
+      .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : (currentPage === 'map')}")
+          Icon.toolbar__icon(id="map" :class="{'toolbar__icon--active' : (currentPage === 'map')}")
+  .toolbar__group
+    Accordion(isToolbar).toolbar__accordion
+      UserVisibility(
+        hide-on-logout,
+        :onLoginClick="() => getOpenPage('accountInformation')"
       )
-    //- UserVisibility(:onLoginClick="() => getOpenPage('securitySettings')")
-    //-   Icon.toolbar__icon(
-    //-     id='settings',
-    //-     :class="{'toolbar__icon--active': isSettingPageOpened}",
-    //-   )
-    Icon.toolbar__icon(
-      id='info',
-      @click="getOpenPage('transactionHistory')",
-      :class="{'toolbar__icon--active': isPageHistoryOpened}",
-    )
+        .toolbar__bottomWrap
+          transition(name="toolbar__iconFade")
+            Icon.toolbar__icon.toolbar__icon--bottom(
+              :id="(currentPage === 'accountInformation') ? 'user-active' : 'user'",
+              :key="(currentPage === 'accountInformation') ? 'user-active' : 'user'"
+            )
+      UserVisibility(
+        hide-on-logout,
+        :onLoginClick="() => getOpenPage('transactionHistory')"
+      )
+        .toolbar__bottomWrap
+          transition(name="toolbar__iconFade")
+            Icon.toolbar__icon.toolbar__icon--bottom(
+              :id="(currentPage === 'transactionHistory') ? 'history-active' : 'history'",
+              :key="(currentPage === 'transactionHistory') ? 'history-active' : 'history'",
+            )
+      .toolbar__bottomWrap
+        a(
+          href="https://medium.com/@atlantio"
+          target="_blank"
+        )
+          Icon.toolbar__icon.toolbar__icon--bottom(
+            id='info',
+          )
+    Icon.toolbar__points(id="points")
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {sidebarSections} from '@/config';
+import Accordion from 'components/Accordion';
 import UserVisibility from './UserVisibility';
 
 export default {
@@ -60,9 +70,6 @@ export default {
   computed: {
     ...mapState('misc', [
       'showSidebar',
-    ]),
-    ...mapState('user', [
-      'notificationsCounter',
     ]),
     ...mapGetters('misc', [
       'section',
@@ -82,12 +89,12 @@ export default {
       'toggleSidebar',
       'setSection',
     ]),
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
     ...mapMutations('modal', {
       openModal: 'open',
     }),
+    ...mapActions('page', [
+      'getOpenPage',
+    ]),
     isActive(section) {
       return (section === this.section) ? 'toolbar__icon--active' : '';
     },
@@ -98,11 +105,9 @@ export default {
       }
       this.getOpenPage(pageName);
     },
-    getOpenPage(name) {
-      this.openPage({name});
-    },
   },
   components: {
+    Accordion,
     UserVisibility,
   },
 };
@@ -113,37 +118,87 @@ export default {
 @import 'variables';
 
 .toolbar {
-  width: 100px;
+  width: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 100%;
   padding: 15px 0;
+  padding-top: 33px;
   background-color: $background__blue;
   z-index: 1;
   flex-shrink: 0;
-  &__iconWrap {
+
+  &__logo {
+    width: 27px;
+    height: 29px;
+    fill: $fill__white;
     cursor: pointer;
-    position: relative;
-    margin-bottom: 32px;
+    margin: auto;
+    margin-bottom: 57px;
   }
-  &__icon {
-    $size: 20px;
-    height: $size;
+
+  &__iconWrap {
+    $size: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: transparent;
+    box-shadow: 0 5px 4px transparent;
+    border-radius: 2px;
     width: $size;
-    fill: #fff;
+    height: $size;
+    margin: 21px auto;
+    padding: 0;
+    cursor: pointer;
+    transition: margin .5s linear,
+                background .5s linear;
+
     &--active {
-      fill: #e9bd24;
+      background: $background__white;
+      box-shadow: 0 5px 4px rgba(13, 16, 89, 0.28);
+      margin: 32px auto;
+      transition: margin .5s linear,
+                  background .5s linear;
     }
+  }
+
+  &__icon {
+    height: 20px;
+    width: 20px;
+    fill: $fill__white;
+    transition: fill .5s;
+    cursor: pointer;
+
+    &:hover {
+      transition: fill .5s;
+      fill: $fill__blue_sky;
+    }
+
+    &--active {
+      fill: $fill__blue;
+
+      &:hover {
+        fill: $fill__blue;
+      }
+    }
+
     &:not(:last-of-type) {
       margin-bottom: 32px;
     }
-    &:hover {
-      cursor: pointer;
-      fill: #e9bd24;
+
+    &--bottom {
+      position: absolute;
+
+      &:hover {
+        fill: $fill__white;
+      }
     }
   }
+
   &__notifications {
     position: absolute;
     top: -2px;
@@ -155,6 +210,39 @@ export default {
     font-family: Roboto;
     font-size: 11px;
     font-weight: 900;
+  }
+
+  &__accordion {
+    margin-bottom: 29px;
+  }
+
+  &__bottomWrap {
+    position: relative;
+    height: 26px;
+
+    &:first-child {
+      margin-top: 28px;
+    }
+
+    &:not(:first-child):not(:last-child){
+      margin: 34px auto;
+    }
+  }
+
+  &__points {
+    width: 22px;
+    height: 4px;
+    opacity: .2;
+    fill: $fill__white;
+    margin: auto;
+  }
+
+  &__iconFade-enter-active, &__iconFade-leave-active {
+    transition: opacity .75s;
+  }
+
+  &__iconFade-enter, &__iconFade-leave-to {
+    opacity: 0;
   }
 }
 </style>

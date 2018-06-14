@@ -62,14 +62,19 @@ export const profileSections = [
 export const sidebarSections = [
   {
     name: 'wallet',
+    title: 'Wallet',
+
   },
   {
-    name: 'charts',
+    name: 'quotes',
+    title: 'Quotes',
     isShowOnLogout: true,
   },
   {
-    name: 'alert',
+    name: 'alerts',
+    title: 'Alerts',
   },
+
 ];
 
 export const operatingSystems = [

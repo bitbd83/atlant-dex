@@ -1,67 +1,57 @@
 <template lang='pug'>
 .quotes
-  .quotes__item.quotes__item--header
-    .quotes__headerLine
-      .quotes__header QUOTES:
-      .quotes__headerText 24 hr change
+  .quotes__headerContainer
+    .sidebarChild__headerLine
+      .sidebarChild__title CURRENT QUOTES’S:
+    .quotes__paramsContainer
       Dropdown.quotes__headerDropdown(
-        :options="currencies",
-        v-model="selected",
+        :options="aviableTimestamps",
+        v-model="selectedTimestamp",
         no-border,
         no-padding,
         preselect-first,
       )
-  .quotes__item.quotes__item--search
-    .quotes__headerLine
-      input.quotes__search(type="text", placeholder="Search" v-model="search")
-      Icon.quotes__searchIcon(id="search")
+      .quotes__headerText Range
+      Dropdown.quotes__headerDropdown(
+        :options="fiatCurrencies",
+        v-model="selectedFiatCurrency",
+        no-border,
+        no-padding,
+        preselect-first,
+      )
+    input.quotes__search(type="text", placeholder="Search for..." v-model="search")
   .quotes__content(v-scrollbar="")
-    .quotes__item(v-show="quotes")
-      .quotes__headerLine
-        .quotes__header Coins:
-        Icon.quotes__icon(id="refresh")
-      SidebarQuotesItem(v-for="chart in filteredQuotes", :key="chart.currency",
-      :currency="chart.currency.toLowerCase()", :price="chart.price", :priceChng="chart.change", :cap="chart.cap", :volume="chart.volume",
-      :isActive="activeCur == chart.currency", @click.native="openChart(chart.currency)")
+    Accordion(title="Tokens & Coins:" isSidebar :isHidden="filteredQuotes.length == 0")
+      SidebarQuotesItem(
+        v-for="chart in filteredQuotes",
+        :key="chart.currency",
+        :currency="chart.currency.toLowerCase()",
+        :price="chart.price",
+        :priceChng="chart.change",
+        :cap="chart.cap",
+        :volume="chart.volume",
+        :isActive="activeCur == chart.currency",
+        @click.native="openChart(chart.currency)",
+      )
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import {getCryptoName} from 'services/misc';
-import Dropdown from './Dropdown';
-import SidebarQuotesItem from './SidebarQuotesItem';
+import Dropdown from 'components/Dropdown';
+import Accordion from 'components/Accordion';
+import SidebarQuotesItem from 'components/SidebarQuotesItem';
 
 export default {
   data() {
     return {
-      selected: '',
+      fiatCurrencies: ['USD'],
+      selectedFiatCurrency: 'USD',
+      aviableTimestamps: ['1h', '24h', '1w'],
+      selectedTimestamp: '12h',
       search: '',
       activeCur: 'btc',
-      // quotes: [
-      //   {
-      //     currency: 'btc',
-      //     price: '$11 388,60',
-      //     priceChng: '-3.71',
-      //     cap: '$44 192 919 519',
-      //     volume: '$1 100 850 000',
-      //   },
-      //   {
-      //     currency: 'eth',
-      //     price: '$459,70',
-      //     priceChng: '-4.10',
-      //     cap: '$44 192 919 519',
-      //     volume: '$1 100 850 000',
-      //   },
-      //   {
-      //     currency: 'tether',
-      //     price: '$459,70',
-      //     priceChng: '-4.10',
-      //     cap: '$44 192 919 519',
-      //     volume: '$1 100 850 000',
-      //   },
-      // ],
-      currencies: ['USD'],
       aviableQuotes: ['BTC', 'ETH', 'LTC', 'ATL'],
     };
   },
@@ -95,12 +85,9 @@ export default {
     openChart(cur) {
       this.activeCur = cur;
     },
-//    isSearched(cur) {
-//      return cur.includes(this.search);
-//    },
     getApiRequest() {
       this.getQuotesInfo({
-        period: '24h',
+        period: this.selectedTimestamp,
         currencies: this.aviableQuotesToQueryString,
       });
     },
@@ -108,12 +95,18 @@ export default {
   created() {
     this.getApiRequest();
   },
+  watch: {
+    selectedTimestamp() {
+      this.getApiRequest();
+    },
+  },
   directives: {
     scrollbar,
   },
   components: {
-    SidebarQuotesItem,
     Dropdown,
+    Accordion,
+    SidebarQuotesItem,
   },
 };
 
@@ -126,69 +119,37 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+  &__headerContainer {
+    padding: 40px 23px 28px 23px;
+  }
+  &__paramsContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  &__headerText {
+    flex: 2;
+    margin-left: 13px;
+  }
+  &__search{
+    width: 100%;
+    height: 41px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.33);
+    border-radius: 2px;
+    border-color: transparent;
+    background: $background__blue;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 11px;
+    &::placeholder{
+      color: $color__white;
+    }
+  }
 
   &__content {
     position: relative;
   }
-  &__icon {
-    $size: 14px;
-    height: $size;
-    width: $size;
-    fill: #fff;
-    &:active {
-      animation: spin 0.5s 1 ease-in-out;
-    }
-    &:hover{
-      cursor: pointer;
-    }
-  }
-  &__item {
-    padding: 32px 18px 32px 25px;
-    border-bottom: 1px solid #032537;
-    border-top: 1px solid #00334C;
-    font-size: 12px;
-    &--header {
-      font-weight: 700;
-    }
-    &--search {
-      padding: 14px 18px 14px 25px;
-    }
-  }
-  &__headerLine {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    text-transform: uppercase;
-  }
-  &__search{
-    border: none;
-    padding: 0;
-    height: 14px;
-    width: 100%;
-    background-color: transparent;
-    color: #5b87a0;
-    &::placeholder{
-      color: #5b87a0;
-    }
-  }
-  &__searchIcon {
-    $size: 18px;
-    height: $size;
-    width: $size;
-    fill: #ffffff;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  &__headerDropdown {
-    width: 50px;
-    font-size: 12px;
-  }
-  &__headerText {
-    font-size: 10px;
-    text-transform: lowercase;
-    font-weight: 400;
-  }
+
 }
 
 @keyframes spin {

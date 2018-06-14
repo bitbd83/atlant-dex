@@ -1,14 +1,17 @@
 <template lang='pug'>
 .sidebar(:class="{'sidebar--visible' : showSidebar}")
-  .sidebar__content
-    SidebarPortfolio(v-if="section == 'wallet'")
-    SidebarQuotes(v-if="section == 'charts'")
-    SidebarAlerts(v-if="section == 'alert'")
+  .sidebar__container
+    transition-group(name="sidebar__fadeSections").sidebar__content
+      .sidebar__sections(:key="section")
+        SidebarPortfolio(v-if="section == 'wallet'")
+        SidebarQuotes(v-if="section == 'quotes'")
+        SidebarAlerts(v-if="section == 'alerts'")
+    .sidebar__copyright © Atlant Inc., 2018
   SidebarToolbar
 </template>
 
 <script>
-import {mapMutations, mapState, mapGetters} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import SidebarPortfolio from './SidebarPortfolio';
 import SidebarAlerts from './SidebarAlerts';
 import SidebarQuotes from './SidebarQuotes';
@@ -18,21 +21,10 @@ export default {
   computed: {
     ...mapState('misc', [
       'showSidebar',
-
     ]),
     ...mapGetters('misc', [
       'section',
     ]),
-  },
-  methods: {
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
-    getOpenPage() {
-      this.openPage({
-        name: '',
-      });
-    },
   },
   components: {
     SidebarPortfolio,
@@ -51,36 +43,98 @@ export default {
   position: relative;
   display: flex;
   height: 100%;
-  margin-left: -270px;
+  margin-left: -300px;
   transition: $transition__sidebarAction;
+  background: $background__blue;
+
   &--visible {
     margin-left: 0;
     transition: $transition__sidebarAction;
   }
-  &__content {
-    position: relative;
-    width: 270px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    background: $background__blue;
 
-    color: $color__white;
+  &__container {
     position: relative;
+    width: 300px;
+    display: flex;
+    min-height: 100%;
+    flex-direction: column;
+    color: $color__white;
+
     &:before {
       content: "";
       position: absolute;
       right: 0;
       width: 47px;
       height: 100%;
-      background-image: linear-gradient(270deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+      background: linear-gradient(to right, hsla(206,70%,70%,0) 30%,hsla(0,0%,0%,.1) 100%);
     }
+  }
+
+  &__content {
+    flex: 2;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+  }
+
+  &__fadeSections {
+    &-enter-active, &-leave-active {
+      transition: opacity .75s;
+    }
+
+    &-enter, &-leave-to {
+      opacity: 0;
+    }
+  }
+
+  &__sections {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
   }
 
   &__item {
     padding: 32px 18px 32px 25px;
     font-size: 12px;
     position: relative;
+  }
+
+  &__copyright {
+    display: block;
+    margin: 19px 24px;
+    font-size: 10px;
+    font-weight: 400;
+  }
+}
+.sidebarChild {
+
+  &__headerContainer {
+    padding: 40px 18px 32px 25px;
+  }
+
+  &__headerLine {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+
+    &:first-of-type {
+      margin-bottom: 35px;
+      align-items: flex-end;
+    }
+  }
+
+  &__title {
+    color: $color__white;
+    font-family: Supply;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 }
 </style>

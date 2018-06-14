@@ -28,6 +28,7 @@
   TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
   EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
   EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
+  AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
   Status(v-else-if="isModalOpened('status')")
 </template>
 
@@ -60,6 +61,7 @@ import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
+import AddNewAlertModal from 'modals/AddNewAlertModal';
 import Status from 'components/Status';
 
 export default {
@@ -113,9 +115,11 @@ export default {
       addNewTrade: 'addNewTrade',
     }),
     ...mapMutations('user', {
-      setNotificationsCounter: 'setNotificationsCounter',
       changePortfolio: 'changePortfolio',
     }),
+    ...mapMutations('alerts', [
+      'updateSidebarAlert',
+    ]),
     ...mapActions('membership', {
       dropUser: 'dropUser',
     }),
@@ -126,6 +130,10 @@ export default {
       'getTokens',
       'getProfileData',
       'getCurrencies',
+    ]),
+    ...mapActions('alerts', [
+      'insertSidebarAlert',
+      'resetAlertsList',
     ]),
     updateOverflow() {
       // document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
@@ -138,9 +146,6 @@ export default {
             text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
             type: 'info',
           });
-          if (data.notificationType < 7) {
-            this.setNotificationsCounter(this.notificationsCounter + 1);
-          }
         };
       });
       this.$hub.on('newOrder', (data) => {
@@ -158,6 +163,13 @@ export default {
       this.$hub.on('newTradeStatistic', (data) => {
       });
       this.$hub.on('orderBookChanged', (data) => {
+      });
+      this.$hub.on('newAlert', (data) => {
+        this.insertSidebarAlert(data);
+        this.resetAlertsList();
+      });
+      this.$hub.on('alertTriggered', (data) => {
+        this.updateSidebarAlert(data);
       });
     },
     modalChangeStyleforBody() {
@@ -242,6 +254,7 @@ export default {
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,
+    AddNewAlertModal,
   },
 };
 </script>
@@ -258,13 +271,13 @@ export default {
 .main {
   position: relative;
   display: flex;
+  min-width: 1000px;
+  min-height: 700px;
   height: 100vh;
   &__body {
     display: flex;
     width: 100%;
     height: 100%;
-    // min-width: 1250px;
-    // min-height: 750px;
     overflow: auto;
     margin-left: auto;
     margin-right: auto;

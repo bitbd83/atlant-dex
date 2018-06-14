@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
+import alerts from './modules/alerts';
 import misc from './modules/misc';
 import localization from './modules/localization';
 import tradeInfo from './modules/tradeInfo';
@@ -19,6 +20,7 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
+    alerts,
     misc,
     localization,
     tradeInfo,

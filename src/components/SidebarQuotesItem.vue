@@ -1,73 +1,56 @@
 <template lang='pug'>
 .quoteItem
-  Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
   .quoteItem__currencyContainer
     .quoteItem__main
       .quoteItem__row
-        .quoteItem__currencyName(:class="activeClass") {{currency}}
-        .quoteItem__price {{price}}
+        Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
+        .quoteItem__currencyName() {{currency}}
+        .quoteItem__price ${{changeFormat(price, 2)}}
+        Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="")
       .quoteItem__row
-        .quoteItem__currencyFull {{fullCurrencyName()}}
         .quoteItem__change
-          Icon.quoteItem__chngIcon(id="arrow", :class="{'.quoteItem__chngIcon--neg': priceChng < 0}")
-          .quoteItem__changeAmt(:class="{'.quoteItem__changeAmt--neg': priceChng < 0}") {{absPriceChng}}%
-    .quoteItem__additional(v-if="isActive")
-      .quoteItem__separator —
-        .quoteItem__details #[.quoteItem__detail Market Cap] #[span.quoteItem__number ${{toCurrencyFormat(cap)}}]
-        .quoteItem__details #[.quoteItem__detail Volume] #[span.quoteItem__number ${{toCurrencyFormat(volume)}}]
-      .quoteItem__separator —
-      .quoteItem__deposit
-        Icon.quoteItem__depositIcon(id="deposit")
-        .quoteItem__actionText(@click="makeDeposit()") Make deposit
-      .quoteItem__separator —
-  Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive")
-  Icon.quoteItem__icon.quoteItem__icon--triagle(id="triangle2" v-show="isActive")
+          Icon.quoteItem__chngIcon(id="arrow", :class="{'quoteItem__chngIcon--neg': (priceChng < 0)}")
+          .quoteItem__changeAmt {{changeFormat(absPriceChng, 2)}}%
+    transition(
+      name="transition"
+      v-on:before-enter="transitionAccordionBeforeEnter"
+      v-on:enter="transitionAccordionEnter"
+      v-on:before-leave="transitionAccordionBeforeLeave"
+      v-on:leave="transitionAccordionLeave"
+    )
+      .quoteItem__additional(v-if="isActive")
+        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{changeFormat(cap, 4)}}]
+        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{changeFormat(volume, 4)}}]
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
-import {getCryptoName} from 'services/misc';
+import {mapMutations} from 'vuex';
+import {toPricesFormatWitchPointsAndComma} from '@/mixins';
 
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
-    ...mapGetters('membership', [
-      'isLoggedIn',
-    ]),
-    activeClass() {
-      return (this.isActive) ? '.quoteItem__currencyName--active' : '';
-    },
     absPriceChng() {
       return Math.abs(this.priceChng);
     },
   },
   methods: {
-    ...mapMutations('modal', {
-      openModal: 'open',
-    }),
-    fullCurrencyName() {
-      const name = this.currency.toUpperCase();
-      return getCryptoName(name);
+    ...mapMutations('modal', [
+      'open',
+    ]),
+    transitionAccordionBeforeEnter(el) {
+      el.style.height = '0';
     },
-    makeDeposit() {
-      if (this.isLoggedIn) {
-        this.openModal({
-          name: 'cryptoDeposit',
-          data: {
-            currency: this.currency,
-          },
-        });
-      } else {
-        this.openModal({
-          name: 'signUp',
-        });
-      }
+    transitionAccordionEnter(el) {
+      el.style.height = el.scrollHeight + 'px';
     },
-    toCurrencyFormat(amount) {
-      return amount.replace(/(\d)(?=(\d{3})+\.)/g, '$1 ');
+    transitionAccordionBeforeLeave(el) {
+      el.style.height = el.scrollHeight + 'px';
+    },
+    transitionAccordionLeave(el) {
+      el.style.height = '0';
+    },
+    changeFormat(amount, fix) {
+      return toPricesFormatWitchPointsAndComma(amount, fix);
     },
   },
   props: {
@@ -107,111 +90,150 @@ export default {
 @import 'variables';
 
 .quoteItem {
+  position: relative;
   display: flex;
   align-items: flex-start;
-  margin-top: 25px;
-  position: relative;
+  margin: 30px 0;
+  margin-top: 15px;
+  margin-bottom: 12px;
+  padding: 22px 50px 15px 24px;
+  background: transparent;
+  transition: background .5s;
+
+  &:hover {
+    background: $background__blue_white;
+    transition: background .5s;
+  }
+
   &__currencyContainer {
     width: 100%;
   }
+
   &__main {
-    &:hover {
-      cursor: pointer;
-      color: #ffc600;
-    }
+    cursor: pointer;
   }
+
   &__row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
   }
+
   &__currencyIcon {
-    $size: 25px;
+    $size: 27px;
     width: $size;
     height: $size;
-    margin-right: 13px;
+    margin-right: 12px;
   }
+
   &__currencyName {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 700;
     text-transform: uppercase;
-    &--active {
-      color: #ffc600;
-    }
   }
+
   &__price {
-    font-size: 18px;
+    flex: 1;
+    text-align: right;
+    font-size: 16px;
     font-weight: 400;
   }
+
+  &__alertContainer {
+    display: flex;
+    width: 35px;
+    justify-content: flex-end;
+  }
+
   &__icon{
-    $size: 12px;
-    width: $size;
-    height: $size;
+    width: 16px;
+    height: 17px;
+
     &--alert {
-      fill: #044669;
-      margin-top: 3px;
-      margin-left: 14px;
-    }
-    &--triagle {
-      fill: #ffc600;
-      position: absolute;
-      top: 6px;
-      left: -29px;
-      transform: rotate(-90deg);
+      fill: $fill__white;
+      margin-right: -35px;
+      margin-left: 18px;
     }
   }
+
   &__change {
     display: flex;
-    align-items: center;
+    flex: 2;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
+
   &__chngIcon {
-    width: 11px;
-    height: 9px;
-    margin-right: 3px;
+    width: 7px;
+    height: 6px;
+    margin-right: 9px;
     fill: $color_green;
+
     &--neg {
       fill: $color_red;
       transform: rotate(180deg);
     }
   }
+
   &__changeAmt {
-    font-size: 14px;
-    font-weight: bold;
-    color: $color_green;
-    &--neg {
-      color: $color_red;
-    }
+    font-size: 12px;
+    line-height: 9px;
+    font-weight: 400;
+    color: $color_white;
   }
+
   &__deposit {
     margin: 18px 0;
     display: flex;
   }
+
   &__actionText {
     &:hover {
       text-decoration: underline;
       cursor: pointer;
     }
   }
+
   &__depositIcon {
     $size: 14px;
     width: $size;
     height: $size;
     margin-right: 11px;
   }
-  &__details {
-    margin: 18px 0;
-    display: flex;
-    font-size: 11px;
-    color: #5b87a0;
+
+  &__additional {
+    transition: height .5s;
+    margin-right: -50px;
+    overflow: hidden;
   }
+
+  &__details {
+    display: flex;
+    justify-content: space-between;
+    display: flex;
+    color: $color__white;
+    opacity: .7;
+    margin-right: 50px;
+    &:first-of-type {
+      padding-top: 20px;
+    }
+  }
+
   &__detail {
+    white-space: nowrap;
     width: 70px;
     margin-right: 14px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 30px;
   }
+
   &__number {
     white-space: nowrap;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 30px;
   }
 }
 </style>

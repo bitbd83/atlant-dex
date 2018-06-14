@@ -4,7 +4,7 @@
     li.pageSidebar__item(
       v-for="{name, label} in items",
       :class="{'pageSidebar__item--selected': isPageOpened(name)}",
-      @click="openPage({name})"
+      @click="getOpenPage(name)"
     )
       Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name)")
       span.pageSidebar__label {{label}}
@@ -22,12 +22,12 @@
       v-show="showNav"
       :class="{'pageSidebar__mobileSubItem--selected': isPageOpened(name)}",
       v-for="{name, label} in items",
-      @click="openMobilePage({name})"
+      @click="openMobilePage(name)"
     ) {{label}}
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapActions} from 'vuex';
 import {profileSections} from '@/config';
 
 export default {
@@ -55,9 +55,9 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('page', {
-      openPage: 'open',
-    }),
+    ...mapActions('page', [
+      'getOpenPage',
+    ]),
     scrollToMethods() {
       this.$nextTick(() => {
         const headerHeight = document.querySelector('.header').getBoundingClientRect().height;
@@ -69,7 +69,7 @@ export default {
       this.showNav = !this.showNav;
     },
     openMobilePage(param) {
-      this.openPage(param);
+      this.getOpenPage(param);
       this.scrollToMethods();
     },
   },

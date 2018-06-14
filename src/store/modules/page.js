@@ -2,16 +2,10 @@ export default {
   state: {
     name: '',
     data: {},
-    previusPageForTables: '',
   },
   mutations: {
-    open(state, {name, data}) {
-      if (state.name != name && !(state.name == 'transactionHistory' && name == 'myOrders') && !(state.name == 'myOrders' && name == 'transactionHistory')) {
-        state.previusPageForTables = state.name;
-      }
-
+    open(state, name) {
       state.name = name;
-      state.data = data;
     },
     close(state) {
       state.name = '';
@@ -34,6 +28,12 @@ export default {
     },
     isPageHistoryOpened(state) {
       return state.name === 'transactionHistory' || state.name === 'myOrders';
+    },
+  },
+  actions: {
+    getOpenPage({commit}, name) {
+      commit('open', name);
+      commit('misc/hiddenSidebar', null, {root: true});
     },
   },
   namespaced: true,
