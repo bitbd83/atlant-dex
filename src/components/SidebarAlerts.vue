@@ -12,12 +12,10 @@
         no-padding,
         preselect-first,
       )
-  .alerts__content(ref="wrap")
-    Accordion(title="Tokens & Coins:" isSidebar :isHidden="sidebarAlerts.length == 0")
-      .alerts__itemContainer(v-scrollbar="")
-        AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
-        AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
-        MugenScroll(:handler="getAccountAlertsList", scroll-container="wrap")
+  .alerts__content(ref="wrap" v-scrollbar="")
+    Accordion(title="Tokens & Coins:" isSidebar :isHidden="isSidebarLoading")
+      AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
+      MugenScroll(:handler="getAccountAlertsList", scroll-container="wrap")
       .alerts__add(@click="open({name:'addAlert'})")
         Icon.alerts__addIcon(id="icon__add")
         .alerts__addText ADD
@@ -52,9 +50,6 @@ export default {
       'isSidebarLoading',
       'isSidebarLoadingError',
     ]),
-    ...mapState('misc', {
-      showSidebar: 'showSidebar',
-    }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
     }),
@@ -135,12 +130,6 @@ export default {
     }
   }
 
-  &__itemContainer {
-    // display: flex;
-    // flex-direction: column;
-    // overflow: auto;
-  }
-
   &__headerLine {
     display: flex;
     align-items: center;
@@ -161,31 +150,9 @@ export default {
     text-transform: none;
   }
 
-  &__addAllerts {
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    width: 280px;
-    height: 52px;
-    bottom: 0;
-    font-size: 14px;
-    font-weight: 700;
-    background: repeating-linear-gradient(135deg,#103c55,#0a1318 25px,#03324c 0,#03324c 60px);
-    z-index: 1;
-  }
-
-  &__addAllertsIcon {
-    fill: #E9BD24;
-    margin-right: 13px;
-  }
-
   &__content {
     flex: 2;
     position: relative;
-    display: flex;
-    flex-direction: column;
   }
 
   &__add {

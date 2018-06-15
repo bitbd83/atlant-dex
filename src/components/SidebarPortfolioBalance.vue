@@ -13,19 +13,18 @@
         .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
           .balance__currencyBalance {{changeFormat(bal.availableFunds)}}
           .balance__equivBalance ${{changeFormat(bal.balanceFiat)}}
-    Icon.balance__icon.balance__icon--alert(id="alert-inactive")
+    Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
 import {toPricesFormatWitchPointsAndComma} from '@/mixins';
 
 export default {
-  data() {
-    return {
-      bgPosition: -1,
-    };
-  },
   methods: {
+    ...mapMutations('modal', [
+      'open',
+    ]),
     changeFormat(amount, fixedTo = 2) {
       return toPricesFormatWitchPointsAndComma(amount, 2);
     },
