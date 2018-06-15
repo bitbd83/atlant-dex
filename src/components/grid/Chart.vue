@@ -413,10 +413,10 @@ export default {
       // }
       if (
         metadata &&
-          metadata.type === 'candle' &&
-          payload.baseCurrency === this.baseCurrency &&
-          payload.quoteCurrency === this.quoteCurrency &&
-          payload.period === this.candlePeriod
+        metadata.type === 'candle' &&
+        payload.baseCurrency === this.baseCurrency &&
+        payload.quoteCurrency === this.quoteCurrency &&
+        payload.period === this.candlePeriod
       ) {
         this.addNewCandle(payload);
         // this.setEmptyCandleHandler();
