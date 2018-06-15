@@ -5,19 +5,22 @@
   // GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
   Draggable.grid__draggable(v-model="grid", :options="{handle: '.gridTile__header'}")
     GridTile(v-for="item in grid", :key="item.order", :data="item")
+  AddTile
 </template>
 
 <script>
 import {mapState, mapMutations, mapGetters} from 'vuex';
 import Draggable from 'vuedraggable';
+import elementResizeDetectorMaker from 'element-resize-detector';
 import UserVisibility from 'components/UserVisibility';
 import GridTile from './GridTile';
 import GridPanel from './GridPanel';
+import AddTile from './AddTile';
 
 export default {
   data() {
     return {
-      resizeSensor: {},
+      erd: {},
     };
   },
   computed: {
@@ -26,9 +29,9 @@ export default {
       'gridData',
       'isEdit',
     ]),
-    ...mapGetters('grid', {
-      // getHiddenLayout: 'getHiddenLayout',
-    }),
+    ...mapGetters('grid', [
+      'getTileHeight',
+    ]),
     grid: {
       get() {
         return this.gridData;
@@ -39,22 +42,28 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('grid', {
-      changeGrid: 'changeGrid',
-      setIsEdit: 'setIsEdit',
-    }),
-
-    // layoutUpdatedEvent(newLayout) {
-    //   this.changeGrid(newLayout);
-    // },
+    ...mapMutations('grid', [
+      'changeGrid',
+      'setIsEdit',
+      'setTileHeight',
+    ]),
   },
   mounted() {
+    let erd = elementResizeDetectorMaker({
+      strategy: 'scroll',
+    });
+    for (let i of this.grid) {
+      erd.listenTo(document.getElementsByClassName('gridTile__content--' + i.name)[0], (element) => {
+        this.setTileHeight({name: i.name, height: element.offsetHeight + 'px'});
+      });
+    }
   },
   components: {
     GridPanel,
     UserVisibility,
     Draggable,
     GridTile,
+    AddTile,
   },
 };
 </script>

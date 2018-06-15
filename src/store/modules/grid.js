@@ -1,23 +1,30 @@
 export default {
   state: {
-    // allGridLayout: [
-    //   {i: 'buySell', x: 0, y: 0, w: 3, h: 7, minW: 2, minH: 7, maxH: 7},
-    //   {i: 'chart', x: 3, y: 0, w: 9, h: 7, minW: 5, minH: 7},
-    //   {i: 'history', x: 0, y: 7, w: 3, h: 8, minW: 3, minH: 2},
-    //   {i: 'book', x: 3, y: 7, w: 5, h: 8, minW: 5, minH: 2},
-    //   {i: 'orders', x: 8, y: 7, w: 4, h: 8, minW: 4, minH: 2},
-    // ],
     gridData: [
-      {name: 'history', order: '541px'},
-      {name: 'openOrders', height: '281px'},
-      {name: 'closedOrders', height: '281px'},
+      {name: 'history', height: '100px'},
+      {name: 'openOrders', height: '200px'},
+      {name: 'closedOrders', height: '300px'},
+    ],
+    hiddenGridData: [
     ],
     // isEdit: false,
   },
-
+  getters: {
+    getTileHeight: (state) => (name) => {
+      return state.gridData.find((item) => item.name === name).height;
+    },
+  },
   mutations: {
     changeGrid(state, data) {
       state.gridData = data;
+      console.log('changed grid');
+    },
+    setTileHeight(state, data) {
+      state.gridData.find((item) => item.name === data.name).height = data.height;
+    },
+    removeTile(state, name) {
+      state.hiddenGridData.push(state.gridData.find((item) => item.name === name));
+      state.gridData = state.gridData.filter((item) => item.name != name);
     },
     // setIsEdit(state) {
     //   state.isEdit = !state.isEdit;

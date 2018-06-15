@@ -2,7 +2,7 @@
 .gridTile
   .gridTile__header
     .title.gridTile__title {{data.name}}:
-    Icon.gridTile__icon(id="hide")
+    Icon.gridTile__icon(id="hide" @click="removeTile(data.name)")
   .gridTile__content(:class="'gridTile__content--' + data.name")
     History(v-if="data.name === 'history'")
     Orders(:isActive="true" v-if="data.name === 'openOrders'")
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import Chart from './Chart';
 import Orders from './Orders';
 import OrderBook from './OrderBook';
@@ -17,11 +18,25 @@ import OrderBookHeader from './OrderBookHeader';
 import History from './History';
 
 export default {
+  computed: {
+    ...mapState('grid', [
+      'gridData',
+    ]),
+    ...mapGetters('grid', [
+      'getTileHeight',
+    ]),
+  },
   props: {
     data: {
       type: Object,
       required: true,
     },
+  },
+  methods: {
+    ...mapMutations('grid', [
+      'setTileHeight',
+      'removeTile',
+    ]),
   },
   components: {
     Chart,
@@ -31,6 +46,7 @@ export default {
     History,
   },
   mounted() {
+    document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.height = this.getTileHeight(this.data.name);
   },
 };
 </script>
