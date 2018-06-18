@@ -2,14 +2,15 @@
 .gridTile
   .gridTile__header
     .title.gridTile__title {{data.title}}:
+    OrderBookHeader(v-if="data.name === 'orderBook'")
     Icon.gridTile__icon(id="hide" @click="removeTile(data.name)")
   .gridTile__content(:class="'gridTile__content--' + data.name")
     History(v-if="data.name === 'history'")
     Orders(:isActive="true" v-if="data.name === 'openOrders'")
     Orders(v-if="data.name === 'closedOrders'")
     .gridTile__orderBook(v-if="data.name === 'orderBook'")
-      OrderBook(ask)
-      OrderBook
+      OrderBook.gridTile__orderBookTable(ask)
+      OrderBook.gridTile__orderBookTable
     BuySell(v-if="data.name === 'buySell'")
 </template>
 
@@ -112,6 +113,9 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+  }
+  &__orderBookTable {
+    max-width: 47%;
   }
 }
 </style>

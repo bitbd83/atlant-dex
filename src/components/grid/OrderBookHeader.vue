@@ -1,8 +1,7 @@
 <template lang='pug'>
 .bookHeader
-    Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': change <= 0}")
-    .bookHeader__title(v-if='ask') 24h Range: {{low.toFixed(4)}} - {{high.toFixed(4)}}
-    .bookHeader__title(v-else) {{last.toFixed(4)}}
+    .bookHeader__title Last: #[Icon.bookHeader__icon(id="arrow", v-if='!ask', :class="{'bookHeader__icon--neg': change <= 0}")] #[.bookHeader__number {{last.toFixed(4)}}]
+    .bookHeader__title #[.bookHeader__rangeSelector 12H Range] #[.bookHeader__number {{low.toFixed(4)}} - {{high.toFixed(4)}}]
 </template>
 
 <script>
@@ -39,23 +38,33 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 16px 0;
-  background-color: $color_daintree;
+  color: $color__black;
   &__title {
-    color: #fff;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
+    display: flex;
+    align-items: flex-end;
+    font-size: 16px;
+    font-weight: 500;
     white-space: nowrap;
+    &:first-child {
+      margin-right: 39px;
+    }
+  }
+  &__number {
+    font-size: 18px;
+    font-weight: 400;
   }
   &__icon {
-    width: 11px;
-    height: 9px;
-    margin-right: 13px;
+    width: 7px;
+    height: 6px;
+    margin: 0 9px 4px 12px;
     fill: $color_green;
     &--neg {
       fill: $color_red;
       transform: rotate(180deg);
     }
+  }
+  &__rangeSelector {
+    margin-right: 24px;
   }
 }
 </style>

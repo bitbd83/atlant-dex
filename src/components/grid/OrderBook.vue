@@ -71,10 +71,12 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
-  width: 45%;
   height: 100%;
   border-radius: 8px;
   border: 1px solid $color__grey;
+  &:hover {
+    background-color: $background__grey_dark;
+  }
   &__container {
     position: relative;
     display: flex;
