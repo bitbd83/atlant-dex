@@ -2,7 +2,19 @@
 .orders
   .orders__container(v-scrollbar="")
     table.orders__body
+      tr.orders__title
+        td.orders__cell.orders__cell--trash
+        td.orders__cell.orders__cell--sell Side
+        td.orders__cell.orders__cell--type Type
+        td.orders__cell.orders__cell--number Price
+        td.orders__cell.orders__cell--number Current
+        td.orders__cell.orders__cell--number Initial
+        td.orders__cell.orders__cell--status Status
+        td.orders__cell.orders__cell--date Date
+    table.orders__body
       tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
+        td.orders__cell.orders__cell--trash
+          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
         td.orders__cell.orders__cell--sell
           .orders__typeWrapper
             .orders__square(:class="'orders__square--' + getAction(order.side)")
@@ -13,18 +25,6 @@
         td.orders__cell.orders__cell--number {{order.totalQuantity}}
         td.orders__cell.orders__cell--status {{orderStatus[order.status]}}
         td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
-        td.orders__cell.orders__cell--trash
-          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
-  table.orders__body
-    tr.orders__title
-      td.orders__cell--sell Side
-      td.orders__cell--type Type
-      td.orders__cell--number Price
-      td.orders__cell--number Current
-      td.orders__cell--number Initial
-      td.orders__cell--status Status
-      td.orders__cell--date Date
-      td.orders__cell--trash
 </template>
 
 <script>
@@ -111,39 +111,56 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
+  border-radius: 8px;
+  border: 1px solid $color__grey;
+  &:hover {
+    background-color: $background__grey_dark;
+  }
   &__container {
     position: relative;
     display: flex;
+    flex-direction: column;
+    margin: 30px;
   }
   &__body {
     width: 100%;
     padding-right: 15px;
   }
+  &__row {
+    height: 33px;
+    padding-bottom: 15px;
+  }
   &__cell {
+    width: 12%;
     padding-bottom: 4px;
     &--sell {
-      width: 55px;
+      width: 90px;
     }
-    &--type {
-      width: 43px;
-    }
-    &--number {
-      width: 69px;
-    }
+    // &--type {
+    //   width: 43px;
+    // }
+    // &--number {
+    //   width: 69px;
+    // }
     &--status {
-      width: 55px;
+      width: 124px;
     }
     &--date {
-      width: 66px;
+      width: 130px;
     }
     &--trash {
-      width: 12px;
+      max-width: 40px;
+      width: 40px;
     }
   }
   &__title {
     text-align: left;
     text-transform: uppercase;
-    color: lighten(desaturate(adjust-hue($color_blue, 9), 47.23), 11.96);
+    color: $color__grey;
+    font-size: 12px;
+    font-weight: 300;
+    height: 40px;
+    padding-bottom: 25px;
   }
   &__typeWrapper {
     display: flex;
@@ -153,9 +170,8 @@ export default {
     text-transform: uppercase;
   }
   &__square  {
-    $size: 8px;
-    width: $size;
-    height: $size;
+    width: 30px;
+    height: 10px;
     border-radius: 1px;
     margin-right: 16px;
     &--buy {
@@ -166,12 +182,13 @@ export default {
     }
   }
   &__trash {
-    width: 7px;
-    height: 9px;
+    width: 11px;
+    height: 11px;
+    opacity: 0.2;
     &--active {
       cursor: pointer;
-      fill: $color_yellow;
       &:hover {
+        opacity: 1;
         fill: $color_red;
       }
     }

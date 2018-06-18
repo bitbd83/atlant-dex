@@ -1,9 +1,11 @@
 export default {
   state: {
     gridData: [
-      {name: 'history', height: '100px'},
-      {name: 'openOrders', height: '200px'},
-      {name: 'closedOrders', height: '300px'},
+      {name: 'history', title: 'History', height: '100px'},
+      {name: 'openOrders', title: 'Open orders', height: '200px'},
+      {name: 'closedOrders', title: 'Closed orders', height: '300px'},
+      {name: 'orderBook', title: 'Order book', height: '300px'},
+      {name: 'buySell', title: 'Place order', height: '400px'},
     ],
     hiddenGridData: [
     ],

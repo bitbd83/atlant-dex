@@ -1,14 +1,16 @@
 <template lang='pug'>
-table.book
-  tbody.book__body
-    tr.book__row(v-for="(order, index) in orderBook")
-      td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order.price}}
-      td.book__cell {{order.amount.toFixed(4)}}
-      td.book__cell {{(order.price * order.amount).toFixed(4)}}
+.book
+  .book__container(v-scrollbar="")
+    table.book__body
+      tr.book__row(v-for="(order, index) in orderBook")
+        td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order.price}}
+        td.book__cell {{order.amount.toFixed(4)}}
+        td.book__cell {{(order.price * order.amount).toFixed(4)}}
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
+import {scrollbar} from '@/directives';
 
 export default {
   computed: {
@@ -55,6 +57,9 @@ export default {
       required: false,
     },
   },
+  directives: {
+    scrollbar,
+  },
 };
 </script>
 
@@ -62,7 +67,20 @@ export default {
 @import 'variables';
 
 .book {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  width: 45%;
+  height: 100%;
+  border-radius: 8px;
+  border: 1px solid $color__grey;
+  &__container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+  }
   &__cell {
     width: 33.333%;
     &--ask {
