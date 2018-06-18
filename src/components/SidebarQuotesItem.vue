@@ -5,12 +5,12 @@
       .quoteItem__row
         Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
         .quoteItem__currencyName() {{currency}}
-        .quoteItem__price ${{changeFormat(price, 2)}}
+        .quoteItem__price ${{numbersFormat(price, 2)}}
         Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
       .quoteItem__row
         .quoteItem__change
           Icon.quoteItem__chngIcon(id="arrow", :class="{'quoteItem__chngIcon--neg': (priceChng < 0)}")
-          .quoteItem__changeAmt {{changeFormat(absPriceChng, 2)}}%
+          .quoteItem__changeAmt {{numbersFormat(absPriceChng, 2)}}%
     transition(
       name="transition"
       v-on:before-enter="transitionAccordionBeforeEnter"
@@ -19,13 +19,13 @@
       v-on:leave="transitionAccordionLeave"
     )
       .quoteItem__additional(v-if="isActive")
-        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{changeFormat(cap, 4)}}]
-        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{changeFormat(volume, 4)}}]
+        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{numbersFormat(cap, 2)}}]
+        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{numbersFormat(volume, 2)}}]
 </template>
 
 <script>
 import {mapMutations} from 'vuex';
-import {toPricesFormatWitchPointsAndComma} from '@/mixins';
+import {numbersFormat} from '@/mixins';
 
 export default {
   computed: {
@@ -33,6 +33,7 @@ export default {
       return Math.abs(this.priceChng);
     },
   },
+  mixins: [numbersFormat],
   methods: {
     ...mapMutations('modal', [
       'open',
@@ -48,9 +49,6 @@ export default {
     },
     transitionAccordionLeave(el) {
       el.style.height = '0';
-    },
-    changeFormat(amount, fix) {
-      return toPricesFormatWitchPointsAndComma(amount, fix);
     },
   },
   props: {

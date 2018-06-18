@@ -4,10 +4,10 @@
     .sidebarChild__headerLine
       .sidebarChild__title Portfolio value:
     .sidebarChild__headerLine
-      .portfolio__balance $ {{toCurrencyFormat(portfolioValue)}}
+      .portfolio__balance $ {{numbersFormat(portfolioValue)}}
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
-        span.portfolio__balanceChangedText {{toCurrencyFormat(percChng)}}%
+        span.portfolio__balanceChangedText {{numbersFormat(percChng)}}%
     .sidebarChild__headerLine
       .portfolio__action Make deposit
       .portfolio__action Withdraw
@@ -34,7 +34,7 @@ import {scrollbar} from '@/directives';
 import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 import Accordion from 'components/Accordion';
-import {toPricesFormatWitchPointsAndPoints} from '@/mixins';
+import {numbersFormat} from '@/mixins';
 
 export default {
   data() {
@@ -52,15 +52,13 @@ export default {
       portfolioValue: 'getPortofolioValue',
     }),
   },
+  mixins: [numbersFormat],
   methods: {
     ...mapActions('user', [
       'getBalances',
     ]),
     openCur(cur) {
       this.selectedCur = cur;
-    },
-    toCurrencyFormat(amount) {
-      return toPricesFormatWitchPointsAndPoints(amount, 2);
     },
     setContentActiveBGHeight(index) {
       return (index + 1) * 80 + 'px';

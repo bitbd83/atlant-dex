@@ -11,23 +11,21 @@
         .balance__changeIconContainer
           Icon.balance__changeIcon(id="triangle-up")
         .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
-          .balance__currencyBalance {{changeFormat(bal.availableFunds)}}
-          .balance__equivBalance ${{changeFormat(bal.balanceFiat)}}
+          .balance__currencyBalance {{numbersFormat(bal.availableFunds)}}
+          .balance__equivBalance ${{numbersFormat(bal.balanceFiat)}}
     Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
 </template>
 
 <script>
 import {mapMutations} from 'vuex';
-import {toPricesFormatWitchPointsAndComma} from '@/mixins';
+import {numbersFormat} from '@/mixins';
 
 export default {
+  mixins: [numbersFormat],
   methods: {
     ...mapMutations('modal', [
       'open',
     ]),
-    changeFormat(amount, fixedTo = 2) {
-      return toPricesFormatWitchPointsAndComma(amount, 2);
-    },
     setCurrency(curr) {
       if (typeof curr == 'string') return curr.toLowerCase();
     },
