@@ -175,10 +175,10 @@ export default {
     border-radius: 1px;
     margin-right: 16px;
     &--buy {
-      background-color: #7ed321;
+      background-color: $background__green;
     }
     &--sell {
-      background-color: #f33a3a;
+      background-color: $background__red;
     }
   }
   &__trash {
@@ -189,7 +189,7 @@ export default {
       cursor: pointer;
       &:hover {
         opacity: 1;
-        fill: $color_red;
+        fill: $color__red;
       }
     }
     &--disabled {

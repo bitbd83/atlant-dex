@@ -86,10 +86,10 @@ export default {
   &__cell {
     width: 33.333%;
     &--ask {
-      color: $color_red;
+      color: $color__red;
     }
     &--bid {
-      color: $color_green;
+      color: $color__green;
     }
   }
 }

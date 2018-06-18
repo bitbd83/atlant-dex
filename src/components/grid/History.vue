@@ -71,10 +71,10 @@ export default {
   &__cell {
     width: 33.333%;
     &--buy {
-      color: $color_green;
+      color: $color__green;
     }
     &--sell {
-      color: $color_red;
+      color: $color__red;
     }
   }
 }
