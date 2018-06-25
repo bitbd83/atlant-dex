@@ -1,6 +1,7 @@
 export default {
   state: {
     gridData: [
+      {name: 'chart', title: 'Chart', height: '456px'},
       {name: 'history', title: 'History', height: '100px'},
       {name: 'openOrders', title: 'Open orders', height: '200px'},
       {name: 'closedOrders', title: 'Closed orders', height: '300px'},

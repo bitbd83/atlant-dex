@@ -3,6 +3,7 @@
   .gridTile__header
     .title.gridTile__title {{data.title}}:
     OrderBookHeader(v-if="data.name === 'orderBook'")
+    ChartHeader(v-if="data.name === 'chart'")
     Icon.gridTile__icon(id="hide" @click="removeTile(data.name)")
   .gridTile__content(:class="'gridTile__content--' + data.name")
     History(v-if="data.name === 'history'")
@@ -12,11 +13,13 @@
       OrderBook.gridTile__orderBookTable(ask)
       OrderBook.gridTile__orderBookTable
     BuySell(v-if="data.name === 'buySell'")
+    Chart(v-if="data.name === 'chart'")
 </template>
 
 <script>
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import Chart from './Chart';
+import ChartHeader from './ChartHeader';
 import Orders from './Orders';
 import BuySell from './BuySell';
 import OrderBook from './OrderBook';
@@ -46,6 +49,7 @@ export default {
   },
   components: {
     Chart,
+    ChartHeader,
     Orders,
     OrderBook,
     OrderBookHeader,
@@ -103,7 +107,7 @@ export default {
       border-style: solid;
     }
     &::after {
-      border-width: 13px;
+      border-width: 6.5px;
       border-right-color: $color__blue;
       border-bottom-color: $color__blue;
     }

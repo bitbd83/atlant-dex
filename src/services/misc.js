@@ -43,3 +43,34 @@ export function debounce(f, ms) {
     timer = setTimeout(onComplete, ms);
   };
 }
+
+export const priceChartSettings = (chartType, priceSeries) => {
+  return {
+    name: 'Price',
+    type: chartType,
+    data: priceSeries,
+    symbol: 'circle',
+    symbolSize: 6,
+    lineStyle: {
+      color: {
+        type: 'linear',
+        x: 0,
+        y: 0,
+        x2: 1,
+        y2: 0,
+        colorStops: [{
+          offset: 0, color: '#FFC75E',
+        }, {
+          offset: 1, color: '#F03DA2',
+        }],
+      },
+      width: 3,
+    },
+    itemStyle: {
+      color: (chartType === 'candlestick') ? '#2acc97' : '#f78280',
+      color0: '#f34856',
+      borderColor: null,
+      borderColor0: null,
+    },
+  };
+};

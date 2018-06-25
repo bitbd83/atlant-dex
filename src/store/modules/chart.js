@@ -11,6 +11,28 @@ export default {
     },
     newCandles: [],
     period: defPeriod,
+    chartTypes: [
+      'line',
+      'candlestick',
+    ],
+    technicalIndicators: {
+      'MA10': {
+        name: 'MA10',
+        enabled: false,
+        color: '#004dff',
+      },
+      'EMA10': {
+        name: 'EMA10',
+        enabled: false,
+        color: 'orange',
+      },
+      // 'MACD': {
+      //   name: 'MACD',
+      //   enabled: false,
+      //   color: 'pink',
+      // },
+    },
+    currentChart: 'candlestick',
   },
   getters: {
     candles(state) {
@@ -100,6 +122,12 @@ export default {
     },
     setNewCandles(state, candles) {
       state.newCandles = candles;
+    },
+    toggleIndicator(state, indicator) {
+      state.technicalIndicators[indicator].enabled = !state.technicalIndicators[indicator].enabled;
+    },
+    setChartType(state, type) {
+      state.currentChart = type;
     },
   },
   actions: {
