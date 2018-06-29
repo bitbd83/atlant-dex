@@ -44,6 +44,7 @@ export default {
   display: flex;
   height: 100%;
   margin-left: -300px;
+  z-index: 1;
   transition: $transition__sidebarAction;
   background: $background__blue;
 

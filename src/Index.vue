@@ -1,9 +1,10 @@
 <template lang='pug'>
-.main
-  .main__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'main__body--modalOpened': modalOpenedDesktop}")
+.index
+  .index__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'index__body--modalOpened': modalOpenedDesktop}")
     Sidebar
-    .main__content
-      .main__page
+    .index__content
+      TheHeader
+      .index__page
         MainLayout(v-if="!isPageOpened()")
         TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
         MyOrdersPage(v-if="isPageOpened('myOrders')")
@@ -14,7 +15,6 @@
         SecurityLogPage(v-if="isPageOpened('securityLog')")
         FAQ(v-if="isPageOpened('faq')")
         NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
-      TheFooter
   //- Modals
   InDemoModal(v-if="isModalOpened('inDemo')")
   ResetModal(v-else-if="isModalOpened('reset')")
@@ -38,7 +38,7 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
-import TheFooter from 'components/TheFooter';
+import TheHeader from 'components/TheHeader';
 import Sidebar from 'components/Sidebar';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
@@ -230,7 +230,7 @@ export default {
     this.updateOverflow();
   },
   components: {
-    TheFooter,
+    TheHeader,
     Sidebar,
     MainLayout,
     TransactionHistoryPage,
@@ -268,7 +268,7 @@ export default {
 @import 'styles/overrides';
 @import 'variables';
 
-.main {
+.index {
   position: relative;
   display: flex;
   min-width: 1000px;

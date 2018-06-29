@@ -6,20 +6,20 @@
       .pairInfo__block
         .pairInfo__value.pairInfo__value--last {{getFixed(last)}}
         Icon.pairInfo__triangle(id="triangle", :class="(change  < 0) ? 'pairInfo__triangle--negative' : ''")
-        .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((change < 0) ? -change : change), 2)}}
+        .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") {{getFixed(((change < 0) ? -change : change), 2)}}%
     .pairInfo__localContainer
       .pairInfo__container
         .pairInfo__label High:
         .pairInfo__block
           .pairInfo__value {{getFixed(high)}}
           Icon.pairInfo__triangle(id="triangle", :class="(highChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((highChange < 0) ? -highChange : highChange), 2)}}
+          .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") {{getFixed(((highChange < 0) ? -highChange : highChange), 2)}}%
       .pairInfo__container
         .pairInfo__label Low:
         .pairInfo__block
           .pairInfo__value {{getFixed(low)}}
           Icon.pairInfo__triangle(id="triangle", :class="(lowChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") %{{getFixed(((lowChange < 0) ? -lowChange : lowChange), 2)}}
+          .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{getFixed(((lowChange < 0) ? -lowChange : lowChange), 2)}}%
     .pairInfo__container
       .pairInfo__label Volume:
       .pairInfo__volume ${{addSpacesForNumbers(getFixed(volume, 2))}}
@@ -71,7 +71,7 @@ export default {
   &__container {
     display: flex;
     align-items: flex-end;
-    margin: 0 13px;
+    margin-right: 60px;
   }
   &__localContainer {
     display: flex;
@@ -79,33 +79,34 @@ export default {
   }
   &__label {
     margin-right: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
   &__value {
-    font-size: 18px;
-    line-height: 100%;
-    &--last {
-      color: #31edd7;
-    }
+    font-weight: 400;
+    margin-right: 20px;
+    // &--last {
+    //   color: #31edd7;
+    // }
   }
   &__triangle {
     fill: #7ed321;
     transform: rotate(180deg);
     width: 7px;
     height: 6px;
-    margin: 3px 7px;
+    margin-right: 5px;
+    margin-bottom: 3px;
     &--negative {
       fill: #f33a3a;
       transform: rotate(0deg);
     }
   }
   &__percent {
-    font-size: 14px;
-    line-height: 14px;
-    font-weight: 700;
-    color: #7ed321;
-    &--negative {
-      color: #f33a3a;
-    }
+    font-weight: 400;
+    // color: #7ed321;
+    // &--negative {
+    //   color: #f33a3a;
+    // }
   }
   &__block {
     display: flex;

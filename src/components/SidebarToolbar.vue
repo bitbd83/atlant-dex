@@ -127,7 +127,6 @@ export default {
   padding: 15px 0;
   padding-top: 33px;
   background-color: $background__blue;
-  z-index: 1;
   flex-shrink: 0;
 
   &__logo {

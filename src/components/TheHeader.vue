@@ -4,6 +4,8 @@ header.header
     TheHeaderPair
     .header__stats
       TheHeaderPairInfo
+    .header__widgets
+      TheHeaderWidgets
     .header__userbar
       TheHeaderLogout
 </template>
@@ -15,6 +17,7 @@ import BButton from './BButton';
 import TheHeaderPair from './TheHeaderPair';
 import TheHeaderPairInfo from './TheHeaderPairInfo';
 import TheHeaderLogout from './TheHeaderLogout';
+import TheHeaderWidgets from './TheHeaderWidgets';
 
 export default {
   data() {
@@ -42,6 +45,7 @@ export default {
     TheHeaderPair,
     TheHeaderPairInfo,
     TheHeaderLogout,
+    TheHeaderWidgets,
   },
 };
 </script>
@@ -52,8 +56,6 @@ export default {
 .header {
   padding: 12px 28px;
   width: 100%;
-  color: #fff;
-  background-color: $color_blue;
   &__main {
     display: flex;
     align-items: center;

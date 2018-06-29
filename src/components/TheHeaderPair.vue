@@ -1,6 +1,7 @@
 <template lang="pug">
 .pair
-  Dropdown.pair__select(
+  .title.pair__title Current pair:
+  Dropdown(
     :options="baseCurrencyOptions",
     :value="baseCurrency",
     @input="changeBaseCurrency",
@@ -16,7 +17,7 @@
         Icon.pair__icon(:id="getCurrencyIconId(props.option)")
         span {{props.option}}
   Icon.pair__exchange(id="exchange")
-  Dropdown.pair__select(
+  Dropdown(
     :options="quoteCurrencyOptions",
     :value="quoteCurrency",
     @input="changeQuoteCurrency",
@@ -50,7 +51,7 @@ export default {
       return Object.keys(this.pairs);
     },
     quoteCurrencyOptions() {
-      return this.pairs[this.baseCurrency];
+      return this.pairs[this.baseCurrency] ? this.pairs[this.baseCurrency] : [];
     },
   },
   methods: {
@@ -95,6 +96,9 @@ export default {
 .pair {
   align-items: center;
   display: flex;
+  &__title {
+    margin-right: 45px;
+  }
   &__icon {
     $size: 25px;
     fill: $color_white;
@@ -108,17 +112,14 @@ export default {
       height: $size;
     }
   }
-  &__select {
-    max-width: 90px;
-    min-width: 90px;
-  }
   &__label {
     align-items: center;
     display: flex;
     flex-direction: row;
     font-size: 16px;
     font-weight: bold;
-    width: max-content;
+    // width: max-content;
+    color: $color__black;
   }
   &__option {
     align-items: center;
@@ -129,7 +130,7 @@ export default {
   }
   &__exchange {
     $size: 15px;
-    fill: $color_yellow;
+    fill: $fill__blue;
     height: $size;
     margin: 0 10px;
     transform: rotate(90deg);

@@ -1,7 +1,7 @@
 <template lang="pug">
 .logout(@click="membershipAction")
   Icon.logout__icon(id="logout")
-  .logout__text {{ isLoggedIn ? 'Logout' : 'Login' }}
+  // .logout__text {{ isLoggedIn ? 'Logout' : 'Login' }}
 </template>
 
 <script>
@@ -28,11 +28,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'variables';
 .logout {
   cursor: pointer;
   display: flex;
   align-items: center;
-  fill: #fff;
+  fill: $fill__blue;
+  color: $color__blue;
   &__icon {
     $size: 19px;
     width: $size;
@@ -44,8 +46,8 @@ export default {
     margin-left: 12px;
   }
   &:hover {
-    fill: #ffc600;
-    color: #ffc600;
+    fill: $fill__blue;
+    color: $color__blue;
   }
 }
 </style>

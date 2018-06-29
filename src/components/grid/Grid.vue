@@ -1,17 +1,18 @@
 <template lang="pug">
-.grid
+.grid(v-scrollbar="")
   // UserVisibility(hide-on-logout)
   //  .grid__edit(@click="setIsEdit") Edit
   // GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
   Draggable.grid__draggable(v-model="grid", :options="{handle: '.gridTile__header'}")
     GridTile(v-for="item in grid", :key="item.order", :data="item")
-  AddTile
+  // AddTile
 </template>
 
 <script>
 import {mapState, mapMutations, mapGetters} from 'vuex';
 import Draggable from 'vuedraggable';
 import elementResizeDetectorMaker from 'element-resize-detector';
+import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
 import GridTile from './GridTile';
 import GridPanel from './GridPanel';
@@ -65,12 +66,21 @@ export default {
     GridTile,
     AddTile,
   },
+  directives: {
+    scrollbar,
+  },
 };
 </script>
 
 <style lang="scss">
   .grid {
-    margin: 0 1px;
+    position: relative;
+    display: flex;
+    overflow: auto;
+    flex: 1;
+    &__draggable {
+      flex: 1;
+    }
     &__edit {
       display: flex;
       justify-content: center;

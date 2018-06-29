@@ -92,13 +92,13 @@ export default {
 @import 'variables';
 
   .dropdown {
-    &--noBorder /deep/ .multiselect__tags {
-      border: none;
-    }
+    // &--noBorder /deep/ .multiselect__tags {
+    //   border: none;
+    // }
     &--noPadding /deep/ .multiselect{
-      &__tags {
-        padding: 0 19px 0 0;
-      }
+      // &__tags {
+      //   padding: 0 19px 0 0;
+      // }
       &__select {
         padding:  0 0 0 9px;
       }
@@ -175,7 +175,7 @@ export default {
         display: block;
         background: $color-white;
         min-width: 100%;
-        max-height: 240px;
+        // max-height: 240px;
         z-index: 3;
         color: #00354D;
       }
@@ -203,7 +203,7 @@ export default {
         text-transform: none;
         vertical-align: middle;
         transition: all .2s;
-
+        white-space: nowrap;
         &--highlight {
           background-color: #eee;
           color: $input-option-highlight-color;
@@ -237,7 +237,7 @@ export default {
           content: "";
           border-style: solid;
           border-width: 9px 6px 0;
-          border-color: $color_white transparent transparent;
+          border-color: $color__blue transparent transparent;
         }
       }
 
