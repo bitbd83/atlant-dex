@@ -1,9 +1,10 @@
 <template lang="pug">
 header.header
-  .header__main
+  .header__pair
     TheHeaderPair
-    .header__stats
-      TheHeaderPairInfo
+  .header__stats
+    TheHeaderPairInfo
+  .header__right
     .header__widgets
       TheHeaderWidgets
     .header__userbar
@@ -56,12 +57,32 @@ export default {
 .header {
   padding: 12px 28px;
   width: 100%;
-  &__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__pair {
+    margin-right: 45px;
+    min-width: 400px;
+    height: 35px;
+  }
+  &__stats {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    height: 35px;
+    width: 100%;
+  }
+  &__right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 45px;
+  }
+  &__widgets {
+    margin-right: 57px;
+    min-width: 180px;
   }
   &__userbar {
+    width: 23px;
     display: flex;
   }
   &__profileTitle {

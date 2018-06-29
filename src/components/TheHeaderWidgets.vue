@@ -33,8 +33,10 @@ export default {
       this.showDropdown = !this.showDropdown;
       if (this.showDropdown) {
         setTimeout(() => {
-          this.$refs.widget__drops.style.overflow = 'visible';
-        }, 700);
+          if (this.showDropdown) {
+            this.$refs.widget__drops.style.overflow = 'visible';
+          }
+        }, 1000);
       } else {
         this.$refs.widget__drops.style.overflow = 'hidden';
       }
@@ -53,7 +55,7 @@ export default {
 @import 'variables';
 
 .widgets {
-  width: 520px;
+  min-width: 120px;
   margin-right: 57px;
   display: flex;
   align-items: center;

@@ -94,9 +94,11 @@ export default {
 <style lang="scss">
 @import 'variables';
 .pair {
-  align-items: center;
   display: flex;
+  align-items: center;
+  padding-top: 3px;
   &__title {
+    white-space: nowrap;
     margin-right: 45px;
   }
   &__icon {

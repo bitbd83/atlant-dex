@@ -5,32 +5,14 @@ import router from './router';
 import hub from './services/hub';
 import Vuelidate from 'vuelidate';
 import {hubURL} from './config.js';
+import {numbersFormat} from '@/mixins';
 import Icon from './components/Icon';
 
 Vue.component('Icon', Icon);
 Vue.use(Vuelidate);
 Vue.use(hub, hubURL, store.state.membership.token, store.state.tradeInfo.pair);
 
-Vue.mixin({
-  methods: {
-    openReset() {
-      store.commit('modal/open', {
-        name: 'reset',
-      });
-    },
-    openInDemo() {
-      store.commit('modal/open', {
-        name: 'inDemo',
-      });
-    },
-    openSignUp() {
-      store.commit('modal/open', 'signUp');
-    },
-    openSignIn() {
-      store.commit('modal/open', 'signIn');
-    },
-  },
-});
+Vue.mixin(numbersFormat);
 
 new Vue({
   el: '#app',
