@@ -70,6 +70,8 @@ export default {
     align-items: center;
     height: 35px;
     width: 100%;
+    position: relative;
+    overflow: hidden;
   }
   &__right {
     display: flex;

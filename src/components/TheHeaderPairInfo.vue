@@ -60,13 +60,16 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 .pairInfo {
+  position: absolute;
+  top: 13px;
+  left: 0;
   z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   margin-top: -5px;
   white-space: nowrap;
-  width: 100%;
+  // width: 100%;
   // &__content {
   //   z-index: 2;
   //   display: flex;
@@ -78,8 +81,6 @@ export default {
   &__container {
     display: flex;
     // align-items: flex-end;
-    flex: 1;
-    justify-content: center;
     // &:not(:last-child) {
     //   margin-right: 60px;
     // }
