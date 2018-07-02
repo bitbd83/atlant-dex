@@ -1,9 +1,9 @@
-<template lang="pug">
+<template lang='pug'>
 header.header
   .header__pair
     TheHeaderPair
   .header__stats
-    TheHeaderPairInfo
+    TheHeaderPairInfo(:pairInfoItems='infoItems')
   .header__right
     .header__widgets
       TheHeaderWidgets
@@ -19,10 +19,12 @@ import TheHeaderPair from './TheHeaderPair';
 import TheHeaderPairInfo from './TheHeaderPairInfo';
 import TheHeaderLogout from './TheHeaderLogout';
 import TheHeaderWidgets from './TheHeaderWidgets';
+import elementResizeDetectorMaker from 'element-resize-detector';
 
 export default {
   data() {
     return {
+      infoItems: 4,
     };
   },
   computed: {
@@ -41,6 +43,24 @@ export default {
       getEthBalance: 'getEthBalance',
     }),
   },
+  mounted() {
+    let erd = elementResizeDetectorMaker({
+      strategy: 'scroll',
+    });
+    erd.listenTo(document.getElementsByClassName('header__stats'), (el) => {
+      let width = el.offsetWidth;
+      switch (true) {
+        case (width < 200):
+          this.infoItems = 0; break;
+        case (width < 750):
+          this.infoItems = 1; break;
+        case (width < 1000):
+          this.infoItems = 3; break;
+        default:
+          this.infoItems = 4; break;
+       }
+    });
+  },
   components: {
     BButton,
     TheHeaderPair,
@@ -51,36 +71,37 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 @import 'variables';
 
 .header {
-  padding: 12px 28px;
+  padding: 12px 25px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   &__pair {
-    margin-right: 45px;
     min-width: 400px;
     height: 35px;
   }
   &__stats {
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 35px;
     width: 100%;
     position: relative;
-    overflow: hidden;
+    // overflow: hidden;
+    margin: 0 45px;
   }
   &__right {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-left: 45px;
+    margin-left: 40px;
   }
   &__widgets {
-    margin-right: 57px;
+    margin-right: 60px;
     min-width: 180px;
   }
   &__userbar {

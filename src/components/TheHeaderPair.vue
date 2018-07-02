@@ -99,7 +99,7 @@ export default {
   padding-top: 3px;
   &__title {
     white-space: nowrap;
-    margin-right: 45px;
+    margin-right: 30px;
   }
   &__icon {
     $size: 25px;
@@ -118,8 +118,8 @@ export default {
     align-items: center;
     display: flex;
     flex-direction: row;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
     // width: max-content;
     color: $color__black;
   }
@@ -131,11 +131,11 @@ export default {
     font-weight: bold;
   }
   &__exchange {
-    $size: 15px;
-    fill: $fill__blue;
+    $size: 16px;
+    // fill: $fill__blue;
     height: $size;
-    margin: 0 10px;
-    transform: rotate(90deg);
+    margin: 0 25px;
+    //transform: rotate(90deg);
     width: $size;
   }
 }

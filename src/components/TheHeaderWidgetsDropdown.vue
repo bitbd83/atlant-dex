@@ -76,7 +76,7 @@ export default {
     font-weight: 700;
     text-transform: uppercase;
     &:not(:last-of-type) {
-      border-right: 1px solid $color__white;
+      border-right: 3px solid $color__white;
     }
     &:hover > .widgetDropdown__list {
       height: 300px;
