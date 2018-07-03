@@ -1,6 +1,6 @@
 <template lang='pug'>
-.gridTile
-  .gridTile__header
+.gridTile(:class="'gridTile--' + data.name")
+  .gridTile__header(:class="'gridTile__header--' + data.name")
     .title.gridTile__title {{data.title}}:
     OrderBookHeader(v-if="data.name === 'orderBook'")
     ChartHeader(v-if="data.name === 'chart'")
@@ -32,7 +32,8 @@ export default {
       'gridData',
     ]),
     ...mapGetters('grid', [
-      'getTileHeight',
+      'getTileSize',
+      'getTilePosition',
     ]),
   },
   props: {
@@ -57,7 +58,10 @@ export default {
     BuySell,
   },
   mounted() {
-    document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.height = this.getTileHeight(this.data.name);
+    document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.height = this.getTileSize(this.data.name).height + 'px';
+    document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.width = this.getTileSize(this.data.name).width + 'px';
+    document.getElementsByClassName('gridTile--' + this.data.name)[0].style.left = this.getTilePosition(this.data.name).x + 'px';
+    document.getElementsByClassName('gridTile--' + this.data.name)[0].style.top = this.getTilePosition(this.data.name).y + 'px';
   },
 };
 </script>
@@ -67,10 +71,13 @@ export default {
 @import '~perfect-scrollbar/dist/css/perfect-scrollbar';
 
 .gridTile {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: $default_spacing;
+  // height: 300px;
+  // width: 500px;
+  padding: 0;
+  background-color: $background__grey_white;
   &__header {
     min-height: 42px;
     max-height: 42px;
@@ -95,8 +102,9 @@ export default {
     position: relative;
     display: flex;
     overflow: hidden;
-    resize: vertical;
-    min-height: 80px;
+    resize: both;
+    // height: 100%;
+    // width: 100%;
     &::before,
     &::after {
       content: '';

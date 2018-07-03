@@ -269,6 +269,7 @@ export default {
 @import 'variables';
 
 .index {
+  background-image: url('~assets/images/pattern.png');
   position: relative;
   display: flex;
   min-width: 1000px;

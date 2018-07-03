@@ -54,6 +54,7 @@ export default {
 .history {
   display: flex;
   width: 100%;
+  background-color: $background__white;
   border-radius: 8px;
   border: 1px solid $color__grey;
   &:hover {

@@ -346,5 +346,9 @@ export default {
 .chart {
   height: 100%;
   width: 100%;
+  background-color: $background__white;
+  border-radius: 8px;
+  border: 1px solid $color__grey;
+  padding: 0 10px 10px 10px;
 }
 </style>
