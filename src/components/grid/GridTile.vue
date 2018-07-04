@@ -47,6 +47,13 @@ export default {
       'setTileHeight',
       'removeTile',
     ]),
+    setMaxZIndex() {
+      let maxZ = 0;
+      for (let tile of document.getElementsByClassName('gridTile')) {
+        maxZ = Math.max(maxZ, tile.style.zIndex);
+      };
+      document.getElementsByClassName('gridTile--' + this.data.name)[0].style.zIndex = maxZ + 1;
+    },
   },
   components: {
     Chart,
@@ -62,6 +69,7 @@ export default {
     document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.width = this.getTileSize(this.data.name).width + 'px';
     document.getElementsByClassName('gridTile--' + this.data.name)[0].style.left = this.getTilePosition(this.data.name).x + 'px';
     document.getElementsByClassName('gridTile--' + this.data.name)[0].style.top = this.getTilePosition(this.data.name).y + 'px';
+    this.setMaxZIndex();
   },
 };
 </script>
@@ -118,6 +126,23 @@ export default {
       border-width: 6.5px;
       border-right-color: $color__blue;
       border-bottom-color: $color__blue;
+      cursor: nw-resize;
+    }
+    &--chart {
+      min-width: 520px;
+      min-height: 300px;
+    }
+    &--history{
+      min-width: 300px;
+      min-height: 300px;
+    }
+    &--openOrders {
+      min-width: 520px;
+      min-height: 200px;
+    }
+    &--orderBook {
+      min-width: 760px;
+      min-height: 200px;
     }
   }
   &__orderBook {

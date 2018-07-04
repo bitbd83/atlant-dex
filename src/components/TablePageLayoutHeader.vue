@@ -11,6 +11,7 @@
         no-border,
         no-paddding,
         preselect-first,
+        underline,
       )
   .tableHeader__container(v-show="isNotifications")
     .tableHeader__title(:class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History

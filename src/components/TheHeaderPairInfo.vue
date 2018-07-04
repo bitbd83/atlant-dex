@@ -94,6 +94,7 @@ export default {
   margin-top: -5px;
   white-space: nowrap;
   &__container {
+    position: relative;
     display: flex;
     height: 100%;
     &:not(:last-child) {
@@ -157,10 +158,10 @@ export default {
     height: 0;
     width: 150px;
     margin-top: 35px;
-    background-color: $background__white;
+    background-color: $background__grey_white;
     top: 0;
     right: -64px;
-    z-index: 1;
+    z-index: 1000000;
     transition: height 1s ease-out;
     &--0 { &:hover { height: 252px; }}
     &--1 { &:hover { height: 190px; }}

@@ -74,6 +74,7 @@ export default {
   height: 100%;
   border-radius: 8px;
   border: 1px solid $color__grey;
+  background-color: $background__white;
   &:hover {
     background-color: $background__grey_dark;
   }

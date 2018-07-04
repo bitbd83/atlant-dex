@@ -4,6 +4,7 @@ Dropdown.flagSwitch(
   :options="flags",
   no-border,
   no-padding,
+  underline,
   :value="value",
   @input="setFlag",
   v-bind="$attrs",

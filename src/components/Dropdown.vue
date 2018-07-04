@@ -1,6 +1,6 @@
 <template lang="pug">
   VSelect.dropdown(
-    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding}",
+    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
@@ -81,6 +81,11 @@ export default {
     },
     noBorder: Boolean,
     noPadding: Boolean,
+    underline: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: {
     VSelect,
@@ -92,15 +97,34 @@ export default {
 @import 'variables';
 
   .dropdown {
-    // &--noBorder /deep/ .multiselect__tags {
-    //   border: none;
-    // }
-    &--noPadding /deep/ .multiselect{
-      // &__tags {
-      //   padding: 0 19px 0 0;
-      // }
+    &--noBorder /deep/ .multiselect__tags {
+      border: none;
+    }
+    &--noPadding /deep/ .multiselect {
+      &__tags {
+        padding: 0 19px 0 0;
+      }
       &__select {
         padding:  0 0 0 9px;
+      }
+    }
+    &--underline /deep/ .multiselect {
+      &__tags {
+        &:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 3px;
+          bottom: -7px;
+          background: $background__white;
+          transition: transform .3s ease-in;
+          transform: scale3d(1,1,1);
+        }
+
+        &:hover:after {
+          transition: transform .3s ease-out;
+          transform: scale3d(0,1,1);
+        }
       }
     }
   }
@@ -150,22 +174,6 @@ export default {
         font-weight: 500;
         transition: $input-transition;
         padding: 0 !important;
-
-        &:after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 3px;
-          bottom: -7px;
-          background: $background__white;
-          transition: transform .3s ease-in;
-          transform: scale3d(1,1,1);
-        }
-
-        &:hover:after {
-          transition: transform .3s ease-out;
-          transform: scale3d(0,1,1);
-        }
       }
 
       &__content-wrapper {

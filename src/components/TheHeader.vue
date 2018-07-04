@@ -75,11 +75,13 @@ export default {
 @import 'variables';
 
 .header {
+  position: relative;
   padding: 12px 25px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 1000000;
   &__pair {
     min-width: 400px;
     height: 35px;

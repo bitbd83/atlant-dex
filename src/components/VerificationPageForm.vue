@@ -21,7 +21,8 @@ form.verificationForm
       track-by="code",
       v-model="verification.country",
       :loading="countriesLoading",
-      searchable
+      searchable,
+      underline,
     )
   VerificationPageFormGroup(
     label="City:",
@@ -32,7 +33,8 @@ form.verificationForm
       :options="countryCities",
       v-model="verification.city",
       :loading="citiesLoading",
-      searchable
+      searchable,
+      underline,
     )
   VerificationPageFormGroup(
     label="Street Address:",
@@ -63,6 +65,7 @@ form.verificationForm
         :options="birthdayDays",
         v-model="verification.day",
         searchable,
+        underline,
       )
       Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Month",
@@ -75,6 +78,7 @@ form.verificationForm
         :options="birthdayYears",
         v-model="verification.year",
         searchable,
+        underline,
       )
   VerificationPageFormGroup(
     label="ID or Passport #:",

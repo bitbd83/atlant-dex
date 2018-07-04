@@ -13,6 +13,7 @@ Modal
             @input="changeSelectedValue",
             no-border,
             no-padding,
+            underline,
           )
             template(slot="singleLabel", slot-scope="props")
                .addAlert__selected {{props.option}}
@@ -24,6 +25,7 @@ Modal
             @input="changeSelectedCurrency",
             no-border,
             no-padding,
+            underline,
           )
             template(slot="singleLabel", slot-scope="props")
                .addAlert__selected {{props.option}}
@@ -35,6 +37,7 @@ Modal
             @input="changeSelectedEvent",
             no-border,
             no-padding,
+            underline,
           )
             template(slot="singleLabel", slot-scope="props")
                .addAlert__selected {{props.option}}
@@ -46,6 +49,7 @@ Modal
             @input="changeSelectedBaseCurrency",
             no-border,
             no-padding,
+            underline,
           )
             template(slot="singleLabel", slot-scope="props")
                .addAlert__selected {{props.option}}

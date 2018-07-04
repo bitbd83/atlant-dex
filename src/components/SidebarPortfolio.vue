@@ -31,7 +31,6 @@
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import Dropdown from './Dropdown';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 import Accordion from 'components/Accordion';
 import {numbersFormat} from '@/mixins';
@@ -71,7 +70,6 @@ export default {
     scrollbar,
   },
   components: {
-    Dropdown,
     SidebarPortfolioBalance,
     Accordion,
   },

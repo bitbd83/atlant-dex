@@ -11,6 +11,7 @@
         no-border,
         no-padding,
         preselect-first,
+        underline,
       )
   .alerts__content(ref="wrap" v-scrollbar="")
     Accordion(title="Tokens & Coins:" isSidebar :isHidden="isSidebarLoading")

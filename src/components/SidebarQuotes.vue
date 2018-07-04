@@ -10,6 +10,7 @@
         no-border,
         no-padding,
         preselect-first,
+        underline,
       )
       .quotes__headerText Range
       Dropdown.quotes__headerDropdown(
@@ -18,6 +19,7 @@
         no-border,
         no-padding,
         preselect-first,
+        underline,
       )
     input.quotes__search(type="text", placeholder="Search for..." v-model="search")
   .quotes__content(v-scrollbar="")

@@ -1,51 +1,77 @@
 <template lang="pug">
 .widgetDropdown
-  .widgetDropdown__group(v-for="widget in widgetGroup") {{widget.name}}
-    .widgetDropdown__list
-      .widgetDropdown__item(v-for="item in widget.items") {{item}}
+  .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
+    .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
+      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : !item.isHidden}" @click.stop="toggleTile(item)") {{item.title}}
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions} from 'vuex';
 
 export default {
   data() {
     return {
-      widgetGroup: [
-        {
-          name: 'Trading',
-          items: [
-            'Chart',
-            'Depth Chart',
-            'Trade History',
-            'Order Book',
-            'Orders',
-            'Token List',
-          ],
-        },
-        {
-          name: 'Property',
-          items: [
-            'Token Info',
-            'Extended Info',
-            'Photos',
-            'Yield',
-            'Documents',
-          ],
-        },
-        {
-          name: 'Personal',
-          items: [
-            'Trading',
-            'Research',
-            'Saved Views',
-          ],
-        },
-      ],
     };
   },
   computed: {
+    ...mapState('grid', [
+      'gridData',
+    ]),
+    widgetGroup() {
+      return [
+        {
+          name: 'trading',
+          items: this.gridData,
+        },
+        {
+          name: 'property',
+          items: [
+            {title: 'Token Info'},
+            {title: 'Extended Info'},
+            {title: 'Photos'},
+            {title: 'Yield'},
+            {title: 'Documents'},
+          ],
+        },
+        {
+          name: 'personal',
+          items: [
+            {title: 'Trading'},
+            {title: 'Research'},
+            {title: 'Saved Views'},
+          ],
+        },
+      ];
+    },
   },
   methods: {
+    ...mapMutations('grid', [
+      'addTile',
+    ]),
+    ...mapActions('grid', [
+      'removeTileFromDashboard',
+      'addTileToDashboard',
+    ]),
+    toggleTile(tile) {
+      if (!tile.isHidden) {
+        this.removeTileFromDashboard(tile.name);
+      } else {
+        this.addTile(tile.name);
+        this.$nextTick(() => {
+          this.addTileToDashboard(tile);
+        });
+      };
+    },
+    hoverEnter(name) {
+      let listHeight = 0;
+      for (let item of document.querySelector('.widgetDropdown__list--' + name).children) {
+        listHeight += item.offsetHeight + 7; // TODO: remove hardcode for margin height
+      };
+      document.querySelector('.widgetDropdown__list--' + name).style.height = `${listHeight}px`;
+    },
+    hoverLeave(name) {
+      document.querySelector('.widgetDropdown__list--' + name).style.height = 0;
+    },
   },
   watch: {
   },
@@ -76,10 +102,7 @@ export default {
     font-weight: 700;
     text-transform: uppercase;
     &:not(:last-of-type) {
-      border-right: 3px solid $color__white;
-    }
-    &:hover > .widgetDropdown__list {
-      height: 300px;
+      border-right: 2px solid $color__white;
     }
   }
   &__list {
@@ -88,15 +111,12 @@ export default {
     height: 0;
     width: 100%;
     margin-top: 35px;
-    background-color: $background__white;
+    background-color: $background__grey_white;
     border-radius: 3px;
-    top: -9px;
+    top: -10px;
     left: 0;
-    z-index: 1;
+    z-index: 100000;
     transition: height 1s ease-out;
-    &:hover {
-      height: 300px;
-    }
   }
   &__item {
     width: 100%;
@@ -114,6 +134,9 @@ export default {
     text-transform: capitalize;
     &:hover {
       opacity: 0.6;
+    }
+    &--open {
+      background-color: $color__green;
     }
   }
 }
