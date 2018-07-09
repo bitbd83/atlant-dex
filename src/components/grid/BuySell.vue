@@ -1,12 +1,13 @@
 <template lang='pug'>
 .buySell
   .buySell__default(v-show="!isDone")
-    .buySell__header
-      .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
-      Icon.buySell__arrow(id="arrow_short")
-      .buySell__infoContainer
-        .buySell__info #[.buySell__infoLabel Spread] #[span {{numbersFormat(bidAskSpread, 2)}}%]
-        .buySell__info #[.buySell__infoLabel Fee] #[span {{numbersFormat(fee * 100, 2)}}%]
+    .buySell__headerContainer
+      .buySell__header
+        .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
+        Icon.buySell__arrow(id="arrow_short")
+        .buySell__infoContainer
+          .buySell__info #[.buySell__infoLabel Spread] #[span {{numbersFormat(bidAskSpread, 2)}}%]
+          .buySell__info #[.buySell__infoLabel Fee] #[span {{numbersFormat(fee * 100, 2)}}%]
     .buySell__buttons
       .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
         IInput.buySell__input(v-show="!open" placeholder="Quantity" center no-underline v-model="amount" type="number")
@@ -161,7 +162,7 @@ export default {
   mounted() {
     this.addTileToDashboard({
       target: document.getElementsByClassName('buySell')[0],
-      trigger: document.getElementsByClassName('buySell__header')[0],
+      trigger: document.getElementsByClassName('buySell__headerContainer')[0],
       isHideable: false,
       isResizeable: false,
     });
@@ -190,17 +191,17 @@ export default {
     width: 100%;
     background-color: $color__blue;
   }
+  &__headerContainer {
+    width: 100%;
+    padding: 23px 23px 23px 0;
+  }
   &__header{
-    min-height: 27px;
-    max-height: 27px;
+    min-height: 28px;
+    max-height: 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    margin-top: 23px;
-    margin-bottom: 23px;
-    border-left: 7px solid $color__white;
-    padding-right: 23px;
+    border-left: 5px solid $color__white;
   }
   &__title {
     white-space: nowrap;
