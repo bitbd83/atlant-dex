@@ -7,6 +7,7 @@ export default {
       bids: [],
       asks: [],
     },
+    dashboardOrdersType: 'open',
     orderFilter: '',
     accountOrders: {
       orders: [],
@@ -40,6 +41,9 @@ export default {
     },
   },
   mutations: {
+    setDashboardOrdersType(state, data) {
+      state.dashboardOrdersType = data;
+    },
     setOrdersAsks(state, data) {
       const asks = data;
       state.book.asks = asks;

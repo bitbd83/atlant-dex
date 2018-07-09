@@ -348,7 +348,7 @@ export default {
   width: 100%;
   background-color: $background__white;
   border-radius: 8px;
-  border: 1px solid $color__grey;
-  padding: 0 10px 10px 10px;
+  border: 1px solid $color__grey_border;
+  padding: 0 22px;
 }
 </style>

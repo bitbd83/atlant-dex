@@ -1,18 +1,18 @@
 <template lang='pug'>
 .gridTile(:class="'gridTile--' + data.name")
-  .gridTile__header(:class="'gridTile__header--' + data.name")
-    .title.gridTile__title {{data.title}}:
-    OrderBookHeader(v-if="data.name === 'orderBook'")
-    ChartHeader(v-if="data.name === 'chart'")
-    Icon.gridTile__icon(id="hide" @click="removeTile(data.name)")
+  .gridTile__headerContainer(:class="'gridTile__headerContainer--' + data.name")
+    .gridTile__header
+      .title.gridTile__title {{data.title}}:
+      OrdersHeader(v-if="data.name === 'orders'")
+      OrderBookHeader(v-if="data.name === 'orderBook'")
+      ChartHeader(v-if="data.name === 'chart'")
+      Icon.gridTile__icon(id="cross" @click="removeTile(data.name)")
   .gridTile__content(:class="'gridTile__content--' + data.name")
     History(v-if="data.name === 'history'")
-    Orders(:isActive="true" v-if="data.name === 'openOrders'")
-    Orders(v-if="data.name === 'closedOrders'")
+    Orders(v-if="data.name === 'orders'")
     .gridTile__orderBook(v-if="data.name === 'orderBook'")
       OrderBook.gridTile__orderBookTable(ask)
       OrderBook.gridTile__orderBookTable
-    BuySell(v-if="data.name === 'buySell'")
     Chart(v-if="data.name === 'chart'")
 </template>
 
@@ -21,7 +21,7 @@ import {mapState, mapGetters, mapMutations} from 'vuex';
 import Chart from './Chart';
 import ChartHeader from './ChartHeader';
 import Orders from './Orders';
-import BuySell from './BuySell';
+import OrdersHeader from './OrdersHeader';
 import OrderBook from './OrderBook';
 import OrderBookHeader from './OrderBookHeader';
 import History from './History';
@@ -59,10 +59,10 @@ export default {
     Chart,
     ChartHeader,
     Orders,
+    OrdersHeader,
     OrderBook,
     OrderBookHeader,
     History,
-    BuySell,
   },
   mounted() {
     document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.height = this.getTileSize(this.data.name).height + 'px';
@@ -83,36 +83,39 @@ export default {
   display: flex;
   flex-direction: column;
   background-color: $background__grey_white;
-  // border-radius: 3px;
+  border-radius: 8px;
   padding: 0;
+  &__headerContainer {
+    padding: 10px 0;
+    border-radius: 8px 8px 0 0;
+  }
   &__header {
-    min-height: 42px;
-    max-height: 42px;
+    min-height: 28px;
+    max-height: 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex: 42px;
-    border-left: 7px solid $color__blue;
-    margin-bottom: 13px;
+    border-left: 5px solid $color__blue;
     // border-radius: 3px;
     cursor: move;
   }
   &__title {
-    margin-left: 20px;
+    white-space: nowrap;
+    margin-left: 25px;
   }
   &__icon {
     fill: $fill__red;
-    width: 19px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     cursor: pointer;
-    margin-right: 5px;
+    margin-right: 9px;
   }
   &__content {
     position: relative;
     display: flex;
     overflow: hidden;
     resize: both;
-    // background-color: transparent;
     &::before,
     &::after {
       content: '';
@@ -136,8 +139,8 @@ export default {
       min-width: 300px;
       min-height: 300px;
     }
-    &--openOrders {
-      min-width: 520px;
+    &--orders {
+      min-width: 960px;
       min-height: 200px;
     }
     &--orderBook {

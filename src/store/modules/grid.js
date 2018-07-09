@@ -7,10 +7,10 @@ export default {
     gridData: [
       {name: 'chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
       {name: 'history', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-      {name: 'openOrders', title: 'Open orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-      // {name: 'closedOrders', title: 'Closed orders', height: '300px'},
+      {name: 'orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
       {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
     ],
+    gridSize: 10,
     resizeDetector: {},
   },
   getters: {
@@ -50,18 +50,19 @@ export default {
     },
   },
   actions: {
-    addTileToDashboard({commit, dispatch}, tile) {
+    addTileToDashboard({state, commit, dispatch}, tile) {
       Draggable.create(tile.target, {
         type: 'top,left',
         bounds: {top: 0, left: 0},
         trigger: tile.trigger,
         liveSnap: true,
+        zIndexBoost: tile.isHideable,
         snap: {
           x: (endValue) => {
-            return Math.round(endValue / 20) * 20;
+            return Math.round(endValue / state.gridSize) * state.gridSize;
           },
           y: (endValue) => {
-            return Math.round(endValue / 20) * 20;
+            return Math.round(endValue / state.gridSize) * state.gridSize;
           },
         },
         onDragEnd: function() {
@@ -80,8 +81,8 @@ export default {
       if (tile.container) {
         state.resizeDetector.listenTo(tile.container, _.debounce((el) => {
           if (tile.container) {
-            tile.container.style.height = Math.round(el.offsetHeight / 20) * 20 + 'px';
-            tile.container.style.width = Math.round(el.offsetWidth / 20) * 20 + 'px';
+            tile.container.style.height = Math.round(el.offsetHeight / state.gridSize) * state.gridSize + 'px';
+            tile.container.style.width = Math.round(el.offsetWidth / state.gridSize) * state.gridSize + 'px';
             commit('setTileSize', {
               name: tile.name,
               height: el.offsetHeight,
@@ -98,7 +99,7 @@ export default {
           dispatch('addTileToDashboard', {
             name: i.name,
             target: document.getElementsByClassName('gridTile--' + i.name)[0],
-            trigger: '.gridTile__header--' + i.name,
+            trigger: '.gridTile__headerContainer--' + i.name,
             container: document.getElementsByClassName('gridTile__content--' + i.name)[0],
             isHideable: true,
             isResizeable: true,

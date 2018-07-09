@@ -72,8 +72,9 @@ export default {
   justify-content: space-between;
   flex: 1;
   height: 100%;
+  padding: 30px 15px 30px 30px;
   border-radius: 8px;
-  border: 1px solid $color__grey;
+  border: 1px solid $color__grey_border;
   background-color: $background__white;
   &:hover {
     background-color: $background__grey_dark;
@@ -82,7 +83,20 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 30px;
+    padding-right: 15px;
+  }
+  &__row {
+    & td {
+      &:nth-child(1) {
+        text-align: left;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+      &:nth-child(3) {
+        text-align: right;
+      }
+    }
   }
   &__cell {
     width: 33.333%;

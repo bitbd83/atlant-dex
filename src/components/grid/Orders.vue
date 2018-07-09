@@ -50,6 +50,7 @@ export default {
   },
   computed: {
     ...mapState('orders', {
+      dashboardOrdersType: 'dashboardOrdersType',
       orders: (state) => state.orders,
     }),
     ...mapGetters('membership', {
@@ -59,6 +60,9 @@ export default {
       getActiveOrders: 'getActiveOrders',
       getClosedOrders: 'getClosedOrders',
     }),
+    isActive() {
+      return this.dashboardOrdersType === 'open';
+    },
   },
   methods: {
     ...mapActions('orders', {
@@ -86,13 +90,6 @@ export default {
   created() {
     this.getApiRequest();
   },
-  props: {
-    isActive: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-  },
   directives: {
     scrollbar,
   },
@@ -112,7 +109,7 @@ export default {
   justify-content: space-between;
   flex: 1;
   border-radius: 8px;
-  border: 1px solid $color__grey;
+  border: 1px solid $color__grey_border;
   background-color: $background__white;
   &:hover {
     background-color: $background__grey_dark;

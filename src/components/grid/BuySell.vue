@@ -182,7 +182,7 @@ export default {
   width: 360px;
   color: $color__white;
   border-radius: 8px;
-  z-index: 10000;
+  z-index: 100000;
   &__default {
     display: flex;
     flex-direction: column;

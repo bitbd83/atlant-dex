@@ -1,9 +1,9 @@
 <template lang='pug'>
 .chartHeader
   .chartHeader__buttons
-    .chartHeader__buttonTxt(v-for="period in periods", :class="{'chartHeader__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
+    .chartHeader__buttonTxt.chartHeader__buttonTxt--period(v-for="period in periods", :class="{'chartHeader__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
   .chartHeader__technical
-    .chartHeader__buttonTxt(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
+    .chartHeader__buttonTxt.chartHeader__buttonTxt--indicator(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
   .chartHeader__buttons
     Icon.chartHeader__buttonIcon(:id="type + 'Chart'" v-for="type in chartTypes", :key="type", :class="{'chartHeader__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
 </template>
@@ -57,7 +57,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 25px 0 83px;
+  margin: 0 53px 0 87px;
   &__buttons {
     display: flex;
     align-items: center;
@@ -67,7 +67,6 @@ export default {
     font-size: 14px;
     text-transform: uppercase;
     padding: 3px 5px 0;
-    margin-right: 3px;
     border-bottom: 3px solid transparent;
     &--active {
       color: $color__blue;
@@ -75,7 +74,7 @@ export default {
     }
     &--activeBox {
       border-radius: 2px;
-      color: #02334d;
+      color: $color__white;
     }
     &--MA10 {
       background-color: $color__blue;
@@ -86,18 +85,28 @@ export default {
     &--MACD {
       background-color: pink;
     }
+    &--period {
+      &:not(:last-of-type) {
+        margin-right: 5px;
+      }
+    }
+    &--indicator {
+      &:not(:last-of-type) {
+        margin-right: 30px;
+      }
+    }
   }
   &__buttonIcon {
-    $size: 15px;
+    $size: 20px;
     width: $size;
     height: $size;
     cursor: pointer;
-    fill: $fill__grey;
+    fill: $fill__black;
     &:not(:last-of-type) {
-      margin-right: 10px;
+      margin-right: 33px;
     }
     &--active {
-      fill: $color__blue;
+      fill: $fill__blue;
     }
   }
   &__technical{

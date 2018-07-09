@@ -122,7 +122,7 @@ export default {
     border-radius: 3px;
     top: -10px;
     left: 0;
-    z-index: 100000;
+    z-index: 1000000;
     transition: height 1s ease-out;
   }
   &__item {

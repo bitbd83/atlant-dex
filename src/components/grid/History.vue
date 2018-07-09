@@ -55,19 +55,33 @@ export default {
   display: flex;
   width: 100%;
   background-color: $background__white;
+  padding: 30px 15px 30px 30px;
   border-radius: 8px;
-  border: 1px solid $color__grey;
+  border: 1px solid $color__grey_border;
   &:hover {
     background-color: $background__grey_dark;
   }
   &__container {
-    width: 100%;
     position: relative;
     overflow: hidden;
-    margin: 30px;
+    width: 100%;
+    padding-right: 15px;
   }
   &__table {
     width: 100%;
+  }
+  &__row {
+    & td {
+      &:nth-child(1) {
+        text-align: left;
+      }
+      &:nth-child(2) {
+        text-align: center;
+      }
+      &:nth-child(3) {
+        text-align: right;
+      }
+    }
   }
   &__cell {
     width: 33.333%;
