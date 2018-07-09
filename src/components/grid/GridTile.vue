@@ -82,10 +82,9 @@ export default {
   position: absolute;
   display: flex;
   flex-direction: column;
-  // height: 300px;
-  // width: 500px;
-  padding: 0;
   background-color: $background__grey_white;
+  // border-radius: 3px;
+  padding: 0;
   &__header {
     min-height: 42px;
     max-height: 42px;
@@ -95,6 +94,7 @@ export default {
     flex: 42px;
     border-left: 7px solid $color__blue;
     margin-bottom: 13px;
+    // border-radius: 3px;
     cursor: move;
   }
   &__title {
@@ -105,14 +105,14 @@ export default {
     width: 19px;
     height: 15px;
     cursor: pointer;
+    margin-right: 5px;
   }
   &__content {
     position: relative;
     display: flex;
     overflow: hidden;
     resize: both;
-    // height: 100%;
-    // width: 100%;
+    // background-color: transparent;
     &::before,
     &::after {
       content: '';

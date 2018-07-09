@@ -120,7 +120,7 @@ export default {
     flex-direction: row;
     font-size: 14px;
     font-weight: 500;
-    // width: max-content;
+    width: max-content;
     color: $color__black;
   }
   &__option {

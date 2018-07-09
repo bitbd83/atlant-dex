@@ -58,7 +58,14 @@ export default {
       } else {
         this.addTile(tile.name);
         this.$nextTick(() => {
-          this.addTileToDashboard(tile);
+          this.addTileToDashboard({
+            name: tile.name,
+            target: document.getElementsByClassName('gridTile--' + tile.name)[0],
+            trigger: '.gridTile__header--' + tile.name,
+            container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
+            isHideable: true,
+            isResizeable: true,
+          });
         });
       };
     },

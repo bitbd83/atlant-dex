@@ -1,20 +1,16 @@
 <template lang="pug">
 .grid(v-scrollbar="")
   // UserVisibility(hide-on-logout)
-  //  .grid__edit(@click="setIsEdit") Edit
-  // GridPanel(:data="getHiddenLayout", :isEdit="isEdit")
   GridTile(v-for="item in visibleGrid", :key="item.name", :data="item")
-  // AddTile
+  BuySell
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import Draggable from 'gsap/Draggable';
 import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
 import GridTile from './GridTile';
-import GridPanel from './GridPanel';
-import AddTile from './AddTile';
+import BuySell from './BuySell';
 
 export default {
   data() {
@@ -38,11 +34,9 @@ export default {
     this.setupDashboard();
   },
   components: {
-    GridPanel,
     UserVisibility,
-    Draggable,
     GridTile,
-    AddTile,
+    BuySell,
   },
   directives: {
     scrollbar,

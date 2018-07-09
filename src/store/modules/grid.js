@@ -10,7 +10,6 @@ export default {
       {name: 'openOrders', title: 'Open orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
       // {name: 'closedOrders', title: 'Closed orders', height: '300px'},
       {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
-      // {name: 'buySell', title: 'Place order', height: '400px'},
     ],
     resizeDetector: {},
   },
@@ -52,10 +51,10 @@ export default {
   },
   actions: {
     addTileToDashboard({commit, dispatch}, tile) {
-      Draggable.create(document.getElementsByClassName('gridTile--' + tile.name)[0], {
+      Draggable.create(tile.target, {
         type: 'top,left',
         bounds: {top: 0, left: 0},
-        trigger: '.gridTile__header--' + tile.name,
+        trigger: tile.trigger,
         liveSnap: true,
         snap: {
           x: (endValue) => {
@@ -66,21 +65,23 @@ export default {
           },
         },
         onDragEnd: function() {
-          commit('setTilePosition', {
-            name: this.vars.trigger.split('--')[1],
-            x: this.x,
-            y: this.y,
-          });
+          if (tile.isHideable) {
+            commit('setTilePosition', {
+              name: this.vars.trigger.split('--')[1],
+              x: this.x,
+              y: this.y,
+            });
+          }
         },
       });
-      dispatch('snapOnResize', tile);
+      if (tile.isResizeable) dispatch('snapOnResize', tile);
     },
     snapOnResize({state, commit}, tile) {
-      if (document.getElementsByClassName('gridTile__content--' + tile.name)[0]) {
-        state.resizeDetector.listenTo(document.getElementsByClassName('gridTile__content--' + tile.name)[0], _.debounce((el) => {
-          if (document.getElementsByClassName('gridTile__content--' + tile.name)[0]) {
-            document.getElementsByClassName('gridTile__content--' + tile.name)[0].style.height = Math.round(el.offsetHeight / 20) * 20 + 'px';
-            document.getElementsByClassName('gridTile__content--' + tile.name)[0].style.width = Math.round(el.offsetWidth / 20) * 20 + 'px';
+      if (tile.container) {
+        state.resizeDetector.listenTo(tile.container, _.debounce((el) => {
+          if (tile.container) {
+            tile.container.style.height = Math.round(el.offsetHeight / 20) * 20 + 'px';
+            tile.container.style.width = Math.round(el.offsetWidth / 20) * 20 + 'px';
             commit('setTileSize', {
               name: tile.name,
               height: el.offsetHeight,
@@ -94,7 +95,14 @@ export default {
       commit('createResizeDetector');
       for (let i of state.gridData) {
         if (!i.isHidden) {
-          dispatch('addTileToDashboard', i);
+          dispatch('addTileToDashboard', {
+            name: i.name,
+            target: document.getElementsByClassName('gridTile--' + i.name)[0],
+            trigger: '.gridTile__header--' + i.name,
+            container: document.getElementsByClassName('gridTile__content--' + i.name)[0],
+            isHideable: true,
+            isResizeable: true,
+          });
         }
       }
     },

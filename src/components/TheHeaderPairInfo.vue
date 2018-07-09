@@ -22,10 +22,10 @@
   .pairInfo__container(v-if="pairInfoItems === 4")
     .pairInfo__label Volume:
     .pairInfo__volume ${{numbersFormat(volume, 2)}}
-  .pairInfo__container(v-if="pairInfoItems < 4")
+  .pairInfo__container(v-if="pairInfoItems < 4" @mouseover="hoverEnter()" @mouseout="hoverLeave()")
     .pairInfo__ellipsis
       Icon.pairInfo__ellipsisIcon(id="ellipsis")
-    .pairInfo__dropdownList(:class="'pairInfo__dropdownList--' + pairInfoItems")
+    .pairInfo__dropdownList
       .pairInfo__dropdownItem(v-if="pairInfoItems < 1") #[.pairInfo__label--dropdown Last]
         .pairInfo__block.pairInfo__block--dropdown
           .pairInfo__value.pairInfo__value--dropdown {{numbersFormat(last)}}
@@ -76,6 +76,17 @@ export default {
   methods: {
     addSpacesForNumbers(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    },
+    hoverEnter() {
+      let listHeight = 0;
+      console.log();
+      for (let item of document.querySelector('.pairInfo__dropdownList').children) {
+        listHeight += item.offsetHeight + 7; // TODO: remove hardcode for margin height
+      };
+      document.querySelector('.pairInfo__dropdownList').style.height = `${listHeight}px`;
+    },
+    hoverLeave() {
+      document.querySelector('.pairInfo__dropdownList').style.height = 0;
     },
   },
 };
@@ -142,9 +153,6 @@ export default {
     height: 100%;
     min-width: 22px;
     cursor: pointer;
-    &:hover + .pairInfo__dropdownList--0 {height: 252px;}
-    &:hover + .pairInfo__dropdownList--1 {height: 190px;}
-    &:hover + .pairInfo__dropdownList--3 {height: 63px;}
   }
   &__ellipsisIcon {
     height: 4px;
@@ -163,12 +171,6 @@ export default {
     right: -64px;
     z-index: 1000000;
     transition: height 1s ease-out;
-    &--0 { &:hover { height: 252px; }}
-    &--1 { &:hover { height: 190px; }}
-    &--3 {
-      transition: height .3s ease-out;
-      &:hover { height: 63px; }
-    }
   }
   &__dropdownItem {
     width: 100%;

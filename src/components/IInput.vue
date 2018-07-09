@@ -1,7 +1,7 @@
 <template lang='pug'>
 .inputField
-  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center}")
-  .inputField__line
+  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
+  .inputField__line(v-if="!noUnderline")
   label.inputField__label(v-if="label") {{label}}
 </template>
 
@@ -27,7 +27,7 @@ export default {
   },
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: '',
       required: false,
     },
@@ -47,6 +47,11 @@ export default {
       required: false,
     },
     center: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    noUnderline: {
       type: Boolean,
       default: false,
       required: false,
@@ -81,6 +86,12 @@ export default {
     background: none;
     &--center {
       text-align: center;
+    }
+    &--noUnderline {
+      border-bottom: none;
+    }
+    &::placeholder {
+      color: $color__white;
     }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
@@ -120,6 +131,6 @@ export default {
     top: -20px;
     font-size: 14px;
     color: $color_white;
-}
+  }
 }
 </style>
