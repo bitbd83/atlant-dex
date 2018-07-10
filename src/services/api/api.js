@@ -2,6 +2,9 @@ import axios from 'axios';
 import store from '@/store';
 import {baseURL, timeout} from '@/config';
 import {serverNotification2} from '../notification';
+import RFC4122 from 'rfc4122';
+
+let UUIDGenerator = new RFC4122();
 
 const instance = axios.create({
   baseURL,
@@ -15,6 +18,7 @@ instance.interceptors.request.use((config) => {
   const isLoggedIn = store.getters['membership/isLoggedIn'];
   const token = (isLoggedIn) ? store.state.membership.token : null;
   config.headers.Authorization = 'token ' + token;
+  config.headers['X-Correlation-Id'] = UUIDGenerator.v4f();
   return config;
 });
 
