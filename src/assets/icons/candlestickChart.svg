@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" viewBox="0 0 18 20"><defs><path id="uzb7a" d="M955 152.79a1 1 0 0 1-1-1V142a1 1 0 1 1 2 0v9.79a1 1 0 0 1-1 1z"/><path id="uzb7b" d="M969 154.79a1 1 0 0 1-1-1V140a1 1 0 1 1 2 0v13.79a1 1 0 0 1-1 1z"/><path id="uzb7c" d="M962 156.79a1 1 0 0 1-1-1V138a1 1 0 0 1 2 0v17.79a1 1 0 0 1-1 1z"/><path id="uzb7d" d="M953 145a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/><path id="uzb7e" d="M967 146a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/><path id="uzb7f" d="M960 142a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"/></defs><g><g transform="translate(-953 -137)"><g><use fill="#004dff" xlink:href="#uzb7a"/></g><g><use fill="#004dff" xlink:href="#uzb7b"/></g><g><use fill="#004dff" xlink:href="#uzb7c"/></g><g><use fill="#004dff" xlink:href="#uzb7d"/></g><g><use fill="#004dff" xlink:href="#uzb7e"/></g><g><use fill="#004dff" xlink:href="#uzb7f"/></g></g></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="20px" viewBox="0 0 18 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="MAIN" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="WIDGETS" transform="translate(-953.000000, -137.000000)" fill="#004DFF">
+            <g id="Group-26" transform="translate(158.000000, 125.000000)">
+                <g id="Group" transform="translate(795.000000, 12.000000)">
+                    <path d="M2,15.7859352 C1.448,15.7859352 1,15.3389352 1,14.7859352 L1,5 C1,4.447 1.448,4 2,4 C2.552,4 3,4.447 3,5 L3,14.7859352 C3,15.3389352 2.552,15.7859352 2,15.7859352 Z" id="Path"></path>
+                    <path d="M16,17.7859352 C15.447,17.7859352 15,17.3389352 15,16.7859352 L15,3 C15,2.447 15.447,2 16,2 C16.553,2 17,2.447 17,3 L17,16.7859352 C17,17.3389352 16.553,17.7859352 16,17.7859352 Z" id="Path"></path>
+                    <path d="M9,19.7859352 C8.448,19.7859352 8,19.3389352 8,18.7859352 L8,1 C8,0.448 8.448,0 9,0 C9.552,0 10,0.448 10,1 L10,18.7859352 C10,19.3389352 9.552,19.7859352 9,19.7859352 Z" id="Path"></path>
+                    <rect id="Rectangle-24" x="0" y="7" width="4" height="6" rx="1"></rect>
+                    <rect id="Rectangle-24-Copy-2" x="14" y="8" width="4" height="4" rx="1"></rect>
+                    <rect id="Rectangle-24-Copy" x="7" y="4" width="4" height="12" rx="1"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

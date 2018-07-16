@@ -2,7 +2,7 @@
 .widgetDropdown
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
-      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : !item.isHidden}" @click.stop="toggleTile(item)") {{item.title}}
+      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === 'false'}" @click.stop="widgetAction(item)") {{item.title}}
 </template>
 
 <script>
@@ -34,11 +34,23 @@ export default {
           ],
         },
         {
-          name: 'personal',
+          name: 'views',
           items: [
-            {title: 'Trading'},
-            {title: 'Research'},
-            {title: 'Saved Views'},
+            {
+              title: 'Trading',
+              type: 'setView',
+              grid: [
+                {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
+                {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
+                {name: 'orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false},
+                {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: false},
+              ],
+            },
+            {
+              title: 'Research',
+              type: 'setView',
+            },
+            {title: 'Save Views'},
           ],
         },
       ];
@@ -47,11 +59,27 @@ export default {
   methods: {
     ...mapMutations('grid', [
       'addTile',
+      'setGrid',
     ]),
     ...mapActions('grid', [
       'removeTileFromDashboard',
+      'removeAllTiles',
       'addTileToDashboard',
+      'setupDashboard',
     ]),
+    widgetAction(obj) {
+      if (obj.type === 'setView') {
+        this.removeAllTiles();
+        this.$nextTick(() => {
+          this.setGrid(obj.grid);
+          this.$nextTick(() => {
+            this.setupDashboard();
+          });
+        });
+      } else {
+        this.toggleTile(obj);
+      }
+    },
     toggleTile(tile) {
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);

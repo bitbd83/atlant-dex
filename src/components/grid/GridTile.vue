@@ -4,7 +4,6 @@
     .gridTile__header
       .title.gridTile__title {{data.title}}:
       OrdersHeader(v-if="data.name === 'orders'")
-      OrderBookHeader(v-if="data.name === 'orderBook'")
       ChartHeader(v-if="data.name === 'chart'")
       Icon.gridTile__icon(id="cross" @click="removeTile(data.name)")
   .gridTile__content(:class="'gridTile__content--' + data.name")
@@ -23,7 +22,6 @@ import ChartHeader from './ChartHeader';
 import Orders from './Orders';
 import OrdersHeader from './OrdersHeader';
 import OrderBook from './OrderBook';
-import OrderBookHeader from './OrderBookHeader';
 import History from './History';
 
 export default {
@@ -61,7 +59,6 @@ export default {
     Orders,
     OrdersHeader,
     OrderBook,
-    OrderBookHeader,
     History,
   },
   mounted() {
@@ -132,7 +129,7 @@ export default {
       cursor: nw-resize;
     }
     &--chart {
-      min-width: 520px;
+      min-width: 740px;
       min-height: 300px;
     }
     &--history{

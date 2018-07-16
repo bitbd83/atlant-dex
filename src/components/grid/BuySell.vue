@@ -193,7 +193,7 @@ export default {
   }
   &__headerContainer {
     width: 100%;
-    padding: 23px 23px 23px 0;
+    padding: 15px 23px 15px 0;
   }
   &__header{
     min-height: 28px;

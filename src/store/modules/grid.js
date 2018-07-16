@@ -48,6 +48,9 @@ export default {
     addTile(state, name) {
       state.gridData.find((item) => item.name === name).isHidden = false;
     },
+    setGrid(state, grid) {
+      state.gridData = grid;
+    },
   },
   actions: {
     addTileToDashboard({state, commit, dispatch}, tile) {
@@ -111,6 +114,11 @@ export default {
       commit('removeTile', name);
       commit('setTileSize', {name, height: 0, width: 0});
       // commit('setTilePosition', {name, x: 0, y: 0});
+    },
+    removeAllTiles({state, dispatch}) {
+      for (let i of state.gridData) {
+        dispatch('removeTileFromDashboard', i.name);
+      }
     },
   },
   namespaced: true,

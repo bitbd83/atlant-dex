@@ -92,7 +92,7 @@ export default {
     }
     &--indicator {
       &:not(:last-of-type) {
-        margin-right: 30px;
+        margin-right: 20px;
       }
     }
   }
