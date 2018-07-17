@@ -34,7 +34,7 @@
 .widgetDropdown
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
-      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === 'false'}" @click.stop="widgetAction(item)") {{item.title}}
+      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === false}" @click.stop="widgetAction(item)") {{item.title}}
 </template>
 
 <script>
@@ -48,6 +48,7 @@ export default {
   computed: {
     ...mapState('grid', [
       'gridData',
+      'savedViews',
     ]),
     widgetGroup() {
       return [
@@ -70,7 +71,6 @@ export default {
           items: [
             {
               title: 'Trading',
-              type: 'setView',
               grid: [
                 {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
                 {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
@@ -80,18 +80,31 @@ export default {
             },
             {
               title: 'Research',
-              type: 'setView',
+              grid: [
+                {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: true},
+                {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: true},
+                {name: 'orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: true},
+                {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: true},
+              ],
             },
-            {title: 'Save Views'},
+            ...this.savedViews,
+            {
+              title: 'Save View',
+              type: 'saveView',
+            },
           ],
         },
       ];
     },
   },
   methods: {
+    ...mapMutations('modal', [
+      'open',
+    ]),
     ...mapMutations('grid', [
       'addTile',
       'setGrid',
+      'addView',
     ]),
     ...mapActions('grid', [
       'removeTileFromDashboard',
@@ -100,9 +113,21 @@ export default {
       'setupDashboard',
     ]),
     widgetAction(obj) {
-      if (obj.type === 'setView') {
+      console.log('called widget action', this.savedViews[0]);
+      if (obj.type === 'saveView') {
+        this.open({
+          name: 'saveView',
+          data: {
+            saveView: (name) => {
+              this.addView(name);
+            },
+          },
+        });
+      } else if (obj.grid) {
+        console.log('before remove all tiles', this.savedViews[0]);
         this.removeAllTiles();
         this.$nextTick(() => {
+          console.log('saved view', this.savedViews[0]);
           this.setGrid(obj.grid);
           this.$nextTick(() => {
             this.setupDashboard();
@@ -111,6 +136,7 @@ export default {
       } else {
         this.toggleTile(obj);
       }
+      console.log('finished', this.savedViews[0]);
     },
     toggleTile(tile) {
       if (!tile.isHidden) {
@@ -141,6 +167,12 @@ export default {
     },
   },
   watch: {
+    savedViews: {
+      handler() {
+        console.log('saved views CHNAGED:', this.savedViews);
+      },
+      deep: true,
+    },
   },
   created() {
   },

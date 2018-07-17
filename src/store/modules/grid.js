@@ -43,6 +43,7 @@ export default {
       {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
     ],
     gridSize: 10,
+    savedViews: [],
     resizeDetector: {},
   },
   getters: {
@@ -83,6 +84,21 @@ export default {
     setGrid(state, grid) {
       state.gridData = grid;
     },
+    addView(state, name) {
+      const x = [
+        {name: 'chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
+        {name: 'history', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
+        {name: 'orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
+        {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
+      ];
+      state.savedViews.push({
+        title: name,
+        grid: x,
+      });
+    },
+    // removeView(state, grid) {
+    //   console.log('removing view');
+    // },
   },
   actions: {
     addTileToDashboard({state, commit, dispatch}, tile) {

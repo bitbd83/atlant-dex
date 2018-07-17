@@ -61,6 +61,7 @@
   EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
   EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
   AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
+  SaveViewModal(v-else-if="isModalOpened('saveView')")
   Status(v-else-if="isModalOpened('status')")
 </template>
 
@@ -94,6 +95,7 @@ import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
+import SaveViewModal from 'modals/SaveViewModal';
 import Status from 'components/Status';
 
 export default {
@@ -287,6 +289,7 @@ export default {
     EventStatusCompletedModal,
     EventStatusFailedModal,
     AddNewAlertModal,
+    SaveViewModal,
   },
 };
 </script>
