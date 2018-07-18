@@ -42,6 +42,7 @@ import Icon from './components/Icon';
 import Vue2Filters from 'vue2-filters';
 
 Vue.component('Icon', Icon);
+
 Vue.use(Vue2Filters);
 Vue.use(Vuelidate);
 Vue.use(hub, hubURL, store.state.membership.token, store.state.tradeInfo.pair);

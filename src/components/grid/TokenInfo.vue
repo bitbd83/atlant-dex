@@ -119,13 +119,13 @@ export default {
       font-size: 20px;
       max-width: 200px;
       padding-bottom: 43px;
-      font-family: "Helvetica";
     }
   }
 
   &__ticker-symbol{
     padding: 35px 0 56px 19px;
-    font-family: "Helvetica";
+    font-size: 16px;
+    font-weight: 600;
   }
 
   &__ticker-description{
@@ -139,7 +139,6 @@ export default {
     font-size: 18px;
     position: relative;
     padding-left: 37px;
-    font-family: "Helvetica";
     font-weight: 100;
   }
 
@@ -191,13 +190,16 @@ export default {
     border-radius: 3px;
     margin-bottom: 36px;
     cursor: pointer;
-    font-family: "Helvetica";
     font-size: 16px;
     color: $color__blue;
 
     &:hover{
       background: $fill__blue;
       color: $color__white;
+    }
+
+    span:first-child{
+      font-weight: 600;
     }
 
     &--down span:last-child{
