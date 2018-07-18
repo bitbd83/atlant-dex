@@ -59,6 +59,12 @@ export default {
         y: state.gridData.find((item) => item.name === name).y,
       };
     },
+    getSavedViews(state) {
+      return state.savedViews;
+    },
+    getGridData(state) {
+      return state.gridData;
+    },
   },
   mutations: {
     createResizeDetector(state) {
@@ -82,23 +88,14 @@ export default {
       state.gridData.find((item) => item.name === name).isHidden = false;
     },
     setGrid(state, grid) {
-      state.gridData = grid;
+      state.gridData = JSON.parse(JSON.stringify(grid));
     },
     addView(state, name) {
-      const x = [
-        {name: 'chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
-        {name: 'history', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-        {name: 'orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-        {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
-      ];
       state.savedViews.push({
         title: name,
-        grid: x,
+        grid: JSON.parse(JSON.stringify(state.gridData)),
       });
     },
-    // removeView(state, grid) {
-    //   console.log('removing view');
-    // },
   },
   actions: {
     addTileToDashboard({state, commit, dispatch}, tile) {

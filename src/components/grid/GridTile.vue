@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import Chart from './Chart';
 import ChartHeader from './ChartHeader';
 import Orders from './Orders';
@@ -58,9 +58,6 @@ import History from './History';
 
 export default {
   computed: {
-    ...mapState('grid', [
-      'gridData',
-    ]),
     ...mapGetters('grid', [
       'getTileSize',
       'getTilePosition',

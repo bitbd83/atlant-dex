@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 
 export default {
   data() {
@@ -46,15 +46,15 @@ export default {
     };
   },
   computed: {
-    ...mapState('grid', [
-      'gridData',
-      'savedViews',
+    ...mapGetters('grid', [
+      'getSavedViews',
+      'getGridData',
     ]),
     widgetGroup() {
       return [
         {
           name: 'trading',
-          items: this.gridData,
+          items: this.getGridData,
         },
         {
           name: 'property',
@@ -87,7 +87,7 @@ export default {
                 {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: true},
               ],
             },
-            ...this.savedViews,
+            ...this.getSavedViews,
             {
               title: 'Save View',
               type: 'saveView',
@@ -113,7 +113,6 @@ export default {
       'setupDashboard',
     ]),
     widgetAction(obj) {
-      console.log('called widget action', this.savedViews[0]);
       if (obj.type === 'saveView') {
         this.open({
           name: 'saveView',
@@ -124,10 +123,8 @@ export default {
           },
         });
       } else if (obj.grid) {
-        console.log('before remove all tiles', this.savedViews[0]);
         this.removeAllTiles();
         this.$nextTick(() => {
-          console.log('saved view', this.savedViews[0]);
           this.setGrid(obj.grid);
           this.$nextTick(() => {
             this.setupDashboard();
@@ -136,7 +133,6 @@ export default {
       } else {
         this.toggleTile(obj);
       }
-      console.log('finished', this.savedViews[0]);
     },
     toggleTile(tile) {
       if (!tile.isHidden) {
@@ -164,14 +160,6 @@ export default {
     },
     hoverLeave(name) {
       document.querySelector('.widgetDropdown__list--' + name).style.height = 0;
-    },
-  },
-  watch: {
-    savedViews: {
-      handler() {
-        console.log('saved views CHNAGED:', this.savedViews);
-      },
-      deep: true,
     },
   },
   created() {
@@ -215,7 +203,7 @@ export default {
     top: -10px;
     left: 0;
     z-index: 1000000;
-    transition: height 1s ease-out;
+    transition: height 0.5s ease-out;
   }
   &__item {
     width: 100%;
