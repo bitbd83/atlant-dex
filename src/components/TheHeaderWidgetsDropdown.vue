@@ -58,7 +58,15 @@ export default {
         {
           name: 'property',
           items: [
-            {title: 'Token Info'},
+            {
+              title: 'Token Info',
+              name: 'tokenInfo',
+              height: 670,
+              width: 850,
+              x: 0,
+              y: 0,
+              isHidden: false,
+            },
             {title: 'Extended Info'},
             {title: 'Photos'},
             {title: 'Yield'},
@@ -109,6 +117,7 @@ export default {
           });
         });
       } else {
+        console.log(obj);
         this.toggleTile(obj);
       }
     },
