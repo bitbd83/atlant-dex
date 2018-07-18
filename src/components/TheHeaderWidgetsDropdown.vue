@@ -68,7 +68,15 @@ export default {
               isHidden: false,
             },
             {title: 'Extended Info'},
-            {title: 'Photos'},
+            {
+              title: 'Photos',
+              name: 'photos',
+              height: 311,
+              width: 851,
+              x: 0,
+              y: 0,
+              isHidden: false,
+            },
             {title: 'Yield'},
             {title: 'Documents'},
           ],
@@ -117,7 +125,6 @@ export default {
           });
         });
       } else {
-        console.log(obj);
         this.toggleTile(obj);
       }
     },

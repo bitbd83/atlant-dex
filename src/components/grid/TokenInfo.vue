@@ -79,18 +79,8 @@ export default {
       total: '920700',
     };
   },
-  computed: {
-  },
-  methods: {
-  },
-  watch: {
-  },
   directives: {
     scrollbar,
-  },
-  components: {
-  },
-  created() {
   },
 };
 </script>

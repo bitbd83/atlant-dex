@@ -42,6 +42,8 @@
     History(v-if="data.name === 'history'")
     Orders(v-if="data.name === 'orders'")
     TokenInfo(v-if="data.name === 'tokenInfo'")
+    Photos(v-if="data.name === 'photos'")
+
     .gridTile__orderBook(v-if="data.name === 'orderBook'")
       OrderBook.gridTile__orderBookTable(ask)
       OrderBook.gridTile__orderBookTable
@@ -57,6 +59,7 @@ import OrdersHeader from './OrdersHeader';
 import OrderBook from './OrderBook';
 import History from './History';
 import TokenInfo from './TokenInfo';
+import Photos from './Photos';
 
 export default {
   computed: {
@@ -95,6 +98,7 @@ export default {
     OrderBook,
     History,
     TokenInfo,
+    Photos,
   },
   mounted() {
     document.getElementsByClassName('gridTile__content--' + this.data.name)[0].style.height = this.getTileSize(this.data.name).height + 'px';
