@@ -47,11 +47,11 @@
       .token-info__label
         span Tokenised:
         span {{ tokenised }}
-      .token-info__label
+      .token-info__label.token-info__label--down
         span Volume 24h:
         span {{ volume | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
     .token-info__labels-row
-      .token-info__label
+      .token-info__label.token-info__label--down
         span Current value:
         span {{ value | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
       .token-info__label
@@ -198,6 +198,22 @@ export default {
     &:hover{
       background: $fill__blue;
       color: $color__white;
+    }
+
+    &--down span:last-child{
+      position: relative;
+
+      &:before{
+        content: '';
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6px 3.5px 0 3.5px;
+        border-color: red transparent transparent transparent;
+        position: absolute;
+        top: 6px;
+        left: -20px;
+      }
     }
   }
 }
