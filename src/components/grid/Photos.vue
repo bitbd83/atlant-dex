@@ -43,9 +43,9 @@
         @click="setActive(el)"
       )
     .gallery-bottom
-      span.left
+      span.left(@click="prev()")
       span.address {{ address }}
-      span.right
+      span.right(@click="next()")
 </template>
 
 <script>
@@ -92,6 +92,20 @@ export default {
   methods: {
     setActive(el) {
       this.active = el.index;
+    },
+    prev() {
+      if (this.active <= 0) {
+        this.active = this.length - 1;
+      } else {
+        this.active--;
+      }
+    },
+    next() {
+      if (this.active >= this.length - 1) {
+        this.active = 0;
+      } else {
+        this.active++;
+      }
     },
   },
 };
@@ -172,6 +186,7 @@ export default {
       width: 11px;
       height: 19px;
       background-repeat: no-repeat;
+      cursor: pointer;
     }
 
     & .left{
