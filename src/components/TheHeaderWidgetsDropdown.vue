@@ -34,7 +34,11 @@
 .widgetDropdown
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
-      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === 'false'}" @click.stop="widgetAction(item)") {{item.title}}
+      .widgetDropdown__item(
+        v-for="item in widget.items",
+        :class="{'widgetDropdown__item--open' : item.isHidden === 'false'}"
+        @click.stop="widgetAction(item)"
+      ) {{item.title}}
 </template>
 
 <script>
@@ -57,29 +61,12 @@ export default {
         },
         {
           name: 'property',
-          items: [
-            {
-              title: 'Token Info',
-              name: 'tokenInfo',
-              height: 670,
-              width: 850,
-              x: 0,
-              y: 0,
-              isHidden: false,
-            },
-            {title: 'Extended Info'},
-            {
-              title: 'Photos',
-              name: 'photos',
-              height: 311,
-              width: 851,
-              x: 0,
-              y: 0,
-              isHidden: false,
-            },
-            {title: 'Yield'},
-            {title: 'Documents'},
-          ],
+          items: [].concat(this.gridData.slice(4, this.gridData.length))
+            .concat([
+              {title: 'Extended Info'},
+              {title: 'Yield'},
+              {title: 'Documents'},
+            ]),
         },
         {
           name: 'views',
@@ -132,6 +119,7 @@ export default {
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);
       } else {
+        console.log(tile);
         this.addTile(tile.name);
         this.$nextTick(() => {
           this.addTileToDashboard({
