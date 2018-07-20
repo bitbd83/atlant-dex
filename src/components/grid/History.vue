@@ -87,7 +87,7 @@ export default {
   display: flex;
   width: 100%;
   background-color: $background__white;
-  padding: 30px 15px 30px 30px;
+  padding: 15px 0 15px 15px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   &:hover {

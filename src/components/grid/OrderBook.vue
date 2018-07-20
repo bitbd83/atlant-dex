@@ -104,7 +104,7 @@ export default {
   justify-content: space-between;
   flex: 1;
   height: 100%;
-  padding: 30px 15px 30px 30px;
+  padding: 15px 0 15px 15px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   background-color: $background__white;
@@ -132,6 +132,7 @@ export default {
   }
   &__cell {
     width: 33.333%;
+    // border: 1px solid black;
     &--ask {
       color: $color__red;
     }

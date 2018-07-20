@@ -189,7 +189,7 @@ export default {
     justify-content: space-between;
   }
   &__orderBookTable {
-    max-width: 47%;
+    // max-width: 47%;
   }
 }
 </style>
