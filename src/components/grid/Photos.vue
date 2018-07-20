@@ -33,16 +33,16 @@
 <template lang='pug'>
 .photos
   .photos__container
-    .gallery-info
+    .galleryInfo
       span.current {{ active + 1 }}
       span.length  / {{ length }}
     .gallery
-      .gallery-cell(
+      .galleryCell(
         v-for="(el, index) in preparedImages"
         :style="{ backgroundImage: 'url(' + el.src + ')' }"
         @click="setActive(el)"
       )
-    .gallery-bottom
+    .galleryBottom
       span.left(@click="prev()")
       span.address {{ address }}
       span.right(@click="next()")
@@ -126,17 +126,17 @@ export default {
     width: 100%;
   }
 
-  & .gallery-info{
+  & .galleryInfo{
     position: absolute;
     right: 0;
   }
 
-  & .gallery-info span:first-child{
+  & .galleryInfo span:first-child{
     font-size: 18px;
     color: $color__blue;
   }
 
-  & .gallery-info span:last-child{
+  & .galleryInfo span:last-child{
     font-size: 12px;
   }
 
@@ -145,29 +145,29 @@ export default {
     align-items: center;
   }
 
-  & .gallery-cell {
+  & .galleryCell {
     width: 207px;
     height: 137px;
     margin-right: 16px;
     background: #8C8;
-    counter-increment: gallery-cell;
+    counter-increment: galleryCell;
     background-size: cover;
     opacity: 0.5;
     cursor: pointer;
   }
 
-  & .gallery-cell:first-child {
+  & .galleryCell:first-child {
     width: 312px;
     height: 194px;
     transition: all 0.2s;
     opacity: 1;
   }
 
-  & .gallery-cell:last-child{
+  & .galleryCell:last-child{
     margin-right: 0;
   }
 
-  & .gallery-bottom{
+  & .galleryBottom{
     display: flex;
     justify-content: space-between;
     margin-top: 32px;

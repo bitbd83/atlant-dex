@@ -34,7 +34,11 @@
 .widgetDropdown
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
-      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === false}" @click.stop="widgetAction(item)") {{getWidgetTitle(item.name)}}
+      .widgetDropdown__item(
+        v-for="item in widget.items", 
+        :class="{'widgetDropdown__item--open' : item.isHidden === false}" 
+        @click.stop="widgetAction(item)"
+        ) {{getWidgetTitle(item.name)}}
 </template>
 
 <script>
