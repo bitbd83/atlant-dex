@@ -101,10 +101,8 @@ export default {
       const myIcon = L.icon({
           iconUrl: '/static/imgs/pin.png',
           iconSize: [27, 38],
-          iconAnchor: [22, 94],
-          popupAnchor: [-3, -76],
-          shadowSize: [68, 95],
-          shadowAnchor: [22, 94],
+          iconAnchor: [27, 38],
+          shadowAnchor: [27, 38],
       });
 
       L.tileLayer(
