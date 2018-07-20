@@ -94,7 +94,7 @@ export default {
     },
     addView(state, name) {
       state.savedViews.push({
-        title: name,
+        name,
         grid: JSON.parse(JSON.stringify(state.gridData)),
       });
     },

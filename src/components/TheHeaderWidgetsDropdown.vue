@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapMutations, mapActions} from 'vuex';
+import {mapMutations, mapGetters, mapActions} from 'vuex';
 import {getWidgetType, getWidgetTitle, defaultViews} from 'services/grid';
 
 export default {
@@ -55,18 +55,19 @@ export default {
       return [
         {
           name: 'trading',
-          items: this.gridData.filter((item) => getWidgetType(item.name) === 'trade'),
+          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'trade'),
         },
         {
           name: 'property',
-          items: this.gridData.filter((item) => getWidgetType(item.name) === 'property'),
+          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'property'),
         },
         {
           name: 'views',
           items: [
             ...defaultViews,
+            ...this.getSavedViews,
             {
-              name: 'Save Views',
+              name: 'Save View',
             },
           ],
         },
@@ -92,7 +93,7 @@ export default {
       return getWidgetTitle(name);
     },
     widgetAction(obj) {
-      if (obj.type === 'saveView') {
+      if (obj.name === 'Save View') {
         this.open({
           name: 'saveView',
           data: {
