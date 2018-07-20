@@ -113,7 +113,7 @@ export default {
         id: 'mapbox.streets',
       }).addTo(this.map);
 
-      L.marker([51.5, -0.09], {icon: myIcon}).addTo(this.map);
+      L.marker([this.lat, this.lng], {icon: myIcon}).addTo(this.map);
       // Hide copyrights
       document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
     }
