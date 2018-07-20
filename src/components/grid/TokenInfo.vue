@@ -35,25 +35,25 @@
   .tokenInfo__container(v-scrollbar="")
     #mapid(@mouseleave="show_gradient = true")
     .tokenInfo__gradientBlock(v-if="show_gradient" @mouseenter="show_gradient = false")
-      .tokenInfo__ticker-row
+      .tokenInfo__tickerRow
         img(:src="ticker_icon")
-        .tokenInfo__ticker-change {{ change }}%
-      .tokenInfo__ticker-row
-        .tokenInfo__ticker-symbol {{ ticker }}
-      .tokenInfo__ticker-row
+        .tokenInfo__tickerChange {{ change }}%
+      .tokenInfo__tickerRow
+        .tokenInfo__tickerSymbol {{ ticker }}
+      .tokenInfo__tickerRow
         h2 {{ address }}
-      .tokenInfo__ticker-description {{ description }}
-      .tokenInfo__ticker-row
+      .tokenInfo__tickerDescription {{ description }}
+      .tokenInfo__tickerRow
         a.tokenInfo__link(:href="link") {{ link }}
 
-    .tokenInfo__labels-row.tokenInfo__labels-row--first
+    .tokenInfo__labelsRow.tokenInfo__labelsRow--first
       .tokenInfo__label
         span Tokenised:
         span {{ tokenised }}
       .tokenInfo__label.tokenInfo__label--down
         span Volume 24h:
         span {{ volume | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
-    .tokenInfo__labels-row
+    .tokenInfo__labelsRow
       .tokenInfo__label.tokenInfo__label--down
         span Current value:
         span {{ value | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
@@ -156,7 +156,7 @@ export default {
     overflow: hidden;
     width: 100%;
   }
-  &__ticker-row{
+  &__tickerRow{
     display: flex;
     align-items: center;
 
@@ -167,19 +167,19 @@ export default {
     }
   }
 
-  &__ticker-symbol{
+  &__tickerSymbol{
     padding: 35px 0 56px 19px;
     font-size: 16px;
     font-weight: 600;
   }
 
-  &__ticker-description{
+  &__tickerDescription{
     max-width: 289px;
     font-family: "Century Gothic";
     line-height: 24px;
   }
 
-  &__ticker-change {
+  &__tickerChange {
     color: $token-info-ticker-color;
     font-size: 18px;
     position: relative;
@@ -187,7 +187,7 @@ export default {
     font-weight: 100;
   }
 
-  &__ticker-change:before{
+  &__tickerChange:before{
     content: '';
     display: block;
     width: 0;
@@ -222,13 +222,13 @@ export default {
   }
 
   &__label,
-  &__labels-row{
+  &__labelsRow{
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  &__labels-row{
+  &__labelsRow{
     padding: 0 34px;
 
     &--first{
