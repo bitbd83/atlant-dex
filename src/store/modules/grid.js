@@ -37,10 +37,12 @@ import _ from 'lodash';
 export default {
   state: {
     gridData: [
-      {name: 'chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
-      {name: 'history', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-      {name: 'orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-      {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
+      {name: 'chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
+      {name: 'history', height: 400, width: 400, x: 0, y: 0, isHidden: false},
+      {name: 'orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
+      {name: 'orderBook', height: 200, width: 720, x: 0, y: 0, isHidden: false},
+      {name: 'tokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: false},
+      {name: 'photos', height: 311, width: 851, x: 0, y: 0, isHidden: false},
     ],
     gridSize: 10,
     savedViews: [],

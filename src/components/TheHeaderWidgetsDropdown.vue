@@ -34,11 +34,12 @@
 .widgetDropdown
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
-      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === false}" @click.stop="widgetAction(item)") {{item.title}}
+      .widgetDropdown__item(v-for="item in widget.items", :class="{'widgetDropdown__item--open' : item.isHidden === false}" @click.stop="widgetAction(item)") {{getWidgetTitle(item.name)}}
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapMutations, mapActions} from 'vuex';
+import {getWidgetType, getWidgetTitle, defaultViews} from 'services/grid';
 
 export default {
   data() {
@@ -54,43 +55,18 @@ export default {
       return [
         {
           name: 'trading',
-          items: this.getGridData,
+          items: this.gridData.filter((item) => getWidgetType(item.name) === 'trade'),
         },
         {
           name: 'property',
-          items: [
-            {title: 'Token Info'},
-            {title: 'Extended Info'},
-            {title: 'Photos'},
-            {title: 'Yield'},
-            {title: 'Documents'},
-          ],
+          items: this.gridData.filter((item) => getWidgetType(item.name) === 'property'),
         },
         {
           name: 'views',
           items: [
+            ...defaultViews,
             {
-              title: 'Trading',
-              grid: [
-                {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
-                {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
-                {name: 'orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false},
-                {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: false},
-              ],
-            },
-            {
-              title: 'Research',
-              grid: [
-                {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: true},
-                {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: true},
-                {name: 'orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: true},
-                {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: true},
-              ],
-            },
-            ...this.getSavedViews,
-            {
-              title: 'Save View',
-              type: 'saveView',
+              name: 'Save Views',
             },
           ],
         },
@@ -112,6 +88,9 @@ export default {
       'addTileToDashboard',
       'setupDashboard',
     ]),
+    getWidgetTitle(name) {
+      return getWidgetTitle(name);
+    },
     widgetAction(obj) {
       if (obj.type === 'saveView') {
         this.open({

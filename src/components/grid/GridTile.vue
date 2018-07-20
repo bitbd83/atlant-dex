@@ -173,6 +173,14 @@ export default {
       min-width: 760px;
       min-height: 200px;
     }
+    &--photos {
+      min-width: 600px;
+      min-height: 330px;
+    }
+    &--tokenInfo {
+      min-width: 500px;
+      min-height: 400px;
+    }
   }
   &__orderBook {
     width: 100%;
