@@ -107,15 +107,17 @@ export default {
           shadowAnchor: [22, 94],
       });
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '',
-        id: 'mapbox.streets',
-      }).addTo(this.map);
+      L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          maxZoom: 18,
+          attribution: '',
+          id: 'mapbox.streets',
+        }).addTo(this.map);
 
       L.marker([this.lat, this.lng], {icon: myIcon}).addTo(this.map);
       // Hide copyrights
-      document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+      document.getElementsByClassName('leaflet-control-attribution')[0].style.display = 'none';
     }
   },
 

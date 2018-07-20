@@ -119,7 +119,6 @@ export default {
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);
       } else {
-        console.log(tile);
         this.addTile(tile.name);
         this.$nextTick(() => {
           this.addTileToDashboard({

@@ -163,7 +163,6 @@ export default {
     removeTileFromDashboard({commit}, name) {
       commit('removeTile', name);
       commit('setTileSize', {name, height: 0, width: 0});
-      // commit('setTilePosition', {name, x: 0, y: 0});
     },
     removeAllTiles({state, dispatch}) {
       for (let i of state.gridData) {
