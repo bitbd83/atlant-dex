@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import Chart from './Chart';
 import ChartHeader from './ChartHeader';
 import Orders from './Orders';
@@ -63,9 +63,6 @@ import Photos from './Photos';
 
 export default {
   computed: {
-    ...mapState('grid', [
-      'gridData',
-    ]),
     ...mapGetters('grid', [
       'getTileSize',
       'getTilePosition',
@@ -183,6 +180,14 @@ export default {
       min-width: 760px;
       min-height: 200px;
     }
+    &--photos {
+      min-width: 600px;
+      min-height: 330px;
+    }
+    &--tokenInfo {
+      min-width: 500px;
+      min-height: 400px;
+    }
   }
   &__orderBook {
     width: 100%;
@@ -191,7 +196,7 @@ export default {
     justify-content: space-between;
   }
   &__orderBookTable {
-    max-width: 47%;
+    // max-width: 47%;
   }
 }
 </style>

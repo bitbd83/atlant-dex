@@ -150,7 +150,7 @@ export default {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 30px;
+    margin: 15px;
   }
   &__body {
     width: 100%;

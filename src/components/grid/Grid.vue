@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
 import GridTile from './GridTile';
@@ -50,11 +50,11 @@ export default {
     };
   },
   computed: {
-    ...mapState('grid', [
-      'gridData',
+    ...mapGetters('grid', [
+      'getGridData',
     ]),
     visibleGrid() {
-      return this.gridData.filter((item) => item.isHidden === false);
+      return this.getGridData.filter((item) => item.isHidden === false);
     },
   },
   methods: {

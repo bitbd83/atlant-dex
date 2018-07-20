@@ -30,99 +30,39 @@
 // change. To the extent permitted under your local laws, the Licensor excludes the implied warranties of merchantability,
 // fitness for a particular purpose and non-infringement.
 
-<template lang='pug'>
-.history
-  .history__container(v-scrollbar="")
-    table.history__table
-      tbody.history__body
-        tr.history__row(v-for='(trade, index) in lastTrades')
-          td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price}}
-          td.history__cell {{trade.amount.toFixed(4)}}
-          td.history__cell {{(trade.price * trade.amount).toFixed(4)}}
-</template>
-
-<script>
-import {mapState, mapGetters, mapActions} from 'vuex';
-import {scrollbar} from '@/directives';
-import GridTile from './GridTile';
-
-export default {
-  computed: {
-    ...mapState('tradeInfo', {
-      pair: 'pair',
-    }),
-    ...mapGetters('orders', {
-      lastTrades: 'getLastTrades',
-    }),
-  },
-  methods: {
-    ...mapActions('orders', {
-      getTradeHistory: 'getTradeHistory',
-    }),
-    getApiRequest() {
-      this.getTradeHistory();
-    },
-  },
-  watch: {
-    pair() {
-      this.getApiRequest();
-    },
-  },
-  directives: {
-    scrollbar,
-  },
-  components: {
-    GridTile,
-  },
-  created() {
-    this.getApiRequest();
-  },
+export const getWidgetType = (name) => {
+  return ['chart', 'history', 'orders', 'orderBook'].includes(name) ? 'trade' : 'property';
 };
-</script>
 
-<style lang="scss">
-@import 'variables';
+export const getWidgetTitle = (name) => {
+  switch (name) {
+    case 'chart': return 'Chart';
+    case 'history': return 'Trade history';
+    case 'orders': return 'Orders';
+    case 'orderBook': return 'Order book';
+    case 'tokenInfo': return 'Token Info';
+    case 'photos': return 'Photos';
+    default: return name;
+  }
+};
 
-.history {
-  display: flex;
-  width: 100%;
-  background-color: $background__white;
-  padding: 15px 0 15px 15px;
-  border-radius: 8px;
-  border: 1px solid $color__grey_border;
-  &:hover {
-    background-color: $background__grey_dark;
-  }
-  &__container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding-right: 15px;
-  }
-  &__table {
-    width: 100%;
-  }
-  &__row {
-    & td {
-      &:nth-child(1) {
-        text-align: left;
-      }
-      &:nth-child(2) {
-        text-align: center;
-      }
-      &:nth-child(3) {
-        text-align: right;
-      }
-    }
-  }
-  &__cell {
-    width: 33.333%;
-    &--buy {
-      color: $color__green;
-    }
-    &--sell {
-      color: $color__red;
-    }
-  }
-}
-</style>
+export const defaultViews = [
+  {
+    name: 'Trading',
+    grid: [
+      {name: 'chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
+      {name: 'history', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
+      {name: 'orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false},
+      {name: 'orderBook', height: 400, width: 760, x: 760, y: 0, isHidden: false},
+    ],
+  },
+  {
+    name: 'Research',
+    grid: [
+      {name: 'chart', height: 400, width: 740, x: 0, y: 0, isHidden: true},
+      {name: 'history', height: 300, width: 340, x: 1170, y: 450, isHidden: true},
+      {name: 'orders', height: 300, width: 1160, x: 0, y: 450, isHidden: true},
+      {name: 'orderBook', height: 400, width: 760, x: 760, y: 0, isHidden: true},
+    ],
+  },
+];

@@ -35,14 +35,15 @@
   .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
       .widgetDropdown__item(
-        v-for="item in widget.items",
-        :class="{'widgetDropdown__item--open' : item.isHidden === 'false'}"
+        v-for="item in widget.items", 
+        :class="{'widgetDropdown__item--open' : item.isHidden === false}" 
         @click.stop="widgetAction(item)"
-      ) {{item.title}}
+        ) {{getWidgetTitle(item.name)}}
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapMutations, mapGetters, mapActions} from 'vuex';
+import {getWidgetType, getWidgetTitle, defaultViews} from 'services/grid';
 
 export default {
   data() {
@@ -50,51 +51,41 @@ export default {
     };
   },
   computed: {
-    ...mapState('grid', [
-      'gridData',
+    ...mapGetters('grid', [
+      'getSavedViews',
+      'getGridData',
     ]),
     widgetGroup() {
       return [
         {
           name: 'trading',
-          items: this.gridData,
+          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'trade'),
         },
         {
           name: 'property',
-          items: [].concat(this.gridData.slice(4, this.gridData.length))
-            .concat([
-              {title: 'Extended Info'},
-              {title: 'Yield'},
-              {title: 'Documents'},
-            ]),
+          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'property'),
         },
         {
           name: 'views',
           items: [
+            ...defaultViews,
+            ...this.getSavedViews,
             {
-              title: 'Trading',
-              type: 'setView',
-              grid: [
-                {name: 'chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
-                {name: 'history', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
-                {name: 'orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false},
-                {name: 'orderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: false},
-              ],
+              name: 'Save View',
             },
-            {
-              title: 'Research',
-              type: 'setView',
-            },
-            {title: 'Save Views'},
           ],
         },
       ];
     },
   },
   methods: {
+    ...mapMutations('modal', [
+      'open',
+    ]),
     ...mapMutations('grid', [
       'addTile',
       'setGrid',
+      'addView',
     ]),
     ...mapActions('grid', [
       'removeTileFromDashboard',
@@ -102,8 +93,20 @@ export default {
       'addTileToDashboard',
       'setupDashboard',
     ]),
+    getWidgetTitle(name) {
+      return getWidgetTitle(name);
+    },
     widgetAction(obj) {
-      if (obj.type === 'setView') {
+      if (obj.name === 'Save View') {
+        this.open({
+          name: 'saveView',
+          data: {
+            saveView: (name) => {
+              this.addView(name);
+            },
+          },
+        });
+      } else if (obj.grid) {
         this.removeAllTiles();
         this.$nextTick(() => {
           this.setGrid(obj.grid);
@@ -142,8 +145,6 @@ export default {
     hoverLeave(name) {
       document.querySelector('.widgetDropdown__list--' + name).style.height = 0;
     },
-  },
-  watch: {
   },
   created() {
   },
@@ -186,7 +187,7 @@ export default {
     top: -10px;
     left: 0;
     z-index: 1000000;
-    transition: height 1s ease-out;
+    transition: height 0.5s ease-out;
   }
   &__item {
     width: 100%;

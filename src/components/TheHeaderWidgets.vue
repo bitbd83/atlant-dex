@@ -97,17 +97,17 @@ export default {
     border-radius: 3px;
     background-color: $background__blue;
     cursor: pointer;
-    transition: width 1s ease-out;
+    transition: width .5s ease-out;
     &--active {
       width: 360px;
-      transition: width 1s ease-out;
+      transition: width .5s ease-out;
     }
   }
   &__icon {
     width: 9px;
     height: 9px;
     fill: $fill__white;;
-    transition: margin 1s ease-out;
+    transition: margin .5s ease-out;
     &--outside {
       margin-left: -50px;
       margin-right: 28px;
@@ -119,11 +119,11 @@ export default {
     opacity: 0;
     // display: none;
     overflow: hidden;
-    transition: opacity 1s 1s linear;
+    transition: opacity .5s .5s linear;
     &--open {
       //overflow: visible;
       opacity: 1;
-      transition: opacity 1s 1s linear;
+      transition: opacity .5s .5s linear;
     }
   }
   &__label {

@@ -150,7 +150,7 @@ export default {
 @import 'variables';
 
 .toolbar {
-  width: 70px;
+  width: 55px;
   display: flex;
   flex-direction: column;
   align-items: center;

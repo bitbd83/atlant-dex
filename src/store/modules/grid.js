@@ -37,30 +37,15 @@ import _ from 'lodash';
 export default {
   state: {
     gridData: [
-      {name: 'chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
-      {name: 'history', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-      {name: 'orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-      {name: 'orderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
-      {
-        title: 'Token Info',
-        name: 'tokenInfo',
-        height: 400,
-        width: 740,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
-      {
-        title: 'Photos',
-        name: 'photos',
-        height: 311,
-        width: 851,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
+      {name: 'chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
+      {name: 'history', height: 400, width: 400, x: 0, y: 0, isHidden: false},
+      {name: 'orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
+      {name: 'orderBook', height: 200, width: 720, x: 0, y: 0, isHidden: false},
+      {name: 'tokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: false},
+      {name: 'photos', height: 311, width: 851, x: 0, y: 0, isHidden: false},
     ],
     gridSize: 10,
+    savedViews: [],
     resizeDetector: {},
   },
   getters: {
@@ -75,6 +60,12 @@ export default {
         x: state.gridData.find((item) => item.name === name).x,
         y: state.gridData.find((item) => item.name === name).y,
       };
+    },
+    getSavedViews(state) {
+      return state.savedViews;
+    },
+    getGridData(state) {
+      return state.gridData;
     },
   },
   mutations: {
@@ -99,7 +90,13 @@ export default {
       state.gridData.find((item) => item.name === name).isHidden = false;
     },
     setGrid(state, grid) {
-      state.gridData = grid;
+      state.gridData = JSON.parse(JSON.stringify(grid));
+    },
+    addView(state, name) {
+      state.savedViews.push({
+        name,
+        grid: JSON.parse(JSON.stringify(state.gridData)),
+      });
     },
   },
   actions: {
