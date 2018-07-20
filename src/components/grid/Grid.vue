@@ -35,6 +35,7 @@
   // UserVisibility(hide-on-logout)
   GridTile(v-for="item in visibleGrid", :key="item.name", :data="item")
   BuySell
+  Test
 </template>
 
 <script>
@@ -43,6 +44,7 @@ import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
 import GridTile from './GridTile';
 import BuySell from './BuySell';
+import Test from './Test';
 
 export default {
   data() {
@@ -69,6 +71,7 @@ export default {
     UserVisibility,
     GridTile,
     BuySell,
+    Test,
   },
   directives: {
     scrollbar,
