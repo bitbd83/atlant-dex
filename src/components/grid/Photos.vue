@@ -31,28 +31,44 @@
 // fitness for a particular purpose and non-infringement.
 
 <template lang='pug'>
-.photos
-  .photos__container
-    .galleryInfo
-      span.current {{ active + 1 }}
-      span.length  / {{ length }}
-    .gallery
-      .galleryCell(
-        v-for="(el, index) in preparedImages"
-        :style="{ backgroundImage: 'url(' + el.src + ')' }"
-        @click="setActive(el)"
-      )
-    .galleryBottom
-      span.left(@click="prev()")
-      span.address {{ address }}
-      span.right(@click="next()")
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
+
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .photos
+      .photos__container(v-scrollbar="")
+        .galleryInfo
+          span.current {{ active + 1 }}
+          span.length  / {{ length }}
+        .gallery
+          .galleryCell(
+            v-for="(el, index) in preparedImages"
+            :style="{ backgroundImage: 'url(' + el.src + ')' }"
+            @click="setActive(el)"
+          )
+        .galleryBottom
+          span.left(@click="prev()")
+          span.address {{ address }}
+          span.right(@click="next()")
 </template>
 
 <script>
-// import {mapState, mapGetters, mapActions} from 'vuex';
+import TileBase from '../../mixins/TileBase';
 import {scrollbar} from '@/directives';
 
 export default {
+  mixins: [TileBase],
   data() {
     return {
       active: 0,

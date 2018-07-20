@@ -31,41 +31,59 @@
 // fitness for a particular purpose and non-infringement.
 
 <template lang='pug'>
-.orders
-  .orders__container(v-scrollbar="")
-    table.orders__body
-      tr.orders__title
-        td.orders__cell.orders__cell--trash
-        td.orders__cell.orders__cell--sell Side
-        td.orders__cell.orders__cell--type Type
-        td.orders__cell.orders__cell--number Price
-        td.orders__cell.orders__cell--number Current
-        td.orders__cell.orders__cell--number Initial
-        td.orders__cell.orders__cell--status Status
-        td.orders__cell.orders__cell--date Date
-    table.orders__body
-      tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
-        td.orders__cell.orders__cell--trash
-          Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
-        td.orders__cell.orders__cell--sell
-          .orders__typeWrapper
-            .orders__square(:class="'orders__square--' + getAction(order.side)")
-            .orders__type {{getAction(order.side)}}
-        td.orders__cell.orders__cell--type {{orderType[order.type]}}
-        td.orders__cell.orders__cell--number {{order.price}}
-        td.orders__cell.orders__cell--number {{order.leavesQuantity}}
-        td.orders__cell.orders__cell--number {{order.totalQuantity}}
-        td.orders__cell.orders__cell--status {{orderStatus[order.status]}}
-        td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
+    OrdersHeader
+
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .orders
+      .orders__container(v-scrollbar="")
+        table.orders__body
+          tr.orders__title
+            td.orders__cell.orders__cell--trash
+            td.orders__cell.orders__cell--sell Side
+            td.orders__cell.orders__cell--type Type
+            td.orders__cell.orders__cell--number Price
+            td.orders__cell.orders__cell--number Current
+            td.orders__cell.orders__cell--number Initial
+            td.orders__cell.orders__cell--status Status
+            td.orders__cell.orders__cell--date Date
+        table.orders__body
+          tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
+            td.orders__cell.orders__cell--trash
+              Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
+            td.orders__cell.orders__cell--sell
+              .orders__typeWrapper
+                .orders__square(:class="'orders__square--' + getAction(order.side)")
+                .orders__type {{getAction(order.side)}}
+            td.orders__cell.orders__cell--type {{orderType[order.type]}}
+            td.orders__cell.orders__cell--number {{order.price}}
+            td.orders__cell.orders__cell--number {{order.leavesQuantity}}
+            td.orders__cell.orders__cell--number {{order.totalQuantity}}
+            td.orders__cell.orders__cell--status {{orderStatus[order.status]}}
+            td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
-import GridTile from './GridTile';
+import OrdersHeader from './OrdersHeader';
+import TileBase from '../../mixins/TileBase';
 
 export default {
+  mixins: [TileBase],
   data() {
     return {
       orderStatus: [
@@ -126,15 +144,19 @@ export default {
     scrollbar,
   },
   components: {
-    GridTile,
+    OrdersHeader,
   },
 };
 
 </script>
 
 <style lang='scss'>
-// @import 'perfect-scrollbar/dist/css/perfect-scrollbar';
+@import 'perfect-scrollbar/dist/css/perfect-scrollbar';
 @import 'variables';
+.gridTile__content--orders {
+  min-width: 960px;
+  min-height: 200px;
+}
 .orders {
   display: flex;
   flex-direction: column;

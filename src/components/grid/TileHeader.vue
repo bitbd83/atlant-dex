@@ -2,8 +2,8 @@
 .gridTile__headerContainer(:class="`gridTile__headerContainer--${ name }`")
     .gridTile__header
       .title.gridTile__title {{title}}:
-        slot
-        Icon.gridTile__icon(id="cross" @click="removeTile(name)")
+      slot
+      Icon.gridTile__icon(id="cross" @click="removeTile(name)")
 </template>
 
 <script>

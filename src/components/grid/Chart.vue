@@ -31,11 +31,29 @@
 // fitness for a particular purpose and non-infringement.
 
 <template lang='pug'>
-.chart
-  IEcharts(:option="chart", :loading="false", :resizable="true")#chart
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
+    ChartHeader
+
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .chart
+      IEcharts(:option="chart", :loading="false", :resizable="true")#chart
 </template>
 
 <script>
+import TileBase from '../../mixins/TileBase';
+import ChartHeader from './ChartHeader';
 import IEcharts from 'vue-echarts-v3/src/lite.js';
 import 'echarts/lib/chart/line';
 import 'echarts/lib/chart/bar';
@@ -47,6 +65,7 @@ import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
 
 export default {
+  mixins: [TileBase],
   data() {
     return {
       chart: {},
@@ -369,6 +388,7 @@ export default {
   },
   components: {
     IEcharts,
+    ChartHeader,
   },
 };
 </script>
