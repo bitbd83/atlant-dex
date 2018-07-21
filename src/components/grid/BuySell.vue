@@ -10,8 +10,8 @@
         .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
         Icon.buySell__arrow(id="arrow_short")
         .buySell__infoContainer
-          .buySell__info #[.buySell__infoLabel Spread] #[span {{numbersFormat(bidAskSpread, 2)}}%]
-          .buySell__info #[.buySell__infoLabel Fee] #[span {{numbersFormat(fee * 100, 2)}}%]
+          .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%]
+          .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%]
     .buySell__buttons
       .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
         IInput.buySell__input(v-show="!open" placeholder="Quantity" center no-underline v-model="amount" type="number")
@@ -28,12 +28,12 @@
       .buySell__field
         .buySell__label Total amount
         .buySell__inputContainer
-          .buySell__totalAmount {{numbersFormat(getTotal, 4)}} {{quoteCurrency}}
+          .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
       BButton.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
-        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{numbersFormat(ask, 2)}}]
+        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
         .buySell__buttonContent(v-show="open") Confirm buy order
       BButton.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
-        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{numbersFormat(bid, 2)}}]
+        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
         .buySell__buttonContent(v-show="open") Confirm sell order
   .buySell__done(v-show="isDone" @click="isDone = false") Done
 </template>
