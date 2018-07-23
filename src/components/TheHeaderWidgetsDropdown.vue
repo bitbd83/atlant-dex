@@ -50,7 +50,7 @@ export default {
             {
               title: 'Research',
               type: 'setView',
-              name: 'Save View',
+              name: 'saveView',
             },
           ],
         },

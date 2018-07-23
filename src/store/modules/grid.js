@@ -59,7 +59,7 @@ export default {
       ];
     },
     getWidgetType: (state) => (name) => {
-      return ['chart', 'history', 'orders', 'orderBook'].includes(name) ? 'trade' : 'property';
+      return ['Chart', 'History', 'Orders', 'OrderBook'].includes(name) ? 'trade' : 'property';
     },
   },
   mutations: {

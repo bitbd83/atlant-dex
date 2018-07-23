@@ -9,4 +9,7 @@ export default {
   OrderBook: 'Order book',
   TokenInfo: 'Token Info',
   Photos: 'Photos',
+  Trading: 'Trading',
+  Research: 'Research',
+  saveView: 'Save view',
 };
