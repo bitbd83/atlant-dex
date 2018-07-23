@@ -41,6 +41,7 @@
 <script>
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from 'services/notification';
+import {addTileToDashboard} from 'services/grid';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 
@@ -98,9 +99,6 @@ export default {
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    ...mapActions('grid', [
-      'addTileToDashboard',
-    ]),
     toggleMain(isOpen) {
       this.open = isOpen;
     },
@@ -164,12 +162,15 @@ export default {
     this.price = this.getPrice;
   },
   mounted() {
-    this.addTileToDashboard({
-      target: document.getElementsByClassName('buySell')[0],
-      trigger: document.getElementsByClassName('buySell__headerContainer')[0],
-      isHideable: false,
-      isResizeable: false,
-    });
+    addTileToDashboard(
+      this.$store,
+      {
+        target: document.getElementsByClassName('buySell')[0],
+        trigger: document.getElementsByClassName('buySell__headerContainer')[0],
+        isHideable: false,
+        isResizeable: false,
+      }
+    );
   },
   components: {
     BButton,

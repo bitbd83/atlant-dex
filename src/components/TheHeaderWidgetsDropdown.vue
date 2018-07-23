@@ -15,7 +15,7 @@
 
 <script>
 import {mapMutations, mapGetters, mapActions} from 'vuex';
-import {getWidgetType, defaultViews} from 'services/grid';
+import {getWidgetType, setupDashboard, addTileToDashboard} from 'services/grid';
 
 export default {
   data() {
@@ -23,10 +23,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('grid', [
-      'getSavedViews',
-      'getGridData',
-    ]),
+    ...mapGetters(
+      'grid',
+      [
+        'getSavedViews',
+        'getGridData',
+        'defaultViews',
+      ]
+    ),
     widgetGroup() {
       return [
         {
@@ -40,7 +44,7 @@ export default {
         {
           name: 'views',
           items: [
-            ...defaultViews,
+            ...this.defaultViews,
             ...this.getSavedViews,
             {
               title: 'Research',
@@ -61,12 +65,13 @@ export default {
       'setGrid',
       'addView',
     ]),
-    ...mapActions('grid', [
-      'removeTileFromDashboard',
-      'removeAllTiles',
-      'addTileToDashboard',
-      'setupDashboard',
-    ]),
+    ...mapActions(
+      'grid',
+      [
+        'removeTileFromDashboard',
+        'removeAllTiles',
+      ]
+    ),
     widgetAction(obj) {
       if (obj.name === 'Save View') {
         this.open({
@@ -82,7 +87,7 @@ export default {
         this.$nextTick(() => {
           this.setGrid(obj.grid);
           this.$nextTick(() => {
-            this.setupDashboard();
+            setupDashboard(this.$store);
           });
         });
       } else {
@@ -96,14 +101,17 @@ export default {
       } else {
         this.addTile(tile.name);
         this.$nextTick(() => {
-          this.addTileToDashboard({
-            name: tile.name,
-            target: document.getElementsByClassName('gridTile--' + tile.name)[0],
-            trigger: '.gridTile__headerContainer--' + tile.name,
-            container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
-            isHideable: true,
-            isResizeable: true,
-          });
+          addTileToDashboard(
+            this.$store,
+            {
+              name: tile.name,
+              target: document.getElementsByClassName('gridTile--' + tile.name)[0],
+              trigger: '.gridTile__headerContainer--' + tile.name,
+              container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
+              isHideable: true,
+              isResizeable: true,
+            }
+          );
         });
       };
     },

@@ -3,10 +3,10 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 export default {
-  chart: 'Chart',
-  history: 'Trade history',
-  orders: 'Orders',
-  orderbook: 'Order book',
-  tokeninfo: 'Token Info',
-  photos: 'Photos',
+  Chart: 'Chart',
+  History: 'Trade history',
+  Orders: 'Orders',
+  OrderBook: 'Order book',
+  TokenInfo: 'Token Info',
+  Photos: 'Photos',
 };
