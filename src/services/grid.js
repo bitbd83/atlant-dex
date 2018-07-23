@@ -6,18 +6,6 @@ export const getWidgetType = (name) => {
   return ['chart', 'history', 'orders', 'orderBook'].includes(name) ? 'trade' : 'property';
 };
 
-export const getWidgetTitle = (name) => {
-  const m = new Map([
-    ['chart', 'Chart'],
-    ['history', 'Trade history'],
-    ['orders', 'Orders'],
-    ['orderBook', 'Order book'],
-    ['tokenInfo', 'Token Info'],
-    ['photos', 'Photos'],
-  ]);
-  return m.get(name) || name;
-};
-
 export const defaultViews = [
   {
     name: 'Trading',

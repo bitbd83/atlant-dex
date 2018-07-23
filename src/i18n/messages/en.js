@@ -3,6 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 import serverErrors from './server-errors/en';
+import widgetTitles from './widget-titles/en';
 
 export default {
   copied: 'Copied',
@@ -41,6 +42,7 @@ export default {
   },
   emailSent: 'Email sent to {0}',
   serverErrors,
+  widgetTitles,
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

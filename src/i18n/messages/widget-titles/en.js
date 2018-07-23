@@ -2,3 +2,11 @@
 // Use of this source code is governed by Microsoft Reference Source
 // License (MS-RSL) that can be found in the LICENSE file.
 
+export default {
+  chart: 'Chart',
+  history: 'Trade history',
+  orders: 'Orders',
+  orderbook: 'Order book',
+  tokeninfo: 'Token Info',
+  photos: 'Photos',
+};

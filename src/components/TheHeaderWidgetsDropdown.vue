@@ -10,12 +10,12 @@
         v-for="item in widget.items",
         :class="{'widgetDropdown__item--open' : item.isHidden === false}"
         @click.stop="widgetAction(item)"
-        ) {{getWidgetTitle(item.name)}}
+        ) {{$t(`widgetTitles.${item.name}`)}}
 </template>
 
 <script>
 import {mapMutations, mapGetters, mapActions} from 'vuex';
-import {getWidgetType, getWidgetTitle, defaultViews} from 'services/grid';
+import {getWidgetType, defaultViews} from 'services/grid';
 
 export default {
   data() {
@@ -67,9 +67,6 @@ export default {
       'addTileToDashboard',
       'setupDashboard',
     ]),
-    getWidgetTitle(name) {
-      return getWidgetTitle(name);
-    },
     widgetAction(obj) {
       if (obj.name === 'Save View') {
         this.open({
