@@ -3,10 +3,8 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 import * as Chart from 'services/api/charts';
-// import {serverNotification} from 'services/notification';
 import {defPeriod} from '@/config';
 import {debounce} from 'services/misc';
-// import dataFromTradeModule from './trade';
 
 export default {
   state: {
@@ -30,11 +28,6 @@ export default {
         enabled: false,
         color: 'orange',
       },
-      // 'MACD': {
-      //   name: 'MACD',
-      //   enabled: false,
-      //   color: 'pink',
-      // },
     },
     currentChart: 'candlestick',
   },
@@ -163,12 +156,9 @@ export default {
       const {candles, lastCandleOpenTime} = getters;
       const lastCandleIndex = candles.length - 1;
       let newCandles = candles;
-      // console.log('newCandle: ', newCandle);
       if (candles.length && (new Date(newCandle.candleOpen).getTime() - lastCandleOpenTime) < 1000) {
-        // console.log('Update last candle');
         newCandles = [...candles.slice(0, lastCandleIndex), newCandle];
       } else {
-        // console.log('Add new candle');
         newCandles = candles.concat(newCandle);
       }
       commit('setCandles', newCandles);

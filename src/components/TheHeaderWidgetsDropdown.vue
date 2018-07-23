@@ -43,16 +43,6 @@ export default {
             ...defaultViews,
             ...this.getSavedViews,
             {
-              title: 'Trading',
-              type: 'setView',
-              grid: [
-                {name: 'Chart', title: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false},
-                {name: 'History', title: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false},
-                {name: 'Orders', title: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false},
-                {name: 'OrderBook', title: 'Order book', height: 400, width: 760, x: 760, y: 0, isHidden: false},
-              ],
-            },
-            {
               title: 'Research',
               type: 'setView',
               name: 'Save View',

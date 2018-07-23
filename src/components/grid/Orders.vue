@@ -125,10 +125,6 @@ export default {
 <style lang='scss'>
 @import 'perfect-scrollbar/dist/css/perfect-scrollbar';
 @import 'variables';
-.gridTile__content--orders {
-  min-width: 960px;
-  min-height: 200px;
-}
 .orders {
   display: flex;
   flex-direction: column;
@@ -160,12 +156,6 @@ export default {
     &--sell {
       width: 90px;
     }
-    // &--type {
-    //   width: 43px;
-    // }
-    // &--number {
-    //   width: 69px;
-    // }
     &--status {
       width: 124px;
     }
