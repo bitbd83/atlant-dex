@@ -118,7 +118,7 @@ export default {
 .sidebarChild {
 
   &__headerContainer {
-    padding: 40px 18px 32px 25px;
+    padding: 20px 18px 32px 25px;
   }
 
   &__headerLine {

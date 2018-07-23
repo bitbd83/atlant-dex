@@ -127,7 +127,7 @@ export default {
   }
 
   &__item {
-    margin: 40px 18px 48px 25px;
+    margin: 20px 18px 48px 25px;
     font-size: 12px;
 
     &--header {

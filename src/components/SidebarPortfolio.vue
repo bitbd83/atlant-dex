@@ -104,7 +104,7 @@ export default {
   }
 
   &__item {
-    padding: 40px 18px 32px 25px;
+    padding: 20px 18px 32px 25px;
     font-size: 12px;
 
     &--header {

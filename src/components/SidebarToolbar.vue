@@ -129,13 +129,13 @@ export default {
   justify-content: space-between;
   height: 100%;
   padding: 15px 0;
-  padding-top: 33px;
+  padding-top: 12px;
   background-color: $background__blue;
   flex-shrink: 0;
 
   &__logo {
-    width: 27px;
-    height: 29px;
+    width: 34px;
+    height: 36px;
     fill: $fill__white;
     cursor: pointer;
     margin: auto;

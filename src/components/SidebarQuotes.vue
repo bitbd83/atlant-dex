@@ -126,7 +126,7 @@ export default {
   display: flex;
   flex-direction: column;
   &__headerContainer {
-    padding: 40px 23px 28px 23px;
+    padding: 20px 23px 28px 23px;
   }
   &__paramsContainer {
     display: flex;
