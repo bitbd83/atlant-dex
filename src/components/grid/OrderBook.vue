@@ -3,20 +3,44 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-.book
-  .book__container(v-scrollbar="")
-    table.book__body
-      tr.book__row(v-for="(order, index) in orderBook")
-        td.book__cell(:class="`book__cell--${(ask) ? 'ask' : 'bid'}`") {{order.price}}
-        td.book__cell {{order.amount.toFixed(4)}}
-        td.book__cell {{(order.price * order.amount).toFixed(4)}}
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
+
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .book
+      .book__container(v-scrollbar="")
+        table.book__body
+          tr.book__row(v-for="(order, index) in book.asks")
+            td.book__cell.book__cell--ask {{order.price}}
+            td.book__cell {{order.amount.toFixed(4)}}
+            td.book__cell {{(order.price * order.amount).toFixed(4)}}
+    .book
+      .book__container(v-scrollbar="")
+        table.book__body
+          tr.book__row(v-for="(order, index) in book.bids")
+            td.book__cell.book__cell--bid {{order.price}}
+            td.book__cell {{order.amount.toFixed(4)}}
+            td.book__cell {{(order.price * order.amount).toFixed(4)}}
 </template>
 
 <script>
+import TileBase from '../../mixins/TileBase';
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 
 export default {
+  mixins: [TileBase],
   computed: {
     ...mapState('tradeInfo', {
       pair: 'pair',
@@ -25,10 +49,6 @@ export default {
       book: (state) => state.book,
       status: (state) => state.book.status,
     }),
-    orderBook() {
-      const items = this.ask ? this.book.asks : this.book.bids;
-      return items; // .slice(0, this.limit);
-    },
   },
   methods: {
     ...mapActions('orders', [

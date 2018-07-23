@@ -3,42 +3,59 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-.tokenInfo
-  .tokenInfo__container(v-scrollbar="")
-    #mapid(@mouseleave="show_gradient = true")
-    .tokenInfo__gradientBlock(v-if="show_gradient" @mouseenter="show_gradient = false")
-      .tokenInfo__tickerRow
-        img(:src="ticker_icon")
-        .tokenInfo__tickerChange {{ change }}%
-      .tokenInfo__tickerRow
-        .tokenInfo__tickerSymbol {{ ticker }}
-      .tokenInfo__tickerRow
-        h2 {{ address }}
-      .tokenInfo__tickerDescription {{ description }}
-      .tokenInfo__tickerRow
-        a.tokenInfo__link(:href="link") {{ link }}
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
 
-    .tokenInfo__labelsRow.tokenInfo__labelsRow--first
-      .tokenInfo__label
-        span Tokenised:
-        span {{ tokenised }}
-      .tokenInfo__label.tokenInfo__label--down
-        span Volume 24h:
-        span {{ volume | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
-    .tokenInfo__labelsRow
-      .tokenInfo__label.tokenInfo__label--down
-        span Current value:
-        span {{ value | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
-      .tokenInfo__label
-        span Total Supply:
-        span {{ total | currency(' ' + ticker, 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .tokenInfo
+      .tokenInfo__container(v-scrollbar="")
+        #mapid(@mouseleave="show_gradient = true")
+        .tokenInfo__gradientBlock(v-if="show_gradient" @mouseenter="show_gradient = false")
+          .tokenInfo__tickerRow
+            img(:src="ticker_icon")
+            .tokenInfo__tickerChange {{ change }}%
+          .tokenInfo__tickerRow
+            .tokenInfo__tickerSymbol {{ ticker }}
+          .tokenInfo__tickerRow
+            h2 {{ address }}
+          .tokenInfo__tickerDescription {{ description }}
+          .tokenInfo__tickerRow
+            a.tokenInfo__link(:href="link") {{ link }}
+
+        .tokenInfo__labelsRow.tokenInfo__labelsRow--first
+          .tokenInfo__label
+            span Tokenised:
+            span {{ tokenised }}
+          .tokenInfo__label.tokenInfo__label--down
+            span Volume 24h:
+            span {{ volume | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
+        .tokenInfo__labelsRow
+          .tokenInfo__label.tokenInfo__label--down
+            span Current value:
+            span {{ value | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
+          .tokenInfo__label
+            span Total Supply:
+            span {{ total | currency(' ' + ticker, 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
 </template>
 
 <script>
+import TileBase from '../../mixins/TileBase';
 import {scrollbar} from '@/directives';
 import 'leaflet';
 
 export default {
+  mixins: [TileBase],
   data() {
     return {
       icon: '',

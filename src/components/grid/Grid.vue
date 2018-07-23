@@ -4,8 +4,12 @@
 
 <template lang="pug">
 .grid(v-scrollbar="")
-  // UserVisibility(hide-on-logout)
-  GridTile(v-for="item in visibleGrid", :key="item.name", :data="item")
+  component(
+    v-for="item in visibleGrid"
+    :key="item.name"
+    :data="item"
+    :is="item.name"
+  )
   BuySell
 </template>
 
@@ -13,14 +17,16 @@
 import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
-import GridTile from './GridTile';
 import BuySell from './BuySell';
 
+import Photos from './Photos';
+import TokenInfo from './TokenInfo';
+import Orders from './Orders';
+import OrderBook from './OrderBook';
+import History from './History';
+import Chart from './Chart';
+
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapGetters('grid', [
       'getGridData',
@@ -30,17 +36,25 @@ export default {
     },
   },
   methods: {
-    ...mapActions('grid', [
-      'setupDashboard',
-    ]),
+    ...mapActions(
+      'grid',
+      [
+        'setupDashboard',
+      ]
+    ),
   },
   mounted() {
     this.setupDashboard();
   },
   components: {
     UserVisibility,
-    GridTile,
     BuySell,
+    TokenInfo,
+    Photos,
+    Orders,
+    OrderBook,
+    History,
+    Chart,
   },
   directives: {
     scrollbar,

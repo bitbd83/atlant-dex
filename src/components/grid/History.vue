@@ -3,22 +3,38 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-.history
-  .history__container(v-scrollbar="")
-    table.history__table
-      tbody.history__body
-        tr.history__row(v-for='(trade, index) in lastTrades')
-          td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price}}
-          td.history__cell {{trade.amount.toFixed(4)}}
-          td.history__cell {{(trade.price * trade.amount).toFixed(4)}}
+Tile(
+  :name="data.name"
+  :left="data.x"
+  :top="data.y"
+)
+  TileHeader(
+    :name="data.name"
+    :title="data.title"
+  )
+
+  TileContent(
+    :height="data.height"
+    :width="data.width"
+    :name="data.name"
+  )
+    .history
+      .history__container(v-scrollbar="")
+        table.history__table
+          tbody.history__body
+            tr.history__row(v-for='(trade, index) in lastTrades')
+              td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price}}
+              td.history__cell {{trade.amount.toFixed(4)}}
+              td.history__cell {{(trade.price * trade.amount).toFixed(4)}}
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import GridTile from './GridTile';
+import TileBase from '../../mixins/TileBase';
 
 export default {
+  mixins: [TileBase],
   computed: {
     ...mapState('tradeInfo', {
       pair: 'pair',
@@ -42,9 +58,6 @@ export default {
   },
   directives: {
     scrollbar,
-  },
-  components: {
-    GridTile,
   },
   created() {
     this.getApiRequest();

@@ -43,6 +43,8 @@ export default {
             ...defaultViews,
             ...this.getSavedViews,
             {
+              title: 'Research',
+              type: 'setView',
               name: 'Save View',
             },
           ],
@@ -91,6 +93,7 @@ export default {
       }
     },
     toggleTile(tile) {
+      console.log(tile);
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);
       } else {
