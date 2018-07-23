@@ -81,6 +81,9 @@ export default {
         },
       ];
     },
+    getWidgetType: (state) => (name) => {
+      return ['chart', 'history', 'orders', 'orderBook'].includes(name) ? 'trade' : 'property';
+    },
   },
   mutations: {
     createResizeDetector(state, resizeDetector) {

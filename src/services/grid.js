@@ -6,10 +6,6 @@ import _ from 'lodash';
 import Draggable from 'gsap/Draggable';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
-export const getWidgetType = (name) => {
-  return ['chart', 'history', 'orders', 'orderBook'].includes(name) ? 'trade' : 'property';
-};
-
 export const addTileToDashboard = (vm, tile) => {
   Draggable.create(
     tile.target,

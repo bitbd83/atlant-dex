@@ -15,7 +15,7 @@
 
 <script>
 import {mapMutations, mapGetters, mapActions} from 'vuex';
-import {getWidgetType, setupDashboard, addTileToDashboard} from 'services/grid';
+import {setupDashboard, addTileToDashboard} from 'services/grid';
 
 export default {
   data() {
@@ -29,17 +29,18 @@ export default {
         'getSavedViews',
         'getGridData',
         'defaultViews',
+        'getWidgetType',
       ]
     ),
     widgetGroup() {
       return [
         {
           name: 'trading',
-          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'trade'),
+          items: this.getGridData.filter((item) => this.getWidgetType(item.name) === 'trade'),
         },
         {
           name: 'property',
-          items: this.getGridData.filter((item) => getWidgetType(item.name) === 'property'),
+          items: this.getGridData.filter((item) => this.getWidgetType(item.name) === 'property'),
         },
         {
           name: 'views',
