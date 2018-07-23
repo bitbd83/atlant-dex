@@ -13,30 +13,7 @@ export const defaultData = new Map([
 
 export default {
   state: {
-    gridData: [
-      {name: 'Chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
-      {name: 'History', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-      {name: 'Orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-      {name: 'OrderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
-      {
-        title: 'Token Info',
-        name: 'TokenInfo',
-        height: 400,
-        width: 740,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
-      {
-        title: 'Photos',
-        name: 'Photos',
-        height: 311,
-        width: 851,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
-    ],
+    gridData: Array.from(defaultData.values()),
     gridSize: 10,
     savedViews: [],
     resizeDetector: {},
