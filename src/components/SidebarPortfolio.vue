@@ -8,10 +8,10 @@
     .sidebarChild__headerLine
       .sidebarChild__title Portfolio value:
     .sidebarChild__headerLine
-      .portfolio__balance $ {{numbersFormat(portfolioValue)}}
+      .portfolio__balance $ {{portfolioValue | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
-        span.portfolio__balanceChangedText {{numbersFormat(percChng)}}%
+        span.portfolio__balanceChangedText {{percChng | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
     .sidebarChild__headerLine
       .portfolio__action Make deposit
       .portfolio__action Withdraw
@@ -37,7 +37,6 @@ import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 import Accordion from 'components/Accordion';
-import {numbersFormat} from '@/mixins';
 
 export default {
   data() {
@@ -55,7 +54,6 @@ export default {
       portfolioValue: 'getPortofolioValue',
     }),
   },
-  mixins: [numbersFormat],
   methods: {
     ...mapActions('user', [
       'getBalances',
