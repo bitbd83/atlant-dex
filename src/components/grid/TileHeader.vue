@@ -1,7 +1,7 @@
 <template lang='pug'>
 .gridTile__headerContainer(:class="`gridTile__headerContainer--${ name }`")
     .gridTile__header
-      .title.gridTile__title {{title}}:
+      .title.gridTile__title {{$t(`widgetTitles.${ name }`)}}:
       slot
       Icon.gridTile__icon(id="cross" @click="removeTile(name)")
 </template>
@@ -11,10 +11,6 @@ import {mapMutations} from 'vuex';
 export default {
   props: {
     name: {
-      type: String,
-      required: true,
-    },
-    title: {
       type: String,
       required: true,
     },

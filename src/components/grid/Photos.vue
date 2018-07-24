@@ -10,7 +10,6 @@ Tile(
 )
   TileHeader(
     :name="data.name"
-    :title="data.title"
   )
 
   TileContent(
