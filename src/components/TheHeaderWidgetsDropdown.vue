@@ -69,32 +69,26 @@ export default {
       }
     },
     toggleTile(tile) {
-      console.log('toggle', tile);
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);
       } else {
         this.addTile(tile.name);
-        console.log({
-              name: tile.name,
-              target: document.getElementsByClassName('gridTile--' + tile.name)[0],
-              trigger: '.gridTile__headerContainer--' + tile.name,
-              container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
-              isHideable: true,
-              isResizeable: true,
-            });
-        this.$nextTick(() => {
-          addTileToDashboard(
-            this.$store,
-            {
-              name: tile.name,
-              target: document.getElementsByClassName('gridTile--' + tile.name)[0],
-              trigger: '.gridTile__headerContainer--' + tile.name,
-              container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
-              isHideable: true,
-              isResizeable: true,
-            }
-          );
-        });
+        this.$nextTick(
+          () => {
+            addTileToDashboard(
+              this.$store,
+              {
+                name: tile.name,
+                target: document.getElementsByClassName('gridTile--' + tile.name)[0],
+                trigger: '.gridTile__headerContainer--' + tile.name,
+                container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
+                isHideable: true,
+                isResizeable: true,
+                ...tile,
+              }
+            );
+          }
+        );
       };
     },
     hoverEnter(name) {

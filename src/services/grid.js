@@ -74,14 +74,16 @@ export const snapOnResize = ({state, commit}, tile) => {
         (el) => {
           tile.container.style.height = Math.round(el.offsetHeight / state.grid.gridSize) * state.grid.gridSize + 'px';
           tile.container.style.width = Math.round(el.offsetWidth / state.grid.gridSize) * state.grid.gridSize + 'px';
-          commit(
-            'grid/setTileSize',
-            {
-              name: tile.name,
-              height: el.offsetHeight,
-              width: el.offsetWidth,
-            }
-          );
+          if (el.offsetHeight > 0 && el.offsetWidth > 0) {
+            commit(
+              'grid/setTileSize',
+              {
+                name: tile.name,
+                height: el.offsetHeight,
+                width: el.offsetWidth,
+              }
+            );
+          }
         },
         250
       )
