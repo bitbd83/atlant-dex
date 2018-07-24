@@ -46,6 +46,19 @@ export default {
       );
       return result;
     },
+    pickData: (state, getters) => (keys) => {
+      let result = [];
+      let tmp;
+      keys.forEach(
+        (k) => {
+          tmp = state.gridData.find((el) => el.name == k);
+          if (tmp) {
+            result.push(tmp);
+          }
+        }
+      );
+      return result;
+    },
     defaultViews(state, getters) {
       return [
         {
@@ -58,8 +71,28 @@ export default {
         },
       ];
     },
-    getWidgetType: (state) => (name) => {
-      return ['Chart', 'History', 'Orders', 'OrderBook'].includes(name) ? 'trade' : 'property';
+    widgetsByGroup: (state, getters) => {
+      return [
+        {
+          name: 'trading',
+          items: getters.pickData(['Chart', 'History', 'Orders', 'OrderBook']),
+        },
+        {
+          name: 'property',
+          items: getters.pickData(['TokenInfo', 'Photos']),
+        },
+        {
+          name: 'views',
+          items: [
+            ...getters.defaultViews,
+            ...state.savedViews,
+            {
+              type: 'setView',
+              name: 'saveView',
+            },
+          ],
+        },
+      ];
     },
   },
   mutations: {
@@ -82,19 +115,28 @@ export default {
       state.gridData.find((item) => item.name === name).isHidden = false;
     },
     setGrid(state, grid) {
-      state.gridData = JSON.parse(JSON.stringify(grid));
+      state.gridData = [...grid].map(
+        (tile) => {
+          return {...tile};
+        }
+      );
     },
     addView(state, name) {
       state.savedViews.push({
         name,
-        grid: JSON.parse(JSON.stringify(state.gridData)),
+        grid: [...state.gridData].map(
+          (tile) => {
+            return {...tile};
+          }
+        ),
+        type: 'custom',
       });
     },
   },
   actions: {
     removeTileFromDashboard({commit}, name) {
       commit('removeTile', name);
-      commit('setTileSize', {name, height: 0, width: 0});
+      commit('setTileSize', defaultData.get(name));
     },
     removeAllTiles({state, dispatch}) {
       for (let i of state.gridData) {

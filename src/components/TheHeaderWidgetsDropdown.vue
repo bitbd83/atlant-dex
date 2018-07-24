@@ -4,13 +4,15 @@
 
 <template lang="pug">
 .widgetDropdown
-  .widgetDropdown__group(v-for="widget in widgetGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
+  .widgetDropdown__group(v-for="widget in widgetsByGroup", :class="'widgetDropdown__group--' + widget.name", @mouseover="hoverEnter(widget.name)" @mouseout="hoverLeave(widget.name)") {{widget.name}}
     .widgetDropdown__list(:class="'widgetDropdown__list--' + widget.name")
       .widgetDropdown__item(
         v-for="item in widget.items",
         :class="{'widgetDropdown__item--open' : item.isHidden === false}"
         @click.stop="widgetAction(item)"
-        ) {{$t(`widgetTitles.${item.name}`)}}
+        )
+          <div v-if="item.type != 'custom'">{{$t(`widgetTitles.${item.name}`)}}</div>
+          <div v-if="item.type == 'custom'">{{item.name}}</div>
 </template>
 
 <script>
@@ -23,49 +25,23 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(
-      'grid',
-      [
-        'getSavedViews',
-        'getGridData',
-        'defaultViews',
-        'getWidgetType',
-      ]
-    ),
-    widgetGroup() {
-      return [
-        {
-          name: 'trading',
-          items: this.getGridData.filter((item) => this.getWidgetType(item.name) === 'trade'),
-        },
-        {
-          name: 'property',
-          items: this.getGridData.filter((item) => this.getWidgetType(item.name) === 'property'),
-        },
-        {
-          name: 'views',
-          items: [
-            ...this.defaultViews,
-            ...this.getSavedViews,
-            {
-              title: 'Research',
-              type: 'setView',
-              name: 'saveView',
-            },
-          ],
-        },
-      ];
-    },
+    ...mapGetters('grid', ['widgetsByGroup']),
   },
   methods: {
-    ...mapMutations('modal', [
-      'open',
-    ]),
-    ...mapMutations('grid', [
-      'addTile',
-      'setGrid',
-      'addView',
-    ]),
+    ...mapMutations(
+      'modal',
+      [
+        'open',
+      ]
+    ),
+    ...mapMutations(
+      'grid',
+      [
+        'addTile',
+        'setGrid',
+        'addView',
+      ]
+    ),
     ...mapActions(
       'grid',
       [
@@ -74,7 +50,7 @@ export default {
       ]
     ),
     widgetAction(obj) {
-      if (obj.name === 'Save View') {
+      if (obj.name === 'saveView') {
         this.open({
           name: 'saveView',
           data: {
@@ -84,23 +60,28 @@ export default {
           },
         });
       } else if (obj.grid) {
-        this.removeAllTiles();
+        this.setGrid(obj.grid);
         this.$nextTick(() => {
-          this.setGrid(obj.grid);
-          this.$nextTick(() => {
-            setupDashboard(this.$store);
-          });
+          setupDashboard(this.$store);
         });
       } else {
         this.toggleTile(obj);
       }
     },
     toggleTile(tile) {
-      console.log(tile);
+      console.log('toggle', tile);
       if (!tile.isHidden) {
         this.removeTileFromDashboard(tile.name);
       } else {
         this.addTile(tile.name);
+        console.log({
+              name: tile.name,
+              target: document.getElementsByClassName('gridTile--' + tile.name)[0],
+              trigger: '.gridTile__headerContainer--' + tile.name,
+              container: document.getElementsByClassName('gridTile__content--' + tile.name)[0],
+              isHideable: true,
+              isResizeable: true,
+            });
         this.$nextTick(() => {
           addTileToDashboard(
             this.$store,
@@ -126,10 +107,6 @@ export default {
     hoverLeave(name) {
       document.querySelector('.widgetDropdown__list--' + name).style.height = 0;
     },
-  },
-  created() {
-  },
-  components: {
   },
 };
 </script>
