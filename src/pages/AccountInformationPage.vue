@@ -27,8 +27,13 @@ PageLayout(title="Account information", :sidebar="true")
           .accountInfo__param Email:
           .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
         .accountInfo__item
+          .accountInfo__param Theme:
+          .accountInfo__value.accountInfo__value--inline
+            select(v-model="appTheme")
+              option(value="default") Default
+              option(value="dark") Dark
+        .accountInfo__item
           AccountInformationPageChangePhone
-          //- .accountInfo__value.accountInfo__value--inline {{phone}} #[Icon.accountInfo__icon(v-if="account.phone.verified" id="verified")]
         .accountInfo__title Other
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
@@ -51,7 +56,7 @@ PageLayout(title="Account information", :sidebar="true")
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
 import {getCountryByCurrency, getCountryCurrency} from 'services/countries';
 import Checkbox from 'components/Checkbox';
@@ -64,6 +69,7 @@ export default {
   computed: {
     ...mapState('user', {
       account: 'account',
+      theme: 'theme',
     }),
     regdate() {
       return DateTime.fromISO(this.account.regDate).toFormat('dd.LL.yyyy');
@@ -74,8 +80,20 @@ export default {
     getCountryCurrency() {
       return getCountryCurrency(this.getCurrencyCountry);
     },
+    appTheme: {
+      get() {
+        return this.theme;
+      },
+      set(val) {
+        this.setTheme(val);
+      },
+    },
   },
   methods: {
+    ...mapMutations(
+      'user',
+      ['setTheme']
+    ),
     ...mapActions('user', [
       'setPreferredCurrency',
       'setNewsletterSubscription',

@@ -46,6 +46,7 @@ export default {
       data: [],
     },
     notificationsOnPage: 10,
+    theme: 'default',
   },
   getters: {
     getNotifications(state) {
@@ -87,6 +88,9 @@ export default {
     },
   },
   mutations: {
+    setTheme(state, val) {
+      state.theme = val;
+    },
     setProfile(state, data) {
       state.account = data.account;
       state.security = data.security;
