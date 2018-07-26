@@ -62,39 +62,33 @@ export default {
       commit('modal/open', {name: 'signIn'}, {root: true});
     },
     refreshToken({state, commit, dispatch}) {
-      return new Promise((resolve, reject) => {
-        let timeSinceLastAction = Date.now() - state.lastAction;
-        if (timeSinceLastAction > state.maxInactiveTime) {
-          return reject();
-        } else {
-          Membership.refreshToken({
-            grantType: 'RefreshToken',
-            refreshToken: state.refreshToken,
-            email: state.email,
-          }).then((response) => {
-            commit('createUser', response.data);
-            dispatch('setRefreshTimeout');
-            return resolve(response);
-          }).catch((response) => {
-            return reject(response);
-          });
-        };
+      let timeSinceLastAction = Date.now() - state.lastAction;
+      if (timeSinceLastAction > state.maxInactiveTime) {
+        return Promise.reject();
+      }
+      Membership.refreshToken({
+        grantType: 'RefreshToken',
+        refreshToken: state.refreshToken,
+        email: state.email,
+      }).then((response) => {
+        commit('createUser', response.data);
+        dispatch('setRefreshTimeout');
+        return response;
+      }).catch((response) => {
+        return new Error(response);
       });
     },
     tryReconnect({getters, dispatch}) {
-      return new Promise((resolve, reject) => {
-        if (getters.hasRefreshToken) {
-          dispatch('refreshToken').then(() => {
-            return resolve('success');
-          }).catch(() => {
-            dispatch('dropUser');
-            return reject('fail');
-          });
-        } else {
+      if (getters.hasRefreshToken) {
+        return dispatch('refreshToken').then(() => {
+          return 'success';
+        }).catch(() => {
           dispatch('dropUser');
-          return reject();
-        };
-      });
+          return new Error('fail');
+        });
+      }
+      dispatch('dropUser');
+      return Promise.reject();
     },
     setRefreshTimeout({state, commit, dispatch}) {
       setTimeout(() => {
