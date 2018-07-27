@@ -127,9 +127,10 @@ export default {
     ...mapMutations('alerts', [
       'updateSidebarAlert',
     ]),
-    ...mapActions('membership', {
-      dropUser: 'dropUser',
-    }),
+    ...mapActions('membership', [
+      'dropUser',
+      'setRefreshTimeout',
+    ]),
     ...mapActions('localization', [
       'setLang',
     ]),
@@ -219,6 +220,7 @@ export default {
     this.hubSubscribe();
 
     if (this.isLoggedIn) {
+      this.setRefreshTimeout();
       this.getProfileData();
       this.getCurrencies();
     };
