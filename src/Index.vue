@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .index(:class="`index--${ theme }`")
-  .index__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'index__body--modalOpened': modalOpenedDesktop}")
+  .index__body(:class="{'index__body--modalOpened': modalOpenedDesktop}")
     Sidebar
     .index__content
       TheHeader
