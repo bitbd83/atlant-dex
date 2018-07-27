@@ -2,36 +2,18 @@
 // Use of this source code is governed by Microsoft Reference Source
 // License (MS-RSL) that can be found in the LICENSE file.
 
-import Draggable from 'gsap/Draggable';
-import elementResizeDetectorMaker from 'element-resize-detector';
-import _ from 'lodash';
+export const defaultData = new Map([
+  ['Chart', {name: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false}],
+  ['History', {name: 'History', height: 300, width: 340, x: 1170, y: 450, isHidden: false}],
+  ['Orders', {name: 'Orders', height: 300, width: 1160, x: 0, y: 450, isHidden: false}],
+  ['OrderBook', {name: 'OrderBook', height: 400, width: 760, x: 760, y: 0, isHidden: false}],
+  ['TokenInfo', {name: 'TokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: true}],
+  ['Photos', {name: 'Photos', height: 311, width: 851, x: 0, y: 0, isHidden: true}],
+]);
 
 export default {
   state: {
-    gridData: [
-      {name: 'Chart', title: 'Chart', height: 480, width: 840, x: 0, y: 0, isHidden: false},
-      {name: 'History', title: 'History', height: 400, width: 400, x: 0, y: 0, isHidden: false},
-      {name: 'Orders', title: 'Orders', height: 200, width: 520, x: 0, y: 0, isHidden: false},
-      {name: 'OrderBook', title: 'Order book', height: 200, width: 720, x: 0, y: 0, isHidden: false},
-      {
-        title: 'Token Info',
-        name: 'TokenInfo',
-        height: 400,
-        width: 740,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
-      {
-        title: 'Photos',
-        name: 'Photos',
-        height: 311,
-        width: 851,
-        x: 0,
-        y: 0,
-        isHidden: false,
-      },
-    ],
+    gridData: Array.from(defaultData.values()),
     gridSize: 10,
     savedViews: [],
     resizeDetector: {},
@@ -55,12 +37,67 @@ export default {
     getGridData(state) {
       return state.gridData;
     },
+    pickDefaultData: (state, getters) => (keys) => {
+      let result = [];
+      keys.forEach(
+        (k) => {
+          result.push(defaultData.get(k));
+        }
+      );
+      return result;
+    },
+    pickData: (state, getters) => (keys) => {
+      let result = [];
+      let tmp;
+      keys.forEach(
+        (k) => {
+          tmp = state.gridData.find((el) => el.name == k);
+          if (tmp) {
+            result.push(tmp);
+          }
+        }
+      );
+      return result;
+    },
+    defaultViews(state, getters) {
+      return [
+        {
+          name: 'Trading',
+          grid: getters.pickDefaultData(['Chart', 'History', 'Orders', 'OrderBook', 'TokenInfo', 'Photos']),
+        },
+        {
+          name: 'Research',
+          grid: getters.pickDefaultData(['Chart', 'History', 'Orders', 'OrderBook', 'TokenInfo', 'Photos']),
+        },
+      ];
+    },
+    widgetsByGroup: (state, getters) => {
+      return [
+        {
+          name: 'trading',
+          items: getters.pickData(['Chart', 'History', 'Orders', 'OrderBook']),
+        },
+        {
+          name: 'property',
+          items: getters.pickData(['TokenInfo', 'Photos']),
+        },
+        {
+          name: 'views',
+          items: [
+            ...getters.defaultViews,
+            ...state.savedViews,
+            {
+              type: 'setView',
+              name: 'saveView',
+            },
+          ],
+        },
+      ];
+    },
   },
   mutations: {
-    createResizeDetector(state) {
-      state.resizeDetector = elementResizeDetectorMaker({
-        strategy: 'scroll',
-      });
+    createResizeDetector(state, resizeDetector) {
+      state.resizeDetector = resizeDetector;
     },
     setTileSize(state, data) {
       let el = state.gridData.find((item) => item.name === data.name);
@@ -78,76 +115,28 @@ export default {
       state.gridData.find((item) => item.name === name).isHidden = false;
     },
     setGrid(state, grid) {
-      state.gridData = JSON.parse(JSON.stringify(grid));
+      state.gridData = [...grid].map(
+        (tile) => {
+          return {...tile};
+        }
+      );
     },
     addView(state, name) {
       state.savedViews.push({
         name,
-        grid: JSON.parse(JSON.stringify(state.gridData)),
+        grid: [...state.gridData].map(
+          (tile) => {
+            return {...tile};
+          }
+        ),
+        type: 'custom',
       });
     },
   },
   actions: {
-    addTileToDashboard({state, commit, dispatch}, tile) {
-      Draggable.create(tile.target, {
-        type: 'top,left',
-        bounds: {top: 0, left: 0},
-        trigger: tile.trigger,
-        liveSnap: true,
-        zIndexBoost: tile.isHideable,
-        snap: {
-          x: (endValue) => {
-            return Math.round(endValue / state.gridSize) * state.gridSize;
-          },
-          y: (endValue) => {
-            return Math.round(endValue / state.gridSize) * state.gridSize;
-          },
-        },
-        onDragEnd: function() {
-          if (tile.isHideable) {
-            commit('setTilePosition', {
-              name: this.vars.trigger.split('--')[1],
-              x: this.x,
-              y: this.y,
-            });
-          }
-        },
-      });
-      if (tile.isResizeable) dispatch('snapOnResize', tile);
-    },
-    snapOnResize({state, commit}, tile) {
-      if (tile.container) {
-        state.resizeDetector.listenTo(tile.container, _.debounce((el) => {
-          if (tile.container) {
-            tile.container.style.height = Math.round(el.offsetHeight / state.gridSize) * state.gridSize + 'px';
-            tile.container.style.width = Math.round(el.offsetWidth / state.gridSize) * state.gridSize + 'px';
-            commit('setTileSize', {
-              name: tile.name,
-              height: el.offsetHeight,
-              width: el.offsetWidth,
-            });
-          }
-        }, 250));
-      }
-    },
-    setupDashboard({state, commit, dispatch}) {
-      commit('createResizeDetector');
-      for (let i of state.gridData) {
-        if (!i.isHidden) {
-          dispatch('addTileToDashboard', {
-            name: i.name,
-            target: document.getElementsByClassName('gridTile--' + i.name)[0],
-            trigger: '.gridTile__headerContainer--' + i.name,
-            container: document.getElementsByClassName('gridTile__content--' + i.name)[0],
-            isHideable: true,
-            isResizeable: true,
-          });
-        }
-      }
-    },
     removeTileFromDashboard({commit}, name) {
       commit('removeTile', name);
-      commit('setTileSize', {name, height: 0, width: 0});
+      commit('setTileSize', defaultData.get(name));
     },
     removeAllTiles({state, dispatch}) {
       for (let i of state.gridData) {

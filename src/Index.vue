@@ -3,8 +3,8 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-.index
-  .index__body
+.index(:class="`index--${ theme }`")
+  .index__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'index__body--modalOpened': modalOpenedDesktop}")
     Sidebar
     .index__content
       TheHeader
@@ -83,6 +83,7 @@ export default {
     ...mapState('user', {
       account: 'account',
       notificationsCounter: 'notificationsCounter',
+      theme: 'theme',
     }),
     ...mapGetters('user', [
       'isTFAEnabled',
@@ -121,9 +122,10 @@ export default {
     ...mapMutations('alerts', [
       'updateSidebarAlert',
     ]),
-    ...mapActions('membership', {
-      dropUser: 'dropUser',
-    }),
+    ...mapActions('membership', [
+      'dropUser',
+      'setRefreshTimeout',
+    ]),
     ...mapActions('localization', [
       'setLang',
     ]),
@@ -207,6 +209,7 @@ export default {
     this.hubSubscribe();
 
     if (this.isLoggedIn) {
+      this.setRefreshTimeout();
       this.getProfileData();
       this.getCurrencies();
     };
@@ -270,6 +273,12 @@ export default {
   min-width: 1000px;
   min-height: 700px;
   height: 100vh;
+
+  &--dark{
+    background-image: none;
+    background: $background__dark;
+  }
+
   &__body {
     display: flex;
     width: 100%;

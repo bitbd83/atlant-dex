@@ -6,7 +6,16 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "lint": "eslint --ext .js,.vue src",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "test": "cross-env NODE_ENV=test nyc mocha-webpack --webpack-config build/webpack.base.conf.js --require test/setup.js test/**/*.spec.js",
+    "cover": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test-ci"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.(js|vue)"
+    ],
+    "instrument": false,
+    "sourceMap": false
   },
   "keywords": [],
   "author": "ATLANT-team",
@@ -41,11 +50,13 @@
     "vuex-persistedstate": "2.0.0"
   },
   "devDependencies": {
+    "@vue/test-utils": "^1.0.0-beta.21",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-istanbul": "^4.1.6",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",
@@ -54,6 +65,7 @@
     "chalk": "^2.0.1",
     "compression-webpack-plugin": "^1.1.11",
     "copy-webpack-plugin": "^4.0.1",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "eslint": "4.19.1",
     "eslint-config-google": "0.9.1",
@@ -64,12 +76,19 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-vue": "^4.0.0",
+    "expect": "^23.4.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "istanbul-instrumenter-loader": "^3.0.1",
+    "jsdom": "^11.11.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^5.2.0",
+    "mocha-webpack": "^1.1.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.9.0",
+    "nyc": "^12.0.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
@@ -94,7 +113,8 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "engines": {
     "node": ">= 6.0.0",

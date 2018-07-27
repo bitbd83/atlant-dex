@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
+import {setupDashboard} from '../../services/grid';
 import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
 import BuySell from './BuySell';
@@ -35,16 +36,8 @@ export default {
       return this.getGridData.filter((item) => item.isHidden === false);
     },
   },
-  methods: {
-    ...mapActions(
-      'grid',
-      [
-        'setupDashboard',
-      ]
-    ),
-  },
   mounted() {
-    this.setupDashboard();
+    setupDashboard(this.$store);
   },
   components: {
     UserVisibility,
