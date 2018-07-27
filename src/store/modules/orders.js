@@ -7,7 +7,6 @@ import * as Orders from 'services/api/orders';
 export default {
   state: {
     book: {
-      status: 0,
       bids: [],
       asks: [],
     },
@@ -82,7 +81,6 @@ export default {
     },
     addActiveOrder(state, obj) {
       state.orders.unshift(obj);
-      state.book.status = 1;
     },
     changeOrderStatus(state, obj) {
       let order = state.orders.find((item) => item.id === obj.id);
@@ -90,7 +88,6 @@ export default {
         order.leavesQuantity = obj.leavesQuantity;
         order.status = obj.status;
       }
-      state.book.status = 1;
     },
     setTradesForOrder(state, data) {
       let arr = state.accountOrders.orders;
@@ -103,6 +100,47 @@ export default {
     addNewTrade(state, obj) {
       state.trades.unshift(obj);
       state.trades.splice(-1, 1);
+    },
+    updateBook(state, data) {
+      let orderFilter = function(itemPrice, cutoffPrice) {
+        if (data.side === 1) {
+          return (itemPrice > cutoffPrice);
+        } else {
+          return (itemPrice < cutoffPrice);
+        }
+      };
+      let book = (data.side === 1) ? state.book.asks : state.book.bids;
+      for (let change of data.changes) {
+        if (change.type === 0) {
+          if (change.data.price === 0) {
+            book = []; break;
+          }
+          book = book.filter((item) => orderFilter(item.price, change.data.price));
+          book.unshift(change.data);
+          if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+        // Type = NewMid
+        } else if (change.type === 1) {
+          for (let i in book) {
+            if (book[i].price === change.data.price) {
+              if (change.data.amount === 0) {
+                book.splice(i, 1);
+              } else {
+                book[i].amount = change.data.amount;
+              }
+              break;
+            } else if (orderFilter(book[i].price, change.data.price)) {
+              book.splice(i, 0, change.data);
+              if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+              break;
+            } else if (i == book.length - 1) {
+              book.push(change.data);
+            }
+          }
+        } else if (change.type === 2) {
+          if (book.length < state.bookLimit) book.push(...change.data);
+        }
+        (data.side === 1) ? state.book.asks = book : state.book.bids = book;
+      }
     },
   },
   actions: {
@@ -175,6 +213,12 @@ export default {
         },
       ).then((response) => {
         commit('setTradeHistory', response.data);
+      });
+    },
+    updateOrderBook({state, commit}, data) {
+      commit('updateBook', {
+        changes: data.changes,
+        side: data.side,
       });
     },
   },

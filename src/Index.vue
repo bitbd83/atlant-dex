@@ -143,6 +143,9 @@ export default {
       'insertSidebarAlert',
       'resetAlertsList',
     ]),
+    ...mapActions('orders', [
+      'updateOrderBook',
+    ]),
     updateOverflow() {
       // document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
     },
@@ -171,6 +174,7 @@ export default {
       this.$hub.on('newTradeStatistic', (data) => {
       });
       this.$hub.on('orderBookChanged', (data) => {
+        this.updateOrderBook(data);
       });
       this.$hub.on('newAlert', (data) => {
         this.insertSidebarAlert(data);
