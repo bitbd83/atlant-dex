@@ -9,12 +9,12 @@
       .quoteItem__row
         Icon.quoteItem__currencyIcon(:id="'cur_'+ currency")
         .quoteItem__currencyName() {{currency}}
-        .quoteItem__price ${{price | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+        .quoteItem__price ${{price | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
         Icon.quoteItem__icon.quoteItem__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
       .quoteItem__row
         .quoteItem__change
           Icon.quoteItem__chngIcon(id="arrow", :class="{'quoteItem__chngIcon--neg': (priceChng < 0)}")
-          .quoteItem__changeAmt {{absPriceChng | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+          .quoteItem__changeAmt {{absPriceChng | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
     transition(
       name="transition"
       v-on:before-enter="transitionAccordionBeforeEnter"
@@ -23,8 +23,8 @@
       v-on:leave="transitionAccordionLeave"
     )
       .quoteItem__additional(v-if="isActive")
-        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{cap | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
-        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{volume | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
+        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{cap | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
 </template>
 
 <script>
