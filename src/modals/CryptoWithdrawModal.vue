@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
   .cryptoWithdraw
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
@@ -33,9 +33,10 @@ export default {
     return {
       address: '',
       amount: '',
-      step: 0,
       fee: 0.00017,
       transId: '',
+      isSuccess: false,
+      step: 0,
     };
   },
   computed: {
@@ -64,6 +65,7 @@ export default {
       }).then((response) => {
         this.transId = response.data.transactionId;
         this.setStep(1);
+        this.isSuccess = true;
       });
     },
     tryConfirmation(code) {

@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
   .singIn
     Icon.singIn__icon(id="signin")
     form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")

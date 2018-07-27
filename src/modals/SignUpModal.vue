@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", isSuccess="true", title="Sign up")
   .singUp
     Icon.singUp__icon(id="signup")
     form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")

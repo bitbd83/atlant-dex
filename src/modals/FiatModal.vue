@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency")
   .fiat
     .fiat__header
       .fiat__title {{title}} {{data.currency}}

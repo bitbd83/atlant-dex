@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-Modal
+ModalLayout(:step="step", isSuccess="true",  title="Add alert")
   .addAlert
     Icon.addAlert__icon(id="addAlert")
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
@@ -73,7 +73,7 @@ import Dropdown from 'components/Dropdown';
 import IInput from 'components/IInput';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
-import Modal from '@/layouts/ModalLayout';
+import ModalLayout from '@/layouts/ModalLayout';
 import Status from 'components/Status.vue';
 
 export default {
@@ -156,11 +156,11 @@ export default {
     this.baseCurrencySelected = this.account.currency;
   },
   components: {
+    ModalLayout,
     Icon,
     Dropdown,
     IInput,
     Checkbox,
-    Modal,
     BButton,
     Status,
   },

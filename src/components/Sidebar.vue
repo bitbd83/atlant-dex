@@ -48,9 +48,7 @@ export default {
   display: flex;
   height: 100%;
   margin-left: -300px;
-  z-index: 1000000;
   transition: $transition__sidebarAction;
-  background: $background__blue;
 
   &--visible {
     margin-left: 0;
@@ -64,6 +62,8 @@ export default {
     min-height: 100%;
     flex-direction: column;
     color: $color__white;
+    z-index: 1000001;
+    background: $background__blue;
 
     &:before {
       content: "";
