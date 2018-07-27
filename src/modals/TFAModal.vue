@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-Modal.ModalLayout
+ModalLayout(:step="success", isSuccess="true", title="TFA").ModalLayout
   TFA(v-if="!success", :onConfirm="confirm")
   Status(v-if="success")
     .tfaModal__statusMsg Completed

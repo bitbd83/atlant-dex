@@ -9,6 +9,7 @@ export default {
     showSidebar: false,
     section: '',
   },
+
   getters: {
     section(state, getters, rootState, rootGetters) {
       // Return section from state if user logged in
@@ -28,6 +29,7 @@ export default {
       }
     },
   },
+
   mutations: {
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
@@ -51,6 +53,7 @@ export default {
       if (state.showSidebar === false) state.showSidebar = true;
     },
   },
+
   namespaced: true,
   strict: process.env.NODE_ENV !== 'production',
 };

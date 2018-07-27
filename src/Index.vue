@@ -10,31 +10,30 @@
       TheHeader
       .index__page
         MainLayout(v-if="!isPageOpened()")
-        TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
-        MyOrdersPage(v-if="isPageOpened('myOrders')")
-        VerificationPage(v-if="isPageOpened('verification')")
-        VerificationAdminPage(v-if="isPageOpened('verificationAdmin')")
-        AccountInformation(v-if="isPageOpened('accountInformation')")
-        SecuritySettingsPage(v-if="isPageOpened('securitySettings')")
-        SecurityLogPage(v-if="isPageOpened('securityLog')")
-        FAQ(v-if="isPageOpened('faq')")
-        NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
-  //- Modals
-  InDemoModal(v-if="isModalOpened('inDemo')")
-  ResetModal(v-else-if="isModalOpened('reset')")
-  NewPasswordModal(v-else-if="isModalOpened('newPassword')")
-  SignUpModal(v-else-if="isModalOpened('signUp')")
-  SignInModal(v-else-if="isModalOpened('signIn')")
-  CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
-  CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
-  FiatModal(v-else-if="isModalOpened('fiat')")
-  TFAModal(v-else-if="isModalOpened('tfaModal')")
-  TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
-  EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
-  EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
-  AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
-  SaveViewModal(v-else-if="isModalOpened('saveView')")
-  Status(v-else-if="isModalOpened('status')")
+        TransactionHistoryPage(v-else-if="isPageOpened('transactionHistory')")
+        MyOrdersPage(v-else-if="isPageOpened('myOrders')")
+        VerificationPage(v-else-if="isPageOpened('verification')")
+        VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
+        AccountInformation(v-else-if="isPageOpened('accountInformation')")
+        SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
+        SecurityLogPage(v-else-if="isPageOpened('securityLog')")
+        FAQ(v-else-if="isPageOpened('faq')")
+        NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+    //- Modals
+    ResetModal(v-if="isModalOpened('reset')")
+    NewPasswordModal(v-else-if="isModalOpened('newPassword')")
+    SignUpModal(v-else-if="isModalOpened('signUp')")
+    SignInModal(v-else-if="isModalOpened('signIn')")
+    CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
+    CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
+    FiatModal(v-else-if="isModalOpened('fiat')")
+    TFAModal(v-else-if="isModalOpened('tfaModal')")
+    TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
+    EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
+    EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
+    AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
+    SaveViewModal(v-else-if="isModalOpened('saveView')")
+    Status(v-else-if="isModalOpened('status')")
 </template>
 
 <script>
@@ -54,7 +53,6 @@ import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
 import MainLayout from 'layouts/MainLayout';
-import InDemoModal from 'modals/InDemoModal';
 import ResetModal from 'modals/ResetModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
@@ -99,9 +97,6 @@ export default {
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
-    modalOpenedDesktop() {
-      return this.isModalOpened();
-    },
   },
   methods: {
     ...mapMutations('misc', {
@@ -180,9 +175,6 @@ export default {
         this.updateSidebarAlert(data);
       });
     },
-    modalChangeStyleforBody() {
-      document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
-    },
   },
   watch: {
     pair() {
@@ -195,9 +187,6 @@ export default {
     },
     showSidebar() {
       this.updateOverflow();
-    },
-    modalOpenedDesktop() {
-      this.modalChangeStyleforBody();
     },
     isLoggedIn(isTrue) {
       if (!isTrue) {
@@ -251,7 +240,6 @@ export default {
     SecuritySettingsPage,
     SecurityLogPage,
     Status,
-    InDemoModal,
     ResetModal,
     NewPasswordModal,
     SignUpModal,
@@ -298,15 +286,13 @@ export default {
     overflow: auto;
     margin-left: auto;
     margin-right: auto;
-    &--modalOpened {
-      filter: blur(10px);
-    }
   }
   &__content {
     position: relative;
     display: flex;
     flex: 2;
     flex-direction: column;
+    z-index: 0;
   }
   &__page {
     display: flex;
