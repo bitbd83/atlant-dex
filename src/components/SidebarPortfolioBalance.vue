@@ -15,8 +15,8 @@
         .balance__changeIconContainer
           Icon.balance__changeIcon(id="triangle-up")
         .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
-          .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
-          .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+          .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
+          .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
     Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
 </template>
 
