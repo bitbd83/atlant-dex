@@ -8,14 +8,14 @@
 
 <script>
 export default {
-  computed: {
-    style() {
-      return {
+  data() {
+    return {
+      style: {
         left: this.left + 'px',
         top: this.top + 'px',
-        zIndex: this.getMaxZIndex(),
-      };
-    },
+        zIndex: 0,
+      },
+    };
   },
   props: {
     left: {
@@ -39,6 +39,9 @@ export default {
       };
       return maxZ + 1;
     },
+  },
+  mounted() {
+    this.style.zIndex = this.getMaxZIndex();
   },
 };
 </script>
