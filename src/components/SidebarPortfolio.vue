@@ -8,10 +8,10 @@
     .sidebarChild__headerLine
       .sidebarChild__title Portfolio value:
     .sidebarChild__headerLine
-      .portfolio__balance $ {{portfolioValue | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+      .portfolio__balance $ {{portfolioValue | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
-        span.portfolio__balanceChangedText {{percChng | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+        span.portfolio__balanceChangedText {{percChng | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
     .sidebarChild__headerLine
       .portfolio__action Make deposit
       .portfolio__action Withdraw
