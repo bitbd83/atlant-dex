@@ -23,11 +23,13 @@ instance.interceptors.request.use((config) => {
   const token = (isLoggedIn) ? store.state.membership.token : null;
   config.headers.Authorization = 'token ' + token;
   config.headers['X-Correlation-Id'] = UUIDGenerator.v4f();
+  store.commit('misc/setLoading', true);
   return config;
 });
 
 instance.interceptors.response.use((response) => {
   store.dispatch('membership/rememberLastAction');
+  store.commit('misc/setLoading', false);
   return response;
 }, ({response}) => {
   const {status, config} = response;
