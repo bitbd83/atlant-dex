@@ -4,20 +4,24 @@
 
 <template lang='pug'>
 .balance
-  .balance__content(
+  .balance__container(
     v-for="(bal, index) in data",
     :key="bal.currency",
   )
-    Icon.balance__currencyIcon(:id="'cur_' + setCurrency(bal.currency)")
-    .balance__currencyContainer
-      .balance__main
-        .balance__currencyName {{bal.currency}}
-        .balance__changeIconContainer
-          Icon.balance__changeIcon(id="triangle-up")
-        .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
-          .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
-          .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
-    Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
+    .balance__content
+      Icon.balance__currencyIcon(:id="'cur_' + setCurrency(bal.currency)")
+      .balance__currencyContainer
+        .balance__main
+          .balance__currencyName {{bal.currency}}
+          .balance__changeIconContainer
+            Icon.balance__changeIcon(id="triangle-up")
+          .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
+            .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
+            .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
+      Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="openModal({name:'addAlert'})")
+    .balance__actions
+      .balance__action(@click="openDeposit(bal.currency)") Make deposit
+      .balance__action(@click="openWithdrawal(bal.currency)") Withdraw
 </template>
 
 <script>
@@ -25,11 +29,48 @@ import {mapMutations} from 'vuex';
 
 export default {
   methods: {
-    ...mapMutations('modal', [
-      'open',
-    ]),
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
+
     setCurrency(curr) {
       if (typeof curr == 'string') return curr.toLowerCase();
+    },
+
+
+    openDeposit(currency) {
+      if (currency !== 'USD') {
+        this.openCrypto(currency, 'cryptoDeposit');
+      } else {
+        this.openFiat(currency, true);
+      };
+    },
+
+    openWithdrawal(currency) {
+      if (currency !== 'USD') {
+        this.openCrypto(currency, 'cryptoWithdraw');
+      } else {
+        this.openFiat(currency, false);
+      };
+    },
+
+    openFiat(currency, isDeposit) {
+      this.openModal({
+        name: 'fiat',
+        data: {
+          isDeposit,
+          currency: currency,
+        },
+      });
+    },
+
+    openCrypto(currency, name) {
+      this.openModal({
+        name,
+        data: {
+          currency: currency,
+        },
+      });
     },
   },
   props: {
@@ -52,18 +93,21 @@ export default {
 .balance {
   position: relative;
   margin-top: 24px;
-  &__content {
+  &__container {
     position: relative;
-    display: flex;
-    height: 75px;
-    padding: 16px 16px 0 24px;
+    padding: 16px 16px 16px 24px;
     margin-bottom: 14px;
     background: transparent;
     transition: background .5s;
+
     &:hover {
       background: $background__blue_white;
       transition: background .5s;
     }
+  }
+  &__content {
+    display: flex;
+    margin-bottom: 14px;
   }
   &__currencyContainer {
     width: 100%;
@@ -136,6 +180,13 @@ export default {
     $size: 14px;
     width: $size;
     height: $size;
+  }
+  &__actions {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  &__action {
+    cursor: pointer;
   }
 }
 </style>

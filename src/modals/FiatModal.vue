@@ -7,7 +7,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency"
   .fiat
     .fiat__header
       .fiat__title {{title}} {{data.currency}}
-      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt ${{balance.toFixed(2)}}]
+      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt ${{balance}}]
       .fiat__right
     .fiat__content(v-if="step == 0")
       .fiat__block.fiat__block--left
