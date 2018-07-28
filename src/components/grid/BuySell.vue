@@ -175,7 +175,6 @@ export default {
   components: {
     BButton,
     IInput,
-    CSSLoader,
   },
 };
 
