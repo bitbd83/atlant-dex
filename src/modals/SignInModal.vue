@@ -8,7 +8,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
     form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")
       .singIn__inputs
         .singIn__input
-          .singIn__input-title Email
+          .singIn__input-title E-mail
           IInput.singIn__input-input(v-model="email", type="email")
         .singIn__input
           .singIn__input-title Password
@@ -17,7 +17,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
         Checkbox.singIn__checkbox(name="remember", :value="true", color="white" v-model="remember")
           .link.link--white.singIn__checkboxLabel Remember me
         span.link.link--white(@click="openResetPassword") Forgot password?
-      BButton.singIn__button(color="white" rounded type="submit") Let me in
+      BButton.singIn__button(color="white" type="submit") Let me in
       .singIn__link(@click="openSignUp")
         span.link.link--white Sign up
         icon.singIn__link-arrow(id="arrow_short")

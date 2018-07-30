@@ -20,7 +20,7 @@
         FAQ(v-else-if="isPageOpened('faq')")
         NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
     //- Modals
-    ResetModal(v-if="isModalOpened('reset')")
+    ResetPasswordModal(v-if="isModalOpened('reset')")
     NewPasswordModal(v-else-if="isModalOpened('newPassword')")
     SignUpModal(v-else-if="isModalOpened('signUp')")
     SignInModal(v-else-if="isModalOpened('signIn')")
@@ -53,7 +53,7 @@ import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
 import MainLayout from 'layouts/MainLayout';
-import ResetModal from 'modals/ResetModal';
+import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
 import SignInModal from 'modals/SignInModal';
@@ -240,7 +240,7 @@ export default {
     SecuritySettingsPage,
     SecurityLogPage,
     Status,
-    ResetModal,
+    ResetPasswordModal,
     NewPasswordModal,
     SignUpModal,
     SignInModal,
