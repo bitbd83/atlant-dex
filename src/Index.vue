@@ -39,7 +39,7 @@
 <script>
 import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {notification, getSignalRNotification} from 'services/notification';
+import {notification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
 import TheHeader from 'components/TheHeader';
@@ -67,7 +67,7 @@ import EventStatusFailedModal from 'modals/EventStatusFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
 import SaveViewModal from 'modals/SaveViewModal';
 import Status from 'components/Status';
-import {signalRNotification} from 'store/staticData/signalRNotification';
+import {signalRNotification} from '@/store/staticData/signalRNotification';
 
 export default {
   computed: {

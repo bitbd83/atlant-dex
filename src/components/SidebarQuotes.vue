@@ -47,7 +47,7 @@ import {scrollbar} from '@/directives';
 import Dropdown from 'components/Dropdown';
 import Accordion from 'components/Accordion';
 import SidebarQuotesItem from 'components/SidebarQuotesItem';
-import {cryptoName} from 'store/staticData/cryptoName';
+import {cryptoName} from '@/store/staticData/cryptoName';
 
 export default {
   data() {

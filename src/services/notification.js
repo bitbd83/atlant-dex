@@ -4,7 +4,7 @@
 
 import Noty from 'noty';
 import i18n from '@/i18n';
-import {serverCodes} from 'store/staticData/serverCodes';
+import {serverCodes} from '@/store/staticData/serverCodes';
 
 window.i18n = i18n;
 

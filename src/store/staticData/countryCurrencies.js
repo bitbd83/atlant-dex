@@ -2,11 +2,9 @@
 // Use of this source code is governed by Microsoft Reference Source
 // License (MS-RSL) that can be found in the LICENSE file.
 
-export const cryptoName = {
-  'BTC': 'Bitcoin',
-  'LTC': 'Litecoin',
-  'ETC': 'Ethereum Classic',
-  'ZEC': 'ZCash',
-  'ETH': 'Ethereum',
-  'BCC': 'Bitcoin Cash',
+export const countryCurrencies = {
+  cn: 'CNY',
+  eu: 'EUR',
+  ru: 'RUB',
+  us: 'USD',
 };

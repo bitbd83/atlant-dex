@@ -32,8 +32,8 @@ TablePageLayout(
 <script>
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {signalRNotification} from 'store/staticData/signalRNotification';
-import {notificationType} from 'store/staticData/notificationType';
+import {signalRNotification} from '@/store/staticData/signalRNotification';
+import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
 import TablePageLayout from 'layouts/TablePageLayout';
 
