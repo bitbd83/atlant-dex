@@ -4,7 +4,7 @@
 
 import Noty from 'noty';
 import i18n from '@/i18n';
-import {serverCodes} from './serverCodes';
+import {serverCodes} from 'store/staticData/serverCodes';
 
 window.i18n = i18n;
 
@@ -63,26 +63,4 @@ export const serverNotification2 = (response) => {
       type,
     });
   }
-};
-
-export const notificationType = (level) => {
-  switch (level) {
-    case 0: return 'info';
-    case 1: return 'warning';
-    case 2: return 'error';
-  }
-};
-
-export const getSignalRNotification = (type) => {
-  switch (type) {
-    case 1: return 'loggedIn';
-    case 2: return 'tfaEnabled';
-    case 3: return 'tfaDisabled';
-    case 6: return 'upgradeTier';
-    case 7: return 'orderPlaced';
-    case 8: return 'orderPartiallyFilledSell';
-    case 9: return 'orderFilledSell';
-    case 10: return 'orderPartiallyFilledBuy';
-    case 11: return 'orderFilledBuy';
-  };
 };

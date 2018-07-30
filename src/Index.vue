@@ -67,6 +67,7 @@ import EventStatusFailedModal from 'modals/EventStatusFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
 import SaveViewModal from 'modals/SaveViewModal';
 import Status from 'components/Status';
+import {signalRNotification} from 'store/staticData/signalRNotification';
 
 export default {
   computed: {
@@ -144,9 +145,9 @@ export default {
     hubSubscribe() {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
-        if (getSignalRNotification(data.notificationType)) {
+        if (signalRNotification[data.notificationType]) {
           notification({
-            text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
+            text: i18n.t(`notifications.${signalRNotification[data.notificationType]}`, i18n.locale, data.arguments),
             type: 'info',
           });
         };

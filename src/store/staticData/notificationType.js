@@ -1,0 +1,1 @@
+export const notificationType = ['info', 'warning', 'error'];
