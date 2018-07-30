@@ -5,7 +5,6 @@
 <template lang='pug'>
 .inputField
   input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
-  .inputField__line(v-if="!noUnderline")
   label.inputField__label(v-if="label") {{label}}
 </template>
 
@@ -68,6 +67,16 @@ export default {
 @import 'variables';
 .inputField {
   position: relative;
+
+  // &:after {
+  //   content: '';
+  //   position: absolute;
+  //   right: 0;
+  //   left: 0;
+  //   height: 3.5px;
+  //   background: #ffffff;
+  // }
+
   &__label {
     color: $color_white;
     white-space: nowrap;
@@ -82,12 +91,16 @@ export default {
 
   &__input {
     font-size: inherit;
-    padding: 10px 10px 10px 5px;
+    padding: 0;
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid $color_white;
+    border-radius: 0;
     background: none;
+    font-size: 16px;
+    font-weight: 400;
+    padding-bottom: 11px;
+    border-bottom: 3.5px solid $background__white;
     &--center {
       text-align: center;
     }
@@ -102,39 +115,6 @@ export default {
       -webkit-appearance: none;
       margin: 0;
     }
-  }
-
-  &__line {
-    position: relative;
-    display: block;
-    &:after,
-    &:before {
-      position: absolute;
-      content: '';
-      height: 2px;
-      width: 0;
-      bottom: 0;
-      background: $color_white;
-      transition: 0.2s ease all;
-    }
-    &:before {
-      left: 50%;
-    }
-    &:after {
-      right: 50%;
-    }
-  }
-  //Active
-  &__input:focus ~ &__line:after,
-  &__input:focus ~ &__line:before {
-    width: 50%;
-  }
-
-  &__input:focus ~ &__label,
-  &__input:valid ~ &__label {
-    top: -20px;
-    font-size: 14px;
-    color: $color_white;
   }
 }
 </style>

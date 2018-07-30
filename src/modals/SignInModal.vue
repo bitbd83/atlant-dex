@@ -5,19 +5,22 @@
 <template lang="pug">
 ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
   .singIn
-    Icon.singIn__icon(id="signin")
     form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")
-      .singIn__headerContent
-        .singIn__title Sign in
-        .singIn__other( @click="openSignUp") Sign up
       .singIn__inputs
-        IInput.singIn__input(label="Email", v-model="email", type="email")
-        IInput.singIn__input(label="Password", v-model="password", type="password")
+        .singIn__input
+          .singIn__input-title Email
+          IInput.singIn__input-input(v-model="email", type="email")
+        .singIn__input
+          .singIn__input-title Password
+          IInput.singIn__input-input(v-model="password", type="password")
       .singIn__checkboxContainer
-        Checkbox.singIn__checkbox(name="remember", :value="true", v-model="remember")
-          .singIn__checkboxLabel Remember me
-      BButton.singIn__button(color="malachite" rounded type="submit") Let me in
-      .singIn__forgot #[a.link(href="#" @click="openModal({name: 'reset'})") Forgot password?]
+        Checkbox.singIn__checkbox(name="remember", :value="true", color="white" v-model="remember")
+          .link.link--white.singIn__checkboxLabel Remember me
+        span.link.link--white(@click="openResetPassword") Forgot password?
+      BButton.singIn__button(color="white" rounded type="submit") Let me in
+      .singIn__link(@click="openSignUp")
+        span.link.link--white Sign up
+        icon.singIn__link-arrow(id="arrow_short")
     Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")
       .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -47,6 +50,11 @@ export default {
     ...mapActions('membership', {
       login: 'login',
     }),
+    openResetPassword() {
+      this.openModal({
+        name: 'reset',
+      });
+    },
     openSignUp() {
       this.openModal({
         name: 'signUp',
@@ -83,93 +91,74 @@ export default {
   flex-direction: column;
   align-items: center;
   min-width: 522px;
-  justify-content: space-between;
-  &__icon {
-    $size: 77px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    margin: auto;
-    margin-bottom: 50px;
-  }
-  &__headerContent {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 50px;
-  }
+  justify-content: center;
   &__title {
     font-size: 18px;
     font-weight: 900;
     text-transform: uppercase;
   }
-  &__other {
-    $color: #f7b933;
-    color: $color;
-    font-size: 14px;
-    position: relative;
-    font-weight: 700;
-    cursor: pointer;
-    &::after {
-      content: "";
-      height: 3px;
-      width: 100%;
-      bottom: -5px;
-      left: 0;
-      position: absolute;
-      background-color: $color;
-    }
+  &__link {
+    display: inline;
   }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-  }
   &__inputs {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    & > * {
-      flex-basis: 40%;
-      margin-bottom: 50px;
-    }
+    margin-bottom: 90px;
   }
   &__input {
-    width: 100%;
-    max-width: 400px;
+    display: flex;
+
+    &:first-of-type {
+      margin-right: 57px;
+    }
+    &-title {
+      margin-right: 18px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #FFFFFF;
+    }
+
+    &-input {
+      width: 147px;
+    }
+
   }
   &__button {
     display: block;
-    margin: auto;
-    min-width: 130px;
-    align-items: center;
-    margin-bottom: 40px;
+    width: 184px;
+    margin-bottom: 82px;
     font-size: 16px;
     font-weight: 900;
     text-align: center;
     text-transform: uppercase;
   }
   &__checkboxContainer {
-    margin-bottom: 50px;
+    margin-bottom: 82px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
   &__checkbox {
-    flex-direction: column;
+    flex-direction: row;
+    align-items: center
   }
   &__checkboxLabel {
-    margin-top: 21px;
-    font-size: 14px;
     font-weight: 400;
+    font-size: 14px;
+    color: $color__white;
+    margin-left: 47px;
+
   }
-  &__forgot {
-    display: block;
-    text-align: center;
-    font-size: 14px;
-    font-weight: 400;
+
+  &__link {
+    cursor: pointer;
+    &-arrow {
+      display: inline-block;
+      fill: $fill__white;
+      width: 12px;
+      height: 10px;
+      margin-left: 20px;
+      margin-top: 6px;
+    }
   }
   &__statusMsg {
     text-align: center;
