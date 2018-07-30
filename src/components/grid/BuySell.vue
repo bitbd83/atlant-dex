@@ -29,10 +29,10 @@
         .buySell__label Total amount
         .buySell__inputContainer
           .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
-      BButton.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
+      button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
         .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
         .buySell__buttonContent(v-show="open") Confirm buy order
-      BButton.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
+      button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
         .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
         .buySell__buttonContent(v-show="open") Confirm sell order
   .buySell__done(v-show="isDone" @click="isDone = false") Done
@@ -251,9 +251,13 @@ export default {
     transition: width .4s ease-out;
     &--buy {
       left: 0;
+      color: $color__white;
+      background-color: $background__green;
     }
     &--sell {
       right: 0;
+      color: $color__white;
+      background-color: $background__red;
     }
     &--buy.buySell__button--full,
     &--sell.buySell__button--full {
