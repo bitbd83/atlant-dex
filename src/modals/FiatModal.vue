@@ -34,7 +34,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency"
           span.fiat__receiveAmt ${{newBalance.toFixed(2)}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()") Make {{transactionType}}
+        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()" :disabled="!valid") Make {{transactionType}}
     Status.fiat__status(v-if="step == 1" isSuccess)
       .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
@@ -46,6 +46,7 @@ import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Radio from 'components/Radio';
 import Status from 'components/Status.vue';
+import * as User from 'services/api/user';
 
 export default {
   data() {
@@ -85,6 +86,9 @@ export default {
     newBalance() {
       return this.balance + ((this.data.isDeposit) ? this.amount * (1 - this.fee / 100) : - this.amount * (1 + this.fee / 100));
     },
+    valid() {
+      return parseInt(this.amount) || 0 > 0;
+    },
   },
   methods: {
     ...mapMutations('modal', {
@@ -97,11 +101,24 @@ export default {
       return array.map((item) => item.paymentName);
     },
     makeDeposit() {
-      this.deposit({
+      if (!this.valid) {
+        return false;
+      }
+      User.depositRequest({
+        amount: this.amount,
         currency: this.data.currency,
-        amount: 1000,
-      });
-      this.step++;
+        paymentSystem: 0,
+      })
+      .then(
+        (result) => {
+          console.log(result);
+        }
+      );
+      // this.deposit({
+      //   currency: this.data.currency,
+      //   amount: this.amount,
+      // });
+      // this.step++;
     },
   },
   components: {

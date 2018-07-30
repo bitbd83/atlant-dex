@@ -26,3 +26,7 @@ export const deposit = ({currency, amount}) => api.put('account/deposit', {curre
 export const getDepositAddress = ({currency}) => api.get('crypto/address', {params: {currency}});
 export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});
 export const confirmWithdraw = ({currency, code, transactionId}) => api.post('crypto/withdraw/finish', {currency, code, transactionId});
+
+export const depositRequest = (data) => api.post('Fiat/deposit/request', data);
+export const withdrawSwift = (data) => api.post('Fiat/withdraw/request/swift', data);
+export const withdrawSepa = (data) => api.post('Fiat/withdraw/request/sepa', data);
