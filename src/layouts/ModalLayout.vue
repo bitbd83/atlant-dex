@@ -118,7 +118,7 @@ $padding: 40px;
     right: 0;
     display: flex;
     justify-content: space-between;
-    padding: 18px 27px 0px 85px;
+    padding: 18px 27px 0px 110px;
     z-index: 1000003;
   }
 

@@ -42,7 +42,6 @@
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from 'services/notification';
 import {addTileToDashboard} from 'services/grid';
-import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 
 export default {
@@ -173,7 +172,6 @@ export default {
     );
   },
   components: {
-    BButton,
     IInput,
   },
 };
