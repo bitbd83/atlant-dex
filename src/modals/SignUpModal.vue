@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isSuccess="true", title="Sign up")
+ModalLayout(:step="step", :isSuccess="isSuccess", title="Sign up")
   .singUp
     Icon.singUp__icon(id="signup")
     form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")
@@ -21,8 +21,7 @@ ModalLayout(:step="step", isSuccess="true", title="Sign up")
             span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
           BButton.singUp__button(color="malachite" rounded type="submit") Create account
       .singUp__other(@click="openSignIn") Sign in
-    Status.singUp__status(v-if="step == 1")
-      .singUp__statusMsg Completed
+    Status.singUp__status(v-if="step == 1", :isSuccess="isSuccess")
 </template>
 
 <script>
@@ -44,6 +43,7 @@ export default {
       passwordRepeat: '',
       iAgree: false,
       step: 0,
+      isSuccess: false,
     };
   },
   computed: {
@@ -78,6 +78,7 @@ export default {
         termsaccepted: this.iAgree,
       }).then((res) => {
         this.step++;
+        this.isSuccess = true;
       }).catch((error) => {
         serverNotification(error);
       });
@@ -194,12 +195,6 @@ export default {
     font-size: 16px;
     font-weight: 900px;
     text-transform: uppercase;
-  }
-  &__statusMsg {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
   }
 }
 </style>

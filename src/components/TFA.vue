@@ -40,7 +40,6 @@ import {mapState, mapMutations} from 'vuex';
 import i18n from '@/i18n';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
-import Status from 'components/Status.vue';
 
 export default {
   data() {
@@ -113,7 +112,6 @@ export default {
   components: {
     BButton,
     IInput,
-    Status,
   },
 };
 </script>

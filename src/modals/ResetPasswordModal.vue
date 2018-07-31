@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step - 1", :isSuccess="isSuccess", title="Reset password")
+ModalLayout(:step="step", isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
   .reset
     form.reset__content(v-if="step == 0")
       .reset__input
@@ -18,8 +18,7 @@ ModalLayout(:step="step - 1", :isSuccess="isSuccess", title="Reset password")
         span.link.link--white(@click="openModal({name: 'signUp'})") Sign Up
         icon.reset__linkArrow(id="arrow_short")
     TFA(v-if="step == 1", :onConfirm="confirmReset", :onResend="reset", :onCancel="cancelReset", :isModal="true")
-    Status.reset__status(v-if="step == 2")
-      .reset__statusMsg Completed
+    Status.reset__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="cancelReset")
 </template>
 
 <script>
@@ -63,7 +62,9 @@ export default {
     confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
         this.step = 2;
+        isSuccess = true;
       }).catch((res) => {
+        this.step = 2;
         serverNotification(res);
       });
     },
@@ -145,12 +146,6 @@ export default {
     height: 10px;
     margin-left: 20px;
     margin-top: 6px;
-  }
-  &__statusMsg {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
   }
 }
 </style>

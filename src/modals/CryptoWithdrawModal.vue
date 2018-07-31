@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
+ModalLayout(:step="step", isWith2fa="true" :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
   .cryptoWithdraw
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
@@ -15,8 +15,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="`Withdraw ${data.curre
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step === 2")
-      .fiat__statusMsg Completed
+    Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>

@@ -27,7 +27,6 @@
     CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
     CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
     FiatModal(v-else-if="isModalOpened('fiat')")
-    TFAModal(v-else-if="isModalOpened('tfaModal')")
     TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
     EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
     EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
@@ -60,7 +59,6 @@ import SignInModal from 'modals/SignInModal';
 import CryptoDepositModal from 'modals/CryptoDepositModal';
 import CryptoWithdrawModal from 'modals/CryptoWithdrawModal';
 import FiatModal from 'modals/FiatModal';
-import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
@@ -195,12 +193,12 @@ export default {
           text: 'Logged out',
         });
       } else {
-        this.getProfileData().then((response) => {
-          if (!this.isTFAEnabled) {
-            this.openModal({name: 'tfaWarningModal'});
-          }
-          return response;
-        });
+        // this.getProfileData().then((response) => {
+        //   if (!this.isTFAEnabled) {
+        //     this.openModal({name: 'tfaWarningModal'});
+        //   }
+        //   return response;
+        // });
       }
     },
   },
@@ -247,7 +245,6 @@ export default {
     CryptoDepositModal,
     CryptoWithdrawModal,
     FiatModal,
-    TFAModal,
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,

@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isSuccess="true",  title="Add alert")
+ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
   .addAlert
     Icon.addAlert__icon(id="addAlert")
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
@@ -61,8 +61,7 @@ ModalLayout(:step="step", isSuccess="true",  title="Add alert")
       Checkbox.addAlert__checkbox(name="acknowledged", :value="true", v-model="autoDisable")
         .addAlert__disable Disable this alert in one month
       BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") Add alert
-    Status.addAlert__status(v-if="step == 1")
-      .addAlert__statusMsg Alert added
+    Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
@@ -89,6 +88,7 @@ export default {
       baseCurrencyOptions: ['CNY', 'EUR', 'RUB', 'USD'],
       baseCurrencySelected: 'USD',
       price: 0.00,
+      isSuccess: false,
     };
   },
   computed: {
@@ -147,7 +147,10 @@ export default {
         expirationDate: this.getDate,
       }).then(() => {
         this.step = 1;
+        this.isSuccess = true;
         // this.setAlertsListChange();
+      }).catch(() => {
+        this.step = 1;
       });
     },
   },
