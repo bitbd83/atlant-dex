@@ -8,7 +8,6 @@ export default {
   state: {
     showSidebar: false,
     section: '',
-    loading: false,
   },
   getters: {
     section(state, getters, rootState, rootGetters) {
@@ -30,9 +29,6 @@ export default {
     },
   },
   mutations: {
-    setLoading(state, isLoading) {
-      state.loading = isLoading;
-    },
     toggleSidebar(state) {
       state.showSidebar = !state.showSidebar;
     },

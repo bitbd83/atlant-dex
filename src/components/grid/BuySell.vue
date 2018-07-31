@@ -4,6 +4,7 @@
 
 <template lang='pug'>
 .buySell
+  CSSLoader
   .buySell__default(v-show="!isDone")
     .buySell__headerContainer
       .buySell__header
@@ -44,6 +45,7 @@ import {notification} from 'services/notification';
 import {addTileToDashboard} from 'services/grid';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -175,6 +177,7 @@ export default {
   components: {
     BButton,
     IInput,
+    CSSLoader,
   },
 };
 

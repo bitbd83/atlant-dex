@@ -3,18 +3,8 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template>
-  <div v-if="loading" class="lds-ripple"><div></div><div></div></div>
+  <div class="lds-ripple"><div></div><div></div></div>
 </template>
-
-<script>
-import {mapState} from 'vuex';
-export default {
-  computed: {
-    ...mapState('misc', ['loading']),
-  },
-};
-
-</script>
 
 <style scoped>
   .lds-ripple {
