@@ -5,11 +5,11 @@
 <template lang="pug">
 ModalLayout(:step="step - 1", :isSuccess="isSuccess", title="Reset password")
   .reset
-    .reset__content(v-if="step == 0")
+    form.reset__content(v-if="step == 0")
       .reset__input
         .reset__inputTitle E-mail
-        IInput(v-model="email")
-      Checkbox.reset__checkbox(name="acknowledged", :value="true", color="white", v-model="acknowledged")
+        IInput(v-model="email", type="email" required="true")
+      Checkbox.reset__checkbox(name="acknowledged", :value="true", color="white", v-model="acknowledged"  required="true")
         .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
       BButton.reset__button(color="white" @click.native="reset()") Reset it now
       .reset__linkContainer

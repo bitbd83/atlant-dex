@@ -97,9 +97,6 @@ export default {
     font-weight: 900;
     text-transform: uppercase;
   }
-  &__link {
-    display: inline;
-  }
 
   &__inputs {
     display: flex;
@@ -160,6 +157,7 @@ export default {
       margin-top: 6px;
     }
   }
+
   &__statusMsg {
     text-align: center;
     text-transform: uppercase;
