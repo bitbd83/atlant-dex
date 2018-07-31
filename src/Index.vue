@@ -193,12 +193,12 @@ export default {
           text: 'Logged out',
         });
       } else {
-        // this.getProfileData().then((response) => {
-        //   if (!this.isTFAEnabled) {
-        //     this.openModal({name: 'tfaWarningModal'});
-        //   }
-        //   return response;
-        // });
+        this.getProfileData().then((response) => {
+          if (!this.isTFAEnabled) {
+            this.openModal({name: 'tfaWarningModal'});
+          }
+          return response;
+        });
       }
     },
   },
