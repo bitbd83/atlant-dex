@@ -4,10 +4,10 @@
 
 export default {
   state: {
-    name: 'fiat',
+    name: '',
     data: {
       isDeposit: false,
-      currency: 'USD',
+      currency: '',
     },
   },
   mutations: {
