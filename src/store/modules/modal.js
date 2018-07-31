@@ -6,7 +6,7 @@ export default {
   state: {
     name: 'fiat',
     data: {
-      isDeposit: true,
+      isDeposit: false,
       currency: 'USD',
     },
   },

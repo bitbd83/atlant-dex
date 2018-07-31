@@ -15,7 +15,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency"
           span.fiat__stepNumber STEP 1
           span Choose {{transactionType}} method:
         .fiat__options
-          Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" value="method.paymentName" v-model="CheckedPaymentSystem")
+          Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" :value="index" v-model="CheckedPaymentSystem")
             Icon.fiat__systemLogo(:id="method.iconName")
         .fiat__bottom
           div ***
@@ -57,12 +57,12 @@ export default {
       fee: 1,
       paymentMethods: [
         {
-          'paymentName': 'sepa',
-          'iconName': 'sepa',
-        },
-        {
           'paymentName': 'swift',
           'iconName': 'swift',
+        },
+        {
+          'paymentName': 'sepa',
+          'iconName': 'sepa',
         },
       ],
       CheckedPaymentSystem: '',
@@ -104,21 +104,31 @@ export default {
       if (!this.valid) {
         return false;
       }
-      User.depositRequest({
-        amount: this.amount,
-        currency: this.data.currency,
-        paymentSystem: 0,
-      })
-      .then(
-        (result) => {
-          console.log(result);
-        }
-      );
-      // this.deposit({
-      //   currency: this.data.currency,
-      //   amount: this.amount,
-      // });
-      // this.step++;
+      if (this.data.isDeposit) {
+        User.depositRequest({
+          amount: this.amount,
+          currency: this.data.currency,
+          paymentSystem: this.CheckedPaymentSystem,
+        })
+        .then(
+          (result) => {
+            this.step++;
+          }
+        );
+      } else {
+        let methods = ['withdrawSwift', 'withdrawSepa'];
+        let method = methods[this.CheckedPaymentSystem];
+
+        User[method]({
+          amount: this.amount,
+          currency: this.data.currency,
+        })
+        .then(
+          (result) => {
+            console.log('withdraw', result);
+          }
+        );
+      }
     },
   },
   components: {
