@@ -164,6 +164,10 @@ $padding: 40px;
     }
   }
 
+  &__content {
+    position: relative;
+  }
+
   &__anim {
     &-enter,
     &-leave-active {

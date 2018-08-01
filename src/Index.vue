@@ -17,6 +17,7 @@
         AccountInformation(v-else-if="isPageOpened('accountInformation')")
         SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
         SecurityLogPage(v-else-if="isPageOpened('securityLog')")
+        AlertsList(v-else-if="isPageOpened('alertsList')")
         FAQ(v-else-if="isPageOpened('faq')")
         NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
     //- Modals
@@ -41,8 +42,9 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
-import TheHeader from 'components/TheHeader';
 import Sidebar from 'components/Sidebar';
+import TheHeader from 'components/TheHeader';
+import MainLayout from 'layouts/MainLayout';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
@@ -51,7 +53,7 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
-import MainLayout from 'layouts/MainLayout';
+import AlertsList from 'pages/AlertsList';
 import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
@@ -237,6 +239,7 @@ export default {
     AccountInformation,
     SecuritySettingsPage,
     SecurityLogPage,
+    AlertsList,
     Status,
     ResetPasswordModal,
     NewPasswordModal,

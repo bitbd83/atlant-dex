@@ -32,7 +32,7 @@ export default {
 <style lang="scss">
 @import 'variables';
 .status {
-  position: relative;
+  // position: relative;
   min-width: 400px;
   &__angle {
     position: absolute;

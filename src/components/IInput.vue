@@ -54,11 +54,7 @@ export default {
       default: false,
       required: false,
     },
-    noUnderline: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+    noUnderline: Boolean,
   },
 };
 </script>
@@ -99,6 +95,7 @@ export default {
     }
     &--noUnderline {
       border-bottom: none;
+      padding-bottom: 0;
     }
     &::placeholder {
       color: $color__white;

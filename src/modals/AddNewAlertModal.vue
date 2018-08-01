@@ -6,20 +6,23 @@
 ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
   .addAlert
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
-      .addAlert__row
-        .addAlert__block
-          .addAlert__text Allert me If the
-          Dropdown.addAlert__dropdown(
-            :options="valueOptions",
-            :value="valueSelected",
-            @input="changeSelectedValue",
-            no-border,
-            no-padding,
-            underline,
-          )
-            template(slot="singleLabel", slot-scope="props")
-              .addAlert__selected {{props.option}}
-          .addAlert__text Price
+      .addAlert__quote "
+      .addAlert__block
+        span.addAlert__text Allert &nbsp;
+        span.addAlert__text me &nbsp;
+        span.addAlert__text If &nbsp;
+        span.addAlert__text the &nbsp;
+        Dropdown.addAlert__dropdown(
+          :options="valueOptions",
+          :value="valueSelected",
+          @input="changeSelectedValue",
+          no-border,
+          no-padding,
+          noTriangle,
+        )
+          template(slot="singleLabel", slot-scope="props")
+            .addAlert__selected {{props.option}}
+        .addAlert__text &nbsp; Price
       .addAlert__block
         .addAlert__text for
         Dropdown.addAlert__dropdown(
@@ -28,10 +31,10 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
           @input="changeSelectedCurrency",
           no-border,
           no-padding,
-          underline,
+          noTriangle,
         )
           template(slot="singleLabel", slot-scope="props")
-              .addAlert__selected {{props.option}}
+            .addAlert__selected {{props.option}}
         .addAlert__text has
         Dropdown.addAlert__dropdown(
           :options="eventOptions",
@@ -39,31 +42,38 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
           @input="changeSelectedEvent",
           no-border,
           no-padding,
-          underline,
+          noTriangle,
         )
           template(slot="singleLabel", slot-scope="props")
               .addAlert__selected {{props.option}}
       .addAlert__block
-        .addAlert__text the value of &nbsp;
+        .addAlert__text the
+        .addAlert__text value
+        .addAlert__text of
         Dropdown.addAlert__dropdown.addAlert__dropdown--baseCur(
           :options="baseCurrencyOptions",
           :value="baseCurrencySelected",
           @input="changeSelectedBaseCurrency",
           no-border,
           no-padding,
-          underline,
+          noTriangle,
         )
           template(slot="singleLabel", slot-scope="props")
             .addAlert__selected {{props.option}}
-        IInput(v-model="price" type="number").addAlert__input
+        IInput(v-model="price" type="number" noUnderline="").addAlert__input
+      .addAlert__quote.addAlert__quote--last "
       Checkbox.addAlert__checkbox(name="acknowledged", color="white", :value="true", v-model="autoDisable")
         .addAlert__checkboxTittle Disable this allert after 1 month from now
       BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") Add alert
+      .addAlert__linkContainer(@click="goToPage")
+        .link.link--white.addAlert__link My allerts
+        icon(id="arrow_short").addAlert__linkArrow
     Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {notification} from 'services/notification';
 import {createAlert} from 'services/api/alerts';
 import Icon from 'components/Icon';
 import Dropdown from 'components/Dropdown';
@@ -78,11 +88,11 @@ export default {
     return {
       autoDisable: true,
       step: 0,
-      valueOptions: ['Bid', 'Ask'],
-      valueSelected: 'Bid',
+      valueOptions: ['BID', 'ASK'],
+      valueSelected: 'BID',
       currencySelected: '',
-      eventOptions: ['exceeded', 'reached', 'fallen below'],
-      eventSelected: 'exceeded',
+      eventOptions: ['EXCEEDED', 'REACHED', 'FALLEN BELOW'],
+      eventSelected: 'EXCEEDED',
       baseCurrencyOptions: ['CNY', 'EUR', 'RUB', 'USD'],
       baseCurrencySelected: 'USD',
       price: 0.00,
@@ -114,8 +124,14 @@ export default {
     ...mapMutations('modal', {
       open: 'open',
     }),
+    ...mapMutations('modal', {
+      closeModal: 'close',
+    }),
     ...mapMutations('user', [
       'setAlertsListChange',
+    ]),
+    ...mapActions('page', [
+      'getOpenPage',
     ]),
     openSignIn() {
       this.open({
@@ -135,6 +151,14 @@ export default {
       this.baseCurrencySelected = val;
     },
     getApiRequestForCreateAlert() {
+      if (0 === this.price) {
+        notification({
+          title: 'Negative or zero value:',
+          text: 'Price Level Must Be Greater Than Zero',
+          type: 'error',
+        });
+        return;
+      };
       createAlert({
         currency: this.currencySelected,
         comparator: this.eventOptions.indexOf(this.eventSelected),
@@ -150,6 +174,10 @@ export default {
       }).catch(() => {
         this.step = 1;
       });
+    },
+    goToPage() {
+      this.closeModal();
+      this.getOpenPage('alertsList');
     },
   },
   created() {
@@ -174,25 +202,9 @@ export default {
 @import "variables";
 
 .addAlert {
-  &__content {
-  }
-  &__blocks {
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: space-between;
-    // width: 100%;
-    // min-width: 500px;
-    // margin-top: 56px;
-  }
-
   &__block {
     display: flex;
-    // align-items: center;
     justify-content: space-between;
-    // margin-bottom: 50px;
-    // font-size: 14px;
-    // font-weight: 400;
-    // width: 45%;
   }
   &__text {
     font-size: 30px;
@@ -207,22 +219,30 @@ export default {
     letter-spacing: 0;
     line-height: 61px;
     text-transform: uppercase;
-  }
-  &__inputs {
-
-    // display: flex;
-    // flex-direction: column;
-    // & > * {
-    //   flex-basis: 40%;
-    //   margin-bottom: 50px;
-    // }
+    margin: 0;
+    border-bottom: 4px dashed $background__white;
   }
   &__input {
+    width: 120px;
     display: flex;
     font-size: 30px !important;
     letter-spacing: 0;
     line-height: 61px !important;
+    border-bottom: 4px dashed $background__white;
   }
+  &__quote {
+    display: block;
+    font-size: 30px;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    line-height: 61px;
+
+    &--last {
+      margin-top: 20px;
+      margin-left: calc(100% - 13px);
+    }
+  }
+
   &__checkbox {
     margin-bottom: 44px;
   }
@@ -238,6 +258,17 @@ export default {
   &__button {
     color: $color__blue;
     text-transform: uppercase;
+    margin-bottom: 86px;
   }
+
+  &__linkArrow {
+    display: inline-block;
+    fill: $fill__white;
+    width: 12px;
+    height: 10px;
+    margin-left: 20px;
+    margin-top: 6px;
+  }
+
 }
 </style>
