@@ -4,7 +4,8 @@
 
 <template lang="pug">
 .logout(@click="membershipAction")
-  Icon.logout__icon(id="logout")
+  Icon.logout__icon(v-if="isLoggedIn" id="out")
+  Icon.logout__icon(v-if="!isLoggedIn" id="in")
   // .logout__text {{ isLoggedIn ? 'Logout' : 'Login' }}
 </template>
 
