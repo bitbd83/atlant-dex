@@ -5,12 +5,10 @@
 <template lang="pug">
 ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
   .addAlert
-    Icon.addAlert__icon(id="addAlert")
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
-      .addAlert__title Add alert
-      .addAlert__blocks
+      .addAlert__row
         .addAlert__block
-          .addAlert__text If the
+          .addAlert__text Allert me If the
           Dropdown.addAlert__dropdown(
             :options="valueOptions",
             :value="valueSelected",
@@ -20,46 +18,46 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
             underline,
           )
             template(slot="singleLabel", slot-scope="props")
-               .addAlert__selected {{props.option}}
-        .addAlert__block
-          .addAlert__text of
-          Dropdown.addAlert__dropdown(
-            :options="userCurrencies",
-            :value="currencySelected",
-            @input="changeSelectedCurrency",
-            no-border,
-            no-padding,
-            underline,
-          )
-            template(slot="singleLabel", slot-scope="props")
-               .addAlert__selected {{props.option}}
-        .addAlert__block
-          .addAlert__text
-          Dropdown.addAlert__dropdown(
-            :options="eventOptions",
-            :value="eventSelected",
-            @input="changeSelectedEvent",
-            no-border,
-            no-padding,
-            underline,
-          )
-            template(slot="singleLabel", slot-scope="props")
-               .addAlert__selected {{props.option}}
-        .addAlert__block
-          .addAlert__text the value of
-          Dropdown.addAlert__dropdown.addAlert__dropdown--baseCur(
-            :options="baseCurrencyOptions",
-            :value="baseCurrencySelected",
-            @input="changeSelectedBaseCurrency",
-            no-border,
-            no-padding,
-            underline,
-          )
-            template(slot="singleLabel", slot-scope="props")
-               .addAlert__selected {{props.option}}
-          IInput.addAlert__input(v-model="price" type="number")
-      Checkbox.addAlert__checkbox(name="acknowledged", :value="true", v-model="autoDisable")
-        .addAlert__disable Disable this alert in one month
+              .addAlert__selected {{props.option}}
+          .addAlert__text Price
+      .addAlert__block
+        .addAlert__text for
+        Dropdown.addAlert__dropdown(
+          :options="userCurrencies",
+          :value="currencySelected",
+          @input="changeSelectedCurrency",
+          no-border,
+          no-padding,
+          underline,
+        )
+          template(slot="singleLabel", slot-scope="props")
+              .addAlert__selected {{props.option}}
+        .addAlert__text has
+        Dropdown.addAlert__dropdown(
+          :options="eventOptions",
+          :value="eventSelected",
+          @input="changeSelectedEvent",
+          no-border,
+          no-padding,
+          underline,
+        )
+          template(slot="singleLabel", slot-scope="props")
+              .addAlert__selected {{props.option}}
+      .addAlert__block
+        .addAlert__text the value of &nbsp;
+        Dropdown.addAlert__dropdown.addAlert__dropdown--baseCur(
+          :options="baseCurrencyOptions",
+          :value="baseCurrencySelected",
+          @input="changeSelectedBaseCurrency",
+          no-border,
+          no-padding,
+          underline,
+        )
+          template(slot="singleLabel", slot-scope="props")
+            .addAlert__selected {{props.option}}
+        IInput(v-model="price" type="number").addAlert__input
+      Checkbox.addAlert__checkbox(name="acknowledged", color="white", :value="true", v-model="autoDisable")
+        .addAlert__checkboxTittle Disable this allert after 1 month from now
       BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") Add alert
     Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
@@ -80,11 +78,11 @@ export default {
     return {
       autoDisable: true,
       step: 0,
-      valueOptions: ['Bid Price', 'Ask Price'],
-      valueSelected: 'Bid Price',
+      valueOptions: ['Bid', 'Ask'],
+      valueSelected: 'Bid',
       currencySelected: '',
-      eventOptions: ['has exceeded', 'has reached', 'has fallen below'],
-      eventSelected: 'has exceeded',
+      eventOptions: ['exceeded', 'reached', 'fallen below'],
+      eventSelected: 'exceeded',
       baseCurrencyOptions: ['CNY', 'EUR', 'RUB', 'USD'],
       baseCurrencySelected: 'USD',
       price: 0.00,
@@ -176,124 +174,70 @@ export default {
 @import "variables";
 
 .addAlert {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 522px;
-  margin: auto;
-  &__icon {
-    $size: 77px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    margin: auto;
-    margin-bottom: 50px;
-  }
   &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-  &__title {
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  &__other {
-    $color: #f7b933;
-    color: $color;
-    font-size: 14px;
-    position: relative;
-    font-weight: 700;
-    cursor: pointer;
-    &::after {
-      content: "";
-      height: 3px;
-      width: 100%;
-      bottom: -5px;
-      left: 0;
-      position: absolute;
-      background-color: $color;
-    }
   }
   &__blocks {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    width: 100%;
-    min-width: 500px;
-    margin-top: 56px;
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
+    // width: 100%;
+    // min-width: 500px;
+    // margin-top: 56px;
   }
 
   &__block {
     display: flex;
-    align-items: center;
+    // align-items: center;
     justify-content: space-between;
-    margin-bottom: 50px;
-    font-size: 14px;
-    font-weight: 400;
-    width: 45%;
+    // margin-bottom: 50px;
+    // font-size: 14px;
+    // font-weight: 400;
+    // width: 45%;
   }
   &__text {
-    white-space: nowrap;
-    margin-right: 25px;
-  }
-  &__dropdown {
-    max-width: 150px;
-    padding-bottom: 1px;
-    border-bottom: 1px solid $color_white;
-    &--baseCur {
-      max-width: 40px;
-    }
+    font-size: 30px;
+    color: $color__white;
+    letter-spacing: 0;
+    line-height: 61px;
+    text-transform: uppercase;
   }
   &__selected {
-    color: #f7bc34;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 30px;
+    color: $color__white;
+    letter-spacing: 0;
+    line-height: 61px;
     text-transform: uppercase;
   }
   &__inputs {
 
-    display: flex;
-    flex-direction: column;
-    & > * {
-      flex-basis: 40%;
-      margin-bottom: 50px;
-    }
+    // display: flex;
+    // flex-direction: column;
+    // & > * {
+    //   flex-basis: 40%;
+    //   margin-bottom: 50px;
+    // }
   }
   &__input {
-    color: #f7bc34;
-    font-size: 14px;
-    font-weight: 700;
-    margin-left: 22px;
+    display: flex;
+    font-size: 30px !important;
+    letter-spacing: 0;
+    line-height: 61px !important;
   }
   &__checkbox {
-    align-items: flex-start !important;
+    margin-bottom: 44px;
   }
 
-  &__disable {
-    margin-left: 16px;
-    margin-bottom: 42px;
+  &__checkboxTittle {
+    font-family: CenturyGothic;
     font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
+    color: $color__white;
+    letter-spacing: 0.38px;
+    line-height: 25px;
+    margin-left: 43px;
   }
   &__button {
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 16px;
-    font-weight: 900;
+    color: $color__blue;
     text-transform: uppercase;
-    padding: 8px 42px;
-  }
-  &__statusMsg {
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
   }
 }
 </style>

@@ -67,15 +67,8 @@ export default {
 @import 'variables';
 .inputField {
   position: relative;
-
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   right: 0;
-  //   left: 0;
-  //   height: 3.5px;
-  //   background: #ffffff;
-  // }
+  font-size: 16px;
+  font-weight: 400;
 
   &__label {
     color: $color_white;
@@ -91,14 +84,14 @@ export default {
 
   &__input {
     font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
     padding: 0;
     display: block;
     width: 100%;
     border: none;
     border-radius: 0;
     background: none;
-    font-size: 16px;
-    font-weight: 400;
     padding-bottom: 11px;
     border-bottom: 3.5px solid $background__white;
     &--center {
