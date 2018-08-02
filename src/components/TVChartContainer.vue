@@ -8,6 +8,9 @@ import {
   widget,
   onready,
 } from '../../static/js/charting_library/charting_library.min';
+import {mapState, mapActions} from 'vuex';
+
+import datafeed from '@/services/dataFeed';
 
 function getLanguageFromURL() {
   const regex = new RegExp('[\\?&]lang=([^&#]*)');
@@ -19,7 +22,7 @@ export default {
   name: 'TVChartContainer',
   props: {
     symbol: {
-      default: 'AAPL',
+      default: 'Coinbase:BTC/USD',
       type: String,
     },
     interval: {
@@ -66,17 +69,28 @@ export default {
       type: Object,
     },
   },
+  computed: {
+    ...mapState('chart', ['data']),
+  },
+  methods: {
+    ...mapActions(
+      'chart',
+      [
+        'loadChart',
+      ]
+    ),
+  },
   mounted() {
     const widgetOptions = {
       symbol: this.symbol,
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new window.Datafeeds.UDFCompatibleDatafeed(this.datafeedUrl),
+      datafeed: datafeed,
       interval: this.interval,
       container_id: this.containerId,
       library_path: this.libraryPath,
 
       locale: getLanguageFromURL() || 'en',
-      disabled_features: ['use_localstorage_for_settings'],
+      disabled_features: ['use_localstorage_for_settings', 'header_widget', 'left_toolbar'],
       enabled_features: [],
       charts_storage_url: this.chartsStorageUrl,
       charts_storage_api_version: this.chartsStorageApiVersion,

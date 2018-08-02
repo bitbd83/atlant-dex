@@ -128,15 +128,16 @@ export default {
     },
   },
   actions: {
-    loadChart: debounce(function({commit, state, dispatch, getters, rootState}) {
+    loadChart({commit, state, dispatch, getters, rootState}) {
       return Chart.getCandlesCollection({
         period: state.period,
         pair: rootState.tradeInfo.pair,
       }).then((res) => {
         const candles = getters.getActualizedCandlesCollection(res.data.candles);
         commit('setChartData', Object.assign(res.data, {candles}));
+        return candles;
       });
-    }, 50),
+    },
     changeChartPeriod({commit, dispatch}, period) {
       commit('setPeriod', period);
       return dispatch('loadChart');
