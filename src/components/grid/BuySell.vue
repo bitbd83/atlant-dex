@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .buySell
-  CSSLoader
+  CSSLoader(v-if="loading")
   .buySell__default(v-show="!isDone")
     .buySell__headerContainer
       .buySell__header
