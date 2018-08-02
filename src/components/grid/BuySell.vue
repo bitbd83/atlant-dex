@@ -57,6 +57,7 @@ export default {
       amount: '',
       price: '',
       total: 0,
+      loading: false,
     };
   },
   computed: {
@@ -130,6 +131,7 @@ export default {
         this.openModal({name: 'signIn'});
         return false;
       };
+      this.loading = true;
       this.placeOrder({
         isMarketOrder: this.type === 'market',
         isSellOrder: !this.isBuy,
@@ -138,12 +140,21 @@ export default {
         price: this.price,
         quantity: this.amount,
         isQuantityInBaseCurrency: true,
-      }).then(() => {
-        this.isDone = true;
-        this.amount = '';
-        this.total = 0;
-        this.open = false;
-      });
+      })
+      .then(
+        () => {
+          this.isDone = true;
+          this.amount = '';
+          this.total = 0;
+          this.open = false;
+          this.loading = false;
+        }
+      )
+      .catch(
+        (err) => {
+          this.loading = false;
+        }
+      );
     },
   },
   watch: {
