@@ -19,7 +19,7 @@ Tile(
     :name="data.name"
   )
     .chart
-      IEcharts(:option="chart", :loading="false", :resizable="true")#chart
+      TVChartContainer
 </template>
 
 <script>
@@ -34,6 +34,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
+import TVChartContainer from './../TVChartContainer';
 
 export default {
   mixins: [TileBase],
@@ -98,6 +99,8 @@ export default {
     ...mapActions('chart', [
       'addNewCandle',
     ]),
+    initChart() {
+    },
     createChart() {
       this.chart = {
         tooltip: {
@@ -352,14 +355,16 @@ export default {
     },
   },
   created() {
-    this.loadChart().then(() => {
-      this.createChart();
-    });
-    this.$hub.on('Send', this.onSendSignal);
+    this.initChart();
+    // this.loadChart().then(() => {
+    //   this.createChart();
+    // });
+    // this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     IEcharts,
     ChartHeader,
+    TVChartContainer,
   },
 };
 </script>
