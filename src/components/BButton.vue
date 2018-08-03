@@ -62,7 +62,6 @@ $ROOT: "button";
 .#{$ROOT} {
   position: relative;
   min-height: 28px;
-  min-width: 184px;
   font-size: 16px;
   white-space: nowrap;
   padding: 8px 20px;
@@ -84,6 +83,11 @@ $ROOT: "button";
     font-size: inherit;
     font-weight: 700;
     color: inherit;
+    transition: all .5s;
+
+    &:hover {
+      transition: all .5s;
+    }
   }
 
   &--blue {

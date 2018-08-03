@@ -11,7 +11,7 @@ ModalLayout(:step="step", isSuccess="true", title="Save View")
         .saveView__title Save View
       IInput.saveView__input(placeholder="View name" label="View name" v-model="viewName")
       BButton.saveView__button(color="malachite" rounded type="submit") Save
-    Status.saveView__status(v-if="step == 1", isSuccess="true")
+    Status.saveView__status(v-if="step == 1")
 </template>
 
 <script>

@@ -3,13 +3,17 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  ModalLayout(isAttention="true", title="ATTENTION")
+  ModalLayout(isAttention="true", title="Warning")
     .tfaWarning
-      icon.tfaWarning__angle(id="angle-top-left")
-      Icon.tfaWarning__icon(id="icon-2fa")
+      .tfaWarning__title {{$t('tfaSecureWarning.title')}}
+      Icon.tfaWarning__icon(id="statusFailed")
       .tfaWarning__text {{$t('tfaSecureWarning.text')}}
-      BButton.tfaWarning__button(caps, color="white", @click="onYesClick") {{$t('tfaSecureWarning.yesButton')}}
-      .link.link--white(
+      BButton(
+        rounded,
+        caps,
+        @click="onYesClick",
+      ) {{$t('tfaSecureWarning.yesButton')}}
+      .tfaWarning__link(
         role="button",
         @click="onNoClick",
       ) {{$t('tfaSecureWarning.noButton')}}
@@ -45,46 +49,53 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
-@import 'variables';
-.tfaWarning {
-  position: relative;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-
-  &__angle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 17px;
-    height: 16.26px;
-    fill: $fill__white;
-  }
-
-  &__icon {
-    display: inline-block;
-    height: 97px;
-    width: 111px;
-    margin: 80px auto;
-    fill: $fill__white;
-  }
-
-  &__text {
-    font-weight: 700;
-    font-size: 20px;
-    color: $color__white;
+  .tfaWarning {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    justify-content: space-around;
+    max-height: 600px;
     text-align: center;
-    line-height: 39px;
-    max-width: 400px;
-    margin: auto;
-    margin-bottom: 44px;
-    max-width: 288px;
-    text-transform: uppercase;
-  }
 
-  &__button {
-    color: $color__red;
-    margin-bottom: 63px;
+    &__title {
+      color: #ffc600;
+      font-size: 18px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    &__iconWrap {
+      text-align: center;
+    }
+    &__icon {
+      display: inline-block;
+      height: 111px;
+      width: 111px;
+    }
+    &__text {
+      color: #fff;
+      font-size: 20px;
+      line-height: 35px;
+      font-weight: 300;
+      max-width: 400px;
+    }
+    &__link {
+      $color: #f7b933;
+      color: $color;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 700;
+      position: relative;
+      &::after {
+        background-color: $color;
+        bottom: -8px;
+        content: "";
+        height: 3px;
+        left: 0;
+        position: absolute;
+        width: 100%;
+      }
+    }
   }
-}
 </style>

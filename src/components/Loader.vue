@@ -3,21 +3,16 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  .loader(v-show="isLoading")
+  .loader(v-show="loading")
     .loader__hour
     .loader__minute
 </template>
 <script>
 export default {
   props: {
-    isLoading: {
+    loading: {
       type: Boolean,
       required: true,
-      default: false,
-    },
-    isLoadingError: {
-      type: Boolean,
-      required: false,
       default: false,
     },
   },

@@ -4,21 +4,17 @@
 
 <template lang="pug">
 ModalLayout(step="1", isSuccess="false", :title="fail")
-  Status(:isSuccess="false" v-on:getBack="close")
+  Status(:isSuccess="false")
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
-import ModalLayout from '@/layouts/ModalLayout';
+ import ModalLayout from '@/layouts/ModalLayout';
 import Status from 'components/Status.vue';
 
 export default {
   components: {
     ModalLayout,
     Status,
-  },
-  methods: {
-    ...mapMutations('modal', ['close']),
   },
 };
 </script>

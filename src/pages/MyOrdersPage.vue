@@ -9,14 +9,10 @@ TablePageLayout(
   :pageCount='setPagesCount',
   :page="page",
   :changeActivePage="changeActivePage",
-  :checkedArray='checked',
-  :getRepeat="getRepeat",
-  :getCancel="isCancelActive ? getCancel : false",
-  :getExport="getExport",
-  :isCheckbox="false",
-  :isLoading="loadingContent",
-  :isLoadingError="isLoadingError",
-  :getApiRequest="getMyOrders"
+  :checkedArray.sync='checkedArray',
+  :getRepeat="true",
+  :getCancel="true",
+  :getExport="true",
 )
   .myOrders.table
     table.table__body
@@ -44,7 +40,11 @@ TablePageLayout(
           td.myOrders__checkboxCell
             .myOrders__checkboxContainer
               div(@click.stop="()=>{}")
-                Radio(size="17", :name="item", :value="item", v-model="checked")
+                Checkbox(
+                  color="yellow",
+                  :value="isChecked(item.id)",
+                  @change="setCheckedArray(item.id)",
+                )
               .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
                 .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
@@ -52,9 +52,9 @@ TablePageLayout(
           td {{getOrderFee(item)}}
           td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
           td {{item.baseCurrency}}/{{item.quoteCurrency}}
-          td {{item.totalQuantity | setFixNumber}} {{item.baseCurrency}}
-          td {{item.price | setFixNumber}} {{item.quoteCurrency}}
-          td {{item.totalQuantity * item.price | setFixNumber}} {{item.quoteCurrency}}
+          td {{setFixNumber(item.totalQuantity)}} {{item.baseCurrency}}
+          td {{setFixNumber(item.price)}} {{item.quoteCurrency}}
+          td {{setFixNumber(item.totalQuantity * item.price)}} {{item.quoteCurrency}}
         tr.myOrders__loading(
           key="spinner"
           v-if="isOrderTradesLoading(item)",
@@ -71,32 +71,27 @@ TablePageLayout(
           td {{getTradeFee(item.side, trade)}}
           td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
           td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
-          td {{trade.amount | setFixNumber}} {{trade.baseCurrency}}
-          td {{trade.price | setFixNumber}} {{trade.quoteCurrency}}
-          td {{trade.amount * trade.price | setFixNumber}} {{trade.quoteCurrency}}
+          td {{setFixNumber(trade.amount)}} {{trade.baseCurrency}}
+          td {{setFixNumber(trade.price)}} {{trade.quoteCurrency}}
+          td {{setFixNumber(trade.amount * trade.price)}} {{trade.quoteCurrency}}
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
-import {cancelOrder, getOrdersCSV} from 'services/api/orders';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
-import {notification} from 'services/notification';
-import Radio from 'components/Radio';
-import Icon from 'components/Icon';
+import Checkbox from 'components/Checkbox';
 import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
     return {
-      checked: [],
+      checkedArray: [],
       currentOrderId: null,
       orderIdTradesLoading: null,
       page: 1,
       sortBy: 'action',
       asc: false,
-      itemsOnPage: 10,
-      loadingContent: false,
-      isLoadingError: false,
+      itemsOnPage: 3,
     };
   },
   computed: {
@@ -105,23 +100,27 @@ export default {
       orderFilter: 'getAccountOrderFilter',
       totalItems: 'getAccountOrdersItems',
     }),
-    ...mapGetters('membership', ['isLoggedIn']),
-
     setPagesCount() {
       return Math.ceil(this.totalItems / this.itemsOnPage);
     },
-    isCancelActive() {
-      return (this.checked.status == 0 || this.checked.status == 1);
-    },
   },
   methods: {
-    ...mapMutations('modal', {
-      openModal: 'open',
+    ...mapMutations('orders', {
+      setOffsetForTradeHistory: 'setOffsetForTradeHistory',
     }),
     ...mapActions('orders', [
       'getAccountOrders',
       'getTradesForOrder',
     ]),
+    isChecked(id) {
+      return Boolean(this.checkedArray.indexOf(id) != -1);
+    },
+    setCheckedArray(id) {
+      this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
+    },
+    setFixNumber(num, fixedTo = 4) {
+      return num.toFixed(fixedTo);
+    },
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
@@ -154,23 +153,15 @@ export default {
       return order.id === this.orderIdTradesLoading;
     },
     getMyOrders() {
-      if (this.isLoggedIn === false) return false;
-      this.isLoadingError = false;
-      this.loadingContent = true;
       this.getAccountOrders({
         page: this.page,
         limit: this.itemsOnPage,
         sortBy: this.sortBy,
         ascending: this.asc,
-      }).then((response) => {
-        this.loadingContent = false;
-        return response;
-      }).catch((error) => {
-        this.isLoadingError = true;
-        return error;
       });
     },
     getTrades(orderId) {
+      // console.log('orderId');
       if (this.currentOrderId !== orderId) {
         this.orderIdTradesLoading = orderId;
         this.getTradesForOrder(orderId).then((response) => {
@@ -196,73 +187,9 @@ export default {
       };
       this.getMyOrders();
     },
-    getRepeat() {
-      if (this.isNothingChecked()) return false;
-      this.openModal({
-        name: 'modalBuySell',
-        data: {
-          baseCurrency: this.checked.baseCurrency,
-          quoteCurrency: this.checked.quoteCurrency,
-          totalQuantity: this.checked.totalQuantity,
-          price: this.checked.price,
-          isBuy: !this.checked.side,
-          type: this.checked.type,
-        },
-      });
-    },
-    getCancel() {
-      cancelOrder({
-        orderId: this.checked.id,
-        priority: 0,
-      }).then(() => {
-        this.getMyOrders();
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
-    getExport() {
-      getOrdersCSV({
-        SortBy: this.sortBy,
-        Ascending: this.asc,
-      }).then((res) => {
-        let blob = new Blob([res.data], {type: 'application/csv'});
-        let url = window.URL.createObjectURL(blob);
-        let link = document.createElement('a');
-        let date = new Date().toLocaleDateString();
-        link.href = url;
-        link.download = `atlant-orders-${date}.csv`;
-        link.click();
-        setTimeout(() => {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(url);
-        }, 100);
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
-    isNothingChecked() {
-      if (this.checked.length == 0) {
-        notification({
-          title: '',
-          text: 'Please choose order.',
-          type: 'error',
-        });
-        return true;
-      };
-      return false;
-    },
-  },
-  filters: {
-    setFixNumber(num, fixedTo = 4) {
-      return (num.toString().split('.').pop().length > fixedTo) ? num.toFixed(fixedTo) : num;
-    },
   },
   watch: {
-    asc() {
-      this.page = 1;
-    },
     orderFilter() {
-      this.page = 1;
       this.getMyOrders();
     },
     setPageNum() {
@@ -274,17 +201,13 @@ export default {
     dataType() {
       this.getAccountTradeHistory;
     },
-    isLoggedIn() {
-      this.getMyOrders();
-    },
   },
   created() {
     this.getMyOrders();
   },
   components: {
     TablePageLayout,
-    Icon,
-    Radio,
+    Checkbox,
   },
 };
 </script>
@@ -293,7 +216,6 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 .myOrders {
-  display: block;
   &__action {
     text-transform: capitalize;
     &--buy {

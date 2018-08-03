@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isSuccess="isSuccess", title="Reset password")
+ModalLayout(:step="step", isSuccess="true", title="Reset password")
   .newPassword
     Icon.newPassword__icon(id="pass")
     form.newPassword__content(v-if="step == 0" @submit.prevent="finishPasswordReset()")
@@ -17,7 +17,7 @@ ModalLayout(:step="step", isSuccess="isSuccess", title="Reset password")
         Checkbox.newPassword__checkbox(v-model="showSymbols")
           .newPassword__checkboxText Display symbols
       BButton.newPassword__button(color="malachite" rounded type="submit") Reset now
-    Status.newPassword__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
+    Status.newPassword__status(v-if="step == 1")
 </template>
 
 <script>
@@ -37,7 +37,6 @@ export default {
       passwordRepeat: '',
       showSymbols: false,
       step: 0,
-      isSuccess: false,
     };
   },
   computed: {
@@ -53,9 +52,7 @@ export default {
         code: this.data.code,
       }).then(() => {
         this.step = 1;
-        this.isSuccess = true;
       }).catch((res) => {
-        this.step = 1;
         serverNotification(res);
       });
     },

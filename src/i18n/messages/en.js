@@ -25,6 +25,7 @@ export default {
   tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
   tfaSecureWarning: {
     text: 'Please, enable 2 factor authorization to protect your account',
+    title: 'Your account is not secure',
     yesButton: 'OK, enable 2FA',
     noButton: 'No, thanks',
   },
@@ -38,22 +39,6 @@ export default {
     orderFilledSell: 'Order #{0} filled: sold {1} {4} for {3} {2}',
     orderPartiallyFilledBuy: 'Order #{0} partially filled: bought {1} {4} for {3} {2}',
     orderFilledBuy: 'Order #{0} filled: bought {1} {4} for {3} {2}',
-  },
-  crypto: {
-    deposit: {
-      deposit: 'Deposit',
-      title: 'Your wallet address for deposit:',
-      copy: 'Copy',
-      description: 'Funds will be deposited automatically after 3 confirmations',
-    },
-    withdraw: {
-      withdraw: 'WITHDRAW',
-      placeholderAddress: 'wallet address',
-      placeholderAmount: 'withdrawal amount (e.g. 0.5)',
-      fee: 'Fee',
-      text: 'Your will receive',
-      button: 'Withdraw',
-    },
   },
   emailSent: 'Email sent to {0}',
   serverErrors,

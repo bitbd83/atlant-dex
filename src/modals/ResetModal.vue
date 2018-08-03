@@ -3,22 +3,22 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
+ModalLayout(:step="step", :isSuccess="isSuccess", title="Reset password")
   .reset
-    form.reset__content(v-if="step == 0"  @submit.prevent="")
-      .reset__input
-        .reset__inputTitle E-mail
-        IInput(v-model="email", type="email" required="true")
-      Checkbox.reset__checkbox(name="acknowledged", :value="true", color="white", v-model="acknowledged"  required="true")
-        .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
-      BButton.reset__button(color="white" @click.native="reset()") Reset it now
-      .reset__linkContainer
-        span.link.link--white(@click="openModal({name: 'signIn'})") Sign in
-        span.reset__linkSeparator or
-        span.link.link--white(@click="openModal({name: 'signUp'})") Sign Up
-        icon.reset__linkArrow(id="arrow_short")
+    Icon.reset__icon(id="pass")
+    .reset__content(v-if="step == 0")
+      .reset__headerContent
+        .reset__title Reset password
+        .reset__other(href="#" @click="openModal({name: 'signIn'})") Sign in
+      .reset__inputs
+        IInput.reset__input(label="Email address", v-model="email")
+        Checkbox.reset__checkbox(name="acknowledged", :value="true", v-model="acknowledged")
+          .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
+      BButton.reset__button(color="malachite" rounded @click.native="reset()") Reset now
+    .reset__other(href="#" @click="openModal({name: 'signIn'})") Sign in
     TFA(v-if="step == 1", :onConfirm="confirmReset", :onResend="reset", :onCancel="cancelReset", :isModal="true")
-    Status.reset__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="cancelReset")
+    Status.reset__status(v-if="step == 2")
+      .reset__statusMsg Completed
 </template>
 
 <script>
@@ -62,9 +62,7 @@ export default {
     confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
         this.step = 2;
-        isSuccess = true;
       }).catch((res) => {
-        this.step = 2;
         serverNotification(res);
       });
     },
@@ -86,6 +84,26 @@ export default {
 .reset {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  &__icon {
+    $size: 77px;
+    width: $size;
+    height: $size;
+    fill: $color_yellow;
+    margin-bottom: 50px;
+  }
+  &__headerContent {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  &__title {
+    font-size: 18px;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
   &__other {
     $color: #f7b933;
     color: $color;
@@ -103,49 +121,35 @@ export default {
       background-color: $color;
     }
   }
-  &__input {
+  &__inputs {
     display: flex;
-    margin-bottom: 75px;
-  }
-  &__inputTitle {
-    margin-right: 18px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #FFFFFF;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    & > * {
+      flex-basis: 45%;
+      margin-bottom: 50px;
+    }
   }
   &__checkbox {
-    align-items: baseline !important;
-    margin-bottom: 65px;
+    align-items: flex-start !important;
   }
   &__checkboxText {
-    max-width: 325px;
-    font-family: CenturyGothic;
-    font-size: 12px;
-    color: #FFFFFF;
-    letter-spacing: 0.38px;
-    line-height: 25px;
-    margin-left: 43px;
+    margin-left: 20px;
   }
   &__button {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
     font-size: 16px;
-    font-weight: 900;
+    font-weight: 900px;
     text-transform: uppercase;
-    margin-bottom: 85px;
   }
-  &__linkSeparator {
-    font-weight: 400;
-    font-size: 14px;
-    color: #FFFFFF;
+  &__statusMsg {
     text-align: center;
-    margin: 0 24px;
-  }
-  &__linkArrow {
-    display: inline-block;
-    fill: $fill__white;
-    width: 12px;
-    height: 10px;
-    margin-left: 20px;
-    margin-top: 6px;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
   }
 }
 </style>

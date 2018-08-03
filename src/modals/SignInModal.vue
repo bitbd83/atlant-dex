@@ -8,7 +8,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
     form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")
       .singIn__inputs
         .singIn__input
-          .singIn__input-title E-mail
+          .singIn__input-title Email
           IInput.singIn__input-input(v-model="email", type="email")
         .singIn__input
           .singIn__input-title Password
@@ -17,11 +17,12 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
         Checkbox.singIn__checkbox(name="remember", :value="true", color="white" v-model="remember")
           .link.link--white.singIn__checkboxLabel Remember me
         span.link.link--white(@click="openResetPassword") Forgot password?
-      BButton.singIn__button(color="white" type="submit") Let me in
+      BButton.singIn__button(color="white" rounded type="submit") Let me in
       .singIn__link(@click="openSignUp")
         span.link.link--white Sign up
         icon.singIn__link-arrow(id="arrow_short")
-    Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
+    Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess")
+      .singIn__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
 </template>
 
 <script>
@@ -64,9 +65,12 @@ export default {
         email: this.email,
         password: this.password,
       }).then(() => {
-        this.step = 1;
-        this.isSuccess = true;
+        this.finishTransaction();
       });
+    },
+    finishTransaction() {
+      this.step = 1;
+      this.isSuccess = true;
     },
   },
   components: {
@@ -92,6 +96,9 @@ export default {
     font-size: 18px;
     font-weight: 900;
     text-transform: uppercase;
+  }
+  &__link {
+    display: inline;
   }
 
   &__inputs {
@@ -152,6 +159,12 @@ export default {
       margin-left: 20px;
       margin-top: 6px;
     }
+  }
+  &__statusMsg {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 900;
   }
 }
 </style>

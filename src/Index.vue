@@ -17,17 +17,17 @@
         AccountInformation(v-else-if="isPageOpened('accountInformation')")
         SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
         SecurityLogPage(v-else-if="isPageOpened('securityLog')")
-        AlertsList(v-else-if="isPageOpened('alertsList')")
         FAQ(v-else-if="isPageOpened('faq')")
         NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
     //- Modals
-    ResetPasswordModal(v-if="isModalOpened('reset')")
+    ResetModal(v-if="isModalOpened('reset')")
     NewPasswordModal(v-else-if="isModalOpened('newPassword')")
     SignUpModal(v-else-if="isModalOpened('signUp')")
     SignInModal(v-else-if="isModalOpened('signIn')")
     CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
     CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
     FiatModal(v-else-if="isModalOpened('fiat')")
+    TFAModal(v-else-if="isModalOpened('tfaModal')")
     TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
     EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
     EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
@@ -42,9 +42,8 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {notification, getSignalRNotification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
-import Sidebar from 'components/Sidebar';
 import TheHeader from 'components/TheHeader';
-import MainLayout from 'layouts/MainLayout';
+import Sidebar from 'components/Sidebar';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
@@ -53,14 +52,15 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
-import AlertsList from 'pages/AlertsList';
-import ResetPasswordModal from 'modals/ResetPasswordModal';
+import MainLayout from 'layouts/MainLayout';
+import ResetModal from 'modals/ResetModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
 import SignInModal from 'modals/SignInModal';
 import CryptoDepositModal from 'modals/CryptoDepositModal';
 import CryptoWithdrawModal from 'modals/CryptoWithdrawModal';
 import FiatModal from 'modals/FiatModal';
+import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
@@ -239,15 +239,15 @@ export default {
     AccountInformation,
     SecuritySettingsPage,
     SecurityLogPage,
-    AlertsList,
     Status,
-    ResetPasswordModal,
+    ResetModal,
     NewPasswordModal,
     SignUpModal,
     SignInModal,
     CryptoDepositModal,
     CryptoWithdrawModal,
     FiatModal,
+    TFAModal,
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,
