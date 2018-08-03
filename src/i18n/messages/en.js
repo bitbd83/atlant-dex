@@ -39,6 +39,14 @@ export default {
     orderPartiallyFilledBuy: 'Order #{0} partially filled: bought {1} {4} for {3} {2}',
     orderFilledBuy: 'Order #{0} filled: bought {1} {4} for {3} {2}',
   },
+  crypto: {
+    deposit: {
+      deposit: 'Deposit',
+      title: 'Your wallet address for deposit:',
+      copy: 'Copy',
+      description: 'Funds will be deposited automatically after 3 confirmations',
+    },
+  },
   emailSent: 'Email sent to {0}',
   serverErrors,
   widgetTitles,
