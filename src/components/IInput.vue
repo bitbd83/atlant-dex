@@ -54,11 +54,7 @@ export default {
       default: false,
       required: false,
     },
-    noUnderline: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+    noUnderline: Boolean,
   },
 };
 </script>
@@ -67,15 +63,8 @@ export default {
 @import 'variables';
 .inputField {
   position: relative;
-
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   right: 0;
-  //   left: 0;
-  //   height: 3.5px;
-  //   background: #ffffff;
-  // }
+  font-size: 16px;
+  font-weight: 400;
 
   &__label {
     color: $color_white;
@@ -91,14 +80,14 @@ export default {
 
   &__input {
     font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
     padding: 0;
     display: block;
     width: 100%;
     border: none;
     border-radius: 0;
     background: none;
-    font-size: 16px;
-    font-weight: 400;
     padding-bottom: 11px;
     border-bottom: 3.5px solid $background__white;
     &--center {
@@ -106,9 +95,14 @@ export default {
     }
     &--noUnderline {
       border-bottom: none;
+      padding-bottom: 0;
     }
     &::placeholder {
-      color: $color__white;
+      font-family: CenturyGothic;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      line-height: 26px;
+      color: inherit;
     }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {

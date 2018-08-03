@@ -30,12 +30,12 @@ export default {
   },
   props: {
     name: {
-      type: [String, Number],
+      type: [String, Number, Object],
       default: '',
       required: true,
     },
     value: {
-      type: [String, Number, Boolean],
+      type: [String, Number, Boolean, Object],
       default: '',
       required: false,
     },
