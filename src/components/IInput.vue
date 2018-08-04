@@ -102,7 +102,7 @@ export default {
       font-size: 14px;
       letter-spacing: 0.5px;
       line-height: 26px;
-      color: inherit;
+      color: #6895FF;
     }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
