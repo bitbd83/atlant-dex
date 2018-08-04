@@ -67,7 +67,7 @@ $ROOT: "button";
   white-space: nowrap;
   padding: 8px 20px;
   border-radius: 3px;
-  color: $color_daintree;
+  // color: $color_daintree;
   transform: scale(1);
   transition: transform .3s;
 
