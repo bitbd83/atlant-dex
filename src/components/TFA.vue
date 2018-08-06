@@ -13,8 +13,8 @@
       IInput.tfa__input(v-model="secureCode")
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeatContainer
-      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.link.link--white {{timer}}] seconds
-      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send new code
+      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.link.link--white {{timer}}] sec
+      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send code
     .tfa__cancelContainer(@click="onCancel()")
       icon.tfa__cancelIcon(id="arrow_short")
       .link.link--white Cancel
@@ -32,7 +32,7 @@
       .link.tfa__link(@click="getCountDown(); onResend()") Resend
       | confirmation code
     .tfa__row(v-if="!isLinkAviable && security.tfa.method != 2")
-      .tfa__repeatText.tfa__repeatText--dark The new code will be available in #[span.link {{timer}}] seconds
+      .tfa__repeatText.tfa__repeatText--dark The new code will be available in #[span.link {{timer}}] sec
 </template>
 
 <script>
