@@ -1,7 +1,5 @@
 /* eslint-disable */
 import historyProvider from './historyProvider'
-import stream from './stream'
-import store from '@/store';
 
 const supportedResolutions = ["1", "3", "5", "15", "30", "60", "120", "240", "D"]
 
@@ -57,28 +55,26 @@ export default {
     console.log('=====getBars running')
     // console.log('function args',arguments)
     // console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-    // console.log(store.getters['chart/candles'])
-    historyProvider.getBars(symbolInfo, resolution, from, to, firstDataRequest)
-    .then(bars => {
-      if (bars.length) {
-        onHistoryCallback(bars, {noData: false})
-      } else {
-        onHistoryCallback(bars, {noData: true})
-      }
-    }).catch(err => {
-      console.log({err})
-      onErrorCallback(err)
-    })
+    // historyProvider.getBars(symbolInfo, resolution, from, to, firstDataRequest)
+    // .then(bars => {
+    //   console.log(bars);
+    //   if (bars.length) {
+    //     onHistoryCallback(bars, {noData: false})
+    //   } else {
+    //     onHistoryCallback(bars, {noData: true})
+    //   }
+    // }).catch(err => {
+    //   console.log({err})
+    //   onErrorCallback(err)
+    // })
+    onHistoryCallback([], {noData: true});
 
   },
   subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
     console.log('=====subscribeBars runnning')
-    stream.subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback)
   },
   unsubscribeBars: subscriberUID => {
     console.log('=====unsubscribeBars running')
-
-    stream.unsubscribeBars(subscriberUID)
   },
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
     //optional
@@ -99,3 +95,4 @@ export default {
     console.log('=====getServerTime running')
   }
 }
+

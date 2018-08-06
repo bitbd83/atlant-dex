@@ -12,7 +12,6 @@ export default {
  subscribeBars: function(symbolInfo, resolution, updateCb, uid, resetCache) {
   const channelString = createChannelString(symbolInfo)
   socket.emit('SubAdd', {subs: [channelString]})
-  
   var newSub = {
    channelString,
    uid,
@@ -21,7 +20,8 @@ export default {
    lastBar: historyProvider.history[symbolInfo.name].lastBar,
    listener: updateCb,
   }
-_subs.push(newSub)
+  _subs.push(newSub)
+  console.log(_subs);
  },
  unsubscribeBars: function(uid) {
   var subIndex = _subs.findIndex(e => e.uid === uid)
