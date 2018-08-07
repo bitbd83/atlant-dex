@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isWith2fa="true" :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
+ModalLayout(:step="step", :isWith2fa="true" :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
   .cryptoWithdraw
     .cryptoWithdraw__header
       .cryptoWithdraw__title Withdraw {{data.currency}}
