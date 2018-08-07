@@ -145,7 +145,6 @@ export default {
     Checkbox,
     Icon,
     Pagination,
-    PageLayout,
   },
 };
 </script>
