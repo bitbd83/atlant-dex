@@ -36,7 +36,8 @@ TablePageLayout(
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {getNotificationsHistoryCSV} from 'services/api/user.js';
 import {DateTime} from 'luxon';
-import {notificationType, getSignalRNotification} from 'services/notification';
+import {signalRNotification} from '@/store/staticData/signalRNotification';
+import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
 import Icon from 'components/Icon';
 import TablePageLayout from 'layouts/TablePageLayout';
@@ -84,11 +85,11 @@ export default {
     },
 
     getNotificationType(level) {
-      return notificationType(level);
+      return notificationType[level];
     },
 
     getStatus(notification) {
-      return getSignalRNotification(notification.type);
+      return signalRNotification[notification.type];
     },
 
     getNotifications() {
