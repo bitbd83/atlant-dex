@@ -8,6 +8,7 @@ button.button(
   :class="[`button--${color}`, {'button--full': full}, {'button--outline': outline}, {'button--rounded': rounded}, {'button--caps': caps}]",
   :disabled="isLoading"
 )
+  .button__shadow
   span.button__content
     slot
 </template>
@@ -19,7 +20,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'green',
+      default: 'blue',
     },
     rounded: {
       type: Boolean,
@@ -59,11 +60,21 @@ export default {
 @import 'variables';
 $ROOT: "button";
 .#{$ROOT} {
+  position: relative;
   min-height: 28px;
   font-size: 16px;
   white-space: nowrap;
   padding: 8px 20px;
+  border-radius: 3px;
   color: $color_daintree;
+  transform: scale(1);
+  transition: transform .3s;
+
+  &:hover {
+    transform: scale(1.02);
+    transition: transform .3s;
+  }
+
   &__content {
     display: flex;
     align-items: center;
@@ -73,76 +84,57 @@ $ROOT: "button";
     font-weight: 700;
     color: inherit;
     transition: all .5s;
+
     &:hover {
       transition: all .5s;
     }
   }
-  &--yellow {
-    $color1: $color_energy;
-    $color2: darken(desaturate(adjust-hue($color1, -13), 11.89), 8.04);
-    $colorHover1: $color_malachite;
-    $colorHover2: darken(saturate(adjust-hue($colorHover1, 41), 22.45), 30.78);
-    $darken_hover: 5%;
-    $darken_active: 10%;
-    border-color: $color1;
-    background-image: linear-gradient(180deg, $color1 0, $color2 100%);
-    &:hover {
-      color: #fff;
-      border-color: $colorHover1;
-      background-image: linear-gradient(180deg, $colorHover1 0, $colorHover2 100%);
-    }
-    &.#{$ROOT}--outline {
-      color: #fff;
-      &:hover {
-        background-image: none;
-        color: $color_malachite;
-      }
-    }
+
+  &--blue {
+    color: $color__white;
+    background: $background__blue;
   }
-  &--malachite {
-    $color1: $color_malachite;
-    $color2: darken(saturate(adjust-hue($color_malachite, 41), 22.45), 30.78);
-    $colorHover1: $color_energy;
-    $colorHover2: darken(desaturate(adjust-hue($colorHover1, -13), 11.89), 8.04);
-    $darken_hover: 5%;
-    $darken_active: 10%;
-    color: #fff;
-    border-color: $color1;
-    background-image: linear-gradient(180deg, $color1 0, $color2 100%);
-    &:hover {
-      color: $color_daintree;
-      border-color: $colorHover1;
-      background-image: linear-gradient(180deg, $colorHover1 0, $colorHover2 100%);
-    }
-    &.#{$ROOT}--outline {
-      &:hover {
-        color: $color_energy;
-        background-image: none;
-      }
-    }
+
+  &--white {
+    color: $color__blue;
+    background: $background__white;
   }
-  &--green{
-    color: #fff;
+
+  &--green {
+    color: $color__white;
     background-color: $background__green;
   }
-  &--red{
-    color: #fff;
+
+  &--red {
+    color: $color__white;
     background-color: $background__red;
   }
+
   &--full {
     width: 100%;
   }
+
   &--caps {
     text-transform: uppercase;
   }
-  &--rounded {
-    border-radius: 2px;
-  }
+
   &--outline {
     background-image: none;
     background-color: transparent;
     border-style: solid;
     border-width: 1px;
+  }
+
+  &__shadow {
+    background: #000;
+    position: absolute;
+    opacity: .15;
+    border-radius: 0px 0px 3px 3px;
+    top: 100%;
+    right: 5px;
+    left: 5px;
+    bottom: -6px;
+    filter: blur(2px);
   }
 }
 </style>

@@ -4,8 +4,9 @@
 
 export default {
   install(Vue, url, token, pair) {
-    const signalR = require('@aspnet/signalr');
-    let connection = new signalR.HubConnection(`${url}?token=${token}&pair=${pair}`);
+    let connection = new HubConnectionBuilder()
+      .withUrl(`${url}?token=${token}&pair=${pair}`)
+      .build();
     Vue.prototype.$hub = connection;
   },
 };

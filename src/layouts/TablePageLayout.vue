@@ -3,20 +3,21 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-.tablePage
-  TablePageLayoutHeader
-  .tablePage__body
-    .tablePage__content(v-scrollbar="")
-      slot
-      TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
-    Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-    //- .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
-    //-   .tablePage__panelActions.panel__checkbox
-    //-     Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-    //-   .tablePage__panelActions(v-if="getRepeat") Repeat
-    //-   .tablePage__panelActions(v-if="getCancel") Cancel
-    //-   .tablePage__panelActions(v-if="getDelete") Delete
-    //-   .tablePage__panelActions(v-if="getExport") Export
+PageLayout(title="TRANSACTION HISTORY", :sidebar="true")
+  .tablePage
+    TablePageLayoutHeader
+    .tablePage__body
+      .tablePage__content(v-scrollbar="")
+        slot
+        TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
+      Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
+      //- .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
+      //-   .tablePage__panelActions.panel__checkbox
+      //-     Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
+      //-   .tablePage__panelActions(v-if="getRepeat") Repeat
+      //-   .tablePage__panelActions(v-if="getCancel") Cancel
+      //-   .tablePage__panelActions(v-if="getDelete") Delete
+      //-   .tablePage__panelActions(v-if="getExport") Export
 </template>
 
 <script>
@@ -26,6 +27,7 @@ import Checkbox from 'components/Checkbox';
 import Pagination from 'components/Pagination';
 import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
 import TablePageLayoutEmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
+import PageLayout from 'layouts/PageLayout';
 
 export default {
   data() {
@@ -125,6 +127,7 @@ export default {
     TablePageLayoutEmptyPlaceholder,
     Checkbox,
     Pagination,
+    PageLayout,
   },
 };
 </script>
