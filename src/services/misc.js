@@ -5,17 +5,6 @@
 export const getSeparatedNumber = (str, symbol) =>
   str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol);
 
-export const getCryptoName = (short) => {
-  switch (short) {
-    case ('BTC'): return 'Bitcoin';
-    case ('LTC'): return 'Litecoin';
-    case ('ETC'): return 'Ethereum Classic';
-    case ('ZEC'): return 'ZCash';
-    case ('ETH'): return 'Ethereum';
-    case ('BCC'): return 'Bitcoin Cash';
-  }
-};
-
 export const isFiat = (short) => {
   return ['USD', 'EUR'].includes(short);
 };

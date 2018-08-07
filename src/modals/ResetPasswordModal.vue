@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
+ModalLayout(:step="step", :isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
   .reset
     form.reset__content(v-if="step == 0"  @submit.prevent="")
       .reset__input
