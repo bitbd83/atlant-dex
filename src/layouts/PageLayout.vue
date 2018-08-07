@@ -7,7 +7,7 @@
   PageHeader(:title="title")
   .page__body
     .page__sidebar(v-if="sidebar" v-scrollbar="")
-      PageNavigation
+      PageLayoutNavigation
     .page__content(v-scrollbar="")
       slot
 </template>
@@ -15,7 +15,7 @@
 <script>
 import {scrollbar} from '@/directives';
 import PageHeader from 'components/PageLayoutHeader';
-import PageNavigation from 'components/PageLayoutNavigation';
+import PageLayoutNavigation from 'components/PageLayoutNavigation';
 
 export default {
   props: {
@@ -35,7 +35,7 @@ export default {
   },
   components: {
     PageHeader,
-    PageNavigation,
+    PageLayoutNavigation,
   },
 };
 </script>

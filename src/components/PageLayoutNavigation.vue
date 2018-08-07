@@ -12,22 +12,6 @@
     )
       Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name)")
       span.pageSidebar__label {{label}}
-  ul.pageSidebar__mobileList(
-    :class="{'pageSidebar__mobileList--selected': showNav}",
-    @click="toggleNav"
-  )
-    .pageSidebar__navHeader Profile #[Icon.pageSidebar__navIcon(:class="{'pageSidebar__navIcon--show' : showNav}" id="arrow_angle")]
-    //- li.pageSidebar__mobileItem(
-    //-   :class="{'pageSidebar__mobileItem--selected': selectedCat == cat}",
-    //-   v-for="cat in categories"
-    //-   @click="unhideCategory(cat)"
-    //- ) {{cat}}
-    .pageSidebar__mobileSubItem(
-      v-show="showNav"
-      :class="{'pageSidebar__mobileSubItem--selected': isPageOpened(name)}",
-      v-for="{name, label} in items",
-      @click="openMobilePage(name)"
-    ) {{label}}
 </template>
 
 <script>
@@ -115,9 +99,6 @@ export default {
     position: absolute;
     transform: rotate(270deg);
     left: -22px;
-  }
-  &__mobileList {
-    display: none;
   }
 }
 </style>
