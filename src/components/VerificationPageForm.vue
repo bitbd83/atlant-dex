@@ -93,7 +93,8 @@ form.verificationForm
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import {birthdayDays, birthdayYears, birthdayMonths} from 'services/birthday';
+import {birthdayDays, birthdayYears} from 'services/birthday';
+import {birthdayMonths} from '@/store/staticData/birthdayMonths';
 import Dropdown from 'components/Dropdown';
 import VerificationPageFormGroup from './VerificationPageFormGroup';
 import VerificationPageFormInput from './VerificationPageFormInput';
