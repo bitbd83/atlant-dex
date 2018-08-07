@@ -32,12 +32,12 @@ Dropdown.flagSwitch(
 <script>
 import Dropdown from 'components/Dropdown';
 import {
-  countryData,
-  countryCurrencies,
   getCountryName,
   getCountryCurrency,
   getCountryCode,
 } from 'services/countries';
+import {countryCurrencies} from '@/store/staticData/countryCurrencies';
+import {countryData} from '@/store/staticData/countryData';
 
 export default {
   computed: {

@@ -18,7 +18,7 @@
 
 <script>
 import {mapActions} from 'vuex';
-import {getCryptoName} from 'services/misc';
+import {cryptoName} from '@/store/staticData/cryptoName';
 import Icon from './Icon';
 
 export default {
@@ -42,7 +42,7 @@ export default {
     ]),
     fullCurrencyName() {
       const name = this.data.arguments[0].toUpperCase();
-      return getCryptoName(name);
+      return cryptoName[name];
     },
     deleteSidebarAlert() {
       if (!this.isDeleting) {
