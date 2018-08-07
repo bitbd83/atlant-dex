@@ -22,7 +22,7 @@ import {scrollbar} from '@/directives';
 export default {
   computed: {
     setModalColor() {
-      if (this.step == 1 - this.isWith2fa) return this.isSuccess ? 'modal__overlay--green' : 'modal__overlay--red';
+      if (this.step == (1 + this.isWith2fa)) return this.isSuccess ? 'modal__overlay--green' : 'modal__overlay--red';
       if (this.isAttention) return 'modal__overlay--red';
     },
   },
