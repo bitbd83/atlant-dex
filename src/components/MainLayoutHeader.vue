@@ -5,24 +5,23 @@
 <template lang='pug'>
 header.header
   .header__pair
-    TheHeaderPair
+    MainLayoutHeaderPair
   .header__stats
-    TheHeaderPairInfo(:pairInfoItems='infoItems')
+    MainLayoutHeaderPairInfo(:pairInfoItems='infoItems')
   .header__right
     .header__widgets
-      TheHeaderWidgets
+      MainLayoutHeaderWidgets
     .header__userbar
-      TheHeaderLogout
+      MainLayoutHeaderLogout
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
-import {profileSections} from '@/config';
 import BButton from './BButton';
-import TheHeaderPair from './TheHeaderPair';
-import TheHeaderPairInfo from './TheHeaderPairInfo';
-import TheHeaderLogout from './TheHeaderLogout';
-import TheHeaderWidgets from './TheHeaderWidgets';
+import MainLayoutHeaderPair from './MainLayoutHeaderPair';
+import MainLayoutHeaderPairInfo from './MainLayoutHeaderPairInfo';
+import MainLayoutHeaderLogout from './MainLayoutHeaderLogout';
+import MainLayoutHeaderWidgets from './MainLayoutHeaderWidgets';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
 export default {
@@ -38,9 +37,6 @@ export default {
     ...mapGetters('page', {
       isProfileOpened: 'isProfileOpened',
     }),
-    openProfilePage() {
-      return profileSections.find((item) => item.name == this.pageName).label;
-    },
   },
   methods: {
     ...mapActions('user', {
@@ -67,10 +63,10 @@ export default {
   },
   components: {
     BButton,
-    TheHeaderPair,
-    TheHeaderPairInfo,
-    TheHeaderLogout,
-    TheHeaderWidgets,
+    MainLayoutHeaderPair,
+    MainLayoutHeaderPairInfo,
+    MainLayoutHeaderLogout,
+    MainLayoutHeaderWidgets,
   },
 };
 </script>

@@ -8,12 +8,12 @@
     Icon.widgets__icon(:class="iconClass" id="plus")
     // transition(name="widgets__transition" @enter="transitionEnter" @leave="transitionLeave")
     .widgets__dropdowns(ref="widget__drops", :class="dropdownClass")
-      TheHeaderWidgetsDropdown
+      MainLayoutHeaderWidgetsDropdown
   .widgets__label Widgets
 </template>
 
 <script>
-import TheHeaderWidgetsDropdown from './TheHeaderWidgetsDropdown';
+import MainLayoutHeaderWidgetsDropdown from './MainLayoutHeaderWidgetsDropdown';
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
     },
   },
   components: {
-    TheHeaderWidgetsDropdown,
+    MainLayoutHeaderWidgetsDropdown,
   },
 };
 </script>

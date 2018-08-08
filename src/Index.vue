@@ -7,7 +7,6 @@
   .index__body
     Sidebar
     .index__content
-      TheHeader
       .index__page
         MainLayout(v-if="!isPageOpened()")
         TransactionHistoryPage(v-else-if="isPageOpened('transactionHistory')")
@@ -43,7 +42,6 @@ import {notification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
 import Sidebar from 'components/Sidebar';
-import TheHeader from 'components/TheHeader';
 import MainLayout from 'layouts/MainLayout';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
@@ -229,7 +227,6 @@ export default {
     this.updateOverflow();
   },
   components: {
-    TheHeader,
     Sidebar,
     MainLayout,
     TransactionHistoryPage,
@@ -268,7 +265,6 @@ export default {
 @import 'variables';
 
 .index {
-  background-image: url('~assets/images/pattern.png');
   position: relative;
   display: flex;
   min-width: 1000px;

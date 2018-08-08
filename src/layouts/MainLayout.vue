@@ -4,11 +4,13 @@
 
 <template lang="pug">
   .mainLayout(:class="{'mainLayout--activeSidebar': showSidebar}")
+    MainLayoutHeader
     Grid
 </template>
 
 <script>
 import {mapState} from 'vuex';
+import MainLayoutHeader from 'components/MainLayoutHeader';
 import Grid from 'components/grid/Grid';
 
 export default {
@@ -19,6 +21,7 @@ export default {
   },
   components: {
     Grid,
+    MainLayoutHeader,
   },
 };
 </script>
@@ -27,8 +30,10 @@ export default {
 @import 'variables';
 
 .mainLayout {
-  display: flex;
+  background-image: url('~assets/images/pattern.png');
   position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   margin-left: 0;
   transition: $transition__sidebarAction;
