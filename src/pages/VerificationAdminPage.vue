@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-PageLayout(title='Verification management', :sidebar='true')
+  // PageLayout(title='Verification management', :sidebar='true')
   .verification
     div(v-if='!isAdminLoggedIn')
       .verification__label Email:

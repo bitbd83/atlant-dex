@@ -3,33 +3,34 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
-  title="NOTIFICATION_HISTORY",
-  :data="data",
-  :pageCount='setPagesCount',
-  :page="page",
-  :changeActivePage="changeActivePage",
-  :checkedArray.sync='checkedArray',
-  :isLoading="loadingContent",
-  :isLoadingError="isLoadingError",
-  :getApiRequest="getNotifications"
-  :getExport="getExport",
-)
-  .notificationHistory.table
-    table.table__body
-      thead
-        tr
-          th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") Time & Date
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") Type
-          th Description
-      tbody
-        tr(v-for="(item, index) in data")
-          td
-            Checkbox(:value="isChecked(item.id)" @change="setCheckedArray(item.id)" color="blue")
-          td {{formatTime(item.dateTime)}}
-          td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
-          td {{$t('notifications.' + getStatus(item), item.arguments)}}
+  // PageLayout(title="Order list", :sidebar="true")
+  TablePageLayout(
+    title="NOTIFICATION_HISTORY",
+    :data="data",
+    :pageCount='setPagesCount',
+    :page="page",
+    :changeActivePage="changeActivePage",
+    :checkedArray.sync='checkedArray',
+    :isLoading="loadingContent",
+    :isLoadingError="isLoadingError",
+    :getApiRequest="getNotifications"
+    :getExport="getExport",
+  )
+    .notificationHistory.table
+      table.table__body
+        thead
+          tr
+            th
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") Time & Date
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") Type
+            th Description
+        tbody
+          tr(v-for="(item, index) in data")
+            td
+              Checkbox(:value="isChecked(item.id)" @change="setCheckedArray(item.id)" color="blue")
+            td {{formatTime(item.dateTime)}}
+            td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
+            td {{$t('notifications.' + getStatus(item), item.arguments)}}
 </template>
 
 <script>
@@ -38,6 +39,7 @@ import {getNotificationsHistoryCSV} from 'services/api/user.js';
 import {DateTime} from 'luxon';
 import {signalRNotification} from '@/store/staticData/signalRNotification';
 import {notificationType} from '@/store/staticData/notificationType';
+import PageLayout from 'layouts/PageLayout';
 import Checkbox from 'components/Checkbox';
 import Icon from 'components/Icon';
 import TablePageLayout from 'layouts/TablePageLayout';
@@ -151,6 +153,7 @@ export default {
     this.getNotifications();
   },
   components: {
+    PageLayout,
     TablePageLayout,
     Icon,
     Checkbox,

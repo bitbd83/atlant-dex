@@ -3,35 +3,36 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
-  :data="data",
-  :pageCount='setPagesCount',
-  :page="page",
-  :changeActivePage="changeActivePage",
-  :checkedArray.sync='checkedArray',
-  :isLoading="loadingContent",
-  :isLoadingError="isLoadingError",
-  :getApiRequest="getAlerts"
-  :getDelete="getDeleteAlerts"
-)
-  .myAlerts.table
-    table.myAlerts__body.table__body
-      thead
-        tr.myAlerts__row
-          th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='added'}" @click="sortAlerts('added')") Added
-          th Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='type'}" @click="sortAlerts('type')") Type
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='lifetime'}" @click="sortAlerts('lifetime')") Lifetime
-      tbody
-        tr.myAlerts__row(v-for="(item, index) in data")
-          td
-            Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
-          td {{formatTime(item.creationDate)}}
-          td {{item.arguments[4] ? 'Target ' : 'Current '}} price for {{item.arguments[0]}} has {{priceType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : 'below '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
-          td {{item.arguments[4] ? 'Target ' : 'Change '}}
-          td
-            .myAlerts__lifetimeInDays {{item.lifetimeInDays}} days
+  // PageLayout(title="Alert list", :sidebar="true")
+  TablePageLayout(
+    :data="data",
+    :pageCount='setPagesCount',
+    :page="page",
+    :changeActivePage="changeActivePage",
+    :checkedArray.sync='checkedArray',
+    :isLoading="loadingContent",
+    :isLoadingError="isLoadingError",
+    :getApiRequest="getAlerts"
+    :getDelete="getDeleteAlerts"
+  )
+    .myAlerts.table
+      table.myAlerts__body.table__body
+        thead
+          tr.myAlerts__row
+            th
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='added'}" @click="sortAlerts('added')") Added
+            th Description
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='type'}" @click="sortAlerts('type')") Type
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='lifetime'}" @click="sortAlerts('lifetime')") Lifetime
+        tbody
+          tr.myAlerts__row(v-for="(item, index) in data")
+            td
+              Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
+            td {{formatTime(item.creationDate)}}
+            td {{item.arguments[4] ? 'Target ' : 'Current '}} price for {{item.arguments[0]}} has {{priceType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : 'below '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
+            td {{item.arguments[4] ? 'Target ' : 'Change '}}
+            td
+              .myAlerts__lifetimeInDays {{item.lifetimeInDays}} days
 </template>
 
 <script>
@@ -39,6 +40,7 @@ import {mapState, mapMutations} from 'vuex';
 import {getAlerts, deleteAlert} from 'services/api/alerts';
 import {DateTime} from 'luxon';
 import {notification} from 'services/notification';
+import PageLayout from 'layouts/PageLayout';
 import TablePageLayout from 'layouts/TablePageLayout';
 import Checkbox from 'components/Checkbox';
 import Dropdown from 'components/Dropdown';
@@ -133,6 +135,7 @@ export default {
     this.getAlerts();
   },
   components: {
+    PageLayout,
     TablePageLayout,
     Checkbox,
     Dropdown,
@@ -144,7 +147,6 @@ export default {
 <style lang="scss" scoped>
 @import "variables";
 .myAlerts {
-  overflow: visible;
   &__row {
     & > td {
       width: 15%;

@@ -12,15 +12,15 @@ header.header
     .header__widgets
       MainLayoutHeaderWidgets
     .header__userbar
-      MainLayoutHeaderLogout
+      Logout
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import BButton from './BButton';
+import Logout from './Logout';
 import MainLayoutHeaderPair from './MainLayoutHeaderPair';
 import MainLayoutHeaderPairInfo from './MainLayoutHeaderPairInfo';
-import MainLayoutHeaderLogout from './MainLayoutHeaderLogout';
 import MainLayoutHeaderWidgets from './MainLayoutHeaderWidgets';
 import elementResizeDetectorMaker from 'element-resize-detector';
 
@@ -65,7 +65,7 @@ export default {
     BButton,
     MainLayoutHeaderPair,
     MainLayoutHeaderPairInfo,
-    MainLayoutHeaderLogout,
+    Logout,
     MainLayoutHeaderWidgets,
   },
 };

@@ -9,16 +9,7 @@
     .index__content
       .index__page
         MainLayout(v-if="!isPageOpened()")
-        TransactionHistoryPage(v-else-if="isPageOpened('transactionHistory')")
-        MyOrdersPage(v-else-if="isPageOpened('myOrders')")
-        VerificationPage(v-else-if="isPageOpened('verification')")
-        VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
-        AccountInformation(v-else-if="isPageOpened('accountInformation')")
-        SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
-        SecurityLogPage(v-else-if="isPageOpened('securityLog')")
-        AlertsList(v-else-if="isPageOpened('alertsList')")
-        FAQ(v-else-if="isPageOpened('faq')")
-        NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+        PageLayout(v-else)
     //- Modals
     ResetPasswordModal(v-if="isModalOpened('reset')")
     NewPasswordModal(v-else-if="isModalOpened('newPassword')")
@@ -43,15 +34,7 @@ import {notification} from 'services/notification';
 import {showWelcome} from '@/config';
 import Sidebar from 'components/Sidebar';
 import MainLayout from 'layouts/MainLayout';
-import TransactionHistoryPage from 'pages/TransactionHistoryPage';
-import MyOrdersPage from 'pages/MyOrdersPage';
-import NotificationHistoryPage from 'pages/NotificationHistoryPage';
-import VerificationPage from 'pages/VerificationPage';
-import VerificationAdminPage from 'pages/VerificationAdminPage';
-import AccountInformation from 'pages/AccountInformationPage';
-import SecuritySettingsPage from 'pages/SecuritySettingsPage';
-import SecurityLogPage from 'pages/SecurityLogPage';
-import AlertsList from 'pages/AlertsList';
+import PageLayout from 'layouts/PageLayout';
 import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
@@ -229,15 +212,7 @@ export default {
   components: {
     Sidebar,
     MainLayout,
-    TransactionHistoryPage,
-    MyOrdersPage,
-    NotificationHistoryPage,
-    VerificationPage,
-    VerificationAdminPage,
-    AccountInformation,
-    SecuritySettingsPage,
-    SecurityLogPage,
-    AlertsList,
+    PageLayout,
     Status,
     ResetPasswordModal,
     NewPasswordModal,

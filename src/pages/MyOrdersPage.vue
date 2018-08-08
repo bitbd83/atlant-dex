@@ -3,77 +3,78 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
-  title="My orders",
-  :data="orders",
-  :pageCount='setPagesCount',
-  :page="page",
-  :changeActivePage="changeActivePage",
-  :checkedArray='checked',
-  :getRepeat="getRepeat",
-  :getCancel="isCancelActive ? getCancel : false",
-  :getExport="getExport",
-  :isCheckbox="false",
-  :isLoading="loadingContent",
-  :isLoadingError="isLoadingError",
-  :getApiRequest="getMyOrders"
-)
-  .myOrders.table
-    table.table__body
-      thead
-        tr
-          th
-          th ID
-          th Timestamp
-          th Fee
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") Action
-          th Pair
-          th Amount
-          th Price
-          th Total
-      transition-group(
-        v-for="(item, index) in orders",
-        tag="tbody",
-        :key="index",
-        name="order-list",
-      )
-        tr.myOrders__row(
-          @click="getTrades(item.id)"
-          key="main"
-        )
-          td.myOrders__checkboxCell
-            .myOrders__checkboxContainer
-              div(@click.stop="()=>{}")
-                Radio(size="17", :name="item", :value="item", v-model="checked")
-              .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
-                .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
-          td {{item.id}}
-          td {{setDate(item.creationDate)}}
-          td {{getOrderFee(item)}}
-          td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
-          td {{item.baseCurrency}}/{{item.quoteCurrency}}
-          td {{item.totalQuantity | setFixNumber}} {{item.baseCurrency}}
-          td {{item.price | setFixNumber}} {{item.quoteCurrency}}
-          td {{item.totalQuantity * item.price | setFixNumber}} {{item.quoteCurrency}}
-        tr.myOrders__loading(
-          key="spinner"
-          v-if="isOrderTradesLoading(item)",
-        )
-          td(colspan="9") loading...
-        tr.myOrders__trades.order-list-item(
-          v-for="(trade, index) in item.trades",
-          v-if="isOrderDetailed(item)",
+  // PageLayout(title="Order list", :sidebar="true")
+  TablePageLayout(
+    title="My orders",
+    :data="orders",
+    :pageCount='setPagesCount',
+    :page="page",
+    :changeActivePage="changeActivePage",
+    :checkedArray='checked',
+    :getRepeat="getRepeat",
+    :getCancel="isCancelActive ? getCancel : false",
+    :getExport="getExport",
+    :isCheckbox="false",
+    :isLoading="loadingContent",
+    :isLoadingError="isLoadingError",
+    :getApiRequest="getMyOrders"
+  )
+    .myOrders.table
+      table.table__body
+        thead
+          tr
+            th
+            th ID
+            th Timestamp
+            th Fee
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") Action
+            th Pair
+            th Amount
+            th Price
+            th Total
+        transition-group(
+          v-for="(item, index) in orders",
+          tag="tbody",
           :key="index",
+          name="order-list",
         )
-          td.myOrders__guidline
-          td
-          td
-          td {{getTradeFee(item.side, trade)}}
-          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
-          td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
-          td {{trade.amount | setFixNumber}} {{trade.baseCurrency}}
-          td {{trade.price | setFixNumber}} {{trade.quoteCurrency}}
-          td {{trade.amount * trade.price | setFixNumber}} {{trade.quoteCurrency}}
+          tr.myOrders__row(
+            @click="getTrades(item.id)"
+            key="main"
+          )
+            td.myOrders__checkboxCell
+              .myOrders__checkboxContainer
+                div(@click.stop="()=>{}")
+                  Radio(size="17", :name="item", :value="item", v-model="checked")
+                .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
+                  .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
+            td {{item.id}}
+            td {{setDate(item.creationDate)}}
+            td {{getOrderFee(item)}}
+            td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
+            td {{item.baseCurrency}}/{{item.quoteCurrency}}
+            td {{item.totalQuantity | setFixNumber}} {{item.baseCurrency}}
+            td {{item.price | setFixNumber}} {{item.quoteCurrency}}
+            td {{item.totalQuantity * item.price | setFixNumber}} {{item.quoteCurrency}}
+          tr.myOrders__loading(
+            key="spinner"
+            v-if="isOrderTradesLoading(item)",
+          )
+            td(colspan="9") loading...
+          tr.myOrders__trades.order-list-item(
+            v-for="(trade, index) in item.trades",
+            v-if="isOrderDetailed(item)",
+            :key="index",
+          )
+            td.myOrders__guidline
+            td
+            td
+            td {{getTradeFee(item.side, trade)}}
+            td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
+            td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
+            td {{trade.amount | setFixNumber}} {{trade.baseCurrency}}
+            td {{trade.price | setFixNumber}} {{trade.quoteCurrency}}
+            td {{trade.amount * trade.price | setFixNumber}} {{trade.quoteCurrency}}
 </template>
 
 <script>
@@ -81,6 +82,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {cancelOrder, getOrdersCSV} from 'services/api/orders';
 import {DateTime} from 'luxon';
 import {notification} from 'services/notification';
+import PageLayout from 'layouts/PageLayout';
 import Radio from 'components/Radio';
 import Icon from 'components/Icon';
 import TablePageLayout from 'layouts/TablePageLayout';
@@ -282,6 +284,7 @@ export default {
     this.getMyOrders();
   },
   components: {
+    PageLayout,
     TablePageLayout,
     Icon,
     Radio,

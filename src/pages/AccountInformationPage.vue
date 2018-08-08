@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(title="Account information", :sidebar="true")
+  // PageLayout(title="Account information", :sidebar="true")
   .accountInfo
     .accountInfo__title General information
     .accountInfo__content

@@ -3,31 +3,38 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-.pageSidebar
-  ul.pageSidebar__list
-    li.pageSidebar__item(
-      v-for="{name, label} in items",
-      :class="{'pageSidebar__item--selected': isPageOpened(name)}",
-      @click="getOpenPage(name)"
+.pageNav
+  .pageNav__dashboard(@click="getOpenPage('')")
+    icon(id="arrow_short").pageNav__dashboardIcon
+    | DASHBOARD
+  ul.pageNav__list
+    li.pageNav__item(
+      v-for="item in items",
     )
-      Icon.pageSidebar__icon(id="triangle2" v-if="isPageOpened(name)")
-      span.pageSidebar__label {{label}}
+      .pageNav__label.pageNav__label--category(v-if="item.type === 'category'" @click="setOpenCategory(item.label)") {{item.label}}
+      transition(
+        name="transition"
+        v-on:before-enter="transitionAccordionBeforeEnter"
+        v-on:enter="transitionAccordionEnter"
+        v-on:before-leave="transitionAccordionBeforeLeave"
+        v-on:leave="transitionAccordionLeave"
+      )
+        .pageNav__accordion(v-if="item.type === 'category'", v-show="openCategory == item.label")
+          .pageNav__label.pageNav__label--sub(v-for="subitem in item.list" @click="getOpenPage(subitem.name)" :class="{'pageNav__label--selected': isPageOpened(subitem.name)}") {{subitem.label}}
+      .pageNav__label(v-if="item.type == 'route'" @click="getOpenPage(item.name)" :class="{'pageNav__label--selected': isPageOpened(item.name)}") {{item.label}}
+      a.pageNav__label(v-else-if="item.type == 'globalLink'" :href="item.href" target="_blank") {{item.label}}
+        icon.pageNav__icon(v-if="item.icon" :id="item.icon")
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
-import {profileSections} from '@/config';
+import {profileSections} from '@/store/staticData/navigation.js';
 
 export default {
   data() {
     return {
+      openCategory: '',
       items: [],
-      // categories: [
-        // 'user info',
-        // 'transaction history',
-        // 'my orders',
-        // 'security',
-      // ],
       showNav: true,
     };
   },
@@ -38,9 +45,6 @@ export default {
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
-    selectedCat() {
-      return this.items.find((item) => item.name == this.pageName).category;
-    },
   },
   methods: {
     ...mapActions('page', [
@@ -53,52 +57,121 @@ export default {
         window.scrollTo(0, scrollY - headerHeight);
       });
     },
-    toggleNav() {
-      this.showNav = !this.showNav;
+    transitionAccordionBeforeEnter(el) {
+      el.style.height = '0';
     },
-    openMobilePage(param) {
-      this.getOpenPage(param);
-      this.scrollToMethods();
+    transitionAccordionEnter(el) {
+      el.style.height = el.scrollHeight + 'px';
     },
+    transitionAccordionBeforeLeave(el) {
+      el.style.height = el.scrollHeight + 'px';
+    },
+    transitionAccordionLeave(el) {
+      el.style.height = '0';
+    },
+    setOpenCategory(cat) {
+      this.openCategory = (this.openCategory == cat) ? '' : cat;
+    },
+  },
+  mounted() {
+    // open active section
+    profileSections.forEach((el) => {
+      if (el.list !== undefined) {
+        let list = el;
+        el.list.forEach((el) => {
+          if (el.name == this.pageName) this.openCategory = list.label;
+        });
+      }
+    });
   },
   created() {
     this.items = profileSections;
-    this.openCat = this.selectedCat;
   },
 };
 </script>
 
-
 <style lang="scss">
 @import 'variables';
 
-.pageSidebar {
-  padding: 36px;
+.pageNav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 255px;
   height: 100%;
-  border-right: 1px solid $color_tangaroa;
+  padding-right: 47px;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 47px;
+    background: linear-gradient(to right, rgba(229,229,229,0.6) 0%,rgba(255,255,255,0) 100%);
+  }
+  &__dashboard {
+    cursor: pointer;
+    margin: 21px 0 55px 26px;
+    font-weight: 700;
+    font-size: 16px;
+    color: $color__blue;
+  }
+  &__dashboardIcon {
+    display: inline-block;
+    width: 12px;
+    height: 10px;
+    transform: rotate(180deg);
+    margin-right: 23px;
+    fill: $background__blue;
+  }
   &__list {
     list-style: none;
   }
-  &__item {
-    position: relative;
-    font-weight: 700;
+  &__accordion {
+    height: 0;
+    overflow: hidden;
+    transition: height .5s;
+    &--open {
+      height: auto;
+    }
+  }
+  &__label {
+    display: block;
     cursor: pointer;
     white-space: nowrap;
-    &:not(:last-of-type) {
-      margin-bottom: 24px;
+    font-size: 14px;
+    color: $color__black;
+    line-height: 57px;
+    padding-left: 26px;
+    text-decoration: none;
+    transition: color .3s, background .3s;
+    fill: $background__blue;
+    &--sub {
+      padding-left: 50px;
     }
-    &--selected, &:hover {
-      color: $color_yellow;
+    &--selected {
+      transition: background .3s;
+      background: $background__blue;
+      color: $color__white;
+      transition: color .3s, background .3s;
+    }
+    &:hover {
+      transition: background .3s;
+      background: $background__blue;
+      color: $color__white;
+      fill: $background__white;
+      transition: color .3s, background .3s, fill .1s;
     }
   }
   &__icon {
-    $size: 16px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    position: absolute;
-    transform: rotate(270deg);
-    left: -22px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 24px;
+    height: 14px;
+    fill: inherit;
+    margin-left: 16px;
+    transition: fill .1s;
   }
 }
 </style>
+

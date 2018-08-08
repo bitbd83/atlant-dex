@@ -3,10 +3,10 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(
-  title="Verification",
-  :sidebar="true"
-)
+  // PageLayout(
+  //   title="Verification",
+  //   :sidebar="true"
+  // )
   .verification
     .verification__title PERSONAL INFORMATION:
     .verification__form

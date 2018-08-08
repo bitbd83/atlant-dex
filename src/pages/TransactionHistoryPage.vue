@@ -3,44 +3,46 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
-  title="Transaction history",
-  :data="data",
-  :pageCount='setPagesCount',
-  :page="page",
-  :checkedArray='checked',
-  :changeActivePage="changeActivePage"
-  :getRepeat="getRepeat",
-  :isCheckbox="false",
-  :isLoading="loadingContent",
-  :isLoadingError="isLoadingError",
-  :getApiRequest="getUserTransactions"
-)
-  .tHistory.table
-    table.table__body
-      thead
-        tr
-          th
-          th ID
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") Time
-          th Amount
-          th.tHistory__header--description Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") Type Status
-      tbody
-        tr(v-for="(item, index) in data")
-          td.tHistory__checkboxContainer
-            Radio(size="17", :name="item", :value="item", v-model="checked")
-          td {{item.transactionId}}
-          td.tHistory__date {{setDate(item.creationDate)}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
-          td.tHistory__description {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
+  // PageLayout(title="Transaction history", :sidebar="true")
+  TablePageLayout(
+    title="Transaction history",
+    :data="data",
+    :pageCount='setPagesCount',
+    :page="page",
+    :checkedArray='checked',
+    :changeActivePage="changeActivePage"
+    :getRepeat="getRepeat",
+    :isCheckbox="false",
+    :isLoading="loadingContent",
+    :isLoadingError="isLoadingError",
+    :getApiRequest="getUserTransactions"
+  )
+    .tHistory.table
+      table.table__body
+        thead
+          tr
+            th
+            th ID
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") Time
+            th Amount
+            th.tHistory__header--description Description
+            th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") Type Status
+        tbody
+          tr(v-for="(item, index) in data")
+            td.tHistory__checkboxContainer
+              Radio(size="17", :name="item", :value="item", v-model="checked")
+            td {{item.transactionId}}
+            td.tHistory__date {{setDate(item.creationDate)}}
+            td.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
+            td.tHistory__description {{item.description}}
+            td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {notification} from 'services/notification';
+import PageLayout from 'layouts/PageLayout';
 import Radio from 'components/Radio';
 import Icon from 'components/Icon';
 import TablePageLayout from 'layouts/TablePageLayout';
@@ -155,6 +157,7 @@ export default {
     this.getUserTransactions();
   },
   components: {
+    PageLayout,
     TablePageLayout,
     Icon,
     Radio,
@@ -164,7 +167,7 @@ export default {
 
 
 <style lang="scss" scoped>
-@import "~variables";
+@import "variables";
 .tHistory {
   &__header {
     &--description {
