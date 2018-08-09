@@ -26,7 +26,7 @@ export default {
       type: String,
     },
     interval: {
-      default: 'D',
+      default: 'MN',
       type: String,
     },
     containerId: {
@@ -81,29 +81,82 @@ export default {
     ),
   },
   mounted() {
-    const widgetOptions = {
-      symbol: this.symbol,
-      // BEWARE: no trailing slash is expected in feed URL
-      datafeed: datafeed,
-      interval: this.interval,
-      container_id: this.containerId,
-      library_path: this.libraryPath,
+    // const widgetOptions = {
+    //   symbol: this.symbol,
+    //   // BEWARE: no trailing slash is expected in feed URL
+    //   datafeed: datafeed,
+    //   interval: '15',
+    //   container_id: this.containerId,
+    //   library_path: this.libraryPath,
 
+    //   locale: getLanguageFromURL() || 'en',
+    //   disabled_features: [
+    //     'use_localstorage_for_settings',
+    //     'header_widget',
+    //     'left_toolbar',
+    //     // 'timeframes_toolbar',
+    //     // 'control_bar',
+    //   ],
+    //   enabled_features: [],
+    //   charts_storage_url: this.chartsStorageUrl,
+    //   charts_storage_api_version: this.chartsStorageApiVersion,
+    //   client_id: this.clientId,
+    //   user_id: this.userId,
+    //   fullscreen: this.fullscreen,
+    //   autosize: this.autosize,
+    //   studies_overrides: this.studiesOverrides,
+    //   time_frames: [
+    //     {
+    //       text: '1h',
+    //       resolution: '1m',
+    //     },
+    //     {
+    //       text: '1d',
+    //       resolution: '5m',
+    //     },
+    //     {
+    //       text: '1w',
+    //       resolution: '15m',
+    //     },
+    //     {
+    //       text: '1mn',
+    //       resolution: '1h',
+    //     },
+    //     {
+    //       text: '1y',
+    //       resolution: '12h',
+    //     },
+    //   ],
+    // };
+
+    const widgetOptions2 = {
+      debug: false,
+      symbol: 'Coinbase:BTC/USD',
+      datafeed: datafeed,
+      interval: '15',
+      container_id: 'tv_chart_container',
+      library_path: '/static/js/charting_library/',
       locale: getLanguageFromURL() || 'en',
-      disabled_features: ['use_localstorage_for_settings', 'header_widget', 'left_toolbar'],
-      enabled_features: [],
-      charts_storage_url: this.chartsStorageUrl,
-      charts_storage_api_version: this.chartsStorageApiVersion,
-      client_id: this.clientId,
-      user_id: this.userId,
-      fullscreen: this.fullscreen,
-      autosize: this.autosize,
-      studies_overrides: this.studiesOverrides,
+      disabled_features: ['use_localstorage_for_settings'],
+      enabled_features: ['study_templates'],
+      charts_storage_url: 'https://saveload.tradingview.com',
+      charts_storage_api_version: '1.1',
+      client_id: 'tradingview.com',
+      user_id: 'public_user_id',
+      fullscreen: false,
+      autosize: true,
+      studies_overrides: {},
     };
 
     onready(() => {
       const Widget = widget;
-      window.tvWidget = new Widget(widgetOptions);
+      setTimeout(() => {
+        window.tvWidget = new Widget(widgetOptions2);
+
+        window.tvWidget.onChartReady(() => {
+          console.log('Chart has loaded!');
+        });
+      }, 10000);
     });
   },
 };

@@ -139,6 +139,8 @@ export default {
       });
     },
     changeChartPeriod({commit, dispatch}, period) {
+      console.log(period);
+      window.tvWidget.setSymbol('BTC/USD', 1);
       commit('setPeriod', period);
       return dispatch('loadChart');
     },

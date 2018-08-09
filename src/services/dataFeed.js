@@ -1,6 +1,5 @@
 /* eslint-disable */
-import historyProvider from './historyProvider'
-
+import default_data from './default_data';
 const supportedResolutions = ["1", "3", "5", "15", "30", "60", "120", "240", "D"]
 
 const config = {
@@ -38,10 +37,6 @@ export default {
       volume_precision: 8,
       data_status: 'streaming',
     }
-
-    if (split_data[2].match(/USD|EUR|JPY|AUD|GBP|KRW|CNY/)) {
-      symbol_stub.pricescale = 100
-    }
     setTimeout(function() {
       onSymbolResolvedCallback(symbol_stub)
       console.log('Resolving that symbol....', symbol_stub)
@@ -53,22 +48,9 @@ export default {
   },
   getBars: function(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
     console.log('=====getBars running')
-    // console.log('function args',arguments)
-    // console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
-    // historyProvider.getBars(symbolInfo, resolution, from, to, firstDataRequest)
-    // .then(bars => {
-    //   console.log(bars);
-    //   if (bars.length) {
-    //     onHistoryCallback(bars, {noData: false})
-    //   } else {
-    //     onHistoryCallback(bars, {noData: true})
-    //   }
-    // }).catch(err => {
-    //   console.log({err})
-    //   onErrorCallback(err)
-    // })
-    onHistoryCallback([], {noData: true});
 
+    onHistoryCallback(default_data, {noData: false})
+    onHistoryCallback([], {noData: true})
   },
   subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
     console.log('=====subscribeBars runnning')
@@ -78,7 +60,7 @@ export default {
   },
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
     //optional
-    console.log('=====calculateHistoryDepth running')
+    console.log('=====calculateHistoryDepth running',resolution, resolution < 60 ? {resolutionBack: 'D', intervalBack: '1'} : undefined)
     // while optional, this makes sure we request 24 hours of minute data at a time
     // CryptoCompare's minute data endpoint will throw an error if we request data beyond 7 days in the past, and return no data
     return resolution < 60 ? {resolutionBack: 'D', intervalBack: '1'} : undefined
@@ -95,4 +77,3 @@ export default {
     console.log('=====getServerTime running')
   }
 }
-

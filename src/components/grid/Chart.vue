@@ -19,7 +19,7 @@ Tile(
     :name="data.name"
   )
     .chart
-      TVChartContainer
+      Chart
 </template>
 
 <script>
@@ -34,7 +34,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
-import TVChartContainer from './../TVChartContainer';
+import Chart from './../Chart';
 
 export default {
   mixins: [TileBase],
@@ -337,7 +337,7 @@ export default {
     rawCandles() {
       this.calculateMA(10);
       this.calculateEMA(10);
-      this.createChart();
+      // this.createChart();
       this.setEmptyCandleHandler();
     },
     currentChart() {
@@ -349,7 +349,7 @@ export default {
     },
     technicalIndicators: {
       handler() {
-        this.createChart();
+        // this.createChart();
       },
       deep: true,
     },
@@ -364,7 +364,7 @@ export default {
   components: {
     IEcharts,
     ChartHeader,
-    TVChartContainer,
+    Chart,
   },
 };
 </script>

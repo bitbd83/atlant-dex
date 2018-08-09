@@ -15,7 +15,7 @@ export const periods = {
   '1mn': '1h',
   '1y': '12h',
 };
-export const defPeriod = Object.keys(periods)[2];
+export const defPeriod = Object.keys(periods)[3];
 export const defCandleSize = periods[defPeriod];
 
 export const profileSections = [
