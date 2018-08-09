@@ -88,7 +88,7 @@ export default {
         });
       }
       dispatch('dropUser');
-      return Promise.reject();
+      return Promise.reject('');
     },
     setRefreshTimeout({state, commit, dispatch}) {
       setTimeout(() => {
