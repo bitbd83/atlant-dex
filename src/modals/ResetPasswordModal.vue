@@ -62,7 +62,7 @@ export default {
     confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
         this.step = 2;
-        isSuccess = true;
+        this.isSuccess = true;
       }).catch((res) => {
         this.step = 2;
         serverNotification(res);
