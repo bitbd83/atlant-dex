@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(title="TRANSACTION HISTORY", :sidebar="true")
+  //- PageLayout(title="TRANSACTION HISTORY", :sidebar="true")
   .tablePage
     TablePageLayoutHeader
     .tablePage__body

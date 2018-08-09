@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(title="Security log", :sidebar="true")
+  //- PageLayout(title="Security log", :sidebar="true")
   .securityLog
     .table
       table.table__body
