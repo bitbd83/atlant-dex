@@ -18,51 +18,6 @@ export const periods = {
 export const defPeriod = Object.keys(periods)[2];
 export const defCandleSize = periods[defPeriod];
 
-export const profileSections = [
-  {
-    name: 'accountInformation',
-    label: 'Account information',
-    category: 'user info',
-  },
-  {
-    name: 'verification',
-    label: 'Verification',
-    category: 'user info',
-  },
-  // {
-  //   name: 'verificationAdmin',
-  //   label: 'Verification (admin)',
-  //   category: 'user info',
-  // },
-  {
-    name: 'securitySettings',
-    label: 'Security settings',
-    category: 'security',
-  },
-  {
-    name: 'securityLog',
-    label: 'Security log',
-    category: 'security',
-  },
-  // {
-  //   name: 'faq',
-  //   label: 'FAQ',
-  //   category: 'user info',
-  // },
-  {
-    name: 'transactionHistory',
-    label: 'Transaction history',
-  },
-  {
-    name: 'myOrders',
-    label: 'My orders',
-  },
-  {
-    name: 'notificationHistory',
-    label: 'Notification History',
-  },
-];
-
 export const sidebarSections = [
   {
     name: 'wallet',
