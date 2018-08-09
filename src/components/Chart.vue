@@ -16,6 +16,7 @@ export default {
     return {
       options: {
         datafeed: DataFeed,
+        library_path: '/static/js/charting_library/',
       },
     };
   },

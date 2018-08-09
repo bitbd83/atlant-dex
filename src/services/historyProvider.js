@@ -56,30 +56,7 @@ export default {
               return []
             }
           })
-    // return store
-    //   .dispatch('chart/loadChart')
-    //   .then(
-    //     (data) => {
-    //       console.log(data);
-    //       if (data instanceof Array) {
-    //         data = data.map(
-    //           (el) => ({
-    //             time: Date.parse(el.candleOpen),
-    //             low: el.low,
-    //             high: el.high,
-    //             open: el.open,
-    //             close: el.close,
-    //             volume: el.volume
-    //           })
-    //         );
-    //       }
-    //       if (first) {
-    //         var lastBar = data[data.length - 1]
-    //         history[symbolInfo.name] = {lastBar: lastBar}
-    //       }
-    //       return data;
-    //     }
-    //   );
+   
   }
 }
 

@@ -1,4 +1,5 @@
 /* eslint-disable */
+import store from '@/store';
 import default_data from './default_data';
 const supportedResolutions = ["1", "3", "5", "15", "30", "60", "120", "240", "D"]
 
@@ -49,8 +50,29 @@ export default {
   getBars: function(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
     console.log('=====getBars running')
 
-    onHistoryCallback(default_data, {noData: false})
-    onHistoryCallback([], {noData: true})
+    store
+      .dispatch('chart/loadChart')
+      .then(
+        (data) => {
+          console.log(data);
+          if (data instanceof Array) {
+            data = data.map(
+              (el) => ({
+                time: Date.parse(el.candleOpen),
+                low: el.low,
+                high: el.high,
+                open: el.open,
+                close: el.close,
+                volume: el.volume
+              })
+            );
+
+            onHistoryCallback(data, {noData: false})
+          }
+          onHistoryCallback([], {noData: true})
+        }
+      );
+    
   },
   subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback) => {
     console.log('=====subscribeBars runnning')
