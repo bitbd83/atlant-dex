@@ -124,7 +124,7 @@ export default {
     },
     getRepeat() {
       if (this.isNothingChecked()) return false;
-      let name = this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
+      let name = !this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
       this.openModal({
         name: name,
         data: {

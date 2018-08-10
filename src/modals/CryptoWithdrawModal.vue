@@ -3,20 +3,20 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", :isWith2fa="true" :isSuccess="isSuccess", :title="`Withdraw ${data.currency}`")
+ModalLayout(:title="`${$t('crypto.withdraw.withdraw')} ${data.currency}`", :step="step", :isSuccess="isSuccess",)
   .cryptoWithdraw
-    .cryptoWithdraw__header
-      .cryptoWithdraw__title Withdraw {{data.currency}}
+    icon.cryptoWithdraw__angle(id="angle-top-left")
     .cryptoWithdraw__content(v-if="step == 0")
-      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' wallet address'", v-model="address")
-      IInput.cryptoWithdraw__input(:placeholder="data.currency + ' withdrawal amount (e.g. 0.5)'", type="number", v-model="amount")
-      .cryptoWithdraw__amountText Your will receive:
-      .cryptoWithdraw__amount {{netAmount}}
-      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
-      .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
+      .cryptoWithdraw__inputContainer
+        IInput(:placeholder="data.currency + ' ' + $t('crypto.withdraw.placeholderAddress')", v-model="address").cryptoWithdraw__input
+      .cryptoWithdraw__inputContainer
+        IInput.cryptoWithdraw__input(:placeholder="data.currency  + ' ' + $t('crypto.withdraw.placeholderAmount')", type="number", v-model="amount")
+        .cryptoWithdraw__fee {{$t('crypto.withdraw.fee')}}: #[span.cryptoWithdraw__feeAmt {{fee}} {{data.currency}}]
+      .cryptoWithdraw__amountText {{$t('crypto.withdraw.text')}} {{data.currency}}:
+      .link.link--white.cryptoWithdraw__amount  {{netAmount}}
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") {{$t('crypto.withdraw.button')}}
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step === 2")
-      .fiat__statusMsg Completed
+    Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
@@ -36,6 +36,7 @@ export default {
       step: 0,
       fee: 0.00017,
       transId: '',
+      isSuccess: false,
     };
   },
   computed: {
@@ -73,6 +74,7 @@ export default {
         code,
       }).then(() => {
         this.setStep(2);
+        this.isSuccess = true;
       });
     },
     cancelConfirmation() {
@@ -101,47 +103,65 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__title{
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #ffc600;
-    margin-bottom: 32px;
+  margin-top: 88px;
+
+  &__angle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 17px;
+    height: 16.26px;
+    fill: $fill__white;
   }
+
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
   }
-  &__input {
-    margin-bottom: 30px;
+
+  &__inputContainer {
+    margin-bottom: 48px;
     width: 100%;
   }
+
+  &__input {
+    width: 100%;
+    input {
+      &::placeholder {
+        color: #6895FF !important;
+      }
+    }
+
+  }
   &__amountText {
-    height: 16px;
     font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 17px;
+    color: $color__white;
+    text-align: center;
+    line-height: 26px;
+    margin-bottom: 22px;
   }
   &__amount {
-    color: #ffc600;
-    font-size: 22px;
-    font-weight: 400;
-    margin-bottom: 20px;
+    cursor: default;
+    font-size: 20px;
+    color: $color__white;
+    text-align: center;
+    line-height: 26px;
+    margin-bottom: 65px;
   }
   &__button {
-    padding-left: 45px;
-    padding-right: 45px;
-    border-radius: 3px;
+    color: $color__blue !important;
     text-transform: uppercase;
   }
   &__fee {
+    margin-top: 15px;
     font-size: 14px;
-    margin-top: 35px;
+    color: $color__white;
+    line-height: 26px;
   }
   &__feeAmt {
-    color: #31ecce;
+    font-weight: 700;
   }
   &__currency {
     text-transform: uppercase;

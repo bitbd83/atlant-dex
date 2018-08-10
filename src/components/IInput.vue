@@ -99,7 +99,11 @@ export default {
       padding-bottom: 0;
     }
     &::placeholder {
-      color: $color__white;
+      font-family: CenturyGothic;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      line-height: 26px;
+      color: inherit;
     }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
