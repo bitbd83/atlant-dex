@@ -9,8 +9,7 @@
       icon.tfa__icon(id='icon-modal-confirm-dialog')
       span.tfa__text {{setTextMessage}}
     .tfa__inputContainer
-      .tfa__inputTitle Code
-      IInput.tfa__input(v-model="secureCode")
+      IInput.tfa__input(v-model="secureCode", label="Code")
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeatContainer
       .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.link.link--white {{timer}}] seconds
@@ -152,14 +151,6 @@ export default {
 
   &__inputContainer {
     margin-bottom: 70px;
-  }
-
-  &__inputTitle {
-    display: inline-block;
-    font-weight: 700;
-    font-size: 16px;
-    color: $color__white;
-    margin-right: 10px;
   }
 
   &__input {

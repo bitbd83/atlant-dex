@@ -4,8 +4,8 @@
 
 <template lang='pug'>
 .inputField
-  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
   label.inputField__label(v-if="label") {{label}}
+  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
 </template>
 
 <script>
@@ -65,13 +65,14 @@ export default {
   position: relative;
   font-size: 16px;
   font-weight: 400;
+  display: flex;
 
   &__label {
     color: $color_white;
     white-space: nowrap;
     font-size: inherit;
     font-weight: normal;
-    position: absolute;
+    margin-right: 15px;
     pointer-events: none;
     left: 5px;
     top: 10px;

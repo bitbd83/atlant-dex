@@ -3,12 +3,11 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
+ModalLayout(:step="step", :isWith2fa="true", :isSuccess="isSuccess", title="Reset password")
   .reset
     form.reset__content(v-if="step == 0"  @submit.prevent="")
       .reset__input
-        .reset__inputTitle E-mail
-        IInput(v-model="email", type="email" required="true")
+        IInput(v-model="email", label="E-mail", type="email" required="true")
       Checkbox.reset__checkbox(name="acknowledged", :value="true", color="white", v-model="acknowledged"  required="true")
         .reset__checkboxText I acknowledge that my account will be locked for a minimum of 24 hours.
       BButton.reset__button(color="white" @click.native="reset()") Reset it now
@@ -62,7 +61,7 @@ export default {
     confirmReset(code) {
       Membership.validatePasswordRestore({code: code, email: this.email}).then(() => {
         this.step = 2;
-        isSuccess = true;
+        this.isSuccess = true;
       }).catch((res) => {
         this.step = 2;
         serverNotification(res);
@@ -106,12 +105,6 @@ export default {
   &__input {
     display: flex;
     margin-bottom: 75px;
-  }
-  &__inputTitle {
-    margin-right: 18px;
-    font-weight: 700;
-    font-size: 16px;
-    color: #FFFFFF;
   }
   &__checkbox {
     align-items: baseline !important;

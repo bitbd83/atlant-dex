@@ -8,11 +8,9 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
     form.singIn__content(v-if="step == 0"  @submit.prevent="signIn()")
       .singIn__inputs
         .singIn__input
-          .singIn__input-title E-mail
-          IInput.singIn__input-input(v-model="email", type="email")
+          IInput.singIn__input-input(v-model="email", label="E-mail", type="email")
         .singIn__input
-          .singIn__input-title Password
-          IInput.singIn__input-input(v-model="password", type="password")
+          IInput.singIn__input-input(v-model="password", label="Password", type="password")
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", color="white" v-model="remember")
           .link.link--white.singIn__checkboxLabel Remember me
@@ -104,14 +102,8 @@ export default {
     &:first-of-type {
       margin-right: 57px;
     }
-    &-title {
-      margin-right: 18px;
-      font-weight: 700;
-      font-size: 16px;
-      color: #FFFFFF;
-    }
 
-    &-input {
+    input {
       width: 147px;
     }
 
