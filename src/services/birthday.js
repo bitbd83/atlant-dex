@@ -18,5 +18,3 @@ export const birthdayYears = (() => {
   }
   return numbers;
 })();
-
-export const birthdayMonths = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
