@@ -7,11 +7,9 @@ ModalLayout(:step="step", isSuccess="true", title="Save View")
   .saveView
     Icon.saveView__icon(id="pass")
     form.saveView__content(v-if="step == 0" @submit.prevent="saveView()")
-      .saveView__headerContent
-        .saveView__title Save View
-      IInput.saveView__input(placeholder="View name" label="View name" v-model="viewName")
+      IInput.saveView__input(placeholder="View name" v-model="viewName")
       BButton.saveView__button(color="malachite" rounded type="submit") Save
-    Status.saveView__status(v-if="step == 1")
+    Status.saveView__status(v-if="step == 1", isSuccess="true")
 </template>
 
 <script>
@@ -85,11 +83,9 @@ export default {
     font-weight: 900;
     text-transform: uppercase;
   }
-  &__inputs {
+  &__input {
     width: 100%;
-    & > * {
       margin-bottom: 35px;
-    }
   }
   &__checkbox {
     align-items: flex-start !important;

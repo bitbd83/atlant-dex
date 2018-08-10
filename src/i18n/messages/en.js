@@ -25,7 +25,6 @@ export default {
   tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
   tfaSecureWarning: {
     text: 'Please, enable 2 factor authorization to protect your account',
-    title: 'Your account is not secure',
     yesButton: 'OK, enable 2FA',
     noButton: 'No, thanks',
   },

@@ -4,8 +4,8 @@
 
 <template lang='pug'>
 .inputField
-  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
   label.inputField__label(v-if="label") {{label}}
+  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
 </template>
 
 <script>
@@ -54,11 +54,7 @@ export default {
       default: false,
       required: false,
     },
-    noUnderline: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+    noUnderline: Boolean,
   },
 };
 </script>
@@ -67,22 +63,16 @@ export default {
 @import 'variables';
 .inputField {
   position: relative;
-
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   right: 0;
-  //   left: 0;
-  //   height: 3.5px;
-  //   background: #ffffff;
-  // }
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
 
   &__label {
     color: $color_white;
     white-space: nowrap;
     font-size: inherit;
     font-weight: normal;
-    position: absolute;
+    margin-right: 15px;
     pointer-events: none;
     left: 5px;
     top: 10px;
@@ -91,14 +81,14 @@ export default {
 
   &__input {
     font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
     padding: 0;
     display: block;
     width: 100%;
     border: none;
     border-radius: 0;
     background: none;
-    font-size: 16px;
-    font-weight: 400;
     padding-bottom: 11px;
     border-bottom: 3.5px solid $background__white;
     &--center {
@@ -106,6 +96,7 @@ export default {
     }
     &--noUnderline {
       border-bottom: none;
+      padding-bottom: 0;
     }
     &::placeholder {
       color: $color__white;

@@ -35,12 +35,12 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency"
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
         BButton.fiat__button(color="malachite" rounded @click="makeDeposit()") Make {{transactionType}}
-    Status.fiat__status(v-if="step == 1" isSuccess)
-      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+    Status.fiat__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
+import {serverNotification} from 'services/notification';
 import ModalLayout from '@/layouts/ModalLayout';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       step: 0,
-      isSuccess: true,
+      isSuccess: false,
       amount: '',
       fee: 1,
       paymentMethods: [
@@ -100,8 +100,13 @@ export default {
       this.deposit({
         currency: this.data.currency,
         amount: 1000,
+      }).then(() => {
+        this.step = 1;
+        this.isSuccess = true;
+      }).catch((res) => {
+        this.step = 1;
+        serverNotification(res);
       });
-      this.step++;
     },
   },
   components: {
@@ -216,13 +221,6 @@ export default {
   &__button{
     text-transform: uppercase;
     width: 176px;
-  }
-  &__statusMsg {
-    min-width: 300px;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
   }
 }
 </style>
