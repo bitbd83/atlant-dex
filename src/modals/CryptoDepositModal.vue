@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-ModalLayout
+ModalLayout(:title="`Deposit ${data.currency}`")
   .cryptoDeposit
     .cryptoDeposit__title Deposit {{data.currency}}
     QR.cryptoDeposit__qr(:text='address' size='148')

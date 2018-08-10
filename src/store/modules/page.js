@@ -37,7 +37,11 @@ export default {
   actions: {
     getOpenPage({commit}, name) {
       commit('open', name);
+
+      // Hidden Sidebar
       commit('misc/hiddenSidebar', null, {root: true});
+      // Hidden Modals
+      commit('modal/close', null, {root: true});
     },
   },
   namespaced: true,

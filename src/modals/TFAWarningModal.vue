@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  ModalLayout
+  ModalLayout(isAttention="true", title="Warning")
     .tfaWarning
       .tfaWarning__title {{$t('tfaSecureWarning.title')}}
       Icon.tfaWarning__icon(id="statusFailed")

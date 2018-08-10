@@ -5,40 +5,72 @@
 <template lang="pug">
 transition(name="modal__anim")
   .modal(v-scrollbar="")
-    .modal__overlay(@click="closeModal()")
+    .modal__overlay(:class="setModalColor")
+    .modal__topContainer
+      .modal__title {{title}}:
+      Icon.modal__closeIcon(id="icon-modal-close"  @click="closeModal()")
     .modal__main
-      .modal__body(:class="[`modal__body--${screenType}`]")
-        Icon.modal__closeIcon(id="close"  @click="closeModal()")
+      .modal__body
         .modal__content
           slot
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex';
+import {mapMutations} from 'vuex';
 import {scrollbar} from '@/directives';
 
 export default {
   computed: {
-    ...mapState('misc', {
-      screenType: 'screenType',
-    }),
+    setModalColor() {
+      if (this.step == 1) return this.isSuccess ? 'modal__overlay--green' : 'modal__overlay--red';
+      if (this.isAttention) return 'modal__overlay--red';
+    },
   },
   methods: {
-    ...mapMutations('modal', {
-      close: 'close',
-    }),
+    ...mapMutations('modal', ['close']),
+    ...mapMutations('misc', ['hiddenSidebar']),
+
     closeModal() {
       this.close();
       this.onClose();
     },
   },
+
   props: {
     onClose: {
       type: Function,
       required: false,
       default: () => {},
     },
+
+    title: {
+      type: String,
+      required: true,
+    },
+
+    step: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+
+    isSuccess: {
+      default: Boolean,
+      required: false,
+      default: true,
+    },
+
+    isAttention: {
+      defailt: Boolean,
+      required: false,
+      default: false,
+    },
   },
+
+  created() {
+    this.hiddenSidebar();
+  },
+
   directives: {
     scrollbar,
   },
@@ -46,75 +78,96 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~perfect-scrollbar/dist/css/perfect-scrollbar';
-@import 'variables';
+@import "~perfect-scrollbar/dist/css/perfect-scrollbar";
+@import "variables";
 $padding: 40px;
 
 .modal {
   position: fixed;
-  display: flex;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 888;
   overflow: visible;
+  z-index: 1000002;
+  display: flex;
+  flex-direction: column;
+
   &__overlay {
+    position: absolute;
+    background: #004dff;
+    transition: background .5s;
     width: 100%;
     height: 100%;
-    position: fixed;
-    background-color: rgba(0,0,0,0.40);
+
+    &--red {
+      background: #f34856;
+      transition: background .5s;
+    }
+
+    &--green {
+      background: #2acc97;
+      transition: background .5s;
+    }
   }
-  &__main {
+
+  &__topContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    justify-content: center;
-    width: 100%;
+    justify-content: space-between;
+    padding: 18px 27px 0px 110px;
+    z-index: 1000003;
   }
+
+  &__title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  &__main {
+    margin: auto;
+  }
+
   &__body {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     min-width: 407px;
-    // min-height: 600px;
     padding: $padding;
     margin: auto;
     border-radius: 12px;
-    z-index: 801;
-    box-shadow: 0 25px 20px rgba(0, 0, 0, 0.24);
-    background-image: repeating-linear-gradient(
-      135deg,
-      #002338,
-      #002338 45px,
-      #0d2e41 0,
-      #0d2e41 80px
-    )
   }
+
   &__closeIcon {
-    z-index: 801;
-    top: -30px;
-    right: -30px;
-    width: 32px;
-    height: 32px;
-    position: absolute;
+    width: 22px;
+    height: 22px;
+    fill: #ffffff;
     cursor: pointer;
-    transition: transform .5s;
+    transition: transform 0.5s;
+
     &:hover {
-      transition: transform .5s;
+      transition: transform 0.5s;
       transform: scale(1.1);
     }
   }
-  &__cross {
-    display: none;
-  }
-  &__anim-enter,
-&__anim-leave-active {
-opacity: 0;
-}
 
-&__anim-enter-active,
-&__anim-leave-active {
-transition: opacity .4s ease;
-}
+  &__anim {
+    &-enter,
+    &-leave-active {
+      opacity: 0;
+    }
+
+    &-enter-active,
+    &-leave-active {
+      transition: opacity 0.4s ease;
+    }
+  }
 }
 </style>

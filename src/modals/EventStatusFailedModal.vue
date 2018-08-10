@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(step="1", isSuccess="false", :title="fail")
   Status(:isSuccess="false")
 </template>
 

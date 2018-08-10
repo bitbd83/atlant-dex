@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", isSuccess="true", title="Reset password")
   .newPassword
     Icon.newPassword__icon(id="pass")
     form.newPassword__content(v-if="step == 0" @submit.prevent="finishPasswordReset()")

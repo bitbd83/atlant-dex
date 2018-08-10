@@ -28,9 +28,12 @@ export default {
 
 .mainLayout {
   display: flex;
+  position: relative;
   flex: 1;
   margin-left: 0;
   transition: $transition__sidebarAction;
+  z-index: 1;
+
   &--activeSidebar {
     margin-left: -300px;
     transition: $transition__sidebarAction;

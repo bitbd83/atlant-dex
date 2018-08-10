@@ -6,7 +6,7 @@
 .toolbar
   .toolbar__group
     Icon.toolbar__logo(id="logo"
-                      @click="getOpenPage('')",
+      @click="getOpenPage('')",
     )
     UserVisibility(
       v-for="sect in sidebarSections",
@@ -75,6 +75,9 @@ export default {
     ...mapState('misc', [
       'showSidebar',
     ]),
+    ...mapState('modal', {
+      madalOpened: 'name',
+    }),
     ...mapGetters('misc', [
       'section',
     ]),
@@ -94,20 +97,13 @@ export default {
       'setSection',
     ]),
     ...mapMutations('modal', {
-      openModal: 'open',
+      closeModal: 'close',
     }),
     ...mapActions('page', [
       'getOpenPage',
     ]),
     isActive(section) {
       return (section === this.section) ? 'toolbar__icon--active' : '';
-    },
-    checkBeforeOpenPage(pageName) {
-      if (!this.isLoggedIn) {
-        this.openModal({name: 'signIn'});
-        return false;
-      }
-      this.getOpenPage(pageName);
     },
   },
   components: {
@@ -122,6 +118,7 @@ export default {
 @import 'variables';
 
 .toolbar {
+  position: relative;
   width: 55px;
   display: flex;
   flex-direction: column;
@@ -130,25 +127,36 @@ export default {
   height: 100%;
   padding: 15px 0;
   padding-top: 12px;
-  background-color: $background__blue;
   flex-shrink: 0;
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: $background__blue;
+    z-index: 1000001;
+  }
 
   &__logo {
+    position: relative;
     width: 34px;
     height: 36px;
     fill: $fill__white;
     cursor: pointer;
     margin: auto;
     margin-bottom: 57px;
+    z-index: 1000004;
   }
 
   &__iconWrap {
     $size: 40px;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
     background: transparent;
     box-shadow: 0 5px 4px transparent;
     border-radius: 2px;
@@ -156,6 +164,7 @@ export default {
     height: $size;
     margin: 21px auto;
     padding: 0;
+    z-index: 1000001;
     cursor: pointer;
     transition: margin .5s linear,
                 background .5s linear;
@@ -215,6 +224,13 @@ export default {
     font-weight: 900;
   }
 
+  &__group {
+    &:last-of-type {
+      position: relative;
+      z-index: 1000004;
+    }
+  }
+
   &__accordion {
     margin-bottom: 29px;
   }
@@ -240,11 +256,13 @@ export default {
     margin: auto;
   }
 
-  &__iconFade-enter-active, &__iconFade-leave-active {
+  &__iconFade-enter-active,
+  &__iconFade-leave-active {
     transition: opacity .75s;
   }
 
-  &__iconFade-enter, &__iconFade-leave-to {
+  &__iconFade-enter,
+  &__iconFade-leave-to {
     opacity: 0;
   }
 }

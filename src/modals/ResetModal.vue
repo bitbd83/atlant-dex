@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
+ModalLayout(:step="step", :isSuccess="isSuccess", title="Reset password")
   .reset
     Icon.reset__icon(id="pass")
     .reset__content(v-if="step == 0")
