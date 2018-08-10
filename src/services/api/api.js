@@ -40,7 +40,9 @@ instance.interceptors.response.use((response) => {
       });
     });
   } else {
+    console.log(response);
     serverNotification2(response);
+    return Promise.reject(response);
   }
   return Promise.reject(response);
 });
