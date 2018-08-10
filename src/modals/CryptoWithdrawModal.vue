@@ -15,7 +15,8 @@ ModalLayout(:step="step", :isWith2fa="true" :isSuccess="isSuccess", :title="`Wit
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") Withdraw
       .cryptoWithdraw__fee Withdrawal fee: #[span.cryptoWithdraw__feeAmt {{fee}}] #[span.cryptoWithdraw__currency {{data.currency}}]
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="step--")
+    Status.cryptoWithdraw__status(v-if="step === 2")
+      .fiat__statusMsg Completed
 </template>
 
 <script>
@@ -32,10 +33,9 @@ export default {
     return {
       address: '',
       amount: '',
+      step: 0,
       fee: 0.00017,
       transId: '',
-      isSuccess: false,
-      step: 0,
     };
   },
   computed: {
@@ -64,7 +64,6 @@ export default {
       }).then((response) => {
         this.transId = response.data.transactionId;
         this.setStep(1);
-        this.isSuccess = true;
       });
     },
     tryConfirmation(code) {
@@ -81,6 +80,10 @@ export default {
       this.clearData();
     },
   },
+  created() {
+    if (this.data.address) this.address = this.data.address;
+    if (this.data.amount) this.amount = this.data.amount;
+  },
   components: {
     ModalLayout,
     BButton,
@@ -92,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import 'variables';
+@import "variables";
 
 .cryptoWithdraw {
   display: flex;

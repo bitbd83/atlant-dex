@@ -3,37 +3,33 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(title="TRANSACTION HISTORY", :sidebar="true")
-  .tablePage
-    TablePageLayoutHeader
-    .tablePage__body
-      .tablePage__content(v-scrollbar="")
-        slot
-        TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
+.tablePage
+  TableHeader
+  .tablePage__body
+    .tablePage__content
+      slot(v-if="!isLoading")
+      EmptyPlaceholder(v-if="isShowEmptyPlaceholder", :content="getTableContent")
+      Loader(:isLoading="isLoading" :isLoadingError="isLoadingError" :getRequest="getApiRequest").tablePage__loader
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-      //- .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
-      //-   .tablePage__panelActions.panel__checkbox
-      //-     Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-      //-   .tablePage__panelActions(v-if="getRepeat") Repeat
-      //-   .tablePage__panelActions(v-if="getCancel") Cancel
-      //-   .tablePage__panelActions(v-if="getDelete") Delete
-      //-   .tablePage__panelActions(v-if="getExport") Export
+      .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
+        .tablePage__panelActions.panel__checkbox(v-if="isCheckbox")
+          Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
+        .tablePage__panelActions(v-if="getRepeat" @click="getRepeat") Repeat
+        .tablePage__panelActions(v-if="getCancel" @click="getCancel") Cancel
+        .tablePage__panelActions(v-if="getDelete" @click="getDelete") Delete
+        .tablePage__panelActions(v-if="getExport" @click="getExport") Export
 </template>
 
 <script>
 import {mapState} from 'vuex';
-import {scrollbar} from '@/directives';
 import Checkbox from 'components/Checkbox';
+import Loader from 'components/Loader';
+import Icon from 'components/Icon';
+import EmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
 import Pagination from 'components/Pagination';
-import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
-import TablePageLayoutEmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
-import PageLayout from 'layouts/PageLayout';
+import TableHeader from 'components/TablePageLayoutHeader';
 
 export default {
-  data() {
-    return {
-    };
-  },
   computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
@@ -45,13 +41,16 @@ export default {
       return this.checkedArray.length === this.data.length;
     },
     isShowPanelInMobileVersion() {
-      return Boolean(this.checkedArray.length);
+      return (this.isCheckbox) ? Boolean(this.checkedArray.length) : Boolean(Object.keys(this.checkedArray).length);
     },
     getTableContent() {
       switch (this.content) {
         case 'myOrders': return 'orders';
         case 'transactionHistory': return 'transactions';
       };
+    },
+    isShowEmptyPlaceholder() {
+      return this.isLoading ? false : this.data.length == 0;
     },
   },
   methods: {
@@ -62,13 +61,24 @@ export default {
       this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
     },
   },
-  directives: {
-    scrollbar,
-  },
   props: {
     title: {
       type: String,
       default: '',
+      required: false,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    isLoadingError: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    getApiRequest: {
+      type: Function,
       required: false,
     },
     sidebar: {
@@ -81,8 +91,9 @@ export default {
       required: true,
     },
     checkedArray: {
-      type: Array,
-      required: true,
+      type: [Array, String, Object],
+      default: Array,
+      required: false,
     },
     page: {
       type: [Number, String],
@@ -94,6 +105,11 @@ export default {
     },
     changeActivePage: {
       type: Function,
+      required: false,
+    },
+    isCheckbox: {
+      type: [Boolean],
+      default: true,
       required: false,
     },
     getRepeat: {
@@ -123,36 +139,39 @@ export default {
     },
   },
   components: {
-    TablePageLayoutHeader,
-    TablePageLayoutEmptyPlaceholder,
+    TableHeader,
+    EmptyPlaceholder,
+    Loader,
     Checkbox,
+    Icon,
     Pagination,
-    PageLayout,
   },
 };
 </script>
 
 <style lang="scss">
-@import 'variables';
+@import "variables";
 
 $panelHeight: 58px;
 .tablePage {
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  &__body {
-    display: flex;
-    flex-direction: column;
+  flex: 2;
 
+  &__body {
+    height: 100%;
+    display: flex;
   }
   &__content {
-    position: relative;
-    padding: 36px;
-    border-top: 1px solid $color_tangaroa;
     display: flex;
     flex-direction: column;
-    flex: 2;
+    width: 100%;
+    padding: 36px;
+    border-top: 1px solid $color_tangaroa;
+  }
+  &__loader {
+    margin-top: 50px;
   }
   &__panel {
     z-index: 1.6;
@@ -173,7 +192,6 @@ $panelHeight: 58px;
       #03324c 60px
     );
     transition: bottom .5s, left .15s;
-
   }
   &__panelActions {
     cursor: pointer;
@@ -182,6 +200,9 @@ $panelHeight: 58px;
     font-family: Roboto;
     font-size: 12px;
     font-weight: 700;
+    &:hover {
+      color: $color_yellow;
+    }
   }
   &__panelScrollbarOpened {
     transition: left .15s;
