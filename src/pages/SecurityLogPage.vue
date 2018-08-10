@@ -3,7 +3,9 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  //- PageLayout(title="Security log", :sidebar="true")
+TableLayout(
+  title="Security log",
+)
   .securityLog
     .table
       table.table__body
@@ -23,7 +25,7 @@
 <script>
 import * as User from 'services/api/user';
 import {DateTime} from 'luxon';
-import PageLayout from 'layouts/PageLayout';
+import TableLayout from 'layouts/TableLayout';
 import Pagination from 'components/Pagination';
 
 export default {
@@ -63,7 +65,7 @@ export default {
     this.getSecurityLog();
   },
   components: {
-    PageLayout,
+    TableLayout,
     Pagination,
   },
 };

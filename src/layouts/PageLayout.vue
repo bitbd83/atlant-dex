@@ -23,7 +23,6 @@
 <script>
 import {mapGetters} from 'vuex';
 import {scrollbar} from '@/directives';
-import PageHeader from 'components/PageLayoutHeader';
 import PageNavigation from 'components/PageLayoutNavigation';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
@@ -52,7 +51,6 @@ export default {
     scrollbar,
   },
   components: {
-    PageHeader,
     PageNavigation,
     TransactionHistoryPage,
     MyOrdersPage,

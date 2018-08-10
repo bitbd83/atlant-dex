@@ -4,19 +4,10 @@
 
 <template lang="pug">
 .tableHeader
-  // PageLayoutBackToDashboard.tableHeader__backTo
   .tableHeader__container(v-show="isTradeTables")
     .tableHeader__title(@click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
     .tableHeader__title(@click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
-      Dropdown.tableHeader__dropdown(
-        v-if="isThisPage('myOrders')",
-        :options="sortTypes",
-        v-model="sortTypeForMyOrders",
-        no-border,
-        no-paddding,
-        preselect-first,
-        underline,
-      )
+
   .tableHeader__container(v-show="isNotifications")
     .tableHeader__title(:class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History
 </template>
@@ -24,7 +15,6 @@
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
 import Dropdown from 'components/Dropdown';
-import PageLayoutBackToDashboard from 'components/PageLayoutBackToDashboard';
 
 export default {
   data() {
@@ -83,7 +73,6 @@ export default {
     },
   },
   components: {
-    PageLayoutBackToDashboard,
     Dropdown,
   },
 };

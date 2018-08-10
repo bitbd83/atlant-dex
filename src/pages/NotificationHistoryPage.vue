@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
+TableLayout(
   title="NOTIFICATION_HISTORY",
   :data="data",
   :pageCount='setPagesCount',
@@ -35,7 +35,7 @@ import {DateTime} from 'luxon';
 import {signalRNotification} from '@/store/staticData/signalRNotification';
 import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
-import TablePageLayout from 'layouts/TablePageLayout';
+import TableLayout from 'layouts/TableLayout';
 
 export default {
   data() {
@@ -115,7 +115,7 @@ export default {
     this.getNotifications();
   },
   components: {
-    TablePageLayout,
+    TableLayout,
     Checkbox,
   },
 };

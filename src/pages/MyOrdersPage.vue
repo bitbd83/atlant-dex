@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
+TableLayout(
   title="My orders",
   :data="orders",
   :pageCount='setPagesCount',
@@ -80,7 +80,7 @@ TablePageLayout(
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import {DateTime} from 'luxon';
 import Checkbox from 'components/Checkbox';
-import TablePageLayout from 'layouts/TablePageLayout';
+import TableLayout from 'layouts/TableLayout';
 
 export default {
   data() {
@@ -206,7 +206,7 @@ export default {
     this.getMyOrders();
   },
   components: {
-    TablePageLayout,
+    TableLayout,
     Checkbox,
   },
 };
