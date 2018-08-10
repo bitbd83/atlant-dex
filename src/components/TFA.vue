@@ -5,24 +5,33 @@
 <template lang="pug">
 .tfa
   form.tfa__content(v-if="isModal" @submit.prevent="onConfirm(secureCode)")
-    .tfa__title confirmation
-    .tfa__text {{setTextMessage}}
-    IInput.tfa__input(placeholder="Enter security code", v-model="secureCode", center)
+    .tfa__title
+      icon.tfa__icon(id='icon-modal-confirm-dialog')
+      span.tfa__text {{setTextMessage}}
+    .tfa__inputContainer
+      IInput.tfa__input(v-model="secureCode", label="Code")
     BButton.tfa__button(color="malachite" rounded) Confirm
-    .tfa__repeat
-      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
-      a.link(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send new code
-    a.link(@click="onCancel()") Cancel
+    .tfa__repeatContainer
+      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.link.link--white {{timer}}] seconds
+      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send new code
+    .tfa__cancelContainer(@click="onCancel()")
+      icon.tfa__cancelIcon(id="arrow_short")
+      .link.link--white Cancel
   form(v-else)
-    .tfa__row {{setTextMessage}}
+    .tfa__title.tfa__row
+        icon.tfa__icon.tfa__icon--dark(id='icon-modal-confirm-dialog')
+        span.tfa__text.tfa__text--dark  {{setTextMessage}}
     .tfa__row.tfa__row--desktop
       input.input(placeholder="Enter security code" v-model="secureCode")
       .tfa__row.tfa__row--mobileMargin
-        .link.tfa__link(@click="onConfirm(secureCode)") Confirm
-        .link.tfa__link(@click="onCancel()") Cancel
-    .tfa__row(v-if="isLinkAviable && security.tfa.method != 2") #[Icon(id="resend")] #[.link.tfa__link(@click="getCountDown(); onResend()") Resend] confirmation code
+        .link.link.tfa__link(@click="onConfirm(secureCode)") Confirm
+        .link.link.tfa__link(@click="onCancel()") Cancel
+    .tfa__row(v-if="isLinkAviable && security.tfa.method != 2")
+      Icon.tfa__iconResend(id="icon-resend" @click="getCountDown(); onResend()")
+      .link.tfa__link(@click="getCountDown(); onResend()") Resend
+      | confirmation code
     .tfa__row(v-if="!isLinkAviable && security.tfa.method != 2")
-      .tfa__repeatText The new code will be available in #[span.tfa__repeatTimer {{timer}} seconds]
+      .tfa__repeatText.tfa__repeatText--dark The new code will be available in #[span.link {{timer}}] seconds
 </template>
 
 <script>
@@ -30,14 +39,12 @@ import {mapState, mapMutations} from 'vuex';
 import i18n from '@/i18n';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
-import Status from 'components/Status.vue';
-import QR from 'components/QR';
 
 export default {
   data() {
     return {
       secureCode: '',
-      timer: 5,
+      timer: 20,
       isLinkAviable: false,
       isSuccess: false,
     };
@@ -65,7 +72,7 @@ export default {
       };
       if (this.timer <= 0) {
         this.isLinkAviable = true;
-        this.timer = 5;
+        this.timer = 20;
       };
     },
   },
@@ -104,8 +111,6 @@ export default {
   components: {
     BButton,
     IInput,
-    Status,
-    QR,
   },
 };
 </script>
@@ -114,67 +119,82 @@ export default {
 @import 'variables';
 
 .tfa {
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &__icon {
-    $size: 77px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    margin-bottom: 50px;
-  }
   &__title {
     display: flex;
-    justify-content: center;
-    width: 100%;
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 46px;
+    margin-bottom: 67px;
   }
+
+  &__icon {
+    margin-right: 27px;
+    display: inline-block;
+    width: 24px;
+    height: 23px;
+    fill: $fill__white;
+    &--dark {
+      fill: $fill__black;
+    }
+  }
+
   &__text {
-    max-width: 311px;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 25px;
+    margin-top: -6px;
+    max-width: 269px;
+    color: $color__white;
     text-transform: uppercase;
-    text-align: center;
-    margin-bottom: 40px;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.38px;
+    line-height: 25px;
+    &--dark {
+      color: $color__black;
+    }
+  }
+
+  &__inputContainer {
+    margin-bottom: 70px;
   }
 
   &__input {
+    display: inline-block;
     font-size: 14px;
     font-weight: 400;
-    margin-bottom: 50px;
   }
+
   &__button {
-    display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 16px;
-    font-weight: 900px;
-    text-transform: uppercase;
-    margin-bottom: 30px;
+    width: 184px;
+    margin-bottom: 62px;
   }
-  &__repeat {
-    color: #ffffff;
+
+  &__repeatContainer {
     font-size: 12px;
     font-weight: 400;
     line-height: 20px;
-    text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
-  &__repeatTimer {
-    color: $color_yellow;
-    font-weight: 700;
+
+  &__repeatText {
+    color: $color__white;
+    font-family: CenturyGothic;
+    font-size: 12px;
+    letter-spacing: 0.38px;
+    line-height: 25px;
+    &--dark {
+      color: $color__black;
+    }
   }
+
+  &__cancelIcon{
+    display: inline-block;
+    transform: rotate(180deg);
+    fill: $fill__white;
+    width: 12px;
+    height: 10px;
+    margin-right: 20px;
+    margin-top: 6px;
+  }
+
   &__row {
     margin-top: 18px;
+    margin-bottom: 0;
     min-height: 25px;
     display: flex;
     align-items: center;
@@ -182,11 +202,15 @@ export default {
       margin: 0;
     }
   }
-  &__link {
-    margin: 0 5px 0 19px;
+
+  &__iconResend {
+    width: 16px;
+    height: 16px;
+    fill: $fill__blue;
   }
-  &__modalQR {
-    margin-bottom: 36px;
+
+  &__link {
+    margin: 0 17px;
   }
 }
 

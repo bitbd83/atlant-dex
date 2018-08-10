@@ -10,14 +10,13 @@
       MainPage(v-if="!isPageOpened()")
       PageLayout(v-else)
     //- Modals
-    ResetModal(v-if="isModalOpened('reset')")
+    ResetPasswordModal(v-if="isModalOpened('reset')")
     NewPasswordModal(v-else-if="isModalOpened('newPassword')")
     SignUpModal(v-else-if="isModalOpened('signUp')")
     SignInModal(v-else-if="isModalOpened('signIn')")
     CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
     CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
     FiatModal(v-else-if="isModalOpened('fiat')")
-    TFAModal(v-else-if="isModalOpened('tfaModal')")
     TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
     EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
     EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
@@ -35,14 +34,13 @@ import {showWelcome} from '@/config';
 import Sidebar from 'components/Sidebar';
 import MainPage from 'pages/MainPage';
 import PageLayout from 'layouts/PageLayout';
-import ResetModal from 'modals/ResetModal';
+import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
 import SignInModal from 'modals/SignInModal';
 import CryptoDepositModal from 'modals/CryptoDepositModal';
 import CryptoWithdrawModal from 'modals/CryptoWithdrawModal';
 import FiatModal from 'modals/FiatModal';
-import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
@@ -215,14 +213,13 @@ export default {
     MainPage,
     PageLayout,
     Status,
-    ResetModal,
+    ResetPasswordModal,
     NewPasswordModal,
     SignUpModal,
     SignInModal,
     CryptoDepositModal,
     CryptoWithdrawModal,
     FiatModal,
-    TFAModal,
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,

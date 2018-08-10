@@ -16,6 +16,7 @@
       SecurityLogPage(v-else-if="isPageOpened('securityLog')")
       FAQ(v-else-if="isPageOpened('faq')")
       NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+      AlertsList(v-else-if="isPageOpened('alertsList')")
     .page__rigthPanel
       Logout.page__logout
 </template>
@@ -32,6 +33,7 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
+import AlertsList from 'pages/AlertsList';
 import Logout from 'components/Logout.vue';
 
 export default {
@@ -60,6 +62,7 @@ export default {
     AccountInformation,
     SecuritySettingsPage,
     SecurityLogPage,
+    AlertsList,
     Logout,
   },
 };
