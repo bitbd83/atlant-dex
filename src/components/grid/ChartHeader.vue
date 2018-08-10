@@ -6,14 +6,10 @@
 .chartHeader
   .chartHeader__buttons
     .chartHeader__buttonTxt.chartHeader__buttonTxt--period(v-for="period in periods", :class="{'chartHeader__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
-  .chartHeader__technical
-    .chartHeader__buttonTxt.chartHeader__buttonTxt--indicator(v-for="tech in technicalIndicators", :class="[techClass(tech.name), colorClass(tech.name)]", @click="toggleIndicator(tech.name)") {{tech.name}}
-  .chartHeader__buttons
-    Icon.chartHeader__buttonIcon(:id="type + 'Chart'" v-for="type in chartTypes", :key="type", :class="{'chartHeader__buttonIcon--active' : isCurrentChart(type)}", @click="setChartType(type)")
 </template>
 
 <script>
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import {periods} from '@/config';
 
 export default {
@@ -23,32 +19,14 @@ export default {
     };
   },
   computed: {
-    ...mapState('chart', [
-      'technicalIndicators',
-      'chartTypes',
-      'currentChart',
-    ]),
     ...mapGetters('chart', [
       'isCurrentPeriod',
     ]),
   },
   methods: {
-    ...mapMutations('chart', [
-      'setChartType',
-      'toggleIndicator',
-    ]),
     ...mapActions('chart', {
       setChartPeriod: 'changeChartPeriod',
     }),
-    isCurrentChart(chart) {
-      return this.currentChart === chart;
-    },
-    techClass(indicator) {
-      return (this.technicalIndicators[indicator].enabled) ? 'chartHeader__buttonTxt--activeBox' : '';
-    },
-    colorClass(indicator) {
-      return (this.technicalIndicators[indicator].enabled) ? ('chartHeader__buttonTxt--' + indicator) : '';
-    },
   },
 };
 

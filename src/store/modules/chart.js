@@ -5,6 +5,7 @@
 import * as Chart from 'services/api/charts';
 import {defPeriod} from '@/config';
 import {debounce} from 'services/misc';
+import resolutions from '@/store/staticData/resolutions';
 
 export default {
   state: {
@@ -139,8 +140,7 @@ export default {
       });
     },
     changeChartPeriod({commit, dispatch}, period) {
-      console.log(period);
-      window.tvWidget.setSymbol('BTC/USD', 1);
+      window.tvWidget.setSymbol('BTC/USD', resolutions[period]);
       commit('setPeriod', period);
       return dispatch('loadChart');
     },
