@@ -18,6 +18,7 @@ Tile(
     :name="data.name"
   )
     .book
+      CSSLoader(v-if="loading")
       .book__container(v-scrollbar="")
         table.book__body
           tr.book__row(v-for="(order, index) in book.asks")
@@ -25,6 +26,7 @@ Tile(
             td.book__cell {{order.amount.toFixed(4)}}
             td.book__cell {{(order.price * order.amount).toFixed(4)}}
     .book
+      CSSLoader(v-if="loading")
       .book__container(v-scrollbar="")
         table.book__body
           tr.book__row(v-for="(order, index) in book.bids")
@@ -37,9 +39,13 @@ Tile(
 import TileBase from '../../mixins/TileBase';
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   mixins: [TileBase],
+  components: {
+    CSSLoader,
+  },
   computed: {
     ...mapState('tradeInfo', {
       pair: 'pair',
@@ -49,12 +55,28 @@ export default {
       status: (state) => state.book.status,
     }),
   },
+  data() {
+    return {
+      loading: true,
+    };
+  },
   methods: {
     ...mapActions('orders', [
       'getOrderBook',
     ]),
     getApiRequest() {
-      this.getOrderBook({limit: 20});
+      this.loading = true;
+      this.getOrderBook({limit: 20})
+        .then(
+          () => {
+            this.loading = false;
+          }
+        )
+        .cath(
+          () => {
+            this.loading = false;
+          }
+        );
     },
   },
   watch: {
@@ -95,6 +117,7 @@ export default {
   justify-content: space-between;
   flex: 1;
   height: 100%;
+  position: relative;
   padding: 15px 0 15px 15px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;

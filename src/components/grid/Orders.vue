@@ -19,6 +19,7 @@ Tile(
     :name="data.name"
   )
     .orders
+      CSSLoader(v-if="loading")
       .orders__container(v-scrollbar="")
         table.orders__body
           tr.orders__title
@@ -52,11 +53,13 @@ import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
 import OrdersHeader from './OrdersHeader';
 import TileBase from '../../mixins/TileBase';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   mixins: [TileBase],
   data() {
     return {
+      loading: false,
       orderStatus: [
         'Open',
         'Partially filled',
@@ -97,7 +100,18 @@ export default {
       this.cancelOrder(id);
     },
     getApiRequest() {
-      this.getOrders();
+      this.loading = true;
+      this.getOrders()
+        .then(
+          () => {
+            this.loading = false;
+          }
+        )
+        .cath(
+          () => {
+            this.loading = false;
+          }
+        );
     },
     getAction(side) {
       return (side === 0) ? 'buy' : 'sell';
@@ -116,6 +130,7 @@ export default {
   },
   components: {
     OrdersHeader,
+    CSSLoader,
   },
 };
 
