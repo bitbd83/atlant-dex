@@ -6,6 +6,7 @@ import * as User from 'services/api/user';
 
 export default {
   state: {
+    balance: 0,
     portfolio: {
       balances: [],
       status: 0,
