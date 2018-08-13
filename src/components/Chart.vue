@@ -1,6 +1,6 @@
 <template>
   <div id="chart">
-    <VueCharting :options="options" />
+    <VueCharting :options="options" height="auto" />
   </div>
 </template>
 <script>
@@ -33,3 +33,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  #vue-charting-library{
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+  }
+</style>
