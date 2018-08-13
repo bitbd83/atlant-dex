@@ -91,7 +91,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-top: 18px;
-  margin-bottom: 30px;
+  margin-bottom: 65px;
 
   &__title {
     display: flex;
