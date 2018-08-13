@@ -13,7 +13,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + ' ' + data.cur
           .fiat__stepText Choose {{transactionType}} method
         .fiat__optionsContainer
           .fiat__options(v-scrollbar="")
-            Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" :value="method.paymentName" v-model="CheckedPaymentSystem" isWhite="" :checked="method.paymentName == CheckedPaymentSystem")
+            Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys", :value="method.paymentName" v-model="CheckedPaymentSystem" isWhite="" :checked="method.paymentName == CheckedPaymentSystem")
               img.fiat__systemLogo(:src="method.logo", :class="{'fiat__systemLogo--checked': method.paymentName === CheckedPaymentSystem}")
         .fiat__bottom
           div.fiat__separator ***
@@ -31,13 +31,12 @@ ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + ' ' + data.cur
           span.fiat__receiveAmt {{newBalance.toFixed(2)}} {{data.currency}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(@click="makeDeposit()", color="white") {{data.isDeposit ? 'TOPUP BALANCE' : 'WITHDRAW'}}
+        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()", :disabled="!valid") {{data.isDeposit ? 'TOPUP BALANCE' : 'WITHDRAW'}}
     Status.fiat__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
-import {serverNotification} from 'services/notification';
 import {getFee, getBalance} from 'services/tradeInfo';
 import {scrollbar} from '@/directives';
 import ModalLayout from '@/layouts/ModalLayout';
@@ -45,6 +44,7 @@ import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Radio from 'components/Radio';
 import Status from 'components/Status.vue';
+import * as User from 'services/api/user';
 import sepaLogo from '@/assets/images/PaymentServices/logo-sepa.png';
 import swiftLogo from '@/assets/images/PaymentServices/logo-swift.png';
 
@@ -62,10 +62,6 @@ export default {
         {
           'paymentName': 'swift',
           'logo': swiftLogo,
-        },
-        {
-          'paymentName': 'sepa',
-          'iconName': 'sepa',
         },
       ],
       CheckedPaymentSystem: 'sepa',
