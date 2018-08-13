@@ -3,69 +3,72 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + data.currency")
+ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + ' ' + data.currency")
   .fiat
-    .fiat__header
-      .fiat__title {{title}} {{data.currency}}
-      .fiat__balance(v-if="step == 0") Current balance: #[span.fiat__balanceAmt ${{balance.toFixed(2)}}]
-      .fiat__right
+    .fiat__balance(v-if="step == 0") {{data.isDeposit ? 'Current balance' : 'Available'}}: #[span.fiat__balanceAmt {{balance.toFixed(2)}} {{data.currency}}]
     .fiat__content(v-if="step == 0")
       .fiat__block.fiat__block--left
-        span.fiat__step
-          span.fiat__stepNumber STEP 1
-          span Choose {{transactionType}} method:
-        .fiat__options
-          Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" :value="index" v-model="CheckedPaymentSystem")
-            Icon.fiat__systemLogo(:id="method.iconName")
+        .fiat__step.fiat__step--1
+          .fiat__stepNumber STEP 1:
+          .fiat__stepText Choose {{transactionType}} method
+        .fiat__optionsContainer
+          .fiat__options(v-scrollbar="")
+            Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys" :value="method.paymentName" v-model="CheckedPaymentSystem" isWhite="" :checked="method.paymentName == CheckedPaymentSystem")
+              img.fiat__systemLogo(:src="method.logo", :class="{'fiat__systemLogo--checked': method.paymentName === CheckedPaymentSystem}")
         .fiat__bottom
-          div ***
-          .fiat__note
-            p(v-if="data.isDeposit") The funds will be blocked for 24 hours
-            p(v-else) Withdrawals to payment systems may take up to 24 hours.
-            p Operations are carried out with a commission, with which you can in a #[a.fiat__link special section]
+          div.fiat__separator ***
+          p(v-if="data.isDeposit") Your funds will be held for 24 hours.
+          p(v-else) Withdrawals may take up to 24 hours.
+          p Operations are carried out with a commission with which you can in a special section.
       .fiat__block.fiat__block--right
-        .fiat__step
-          .fiat__stepNumber STEP 2
-          div Enter {{transactionType}} amount:
-        IInput.fiat__input(:placeholder="'Amount for ' + transactionType", v-model="amount")
+        .fiat__step.fiat__step--2
+          .fiat__stepNumber STEP 2:
+          .fiat__stepText Enter {{data.isDeposit ? 'fiat code or the desired topup amount:' : 'the desired withdrawal amount:'}}
+        IInput.fiat__input(:placeholder="'Amount for ' + transactionType", v-model="amount", type="number")
         .fiat__fee Fee: {{fee}}%
         .fiat__toReceive
-          span Your balance after operation:
-          span.fiat__receiveAmt ${{newBalance.toFixed(2)}}
+          span You will receive:
+          span.fiat__receiveAmt {{newBalance.toFixed(2)}} {{data.currency}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()" :disabled="!valid") Make {{transactionType}}
-    Status.fiat__status(v-if="step == 1" isSuccess)
-      .fiat__statusMsg {{ isSuccess ? 'Completed' : 'Failed' }}
+        BButton.fiat__button(@click="makeDeposit()", color="white") {{data.isDeposit ? 'TOPUP BALANCE' : 'WITHDRAW'}}
+    Status.fiat__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex';
+import {serverNotification} from 'services/notification';
+import {getFee, getBalance} from 'services/tradeInfo';
+import {scrollbar} from '@/directives';
 import ModalLayout from '@/layouts/ModalLayout';
 import BButton from 'components/BButton';
 import IInput from 'components/IInput';
 import Radio from 'components/Radio';
 import Status from 'components/Status.vue';
-import * as User from 'services/api/user';
+import sepaLogo from '@/assets/images/PaymentServices/logo-sepa.png';
+import swiftLogo from '@/assets/images/PaymentServices/logo-swift.png';
 
 export default {
   data() {
     return {
       step: 0,
-      isSuccess: true,
+      isSuccess: false,
       amount: '',
-      fee: 1,
       paymentMethods: [
         {
+          'paymentName': 'sepa',
+          'logo': sepaLogo,
+        },
+        {
           'paymentName': 'swift',
-          'iconName': 'swift',
+          'logo': swiftLogo,
         },
         {
           'paymentName': 'sepa',
           'iconName': 'sepa',
         },
       ],
-      CheckedPaymentSystem: '',
+      CheckedPaymentSystem: 'sepa',
       contact: '',
       comment: '',
     };
@@ -74,9 +77,13 @@ export default {
     ...mapState('modal', {
       data: 'data',
     }),
-    ...mapState('user', {
-      balance: 'balance',
-    }),
+    ...mapState('user', ['transactionFees']),
+    balance() {
+      return getBalance(this.data.currency);
+    },
+    fee() {
+      return getFee(this.data.currency, this.data.isDeposit);
+    },
     title() {
       return (this.data.isDeposit) ? 'deposit' : 'withdraw';
     },
@@ -97,6 +104,8 @@ export default {
     ...mapActions('user', {
       deposit: 'deposit',
     }),
+    ...mapActions('user', ['getFee']),
+
     getPaymentMethods(array) {
       return array.map((item) => item.paymentName);
     },
@@ -131,6 +140,9 @@ export default {
       }
     },
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     ModalLayout,
     BButton,
@@ -145,111 +157,155 @@ export default {
 @import 'variables';
 
 .fiat {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  &__header{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  &__title {
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #ffc600;
-    flex: 1;
-    margin-right: auto;
-  }
-  &__right {
-    flex: 1;
-    margin-left: auto;
-  }
   &__balance {
     font-size: 14px;
+    color: $color__white;
+    line-height: 26px;
+    margin-left: auto;
+    margin-bottom: 98px;
   }
   &__balanceAmt {
-    font-size: 22px;
-    margin-left: 5px;
+    position: relative;
+    font-size: 20px;
+    color: $color__white;
+    text-align: right;
+    line-height: 26px;
+    margin-left: 67px;
+    &:after {
+      position: absolute;
+      content: '';
+      left: 0;
+      right: 0;
+      bottom: -9px;
+      height: 3px;
+      background: #fff;
+    }
   }
   &__content{
     display: flex;
   }
   &__block{
+    position: relative;
     display: flex;
     flex-direction: column;
     flex: 1;
+    width: 400px;
     &--left{
-      border-right: 1px dashed #fff;
-      padding-right: 30px;
+      &:after {
+        content: '';
+        position: absolute;
+        top: -15px;
+        bottom: -15px;
+        right: 0px;
+        width: 1px;
+        background: url('~assets/images/border-vertical-white.png');
+      }
+      padding-right: 60px;
     }
     &--right{
-      padding-left: 30px;
+      padding-left: 60px;
     }
   }
   &__step {
     display: flex;
-    align-items: flex-start;
-    font-size: 14px;
-    margin-bottom: 23px;
+    // max-width: 280px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 26px;
+    color: $color__white;
+
+    &--1 {
+      margin-bottom: 58px;
+    }
+
+    &--2 {
+      margin-bottom: 20px;
+    }
   }
+
   &__stepNumber {
-    color: #31edd7;
-    text-transform: uppercase;
     white-space: nowrap;
-    margin-right: 23px;
+    margin-right: 17px;
+  }
+  &__optionsContainer {
+    display: flex;
+    position: relative;
+    flex: 2;
   }
   &__options {
     display: flex;
     flex-wrap: wrap;
+    position: absolute;
+    justify-content: space-between;
+    align-items: baseline;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
+    padding-right: 15px;
   }
-  &__option {
-    width: 50%;
+  &__option{
+    flex-grow: 50%;
+    margin-bottom: 20px;
   }
   &__systemLogo {
-    margin-left: 15px;
-    $size: 80px;
-    height: $size;
-    width: $size;
+    margin-left: 21px;
+    opacity: .41;
+    transition: opacity .3s;
+    &--checked {
+      opacity: 1;
+      transition: opacity .3s;
+    }
   }
   &__bottom {
-    margin-top: auto;
+    // margin-top: auto;
+    font-family: CenturyGothic;
+    font-size: 12px;
+    color: $color__white;
+    letter-spacing: 0.5px;
+    line-height: 20px;
   }
-  &__note{
+  &__separator {
+    margin-bottom: 20px;
+  }
+  &__note {
     font-size: 12px;
     line-height: 20px;
     margin-top: 15px;
   }
-  &__link {
-    color: #febc09;
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  &__input{
-    margin: 20px 0;
+  &__input {
+    margin-top: 20px;
+    margin-bottom: 15px;
   }
   &__fee {
-    color: #31edd7;
     font-size: 14px;
+    color: $color__white;
+    line-height: 26px;
+    margin-bottom: 15px;
   }
   &__toReceive {
-    margin-left: auto;
+    display: flex;
+    font-size: 14px;
+    color: $color__white;
+    line-height: 26px;
+    margin-bottom: 30px;
+    white-space: nowrap;
   }
   &__receiveAmt {
-    color: #ffc600;
-    font-size: 22px;
-    margin-left: 20px;
+    font-size: 20px;
+    color: $color__white;
+    text-align: right;
+    line-height: 26px;
+    margin-left: auto;
   }
   &__button{
     text-transform: uppercase;
     width: 176px;
-  }
-  &__statusMsg {
-    min-width: 300px;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 18px;
-    font-weight: 900;
+    margin-top: 47px;
   }
 }
 </style>

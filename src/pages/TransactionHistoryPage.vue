@@ -8,11 +8,13 @@ TablePageLayout(
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
+  :checkedArray='checked',
   :changeActivePage="changeActivePage"
-  :checkedArray.sync="checkedArray",
-  :getRepeat="true",
-  :getCancel="true",
-  :getExport="true",
+  :getRepeat="getRepeat",
+  :isCheckbox="false",
+  :isLoading="loadingContent",
+  :isLoadingError="isLoadingError",
+  :getApiRequest="getUserTransactions"
 )
   .tHistory.table
     table.table__body
@@ -27,24 +29,26 @@ TablePageLayout(
       tbody
         tr(v-for="(item, index) in data")
           td.tHistory__checkboxContainer
-            Checkbox.tHistory__checkbox(:value="isChecked(item.id)", @change="setCheckedArray(item.id)", color="yellow")
-          td {{item.id}}
+            Radio(size="17", :name="item", :value="item", v-model="checked")
+          td {{item.transactionId}}
           td.tHistory__date {{setDate(item.creationDate)}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (item.amount > 0 ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
+          td.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
           td.tHistory__description {{item.description}}
           td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import Checkbox from 'components/Checkbox';
+import {notification} from 'services/notification';
+import Radio from 'components/Radio';
+import Icon from 'components/Icon';
 import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
     return {
-      checkedArray: [],
+      checked: {},
       status: [
         'Pending',
         'Processing',
@@ -54,40 +58,55 @@ export default {
         'Authorizing',
         'Wallet',
       ],
-      page: 1,
-      limit: 10,
       sortBy: 'datetime',
       asc: false,
+      loadingContent: false,
+      isLoadingError: false,
     };
   },
   computed: {
     ...mapGetters('user', {
       data: 'getAccountTransactions',
       totalItems: 'getAccountTransactionItems',
+      page: 'getAccountTransactionPage',
+      limit: 'getAccountTransactionLimit',
+    }),
+    ...mapGetters('membership', {
+      isLoggedIn: 'isLoggedIn',
     }),
     setPagesCount() {
       return Math.ceil(this.totalItems / this.limit);
     },
   },
   methods: {
+    ...mapMutations('modal', {
+      openModal: 'open',
+    }),
+    ...mapMutations('user', [
+      'setAccountTransactionPage',
+    ]),
     ...mapActions('user', {
       getAccountTransactionHistory: 'getAccountTransactionHistory',
     }),
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
-    isChecked(id) {
-      return this.checkedArray.indexOf(id) > -1;
-    },
-    setCheckedArray(id) {
-      this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
-    },
     getUserTransactions() {
+      if (this.isLoggedIn === false) return false;
+
+      this.isLoadingError = false;
+      this.loadingContent = true;
       this.getAccountTransactionHistory({
         page: this.page,
         limit: this.limit,
         sortBy: this.sortBy,
         ascending: this.asc,
+      }).then((response) => {
+        this.loadingContent = false;
+        return response;
+      }).catch((error) => {
+        this.isLoadingError = true;
+        return error;
       });
     },
     sortTransactions(column) {
@@ -100,23 +119,52 @@ export default {
       this.getUserTransactions();
     },
     changeActivePage(num) {
-      this.page = num;
+      this.setAccountTransactionPage(num);
+      this.getUserTransactions();
+    },
+    getRepeat() {
+      if (this.isNothingChecked()) return false;
+      let name = !this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
+      this.openModal({
+        name: name,
+        data: {
+          currency: this.checked.currency,
+          amount: this.checked.amount,
+        },
+      });
+    },
+    isNothingChecked() {
+      if (typeof this.checked.transactionId == 'undefined') {
+        notification({
+          title: '',
+          text: 'Please choose transaction.',
+          type: 'error',
+        });
+        return true;
+      };
+      return false;
+    },
+  },
+  watch: {
+    isLoggedIn() {
       this.getUserTransactions();
     },
   },
   created() {
+    this.setAccountTransactionPage(1);
     this.getUserTransactions();
   },
   components: {
     TablePageLayout,
-    Checkbox,
+    Icon,
+    Radio,
   },
 };
 </script>
 
 
 <style lang="scss" scoped>
-@import 'variables';
+@import "~variables";
 .tHistory {
   &__header {
     &--description {
@@ -135,6 +183,9 @@ export default {
     }
     &--negative {
       color: $color_red;
+      &:before {
+        content: "- ",
+      }
     }
   }
   &__icon {

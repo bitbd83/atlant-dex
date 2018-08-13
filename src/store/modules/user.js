@@ -46,6 +46,10 @@ export default {
     accountTransactionHistory: {
       data: [],
     },
+    accountTransactionParameters: {
+      page: 1,
+      limit: 10,
+    },
     notificationsOnPage: 10,
     theme: 'default',
   },
@@ -83,6 +87,12 @@ export default {
     },
     getAccountTransactionItems(state) {
       return state.accountTransactionHistory.totalItems;
+    },
+    getAccountTransactionPage(state) {
+      return state.accountTransactionParameters.page;
+    },
+    getAccountTransactionLimit(state) {
+      return state.accountTransactionParameters.limit;
     },
     getCurrencyTransFees(state) {
       return state.transactionFees;
@@ -178,6 +188,18 @@ export default {
         data: [],
           totalItems: 0,
       };
+      state.accountTransactionHistory = {
+        data: [],
+      };
+      state.accountTransactionParameters = {
+        page: 1,
+        limit: 10,
+      };
+    },
+    setAccountTransactionPage(state, num) {
+      state.accountTransactionParameters.page = num;
+    },
+    cleanAccountTransactionHistory(state) {
       state.accountTransactionHistory = {
         data: [],
       };

@@ -22,7 +22,7 @@ import {scrollbar} from '@/directives';
 export default {
   computed: {
     setModalColor() {
-      if (this.step == 1) return this.isSuccess ? 'modal__overlay--green' : 'modal__overlay--red';
+      if (this.step == (1 + this.isWith2fa)) return this.isSuccess ? 'modal__overlay--green' : 'modal__overlay--red';
       if (this.isAttention) return 'modal__overlay--red';
     },
   },
@@ -61,6 +61,12 @@ export default {
     },
 
     isAttention: {
+      defailt: Boolean,
+      required: false,
+      default: false,
+    },
+
+    isWith2fa: {
       defailt: Boolean,
       required: false,
       default: false,
@@ -156,6 +162,10 @@ $padding: 40px;
       transition: transform 0.5s;
       transform: scale(1.1);
     }
+  }
+
+  &__content {
+    position: relative;
   }
 
   &__anim {

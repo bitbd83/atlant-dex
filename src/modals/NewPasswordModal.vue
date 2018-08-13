@@ -3,21 +3,20 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", isSuccess="true", title="Reset password")
+ModalLayout(:step="step", :isSuccess="isSuccess", title="Reset password")
   .newPassword
-    Icon.newPassword__icon(id="pass")
     form.newPassword__content(v-if="step == 0" @submit.prevent="finishPasswordReset()")
       .newPassword__headerContent
-        .newPassword__title Reset password
       .newPassword__inputs
-        IInput.newPassword__input(v-if="showSymbols" placeholder="New password" label="New password" v-model="passwordNew")
-        IInput.newPassword__input(v-else placeholder="New password" label="New password" v-model="passwordNew" type="password")
-        IInput.newPassword__input(v-if="showSymbols" placeholder="Repeat password" label="Repeat password" v-model="passwordRepeat")
-        IInput.newPassword__input(v-else placeholder="Repeat password" label="Repeat password" v-model="passwordRepeat" type="password")
-        Checkbox.newPassword__checkbox(v-model="showSymbols")
-          .newPassword__checkboxText Display symbols
-      BButton.newPassword__button(color="malachite" rounded type="submit") Reset now
-    Status.newPassword__status(v-if="step == 1")
+        IInput.newPassword__input(v-if="showSymbols" label="New password" v-model="passwordNew")
+        IInput.newPassword__input(v-else label="New password" v-model="passwordNew" type="password")
+        IInput.newPassword__input(v-if="showSymbols" label="Repeat" v-model="passwordRepeat")
+        IInput.newPassword__input(v-else label="Repeat" v-model="passwordRepeat" type="password")
+      .newPassword__checkboxContainer
+        Checkbox.newPassword__checkbox(name="showSymbols", :value="true", color="white" v-model="showSymbols")
+          .link.link--white.newPassword__checkboxLabel Display symbols
+      BButton.newPassword__button(color="white" type="submit") Reset now
+    Status.newPassword__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
 <script>
@@ -37,6 +36,7 @@ export default {
       passwordRepeat: '',
       showSymbols: false,
       step: 0,
+      isSuccess: false,
     };
   },
   computed: {
@@ -52,7 +52,9 @@ export default {
         code: this.data.code,
       }).then(() => {
         this.step = 1;
+        this.isSuccess = true;
       }).catch((res) => {
+        this.step = 1;
         serverNotification(res);
       });
     },
@@ -78,43 +80,35 @@ export default {
   &__content {
     width: 100%;
   }
-  &__icon {
-    $size: 77px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    margin-bottom: 50px;
-  }
-  &__headerContent {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 50px;
-  }
-  &__title {
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
   &__inputs {
-    width: 100%;
-    & > * {
-      margin-bottom: 35px;
+    display: flex;
+    margin-bottom: 90px;
+  }
+  &__input {
+    display: flex;
+
+    &:first-of-type {
+      margin-right: 57px;
+    }
+
+    input {
+      width: 147px !important;
     }
   }
-  &__checkbox {
-    align-items: flex-start !important;
-  }
-  &__checkboxText {
-    margin-left: 20px;
-  }
-  &__button {
+   &__checkboxContainer {
+    margin-bottom: 82px;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 16px;
-    font-weight: 900px;
-    text-transform: uppercase;
+    justify-content: space-between;
+  }
+  &__checkbox {
+    flex-direction: row;
+    align-items: center
+  }
+  &__checkboxLabel {
+    font-weight: 400;
+    font-size: 14px;
+    color: $color__white;
+    margin-left: 47px;
   }
 }
 </style>

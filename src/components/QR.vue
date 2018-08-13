@@ -16,8 +16,8 @@ canvas#qr
           element: document.querySelector('#qr'),
           value: this.text,
           size: this.size,
-          background: '#fff',
-          foreground: '#032537',
+          background: '#004DFF',
+          foreground: '#ffffff',
         });
       },
     },

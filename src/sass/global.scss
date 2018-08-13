@@ -21,10 +21,12 @@
 }
 
 .link {
+  display: inline-block;
   color: $color__blue;
   font-family: Supply;
   font-size: 14px;
   font-weight: 400;
+  text-decoration: none;
   position: relative;
   cursor: pointer;
 
