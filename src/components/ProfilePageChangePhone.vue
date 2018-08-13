@@ -96,6 +96,8 @@ export default {
 
 
 <style lang="scss">
+@import 'variables';
+
 .changePhone {
   &__row {
     margin-top: 18px;
@@ -105,6 +107,11 @@ export default {
   }
   &__param {
     font-weight: 700;
+    font-size: 12px;
+    color: $color__black;
+    line-height: 19px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
   }
   &__value {
     display: flex;
@@ -121,7 +128,8 @@ export default {
     margin-right: 10px;
   }
   &__input {
-    width: 120px;
+    width: 180px;
+    margin-left: 10px;
   }
   &__icon{
     $size: 13px;

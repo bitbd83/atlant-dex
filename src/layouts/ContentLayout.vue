@@ -33,10 +33,12 @@ export default {
   flex-grow: 2;
 
   &__body {
+    position: relative;
+    padding-right: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 2;
-    max-width: 774px;
+    max-width: 794px;
   }
 }
 </style>

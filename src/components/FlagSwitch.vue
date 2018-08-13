@@ -12,6 +12,9 @@ Dropdown.flagSwitch(
   :value="value",
   @input="setFlag",
   v-bind="$attrs",
+  isColorBlack="",
+  :maxHeight="maxHeight",
+  isFlagSwitch="",
 )
   template(
     slot="option",
@@ -40,6 +43,11 @@ import {countryCurrencies} from '@/store/staticData/countryCurrencies';
 import {countryData} from '@/store/staticData/countryData';
 
 export default {
+  data() {
+    return {
+      maxHeight: 150,
+    };
+  },
   computed: {
     isCurrency() {
       return this.type === 'currency';
@@ -91,7 +99,7 @@ export default {
 <style lang='scss' scoped>
 @import 'variables';
 .flagSwitch {
-  width: 80px;
+  width: 50px;
 
   &--phone & {
     &__optionText--singleLabel {
@@ -102,9 +110,11 @@ export default {
   &__option {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    width: 165px;
+    // flex-direction: row;
+    // width: 165px;
     width: max-content;
+
+    margin-right: 12px;
   }
   &__optionImage {
     height: 24px;

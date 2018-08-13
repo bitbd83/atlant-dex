@@ -11,7 +11,7 @@
       MyOrdersPage(v-else-if="isPageOpened('myOrders')")
       VerificationPage(v-else-if="isPageOpened('verification')")
       VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
-      AccountInformation(v-else-if="isPageOpened('accountInformation')")
+      ProfilePage(v-else-if="isPageOpened('accountInformation')")
       SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
       SecurityLogPage(v-else-if="isPageOpened('securityLog')")
       FAQ(v-else-if="isPageOpened('faq')")
@@ -30,7 +30,7 @@ import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
 import VerificationPage from 'pages/VerificationPage';
 import VerificationAdminPage from 'pages/VerificationAdminPage';
-import AccountInformation from 'pages/AccountInformationPage';
+import ProfilePage from 'pages/ProfilePage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
 import AlertsList from 'pages/AlertsList';
@@ -59,7 +59,7 @@ export default {
     NotificationHistoryPage,
     VerificationPage,
     VerificationAdminPage,
-    AccountInformation,
+    ProfilePage,
     SecuritySettingsPage,
     SecurityLogPage,
     AlertsList,

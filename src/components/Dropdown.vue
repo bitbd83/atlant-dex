@@ -4,7 +4,7 @@
 
 <template lang="pug">
   VSelect.dropdown(
-    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle, 'dropdown--blue': isColorBlue}",
+    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle, 'dropdown--blue': isColorBlue, 'dropdown--black': isColorBlack, 'dropdown--flagSwitch': isFlagSwitch}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
@@ -19,6 +19,7 @@
     preselect-first,
     underline,
     whiteTriangle,
+    :maxHeight="maxHeight",
   )
     span.multiselect__placeholder(slot="placeholder") {{placeholder}}
     span(slot="noResult") No Results
@@ -98,6 +99,13 @@ export default {
       default: false,
     },
     isColorBlue: Boolean,
+    isColorBlack: Boolean,
+    maxHeight: {
+      type: Number,
+      required: false,
+      default: 240,
+    },
+    isFlagSwitch: Boolean,
   },
   components: {
     VSelect,
@@ -161,7 +169,7 @@ export default {
         display: block;
         background: $color-white;
         min-width: 100%;
-        // max-height: 240px;
+        max-height: 240px;
         z-index: 3;
         color: #00354D;
       }
@@ -343,6 +351,19 @@ export default {
           font-weight: 700;
           font-size: 16px;
           color: #004DFF;
+        }
+      }
+    }
+    &--black {
+      color: $color__black;
+    }
+
+    &--flagSwitch {
+      & /deep/ .multiselect {
+        &__select {
+          &:before {
+            border-width: 7px 4px 0;
+          }
         }
       }
     }
