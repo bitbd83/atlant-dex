@@ -377,6 +377,6 @@ export default {
   background-color: $background__white;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
-  padding: 0 0 0 15px;
+  padding: 0 0 0 3px;
 }
 </style>
