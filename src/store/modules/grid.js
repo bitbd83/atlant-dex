@@ -9,6 +9,7 @@ export const defaultData = new Map([
   ['OrderBook', {name: 'OrderBook', height: 400, width: 760, x: 760, y: 0, isHidden: false}],
   ['TokenInfo', {name: 'TokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: true}],
   ['Photos', {name: 'Photos', height: 311, width: 851, x: 0, y: 0, isHidden: true}],
+  ['Documents', {name: 'Documents', height: 311, width: 851, x: 0, y: 0, isHidden: true}],
   ['ExtendedInfo', {name: 'ExtendedInfo', height: 311, width: 851, x: 0, y: 0, isHidden: true}],
 ]);
 
@@ -64,11 +65,11 @@ export default {
       return [
         {
           name: 'Trading',
-          grid: getters.pickDefaultData(['Chart', 'History', 'Orders', 'OrderBook', 'TokenInfo', 'Photos', 'ExtendedInfo']),
+          grid: getters.pickDefaultData(['Chart', 'History', 'Orders', 'OrderBook']),
         },
         {
           name: 'Research',
-          grid: getters.pickDefaultData(['Chart', 'History', 'Orders', 'OrderBook', 'TokenInfo', 'Photos', 'ExtendedInfo']),
+          grid: getters.pickDefaultData(['TokenInfo', 'Photos', 'Documents', 'ExtendedInfo']),
         },
       ];
     },
@@ -80,7 +81,7 @@ export default {
         },
         {
           name: 'property',
-          items: getters.pickData(['TokenInfo', 'Photos', 'ExtendedInfo']),
+          items: getters.pickData(['TokenInfo', 'Photos', 'Documents', 'ExtendedInfo']),
         },
         {
           name: 'views',
