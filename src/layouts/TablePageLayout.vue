@@ -1,11 +1,7 @@
-// Copyright 2017, 2018 Tensigma Ltd. All rights reserved.
-// Use of this source code is governed by Microsoft Reference Source
-// License (MS-RSL) that can be found in the LICENSE file.
-
 <template lang="pug">
   //- PageLayout(title="TRANSACTION HISTORY", :sidebar="true")
   .tablePage
-    TablePageLayoutHeader
+    //- TablePageLayoutHeader
     .tablePage__body
       .tablePage__content(v-scrollbar="")
         slot
@@ -25,7 +21,7 @@ import {mapState} from 'vuex';
 import {scrollbar} from '@/directives';
 import Checkbox from 'components/Checkbox';
 import Pagination from 'components/Pagination';
-import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
+// import TablePageLayoutHeader from 'components/TablePageLayoutHeader';
 import TablePageLayoutEmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
 import PageLayout from 'layouts/PageLayout';
 
@@ -123,7 +119,7 @@ export default {
     },
   },
   components: {
-    TablePageLayoutHeader,
+    // TablePageLayoutHeader,
     TablePageLayoutEmptyPlaceholder,
     Checkbox,
     Pagination,

@@ -4,7 +4,7 @@
 
 <template lang="pug">
   VSelect.dropdown(
-    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle}",
+    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle, 'dropdown--blue': isColorBlue}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
@@ -14,6 +14,11 @@
     :searchable="searchable",
     @input="onChange",
     v-bind="$attrs",
+    no-border,
+    no-padding,
+    preselect-first,
+    underline,
+    whiteTriangle,
   )
     span.multiselect__placeholder(slot="placeholder") {{placeholder}}
     span(slot="noResult") No Results
@@ -92,6 +97,7 @@ export default {
       required: false,
       default: false,
     },
+    isColorBlue: Boolean,
   },
   components: {
     VSelect,
@@ -102,64 +108,7 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import 'variables';
 
-  .dropdown {
-    &--noBorder /deep/ .multiselect__tags {
-      border: none;
-    }
-    &--noPadding /deep/ .multiselect {
-      &__tags {
-        padding: 0 19px 0 0;
-      }
-      &__select {
-        padding:  0 0 0 9px;
-      }
-    }
-    &--underline /deep/ .multiselect {
-      &__tags {
-        &:after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 3px;
-          bottom: -7px;
-          background: $background__white;
-          transition: transform .3s ease-in;
-          transform: scale3d(1,1,1);
-        }
-
-        &:hover:after {
-          transition: transform .3s ease-out;
-          transform: scale3d(0,1,1);
-        }
-      }
-    }
-    &--noTriangle {
-      margin-right: 0 !important;
-
-      & /deep/ .multiselect {
-
-        &__select {
-          height: 0;
-          right: 0;
-          padding: 0;
-
-          &:before {
-            display: none;
-          }
-        }
-      }
-      &--whiteTriangle /deep/ .multiselect {
-        &__select {
-          &:before {
-            border-color: $background__white transparent transparent;
-          }
-        }
-      }
-    }
-  }
-
   .multiselect {
-    color: $color_white;
     cursor: pointer;
     display: block;
     outline: 0;
@@ -241,6 +190,7 @@ export default {
         vertical-align: middle;
         transition: all .2s;
         white-space: nowrap;
+
         &--highlight {
           background-color: #eee;
           color: $input-option-highlight-color;
@@ -305,15 +255,102 @@ export default {
           animation: spinning 2.4s  cubic-bezier(.41,.26,.2,.62);
           animation-iteration-count: infinite;
         }
+
         &:after {
           animation: spinning 2.4s cubic-bezier(.51,.09,.21,.8);
           animation-iteration-count: infinite;
         }
       }
     }
-}
-@keyframes spinning {
-  from { transform:rotate(0) }
-  to { transform:rotate(2turn) }
-}
+  }
+
+  .dropdown {
+    color: $color__white;
+    &--noBorder /deep/ .multiselect__tags {
+      border: none;
+    }
+    &--noPadding /deep/ .multiselect {
+      &__tags {
+        padding: 0 19px 0 0;
+      }
+      &__select {
+        padding:  0 0 0 9px;
+      }
+    }
+    &--underline /deep/ .multiselect {
+      &__tags {
+        &:after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 3px;
+          bottom: -7px;
+          background: $background__white;
+          transition: transform .3s ease-in;
+          transform: scale3d(1,1,1);
+        }
+
+        &:hover:after {
+          transition: transform .3s ease-out;
+          transform: scale3d(0,1,1);
+        }
+      }
+    }
+    &--noTriangle {
+      margin-right: 0 !important;
+
+      & /deep/ .multiselect {
+
+        &__select {
+          height: 0;
+          right: 0;
+          padding: 0;
+
+          &:before {
+            display: none;
+          }
+        }
+      }
+      &--whiteTriangle /deep/ .multiselect {
+        &__select {
+          &:before {
+            border-color: $background__white transparent transparent;
+          }
+        }
+      }
+    }
+    &--blue {
+      color: $color__blue;
+      & /deep/ .multiselect {
+        &__tags {
+          &:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -7px;
+            background: $background__blue;
+            transition: transform .3s ease-in;
+            transform: scale3d(1,1,1);
+          }
+
+          &:hover:after {
+            transition: transform .3s ease-out;
+            transform: scale3d(0,1,1);
+          }
+        }
+        &__single {
+          font-weight: 700;
+          font-size: 16px;
+          color: #004DFF;
+        }
+      }
+    }
+  }
+
+
+  @keyframes spinning {
+    from { transform:rotate(0) }
+    to { transform:rotate(2turn) }
+  }
 </style>

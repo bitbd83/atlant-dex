@@ -4,8 +4,8 @@
 
 <template lang="pug">
 .pageHeader
-  .pageHeader__title
-    Dropdown.tableHeader__dropdown(
+  .pageHeader__title {{title}}
+    Dropdown.pageHeader__dropdown(
       v-if="pageName == 'myOrders'",
       :options="sortTypes",
       v-model="sortTypeForMyOrders",
@@ -13,13 +13,16 @@
       no-paddding,
       preselect-first,
       underline,
+      isColorBlue="",
     )
-  | {{title}}:
+    | :
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import IInput from 'components/IInput';
+import Dropdown from 'components/Dropdown';
+
 export default {
   data() {
     return {
@@ -37,7 +40,35 @@ export default {
     ...mapState('page', {
       pageName: 'name',
     }),
+    typeOfNewStatus() {
+      switch (this.sortTypeForMyOrders) {
+        case 'Open': return 0;
+        case 'Partially filled': return 1;
+        case 'Filled': return 2;
+        case 'Cancelled': return 3;
+        default: return '';
+      };
+    },
   },
+
+  methods: {
+    ...mapMutations('orders', {
+      setOrderFilter: 'setOrderFilter',
+    }),
+    ...mapActions('page', [
+      'getOpenPage',
+    ]),
+    isThisPage(pageName) {
+      return pageName == this.name;
+    },
+  },
+
+  watch: {
+    sortTypeForMyOrders() {
+      this.setOrderFilter(this.typeOfNewStatus);
+    },
+  },
+
   props: {
     title: {
       type: String,
@@ -47,6 +78,7 @@ export default {
   },
   components: {
     IInput,
+    Dropdown,
   },
 };
 </script>
@@ -61,17 +93,17 @@ export default {
   margin-top: 18px;
   margin-bottom: 30px;
 
-  // padding: 36px;
   &__title {
+    display: flex;
+
     font-weight: 700;
     font-size: 16px;
     color: #000000;
     text-transform: uppercase;
   }
 
-  &__setDate {
-    display: flex;
-    align-items: center;
+  &__dropdown {
+    margin-left: 15px;
   }
 }
 </style>
