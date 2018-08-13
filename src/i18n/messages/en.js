@@ -24,14 +24,14 @@ export default {
   tfaConfirmTextGoogleEnable: 'Enter the one-time password from Google Auth to enable 2FA',
   tfaConfirmTextGoogleDisable: 'Enter the one-time password from Google Auth to disable 2FA',
   tfaSecureWarning: {
-    text: 'Please, enable 2 factor authorization to protect your account',
+    text: 'Please, enable 2 factor authentication to protect your account',
     yesButton: 'OK, enable 2FA',
     noButton: 'No, thanks',
   },
   notifications: {
     loggedIn: 'You logged in with IP {0}',
-    tfaEnabled: 'Two factor authorization on',
-    tfaDisabled: 'Two factor authorization off',
+    tfaEnabled: 'Two factor authentication on',
+    tfaDisabled: 'Two factor authentication off',
     upgradeTier: 'You avalible balance is {0}. Please upgrade to the next verification tier',
     orderPlaced: 'New order #{0} placed',
     orderPartiallyFilledSell: 'Order #{0} partially filled: sold {1} {4} for {3} {2}',
