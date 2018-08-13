@@ -96,8 +96,7 @@ export default {
 .pageSidebar {
   $shadowWidth: 47px;
   position: relative;
-  // display: flex;
-  // flex-direction: column;
+  margin-right: 5px;
   width: 254px;
   padding-right: $shadowWidth;
 
