@@ -28,7 +28,7 @@ import Checkbox from 'components/Checkbox';
 import TablePageLayoutEmptyPlaceholder from 'components/TablePageLayoutEmptyPlaceholder';
 
 export default {
-    computed: {
+  computed: {
     ...mapState('misc', {
       showSidebar: 'showSidebar',
     }),
