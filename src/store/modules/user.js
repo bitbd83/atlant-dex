@@ -113,6 +113,9 @@ export default {
     setNotifications(state, data) {
       state.notifications = data;
     },
+    setNotificationsCounter(state, data) {
+      state.notificationsCounter = data;
+    },
     setSubscribeNewsletter(state, isEnable) {
       state.account.subscribe.newsletter = isEnable;
     },

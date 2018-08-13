@@ -39,12 +39,12 @@ TableLayout(
         )
           td.myOrders__checkboxCell
             .myOrders__checkboxContainer
-              div(@click.stop="()=>{}")
-                Checkbox(
-                  color="yellow",
-                  :value="isChecked(item.id)",
-                  @change="setCheckedArray(item.id)",
-                )
+              //- div(@click.stop="()=>{}")
+              //-   Checkbox(
+              //-     color="yellow",
+              //-     :value="isChecked(item.id)",
+              //-     @change="setCheckedArray(item.id)",
+              //-   )
               .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
                 .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
