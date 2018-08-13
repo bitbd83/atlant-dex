@@ -72,7 +72,7 @@ export default {
             this.loading = false;
           }
         )
-        .cath(
+        .catch(
           () => {
             this.loading = false;
           }
