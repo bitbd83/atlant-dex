@@ -18,6 +18,7 @@ Tile(
     :name="data.name"
   )
     .history
+      CSSLoader(v-if="loading")
       .history__container(v-scrollbar="")
         table.history__table
           tbody.history__body
@@ -31,9 +32,18 @@ Tile(
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import TileBase from '../../mixins/TileBase';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   mixins: [TileBase],
+  components: {
+    CSSLoader,
+  },
+  data() {
+    return {
+      loading: true,
+    };
+  },
   computed: {
     ...mapState('tradeInfo', {
       pair: 'pair',
@@ -47,7 +57,18 @@ export default {
       getTradeHistory: 'getTradeHistory',
     }),
     getApiRequest() {
-      this.getTradeHistory();
+      this.loading = true;
+      this.getTradeHistory()
+        .then(
+          () => {
+            this.loading = false;
+          }
+        )
+        .catch(
+          () => {
+            this.loading = false;
+          }
+        );
     },
   },
   watch: {
@@ -73,6 +94,7 @@ export default {
   background-color: $background__white;
   padding: 15px 0 15px 15px;
   border-radius: 8px;
+  position: relative;
   border: 1px solid $color__grey_border;
   &:hover {
     background-color: $background__grey_dark;

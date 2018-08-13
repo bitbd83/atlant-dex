@@ -3,9 +3,9 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-label.radio
-  input.radio__input(:id="`radio${_uid}`", type="radio", :name="name", @change="change")
-  .radio__icon
+label.radio(:class="{'radio--white' : isWhite}")
+  input.radio__input(:id="`radio${_uid}`", type="radio", :name="name", @change="change" :class="{'radio__input--white' : isWhite}")
+  .radio__icon(:class="{'radio__icon--white' : isWhite}")
   .radio__text(v-if="label") {{label}}
   slot
 </template>
@@ -53,6 +53,7 @@ export default {
       required: false,
       default: false,
     },
+    isWhite: Boolean,
   },
 };
 
@@ -71,10 +72,22 @@ $ROOT: "radio";
     width: 1px;
     height: 1px;
     margin: -1px;
+    background-color: transparent;
+    transition: background-color .3s;
     &:checked {
       & + .#{$ROOT}__icon {
-        border-color: $color_green;
-        background-color: $color_green;
+        border-color: $background__blue;
+        background-color: $background__blue;
+        transition: background-color .3s;
+      }
+    }
+    &--white {
+      &:checked {
+        & + .#{$ROOT}__icon {
+          border-color: $background__white;
+          background-color: $background__white;
+          transition: background-color .3s;
+        }
       }
     }
   }
@@ -85,8 +98,11 @@ $ROOT: "radio";
     border-radius: 50%;
     border-style: solid;
     border-width: 1px;
-    border-color: $color_yellow;
+    border-color: $background__blue;
     flex-shrink: 0;
+    &--white {
+      border-color: $background__white;
+    }
   }
   &__text {
     font-size: 12px;

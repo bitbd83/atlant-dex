@@ -4,6 +4,7 @@
 
 <template lang='pug'>
 .buySell
+  CSSLoader(v-if="loading")
   .buySell__default(v-show="!isDone")
     .buySell__headerContainer
       .buySell__header
@@ -43,6 +44,7 @@ import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from 'services/notification';
 import {addTileToDashboard} from 'services/grid';
 import IInput from 'components/IInput';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -54,6 +56,7 @@ export default {
       amount: '',
       price: '',
       total: 0,
+      loading: false,
     };
   },
   computed: {
@@ -127,6 +130,7 @@ export default {
         this.openModal({name: 'signIn'});
         return false;
       };
+      this.loading = true;
       this.placeOrder({
         isMarketOrder: this.type === 'market',
         isSellOrder: !this.isBuy,
@@ -135,12 +139,22 @@ export default {
         price: this.price,
         quantity: this.amount,
         isQuantityInBaseCurrency: true,
-      }).then(() => {
-        this.isDone = true;
-        this.amount = '';
-        this.total = 0;
-        this.open = false;
-      });
+      })
+      .then(
+        () => {
+          this.isDone = true;
+          this.amount = '';
+          this.total = 0;
+          this.open = false;
+          this.loading = false;
+        }
+      )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.loading = false;
+        }
+      );
     },
   },
   watch: {
@@ -173,6 +187,7 @@ export default {
   },
   components: {
     IInput,
+    CSSLoader,
   },
 };
 

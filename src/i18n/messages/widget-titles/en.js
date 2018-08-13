@@ -12,5 +12,5 @@ export default {
   Trading: 'Trading',
   Research: 'Research',
   saveView: 'Save view',
-  Documents: 'Documents',
+  ExtendedInfo: 'Extended info',
 };
