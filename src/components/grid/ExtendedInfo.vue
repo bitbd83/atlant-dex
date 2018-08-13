@@ -22,7 +22,6 @@ Tile(
 <script>
 import TileBase from '../../mixins/TileBase';
 import {scrollbar} from '@/directives';
-import 'leaflet';
 
 export default {
   mixins: [TileBase],
