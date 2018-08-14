@@ -26,6 +26,8 @@ import Orders from './Orders';
 import OrderBook from './OrderBook';
 import History from './History';
 import Chart from './Chart';
+import Documents from './Documents';
+import ExtendedInfo from './ExtendedInfo';
 
 export default {
   computed: {
@@ -48,6 +50,8 @@ export default {
     OrderBook,
     History,
     Chart,
+    Documents,
+    ExtendedInfo,
   },
   directives: {
     scrollbar,

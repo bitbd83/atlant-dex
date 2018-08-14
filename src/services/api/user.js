@@ -16,8 +16,9 @@ export const verifyPhone = (code) => api.put(`/profile/fields/verify/phone/${cod
 export const changeAdditionalEmail = (email) => api.put(`profile/fields/additionalEmail/${email}`);
 export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fields/verify/additionalEmail/${confirmationCode}`);
 
-export const getAccountTransactionHistory = ({page, limit, sortBy, ascending}) => api.get('crypto/transactions?', {params: {page, limit, sortBy, ascending}});
+export const getAccountTransactionHistory = ({page, limit, sortBy, ascending}) => api.get('/transactions/history?', {params: {page, limit, sortBy, ascending}});
 export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.get('/notifications/history', {params: {page, limit, sortBy, ascending}});
+export const getNotificationsHistoryCSV = ({sortBy, ascending, Ids}) => api.get('/Notifications/history/csv', {params: {sortBy, ascending, Ids}});
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
 
 export const getBalances = () => api.get('account/balances');
@@ -26,3 +27,7 @@ export const deposit = ({currency, amount}) => api.put('account/deposit', {curre
 export const getDepositAddress = ({currency}) => api.get('crypto/address', {params: {currency}});
 export const withdraw = ({currency, amount, address}) => api.post('crypto/withdraw/request', {currency, amount, address});
 export const confirmWithdraw = ({currency, code, transactionId}) => api.post('crypto/withdraw/finish', {currency, code, transactionId});
+
+export const depositRequest = (data) => api.post('Fiat/deposit/request', data);
+export const withdrawSwift = (data) => api.post('Fiat/withdraw/request/swift', data);
+export const withdrawSepa = (data) => api.post('Fiat/withdraw/request/sepa', data);

@@ -45,6 +45,7 @@
     "vue-multiselect": "2.1.0",
     "vue-router": "3.0.1",
     "vue-smooth-height": "^1.5.0",
+    "vue-tree-example": "^1.0.3",
     "vue2-filters": "^0.3.0",
     "vuedraggable": "^2.16.0",
     "vuelidate": "0.6.1",

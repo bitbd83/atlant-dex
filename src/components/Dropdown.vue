@@ -4,7 +4,7 @@
 
 <template lang="pug">
   VSelect.dropdown(
-    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline}",
+    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
@@ -85,6 +85,8 @@ export default {
     },
     noBorder: Boolean,
     noPadding: Boolean,
+    noTriangle: [Boolean, String],
+    whiteTriangle: [Boolean, String],
     underline: {
       type: Boolean,
       required: false,
@@ -128,6 +130,29 @@ export default {
         &:hover:after {
           transition: transform .3s ease-out;
           transform: scale3d(0,1,1);
+        }
+      }
+    }
+    &--noTriangle {
+      margin-right: 0 !important;
+
+      & /deep/ .multiselect {
+
+        &__select {
+          height: 0;
+          right: 0;
+          padding: 0;
+
+          &:before {
+            display: none;
+          }
+        }
+      }
+      &--whiteTriangle /deep/ .multiselect {
+        &__select {
+          &:before {
+            border-color: $background__white transparent transparent;
+          }
         }
       }
     }
@@ -249,7 +274,7 @@ export default {
           content: "";
           border-style: solid;
           border-width: 9px 6px 0;
-          border-color: $color__blue transparent transparent;
+          border-color: $background__blue transparent transparent;
         }
       }
 

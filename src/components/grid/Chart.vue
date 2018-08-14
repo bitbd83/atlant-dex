@@ -42,6 +42,7 @@ export default {
     return {
       chart: {},
       maxRenderedCandles: 0,
+      loading: false,
     };
   },
   computed: {
