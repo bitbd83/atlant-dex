@@ -4,6 +4,7 @@
 
 import * as TradeInfo from 'services/api/tradeInfo';
 import {serverNotification} from 'services/notification';
+import resolutions from '@/store/staticData/resolutions';
 
 export default {
   state: {
@@ -82,10 +83,11 @@ export default {
         serverNotification(res);
       });
     },
-    changeBaseCurrency({commit, dispatch, getters}, currency) {
+    changeBaseCurrency({commit, dispatch, getters, rootState}, currency) {
       const pair = getters.getPairName({
         base: currency,
       });
+      window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
       commit('setPair', pair);
       dispatch('chart/loadChart', null, {root: true});
     },

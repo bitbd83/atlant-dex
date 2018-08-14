@@ -19,8 +19,7 @@ Tile(
     :name="data.name"
   )
     .chart
-      CSSLoader(v-if="loading")
-      IEcharts(:option="chart", :loading="false", :resizable="true")#chart
+      Chart
 </template>
 
 <script>
@@ -35,7 +34,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
-import CSSLoader from 'components/CSSLoader';
+import Chart from './../Chart';
 
 export default {
   mixins: [TileBase],
@@ -101,6 +100,8 @@ export default {
     ...mapActions('chart', [
       'addNewCandle',
     ]),
+    initChart() {
+    },
     createChart() {
       this.chart = {
         tooltip: {
@@ -337,7 +338,7 @@ export default {
     rawCandles() {
       this.calculateMA(10);
       this.calculateEMA(10);
-      this.createChart();
+      // this.createChart();
       this.setEmptyCandleHandler();
     },
     currentChart() {
@@ -349,28 +350,22 @@ export default {
     },
     technicalIndicators: {
       handler() {
-        this.createChart();
+        // this.createChart();
       },
       deep: true,
     },
   },
   created() {
-    this.loading = true;
-    this.loadChart().then(() => {
-      this.createChart();
-      this.loading = false;
-    })
-    .catch(
-      () => {
-        this.loading = false;
-      }
-    );
-    this.$hub.on('Send', this.onSendSignal);
+    this.initChart();
+    // this.loadChart().then(() => {
+    //   this.createChart();
+    // });
+    // this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     IEcharts,
     ChartHeader,
-    CSSLoader,
+    Chart,
   },
 };
 </script>
@@ -383,7 +378,6 @@ export default {
   background-color: $background__white;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
-  padding: 0 0 0 15px;
-  position: relative;
+  padding: 0 0 0 3px;
 }
 </style>
