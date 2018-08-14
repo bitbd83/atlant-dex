@@ -15,6 +15,9 @@ export default {
   data() {
     return {
       options: {
+        overrides: {
+          'symbolWatermarkProperties.color': 'rgba(0, 0, 0, 0)',
+        },
         datafeed: DataFeed,
         library_path: '/static/js/charting_library/',
         disabled_features: [
@@ -27,6 +30,7 @@ export default {
           'header_compare',
           'header_settings',
           'header_undo_redo',
+          'header_indicators',
         ],
       },
     };
