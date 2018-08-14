@@ -21,6 +21,7 @@ Tile(
       .book__container(v-scrollbar="")
         table.book__body
           tr.book__title
+            //- th Amount
             th Total
             th Price
           tr.book__row(v-for="(order, index) in book.bids")
@@ -32,6 +33,7 @@ Tile(
         table.book__body
           tr.book__title
             th Price
+            //- th Amount
             th Total
           tr.book__row(v-for="(order, index) in book.asks")
             td.book__cell.book__cell--ask {{order.price}}

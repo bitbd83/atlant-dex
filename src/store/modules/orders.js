@@ -102,44 +102,52 @@ export default {
       state.trades.splice(-1, 1);
     },
     updateBook(state, data) {
-      let orderFilter = function(itemPrice, cutoffPrice) {
-        if (data.side === 1) {
-          return (itemPrice > cutoffPrice);
-        } else {
-          return (itemPrice < cutoffPrice);
+      const newTop = (book, change, filter) => {
+        if (change.data.price === 0) {
+          book = []; return;
         }
+        book = book.filter((item) => filter(item.price, change.data.price));
+        book.unshift(change.data);
+        if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+        return book;
       };
-      let book = (data.side === 1) ? state.book.asks : state.book.bids;
-      for (let change of data.changes) {
-        if (change.type === 0) {
-          if (change.data.price === 0) {
-            book = []; break;
-          }
-          book = book.filter((item) => orderFilter(item.price, change.data.price));
-          book.unshift(change.data);
-          if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
-        // Type = NewMid
-        } else if (change.type === 1) {
-          for (let i in book) {
-            if (book[i].price === change.data.price) {
-              if (change.data.amount === 0) {
-                book.splice(i, 1);
-              } else {
-                book[i].amount = change.data.amount;
-              }
-              break;
-            } else if (orderFilter(book[i].price, change.data.price)) {
-              book.splice(i, 0, change.data);
-              if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
-              break;
-            } else if (i == book.length - 1) {
-              book.push(change.data);
+
+      const newMid = (book, change, filter) => {
+        for (let i in book) {
+          if (book[i].price === change.data.price) {
+            if (change.data.amount === 0) {
+              book.splice(i, 1);
+            } else {
+              book[i].amount = change.data.amount;
             }
+            break;
+          } else if (filter(book[i].price, change.data.price)) {
+            book.splice(i, 0, change.data);
+            if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+            break;
+          } else if (i == book.length - 1) {
+            book.push(change.data);
           }
-        } else if (change.type === 2) {
-          if (book.length < state.bookLimit) book.push(...change.data);
         }
-        (data.side === 1) ? state.book.asks = book : state.book.bids = book;
+        return book;
+      };
+
+      const append = (book, change) => {
+        if (book.length < state.bookLimit) book.push(...change.data);
+        return book;
+      };
+
+      const bookUpdateTypes = [newTop, newMid, append];
+
+      const ordersUpdateBook = (book, filter) => {
+        data.changes.forEach((change) => book = bookUpdateTypes[change.type](book, change, filter));
+        return book;
+      };
+
+      if (data.side === 1) {
+        state.book.asks = ordersUpdateBook(state.book.asks, (itemPrice, cutoffPrice) => itemPrice > cutoffPrice);
+      } else {
+        state.book.bids = ordersUpdateBook(state.book.bids, (itemPrice, cutoffPrice) => itemPrice < cutoffPrice);
       }
     },
   },
