@@ -18,6 +18,7 @@ Tile(
     :name="data.name"
   )
     .book
+      CSSLoader(v-if="loading")
       .book__container(v-scrollbar="")
         table.book__body
           tr.book__title
@@ -29,6 +30,7 @@ Tile(
             td.book__cell {{(order.price * order.amount).toFixed(4)}}
             td.book__cell.book__cell--bid {{order.price}}
     .book
+      CSSLoader(v-if="loading")
       .book__container(v-scrollbar="")
         table.book__body
           tr.book__title
@@ -45,9 +47,13 @@ Tile(
 import TileBase from '../../mixins/TileBase';
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   mixins: [TileBase],
+  components: {
+    CSSLoader,
+  },
   computed: {
     ...mapState('tradeInfo', {
       pair: 'pair',
@@ -56,12 +62,28 @@ export default {
       book: (state) => state.book,
     }),
   },
+  data() {
+    return {
+      loading: true,
+    };
+  },
   methods: {
     ...mapActions('orders', [
       'getOrderBook',
     ]),
     getApiRequest() {
-      this.getOrderBook({limit: 20});
+      this.loading = true;
+      this.getOrderBook({limit: 20})
+        .then(
+          () => {
+            this.loading = false;
+          }
+        )
+        .catch(
+          () => {
+            this.loading = false;
+          }
+        );
     },
   },
   watch: {

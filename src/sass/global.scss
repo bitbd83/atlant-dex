@@ -22,28 +22,42 @@
 
 .link {
   display: inline-block;
-  cursor: pointer;
-  color: $color_yellow;
+  color: $color__blue;
+  font-family: Supply;
+  font-size: 14px;
+  font-weight: 400;
   text-decoration: none;
-  padding: 3px 0 2px;
-  border-bottom: 1px solid transparent;
-  transition: border .5s;
-  &:hover {
-    transition: border.5s;
-    border-color: $color_yellow;
+  position: relative;
+  cursor: pointer;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: $background__blue;
+    transition: transform .3s ease-in;
+    transform: scale3d(1, 1, 1);
   }
-  &--green {
-    color: $color_green;
-    &:hover {
-      transition: border.5s;
-      border-color: $color_green;
+
+  &:hover:after {
+    transition: transform .3s ease-out;
+    transform: scale3d(0, 1, 1);
+  }
+
+  &--white {
+    color: $color__white;
+    &:after {
+      background: $background__white;
     }
   }
+
   &--red {
-    color: $color_red;
-    &:hover {
-      transition: border.5s;
-      border-color: $color_red;
+    color: $color__red;
+    &:after {
+      background: $background__red;
     }
   }
 }
@@ -53,13 +67,16 @@
   border-color: #044568;
   background-color: transparent;
   color: $color_summersky;
+
   &::placeholder{
     color: #044568;
   }
+
   &:hover, &:focus{
     border-color: $color_summersky;
     color: $color_summersky;
   }
+
   &[type="password"]{
     letter-spacing: 4px;
   }

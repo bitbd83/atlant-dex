@@ -4,14 +4,15 @@
 
 <template lang='pug'>
 .buySell
+  CSSLoader(v-if="loading")
   .buySell__default(v-show="!isDone")
     .buySell__headerContainer
       .buySell__header
         .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
         Icon.buySell__arrow(id="arrow_short")
         .buySell__infoContainer
-          .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%]
-          .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%]
+          .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
+          .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
     .buySell__buttons
       .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
         IInput.buySell__input(v-show="!open" placeholder="Quantity" center no-underline v-model="amount" type="number")
@@ -29,11 +30,11 @@
         .buySell__label Total amount
         .buySell__inputContainer
           .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
-      BButton.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
-        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
+      button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
+        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
         .buySell__buttonContent(v-show="open") Confirm buy order
-      BButton.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
-        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}]
+      button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
+        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
         .buySell__buttonContent(v-show="open") Confirm sell order
   .buySell__done(v-show="isDone" @click="isDone = false") Done
 </template>
@@ -42,8 +43,8 @@
 import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from 'services/notification';
 import {addTileToDashboard} from 'services/grid';
-import BButton from 'components/BButton';
 import IInput from 'components/IInput';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -55,6 +56,7 @@ export default {
       amount: '',
       price: '',
       total: 0,
+      loading: false,
     };
   },
   computed: {
@@ -128,6 +130,7 @@ export default {
         this.openModal({name: 'signIn'});
         return false;
       };
+      this.loading = true;
       this.placeOrder({
         isMarketOrder: this.type === 'market',
         isSellOrder: !this.isBuy,
@@ -136,12 +139,22 @@ export default {
         price: this.price,
         quantity: this.amount,
         isQuantityInBaseCurrency: true,
-      }).then(() => {
-        this.isDone = true;
-        this.amount = '';
-        this.total = 0;
-        this.open = false;
-      });
+      })
+      .then(
+        () => {
+          this.isDone = true;
+          this.amount = '';
+          this.total = 0;
+          this.open = false;
+          this.loading = false;
+        }
+      )
+      .catch(
+        (err) => {
+          console.log(err);
+          this.loading = false;
+        }
+      );
     },
   },
   watch: {
@@ -173,8 +186,8 @@ export default {
     );
   },
   components: {
-    BButton,
     IInput,
+    CSSLoader,
   },
 };
 
@@ -251,9 +264,13 @@ export default {
     transition: width .4s ease-out;
     &--buy {
       left: 0;
+      color: $color__white;
+      background-color: $background__green;
     }
     &--sell {
       right: 0;
+      color: $color__white;
+      background-color: $background__red;
     }
     &--buy.buySell__button--full,
     &--sell.buySell__button--full {

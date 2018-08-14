@@ -15,6 +15,7 @@
         no-padding,
         preselect-first,
         underline,
+        whiteTriangle,
       )
       .quotes__headerText Range
       Dropdown.quotes__headerDropdown(
@@ -24,6 +25,7 @@
         no-padding,
         preselect-first,
         underline,
+        whiteTriangle,
       )
     input.quotes__search(type="text", placeholder="Search for..." v-model="search")
   .quotes__content(v-scrollbar="")
@@ -44,10 +46,10 @@
 <script>
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import {getCryptoName} from 'services/misc';
 import Dropdown from 'components/Dropdown';
 import Accordion from 'components/Accordion';
 import SidebarQuotesItem from 'components/SidebarQuotesItem';
+import {cryptoName} from '@/store/staticData/cryptoName';
 
 export default {
   data() {
@@ -68,7 +70,7 @@ export default {
     filteredQuotes() {
       if (!this.search) return this.quotes;
       return this.quotes.filter(({currency}) => {
-        const fullName = getCryptoName(currency.toUpperCase()) || '';
+        const fullName = cryptoName[currency.toUpperCase()] || '';
         const searchLowerCased = this.search.toLowerCase();
         return (
             currency.toLowerCase().includes(searchLowerCased)

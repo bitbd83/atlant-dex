@@ -3,14 +3,14 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-ModalLayout
+ModalLayout(:title="`${$t('crypto.deposit.deposit')} ${data.currency}`")
   .cryptoDeposit
-    .cryptoDeposit__title Deposit {{data.currency}}
+    icon.cryptoDeposit__angle(id="angle-top-left")
     QR.cryptoDeposit__qr(:text='address' size='148')
-    .cryptoDeposit__addressText Your deposit address:
-    .cryptoDeposit__address {{address}}
-    BButton.cryptoDeposit__button(color="malachite" rounded v-clipboard='address' @click="makeDeposit()") Copy
-    .cryptoDeposit__confirmations Funds will be deposited automatically after 3 confirmations
+    .cryptoDeposit__addressText {{$t('crypto.deposit.title')}}
+    .cryptoDeposit__address {{address ? address : '-'}}
+    BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('crypto.deposit.copy')}}
+    .cryptoDeposit__confirmations {{$t('crypto.deposit.description')}}
 </template>
 
 <script>
@@ -71,44 +71,61 @@ export default {
 </script>
 
 <style lang='scss'>
+@import 'variables';
 .cryptoDeposit {
   display: flex;
   flex-direction: column;
   align-items: center;
-  &__title{
-    font-size: 18px;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #ffc600;
-    margin-bottom: 57px;
+  min-width: 360px;
+  margin: 0 20px;
+
+
+  &__angle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 17px;
+    height: 16.26px;
+    fill: $fill__white;
   }
+
   &__qr {
-    margin-bottom: 46px;
+    margin-top: 84px;
+    margin-bottom: 70px;
   }
+
   &__addressText {
+    font-family: CenturyGothic;
     font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    margin-bottom: 37px;
+    color: $color__white;
+    letter-spacing: 0.44px;
+    text-align: center;
+    line-height: 25px;
+    margin-bottom: 50px;
   }
+
   &__address {
-    color: #ffc600;
-    font-size: 14px;
     font-weight: 700;
+    font-size: 16px;
+    color: $color__white;
+    text-align: center;
     margin-bottom: 53px;
   }
+
   &__button {
-    padding: 8px 45px;
-    border-radius: 3px;
-    font-size: 16px;
-    font-weight: 900;
+    color: $color__blue !important;
     text-transform: uppercase;
+    margin-bottom: 50px;
   }
+
   &__confirmations {
-    font-size: 10px;
-    font-weight: 400;
+    max-width: 256px;
+    font-family: CenturyGothic;
+    font-size: 12px;
+    color: $color__white;
+    letter-spacing: 0.38px;
     text-align: center;
-    margin-top: 45px;
+    line-height: 25px;
   }
 }
 </style>

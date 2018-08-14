@@ -4,9 +4,8 @@
 
 <template lang='pug'>
 .inputField
-  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
-  .inputField__line(v-if="!noUnderline")
   label.inputField__label(v-if="label") {{label}}
+  input.inputField__input(:value="value", :placeholder="placeholder", @input="change", :type="type" required, :class="{'inputField__input--center' : center, 'inputField__input--noUnderline' : noUnderline}")
 </template>
 
 <script>
@@ -55,11 +54,7 @@ export default {
       default: false,
       required: false,
     },
-    noUnderline: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+    noUnderline: Boolean,
   },
 };
 </script>
@@ -68,12 +63,16 @@ export default {
 @import 'variables';
 .inputField {
   position: relative;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+
   &__label {
     color: $color_white;
     white-space: nowrap;
     font-size: inherit;
     font-weight: normal;
-    position: absolute;
+    margin-right: 15px;
     pointer-events: none;
     left: 5px;
     top: 10px;
@@ -82,59 +81,35 @@ export default {
 
   &__input {
     font-size: inherit;
-    padding: 10px 10px 10px 5px;
+    line-height: inherit;
+    font-weight: inherit;
+    padding: 0;
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid $color_white;
+    border-radius: 0;
     background: none;
+    padding-bottom: 11px;
+    border-bottom: 3.5px solid $background__white;
     &--center {
       text-align: center;
     }
     &--noUnderline {
       border-bottom: none;
+      padding-bottom: 0;
     }
     &::placeholder {
-      color: $color__white;
+      font-family: CenturyGothic;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      line-height: 26px;
+      color: #6895FF;
     }
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-  }
-
-  &__line {
-    position: relative;
-    display: block;
-    &:after,
-    &:before {
-      position: absolute;
-      content: '';
-      height: 2px;
-      width: 0;
-      bottom: 0;
-      background: $color_white;
-      transition: 0.2s ease all;
-    }
-    &:before {
-      left: 50%;
-    }
-    &:after {
-      right: 50%;
-    }
-  }
-  //Active
-  &__input:focus ~ &__line:after,
-  &__input:focus ~ &__line:before {
-    width: 50%;
-  }
-
-  &__input:focus ~ &__label,
-  &__input:valid ~ &__label {
-    top: -20px;
-    font-size: 14px;
-    color: $color_white;
   }
 }
 </style>

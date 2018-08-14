@@ -8,45 +8,45 @@
   .pairInfo__container(v-if="pairInfoItems > 0")
     .pairInfo__label Last:
     .pairInfo__block
-      .pairInfo__value.pairInfo__value--last {{last | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+      .pairInfo__value.pairInfo__value--last {{last | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       Icon.pairInfo__triangle(id="triangle", :class="(change  < 0) ? 'pairInfo__triangle--negative' : ''")
-      .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") {{(((change < 0) ? -change : change)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+      .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") {{(((change < 0) ? -change : change)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
   .pairInfo__container(v-if="pairInfoItems > 1")
     .pairInfo__label High:
     .pairInfo__block
-      .pairInfo__value {{high | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+      .pairInfo__value {{high | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       Icon.pairInfo__triangle(id="triangle", :class="(highChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-      .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((highChange < 0) ? -highChange : highChange)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+      .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((highChange < 0) ? -highChange : highChange)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
   .pairInfo__container(v-if="pairInfoItems > 2")
     .pairInfo__label Low:
     .pairInfo__block
-      .pairInfo__value {{low | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+      .pairInfo__value {{low | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       Icon.pairInfo__triangle(id="triangle", :class="(lowChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-      .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((lowChange < 0) ? -lowChange : lowChange)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+      .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((lowChange < 0) ? -lowChange : lowChange)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
   .pairInfo__container(v-if="pairInfoItems === 4")
     .pairInfo__label Volume:
-    .pairInfo__volume ${{volume | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+    .pairInfo__volume ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
   .pairInfo__container(v-if="pairInfoItems < 4" @mouseover="hoverEnter()" @mouseout="hoverLeave()")
     .pairInfo__ellipsis
       Icon.pairInfo__ellipsisIcon(id="ellipsis")
     .pairInfo__dropdownList
       .pairInfo__dropdownItem(v-if="pairInfoItems < 1") #[.pairInfo__label--dropdown Last]
         .pairInfo__block.pairInfo__block--dropdown
-          .pairInfo__value.pairInfo__value--dropdown {{last | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+          .pairInfo__value.pairInfo__value--dropdown {{last | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
           Icon.pairInfo__triangle(id="triangle", :class="(change  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") {{(((change < 0) ? -change : change)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+          .pairInfo__percent(:class="(change < 0) ? 'pairInfo__percent--negative' : ''") {{(((change < 0) ? -change : change)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
       .pairInfo__dropdownItem(v-if="pairInfoItems < 3") #[.pairInfo__label--dropdown High]
         .pairInfo__block.pairInfo__block--dropdown
-          .pairInfo__value.pairInfo__value--dropdown {{high | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+          .pairInfo__value.pairInfo__value--dropdown {{high | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
           Icon.pairInfo__triangle(id="triangle", :class="(highChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((highChange < 0) ? -highChange : highChange)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+          .pairInfo__percent(:class="(highChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((highChange < 0) ? -highChange : highChange)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
       .pairInfo__dropdownItem(v-if="pairInfoItems < 3") #[.pairInfo__label--dropdown Low]
         .pairInfo__block.pairInfo__block--dropdown
-          .pairInfo__value.pairInfo__value--dropdown {{low | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+          .pairInfo__value.pairInfo__value--dropdown {{low | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
           Icon.pairInfo__triangle(id="triangle", :class="(lowChange  < 0) ? 'pairInfo__triangle--negative' : ''")
-          .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((lowChange < 0) ? -lowChange : lowChange)) | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}%
+          .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((lowChange < 0) ? -lowChange : lowChange)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
       .pairInfo__dropdownItem #[.pairInfo__label--dropdown Volume]
-        .pairInfo__volume ${{volume | currency('', 2, { thousandsSeparator: '.', decimalSeparator: ','}) }}
+        .pairInfo__volume ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
 </template>
 
 <script>

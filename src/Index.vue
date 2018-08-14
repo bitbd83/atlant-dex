@@ -3,48 +3,48 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-.index(:class="`index--${ theme }`")
-  .index__body(v-show="modalOpenedDesktop || !isModalOpened()", :class="{'index__body--modalOpened': modalOpenedDesktop}")
+.index(:class="`index--${theme}`")
+  .index__body
     Sidebar
     .index__content
       TheHeader
       .index__page
         MainLayout(v-if="!isPageOpened()")
-        TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
-        MyOrdersPage(v-if="isPageOpened('myOrders')")
-        VerificationPage(v-if="isPageOpened('verification')")
-        VerificationAdminPage(v-if="isPageOpened('verificationAdmin')")
-        AccountInformation(v-if="isPageOpened('accountInformation')")
-        SecuritySettingsPage(v-if="isPageOpened('securitySettings')")
-        SecurityLogPage(v-if="isPageOpened('securityLog')")
-        FAQ(v-if="isPageOpened('faq')")
-        NotificationHistoryPage(v-if="isPageOpened('notificationHistory')")
-  //- Modals
-  InDemoModal(v-if="isModalOpened('inDemo')")
-  ResetModal(v-else-if="isModalOpened('reset')")
-  NewPasswordModal(v-else-if="isModalOpened('newPassword')")
-  SignUpModal(v-else-if="isModalOpened('signUp')")
-  SignInModal(v-else-if="isModalOpened('signIn')")
-  CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
-  CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
-  FiatModal(v-else-if="isModalOpened('fiat')")
-  TFAModal(v-else-if="isModalOpened('tfaModal')")
-  TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
-  EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
-  EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
-  AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
-  SaveViewModal(v-else-if="isModalOpened('saveView')")
-  Status(v-else-if="isModalOpened('status')")
+        TransactionHistoryPage(v-else-if="isPageOpened('transactionHistory')")
+        MyOrdersPage(v-else-if="isPageOpened('myOrders')")
+        VerificationPage(v-else-if="isPageOpened('verification')")
+        VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
+        AccountInformation(v-else-if="isPageOpened('accountInformation')")
+        SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
+        SecurityLogPage(v-else-if="isPageOpened('securityLog')")
+        AlertsList(v-else-if="isPageOpened('alertsList')")
+        FAQ(v-else-if="isPageOpened('faq')")
+        NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+    //- Modals
+    ResetPasswordModal(v-if="isModalOpened('reset')")
+    NewPasswordModal(v-else-if="isModalOpened('newPassword')")
+    SignUpModal(v-else-if="isModalOpened('signUp')")
+    SignInModal(v-else-if="isModalOpened('signIn')")
+    CryptoDepositModal(v-else-if="isModalOpened('cryptoDeposit')")
+    CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
+    FiatModal(v-else-if="isModalOpened('fiat')")
+    TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
+    EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
+    EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
+    AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
+    SaveViewModal(v-else-if="isModalOpened('saveView')")
+    Status(v-else-if="isModalOpened('status')")
 </template>
 
 <script>
 import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
-import {notification, getSignalRNotification} from 'services/notification';
+import {notification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
-import TheHeader from 'components/TheHeader';
 import Sidebar from 'components/Sidebar';
+import TheHeader from 'components/TheHeader';
+import MainLayout from 'layouts/MainLayout';
 import TransactionHistoryPage from 'pages/TransactionHistoryPage';
 import MyOrdersPage from 'pages/MyOrdersPage';
 import NotificationHistoryPage from 'pages/NotificationHistoryPage';
@@ -53,22 +53,21 @@ import VerificationAdminPage from 'pages/VerificationAdminPage';
 import AccountInformation from 'pages/AccountInformationPage';
 import SecuritySettingsPage from 'pages/SecuritySettingsPage';
 import SecurityLogPage from 'pages/SecurityLogPage';
-import MainLayout from 'layouts/MainLayout';
-import InDemoModal from 'modals/InDemoModal';
-import ResetModal from 'modals/ResetModal';
+import AlertsList from 'pages/AlertsList';
+import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
 import SignInModal from 'modals/SignInModal';
 import CryptoDepositModal from 'modals/CryptoDepositModal';
 import CryptoWithdrawModal from 'modals/CryptoWithdrawModal';
 import FiatModal from 'modals/FiatModal';
-import TFAModal from 'modals/TFAModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
 import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
 import SaveViewModal from 'modals/SaveViewModal';
 import Status from 'components/Status';
+import {signalRNotification} from '@/store/staticData/signalRNotification';
 
 export default {
   computed: {
@@ -99,9 +98,6 @@ export default {
     ...mapGetters('page', {
       isPageOpened: 'isOpened',
     }),
-    modalOpenedDesktop() {
-      return this.isModalOpened();
-    },
   },
   methods: {
     ...mapMutations('misc', {
@@ -152,9 +148,9 @@ export default {
     hubSubscribe() {
       // add signalR events here
       this.$hub.on('newNotification', (data) => {
-        if (getSignalRNotification(data.notificationType)) {
+        if (signalRNotification[data.notificationType]) {
           notification({
-            text: i18n.t(`notifications.${getSignalRNotification(data.notificationType)}`, i18n.locale, data.arguments),
+            text: i18n.t(`notifications.${signalRNotification[data.notificationType]}`, i18n.locale, data.arguments),
             type: 'info',
           });
         };
@@ -184,9 +180,6 @@ export default {
         this.updateSidebarAlert(data);
       });
     },
-    modalChangeStyleforBody() {
-      document.querySelector('body').style.overflow = (this.isModalOpened()) ? 'hidden' : 'auto';
-    },
   },
   watch: {
     pair() {
@@ -199,9 +192,6 @@ export default {
     },
     showSidebar() {
       this.updateOverflow();
-    },
-    modalOpenedDesktop() {
-      this.modalChangeStyleforBody();
     },
     isLoggedIn(isTrue) {
       if (!isTrue) {
@@ -254,16 +244,15 @@ export default {
     AccountInformation,
     SecuritySettingsPage,
     SecurityLogPage,
+    AlertsList,
     Status,
-    InDemoModal,
-    ResetModal,
+    ResetPasswordModal,
     NewPasswordModal,
     SignUpModal,
     SignInModal,
     CryptoDepositModal,
     CryptoWithdrawModal,
     FiatModal,
-    TFAModal,
     TFAWarningModal,
     EventStatusCompletedModal,
     EventStatusFailedModal,
@@ -302,15 +291,13 @@ export default {
     overflow: auto;
     margin-left: auto;
     margin-right: auto;
-    &--modalOpened {
-      filter: blur(10px);
-    }
   }
   &__content {
     position: relative;
     display: flex;
     flex: 2;
     flex-direction: column;
+    z-index: 0;
   }
   &__page {
     display: flex;

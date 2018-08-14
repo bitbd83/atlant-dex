@@ -3,18 +3,22 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout
-  Status(:isSuccess="false")
+ModalLayout(step="1", :isSuccess="false", title="fail")
+  Status(:isSuccess="false" v-on:getBack="close")
 </template>
 
 <script>
- import ModalLayout from '@/layouts/ModalLayout';
+import {mapMutations} from 'vuex';
+import ModalLayout from '@/layouts/ModalLayout';
 import Status from 'components/Status.vue';
 
 export default {
   components: {
     ModalLayout,
     Status,
+  },
+  methods: {
+    ...mapMutations('modal', ['close']),
   },
 };
 </script>

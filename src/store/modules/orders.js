@@ -183,18 +183,14 @@ export default {
       });
     },
     placeOrder({commit, dispatch}, {isMarketOrder, isSellOrder, baseCurrency, quoteCurrency, price, quantity, isQuantityInBaseCurrency}) {
-      return new Promise((resolve, reject) => {
-        Orders.placeOrder({
-          isMarketOrder,
-          isSellOrder,
-          baseCurrency,
-          quoteCurrency,
-          price,
-          quantity,
-          isQuantityInBaseCurrency,
-        }).then((response) => {
-          return resolve();
-        });
+      return Orders.placeOrder({
+        isMarketOrder,
+        isSellOrder,
+        baseCurrency,
+        quoteCurrency,
+        price,
+        quantity,
+        isQuantityInBaseCurrency,
       });
     },
     cancelOrder({commit}, orderId) {

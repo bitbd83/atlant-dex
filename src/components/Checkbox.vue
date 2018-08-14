@@ -5,7 +5,7 @@
 <template lang='pug'>
 label.checkbox
   input.checkbox__input(type="checkbox", @change="change", :checked="value")
-  .checkbox__icon(:class="'checkbox__icon--' + ((color === 'green') ? 'green' : 'yellow')")
+  .checkbox__icon(:class="'checkbox__icon--' + ((color === 'blue') ? 'blue' : 'white')")
   .checkbox__text(v-if="label") {{label}}
   slot
 </template>
@@ -34,7 +34,7 @@ export default {
     },
     color: {
       type: [String],
-      default: 'green',
+      default: 'blue',
     },
   },
 };
@@ -56,28 +56,33 @@ $ROOT: "checkbox";
     margin: -1px;
     &:checked {
       & + .#{$ROOT}__icon {
-        &--green {
-          border-color: $color_green;
-          background-color: $color_green;
+        &--blue {
+          border-color: $background__blue;
+          background-color: $background__blue;
         }
-        &--yellow {
-          border-color: $color_yellow;
-          background-color: $color_yellow;
+        &--white {
+          border-color: $background__white;
+          background-color: $background__white;
         }
       }
     }
   }
   &__icon {
-    $size: 17px;
+    $size: 12px;
     width: $size;
     height: $size;
     border-radius: 50%;
     border-style: solid;
-    border-width: 2px;
-    border-color: $color_yellow;
+    border-width: 1px;
     flex-shrink: 0;
     transition: border-color .2s;
     transition: background-color .2s;
+    &--blue {
+      border-color: $background__blue;
+    }
+    &--white {
+      border-color: $background__white;
+    }
   }
   &__text {
     font-size: 12px;

@@ -37,10 +37,13 @@ instance.interceptors.response.use((response) => {
         const token = store.state.membership.token;
         config.headers.Authorization = 'token ' + token;
         resolve(axios(config));
-      });
+      })
+      .catch((err) => {});
     });
   } else {
+    console.log(response);
     serverNotification2(response);
+    return Promise.reject(response);
   }
   return Promise.reject(response);
 });
