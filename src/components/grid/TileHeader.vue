@@ -31,12 +31,12 @@ export default {
 
 .gridTile {
   &__headerContainer {
-    padding: 10px 0;
+    padding: 5px 0;
     border-radius: 8px 8px 0 0;
   }
   &__header {
-    min-height: 28px;
-    max-height: 28px;
+    min-height: 20px;
+    max-height: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
