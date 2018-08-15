@@ -22,6 +22,7 @@ Tile(
         :model="model"
         :prepareFolderNameFunc="prepareFolder"
       )
+      small Last update: 25.03.2019
 </template>
 
 <script>
@@ -112,6 +113,11 @@ export default {
   border-radius: 4px;
   padding: 10px;
   width: 100%;
+
+  small{
+    color: $color__grey;
+    font-size: 10px;
+  }
 
   & li{
     list-style: none;
