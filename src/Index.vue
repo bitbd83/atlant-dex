@@ -231,7 +231,7 @@ export default {
 
 <style src="noty/lib/noty.css"></style>
 <style lang='scss'>
-@import 'perfect-scrollbar/dist/css/perfect-scrollbar';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'styles/fonts';
 @import 'styles/defaults';
 @import 'styles/global';
