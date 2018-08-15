@@ -14,20 +14,25 @@
       :hide-on-logout="!sect.isShowOnLogout"
     )
       .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : sect.name == section}",
-                        @click="setSection(sect.name)"
+        @click="setSection(sect.name)"
       )
         Icon.toolbar__icon(
           :id="sect.name",
           :class="isActive(sect.name)",
         )
-    UserVisibility(
-      hide-on-logout,
-      :onLoginClick="() => getOpenPage('map')"
-    )
-      .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : (currentPage === 'map')}")
-          Icon.toolbar__icon(id="map" :class="{'toolbar__icon--active' : (currentPage === 'map')}")
+    //-   .toolbar__iconWrap(:class="{'toolbar__iconWrap--active' : (currentPage === 'map')}")
+    //-       Icon.toolbar__icon(id="map" :class="{'toolbar__icon--active' : (currentPage === 'map')}")
   .toolbar__group
     Accordion(isToolbar).toolbar__accordion
+      UserVisibility(
+        hide-on-logout,
+        :onLoginClick="() => getOpenPage('notificationHistory')"
+      )
+        .toolbar__bottomWrap
+          Icon.toolbar__icon.toolbar__icon--bottom(
+            id='icon-notification',
+          )
+          .toolbar__notifications(v-show="notificationsCounter > 0") {{(notificationsCounter > 10) ? '9+' : notificationsCounter}}
       UserVisibility(
         hide-on-logout,
         :onLoginClick="() => getOpenPage('accountInformation')"
@@ -75,9 +80,9 @@ export default {
     ...mapState('misc', [
       'showSidebar',
     ]),
-    ...mapState('modal', {
-      madalOpened: 'name',
-    }),
+    ...mapState('user', [
+      'notificationsCounter',
+    ]),
     ...mapGetters('misc', [
       'section',
     ]),
@@ -238,7 +243,6 @@ export default {
   &__bottomWrap {
     position: relative;
     height: 26px;
-
     &:first-child {
       margin-top: 28px;
     }
