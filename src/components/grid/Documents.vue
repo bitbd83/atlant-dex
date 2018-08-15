@@ -53,19 +53,19 @@ export default {
                 name: 'child folder',
                 children: [
                   {
-                    name: 'Overview.pdf',
+                    name: '<a href="http://google.com/" target="_blank">Overview.pdf</a>',
                     class: 'file file--pdf',
                   },
                   {
-                    name: 'Sheet.xls',
+                    name: '<a href="http://google.com/" target="_blank">Sheet.xls</a>',
                     class: 'file file--xls',
                   },
                   {
-                    name: 'Summary.docx',
+                    name: '<a href="http://google.com/" target="_blank">Summary.docx</a>',
                     class: 'file file--docx',
                   },
                   {
-                    name: 'Building preview.jpg',
+                    name: '<a href="http://google.com/" target="_blank">Building preview.jpg</a>',
                     class: 'file file--jpg',
                   },
                 ],
@@ -113,6 +113,12 @@ export default {
   border-radius: 4px;
   padding: 10px;
   width: 100%;
+  overflow-y: auto;
+
+  a{
+    text-decoration: none;
+    color: $color__black;
+  }
 
   small{
     color: $color__grey;
