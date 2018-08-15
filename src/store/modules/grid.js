@@ -53,7 +53,6 @@ export default {
       let tmp;
       keys.forEach(
         (k) => {
-          console.log(state.gridData);
           tmp = state.gridData.find((el) => el.name == k);
           if (tmp) {
             result.push(tmp);
