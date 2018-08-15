@@ -18,7 +18,7 @@ Tile(
     :name="data.name"
   )
     .documents
-      <VueTreeExample :model="model"></VueTreeExample>
+      VueTreeExample(:model="model")
 </template>
 
 <script>
