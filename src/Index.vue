@@ -117,9 +117,10 @@ export default {
       changeOrderStatus: 'changeOrderStatus',
       addNewTrade: 'addNewTrade',
     }),
-    ...mapMutations('user', {
-      changePortfolio: 'changePortfolio',
-    }),
+    ...mapMutations('user', [
+      'changePortfolio',
+      'setNotificationsCounter',
+    ]),
     ...mapMutations('alerts', [
       'updateSidebarAlert',
     ]),
@@ -153,6 +154,9 @@ export default {
             text: i18n.t(`notifications.${signalRNotification[data.notificationType]}`, i18n.locale, data.arguments),
             type: 'info',
           });
+          if (data.notificationType < 7) {
+            this.setNotificationsCounter(this.notificationsCounter + 1);
+          }
         };
       });
       this.$hub.on('newOrder', (data) => {
