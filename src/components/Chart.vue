@@ -27,6 +27,7 @@ export default {
           'header_compare',
           'header_settings',
           'header_undo_redo',
+          'header_indicators',
         ],
       },
     };
