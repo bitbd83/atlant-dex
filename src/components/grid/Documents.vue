@@ -18,12 +18,13 @@ Tile(
     :name="data.name"
   )
     .documents
-      VueTreeExample(
-        :model="model"
-        :prepareFolderNameFunc="prepareFolder"
-        v-scrollbar=""
-      )
-      small Last update: 25.03.2019
+      .documents__container(v-scrollbar="")
+        VueTreeExample(
+          :model="model"
+          :prepareFolderNameFunc="prepareFolder"
+          v-scrollbar=""
+        )
+        small Last update: 25.03.2019
 </template>
 
 <script>
@@ -112,6 +113,11 @@ export default {
       margin-left: 34px;
       font-size: 12px;
     }
+  }
+
+  &__container {
+    width: 100%;
+    height: 100%;
   }
 
   & .file{
