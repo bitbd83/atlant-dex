@@ -6,12 +6,14 @@
 .chartHeader
   .chartHeader__buttons
     .chartHeader__buttonTxt.chartHeader__buttonTxt--period(v-for="period in periods", :class="{'chartHeader__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
+  .chartHeader__buttons
+    Icon.chartHeader__buttonIcon(:id="type + 'Chart'" v-for="type in chartTypes", :key="type", :class="{'chartHeader__buttonIcon--active' : isCurrentChart(type)}", @click="changeChartType(type)")
   .chartHeader__rightButtons
     .chartHeader__button.chartHeader__buttonFull(@click="fullscreen()")
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapState, mapMutations, mapActions} from 'vuex';
 import {periods} from '@/config';
 
 export default {
@@ -24,11 +26,35 @@ export default {
     ...mapGetters('chart', [
       'isCurrentPeriod',
     ]),
+    ...mapState('chart', [
+      'chartTypes',
+      'currentChart',
+    ]),
+    ...mapGetters('chart', [
+      'isCurrentPeriod',
+    ]),
   },
   methods: {
     ...mapActions('chart', {
       setChartPeriod: 'changeChartPeriod',
     }),
+    ...mapMutations('chart', [
+      'setChartType',
+    ]),
+    ...mapActions('chart', {
+      setChartPeriod: 'changeChartPeriod',
+    }),
+    changeChartType(type) {
+      const types = new Map([
+        ['candlestick', 1],
+        ['line', 2],
+      ]);
+      window.tvWidget.chart().setChartType(types.get(type));
+      this.setChartType(type);
+    },
+    isCurrentChart(chart) {
+      return this.currentChart === chart;
+    },
     fullscreen() {
       const elem = document.getElementById('vue-charting-library');
       if (elem.requestFullscreen) {
