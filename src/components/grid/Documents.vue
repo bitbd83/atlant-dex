@@ -41,51 +41,23 @@ export default {
         name: 'My Tree',
         children: [
           {
-            name: 'hello',
-          },
-          {
-            name: 'wat',
-          },
-          {
-            name: 'child folder',
+            name: 'Child folder',
             children: [
               {
-                name: 'child folder',
-                children: [
-                  {
-                    name: '<a href="http://google.com/" target="_blank">Overview.pdf</a>',
-                    class: 'file file--pdf',
-                  },
-                  {
-                    name: '<a href="http://google.com/" target="_blank">Sheet.xls</a>',
-                    class: 'file file--xls',
-                  },
-                  {
-                    name: '<a href="http://google.com/" target="_blank">Summary.docx</a>',
-                    class: 'file file--docx',
-                  },
-                  {
-                    name: '<a href="http://google.com/" target="_blank">Building preview.jpg</a>',
-                    class: 'file file--jpg',
-                  },
-                ],
+                name: '<a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank">Overview.pdf</a>',
+                class: 'file file--pdf',
               },
               {
-                name: 'hello',
+                name: '<a href="https://www.cmu.edu/blackboard/files/evaluate/tests-example.xls" target="_blank">Sheet.xls</a>',
+                class: 'file file--xls',
               },
               {
-                name: 'wat',
+                name: '<a href="https://calibre-ebook.com/downloads/demos/demo.docx" target="_blank">Summary.docx</a>',
+                class: 'file file--docx',
               },
               {
-                name: 'child folder',
-                children: [
-                  {
-                    name: 'hello',
-                  },
-                  {
-                    name: 'wat',
-                  },
-                ],
+                name: '<a href="https://cdn.pixabay.com/photo/2018/07/14/15/27/cafe-3537801__340.jpg" target="_blank">Building preview.jpg</a>',
+                class: 'file file--jpg',
               },
             ],
           },
