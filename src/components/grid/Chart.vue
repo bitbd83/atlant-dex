@@ -19,6 +19,7 @@ Tile(
     :name="data.name"
   )
     .chart
+      CSSLoader(v-if="loading")
       IEcharts(:option="chart", :loading="false", :resizable="true")#chart
 </template>
 
@@ -34,6 +35,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   mixins: [TileBase],
@@ -41,6 +43,7 @@ export default {
     return {
       chart: {},
       maxRenderedCandles: 0,
+      loading: false,
     };
   },
   computed: {
@@ -352,14 +355,22 @@ export default {
     },
   },
   created() {
+    this.loading = true;
     this.loadChart().then(() => {
       this.createChart();
-    });
+      this.loading = false;
+    })
+    .catch(
+      () => {
+        this.loading = false;
+      }
+    );
     this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     IEcharts,
     ChartHeader,
+    CSSLoader,
   },
 };
 </script>
@@ -373,5 +384,6 @@ export default {
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   padding: 0 0 0 15px;
+  position: relative;
 }
 </style>

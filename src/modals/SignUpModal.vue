@@ -3,25 +3,24 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:step="step", :isSuccess="isSuccess", title="Sign up")
-  .singUp
-    Icon.singUp__icon(id="signup")
-    form.singUp__content(v-if="step == 0" @submit.prevent="signUpUser")
-      .singUp__headerContent
-        .singUp__title Sign up
-        .singUp__other( @click="openSignIn") Sign in
-      .singUp__blocks
-        .singUp__block
-          IInput.singUp__input(label="Email address", v-model="email")
-          IInput.singUp__input(label="Choose a password", v-model="password",  type="password")
-          IInput.singUp__input(label="Confirm password", v-model="passwordRepeat",  type="password")
-          .singUp__hiddenError(v-show="parsePassword") {{parsePassword}}
-        .singUp__block
-          Checkbox.singUp__checkbox(name="acknowledged", :value="true", v-model="iAgree")
-            span.singUp__iAgree I certify that I am 18 years of age or older, and I agree to the #[a.link(href="#") User Agreement] and #[a.link(href="#") Privacy Policy].
-          BButton.singUp__button(color="malachite" rounded type="submit") Create account
-      .singUp__other(@click="openSignIn") Sign in
-    Status.singUp__status(v-if="step == 1", :isSuccess="isSuccess")
+ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign up")
+  .signup
+    form.signup__content(v-if="step == 0"  @submit.prevent="signUpUser()")
+      .signup__inputs
+        .signup__input
+          .signup__input-title E-mail
+          IInput.signup__input-input(v-model="email", type="email")
+        .signup__input
+          .signup__input-title Password
+          IInput.signup__input-input(v-model="password", type="password")
+      .signup__checkboxContainer
+        Checkbox.signup__checkbox(name="acknowledged", :value="true", v-model="iAgree", color="white")
+          .signup__checkboxLabel I certify that I am 18 years of age or older, and I agree to the #[a.link.link--white.signup__agreeLink(href="#") User Agreement] and #[a.link.link--white.signup__agreeLink(href="#") Privacy Policy].
+      BButton.signup__button(color="white" type="submit") Create account
+      .signup__link(@click="openSignIn")
+        span.link.link--white Sign in
+        icon.signup__linkArrow(id="arrow_short")
+    Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
 </template>
 
 <script>
@@ -68,10 +67,6 @@ export default {
       });
     },
     signUpUser() {
-      if (this.$v.$invalid) {
-        this.$v.$touch();
-        return false;
-      };
       Membership.signup({
         email: this.email,
         password: this.password,
@@ -106,95 +101,91 @@ export default {
 <style lang="scss">
 @import 'variables';
 
-.singUp {
+.signup {
   display: flex;
-  flex: 1;
   flex-direction: column;
+  align-items: center;
+  min-width: 522px;
   justify-content: center;
-  max-width: 522px;
-  margin: auto;
-  &__icon {
-    $size: 77px;
-    width: $size;
-    height: $size;
-    fill: $color_yellow;
-    margin: auto;
-    margin-bottom: 50px;
-  }
-  &__headerContent {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 50px;
-  }
+
   &__title {
     font-size: 18px;
     font-weight: 900;
     text-transform: uppercase;
   }
-  &__other {
-    $color: #f7b933;
-    color: $color;
-    font-size: 14px;
-    position: relative;
-    font-weight: 700;
-    cursor: pointer;
-    &::after {
-      content: "";
-      height: 3px;
-      width: 100%;
-      bottom: -5px;
-      left: 0;
-      position: absolute;
-      background-color: $color;
-    }
-  }
-  &__blocks {
-    display: flex;
-    flex-direction: space-between;
-    justify-content: space-between;
-  }
 
-  &__block {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
   &__inputs {
-
     display: flex;
-    flex-direction: column;
-    & > * {
-      flex-basis: 40%;
-      margin-bottom: 50px;
-    }
+    margin-bottom: 75px;
   }
   &__input {
-    &:not(:last-child){
-      margin-bottom: 40px;
+    display: flex;
+
+    &:first-of-type {
+      margin-right: 57px;
+    }
+    &-title {
+      margin-right: 18px;
+      font-weight: 700;
+      font-size: 16px;
+      color: $color__white;
+    }
+
+    &-input {
+      width: 147px;
     }
   }
-  &__hiddenError {
-    color: #f33a3a;
-    margin-top: -14px;
-  }
-  &__checkbox {
-    align-items: flex-start !important;
+
+  &__checkboxContainer {
+    margin-bottom: 65px;
+    display: flex;
+    justify-content: space-between;
   }
 
-  &__iAgree {
-    margin-left: 29px;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 20px;
+  &__checkbox {
+    flex-direction: row;
+    align-items: baseline !important;
   }
+
+  &__checkboxLabel {
+    max-width: 400px;
+    font-family: CenturyGothic;
+    font-size: 12px;
+    color: $color__white;
+    letter-spacing: 0.38px;
+    line-height: 25px;
+    margin-left: 42px;
+  }
+
+  &__agreeLink {
+    font-size: 12px;
+    &:after {
+      bottom: -1px;
+      height: 2px;
+    }
+  }
+
   &__button {
-    margin-left: auto;
-    margin-right: auto;
+    display: block;
+    width: 184px;
+    margin-bottom: 82px;
     font-size: 16px;
-    font-weight: 900px;
+    font-weight: 900;
+    text-align: center;
     text-transform: uppercase;
+  }
+
+  &__link {
+    cursor: pointer;
+  }
+
+  &__linkArrow {
+     display: inline-block;
+    fill: $fill__white;
+    width: 12px;
+    height: 10px;
+    margin-left: 20px;
+    margin-top: 6px;
   }
 }
 </style>
