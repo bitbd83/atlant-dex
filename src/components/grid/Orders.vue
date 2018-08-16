@@ -21,17 +21,17 @@ Tile(
     .orders
       CSSLoader(v-if="loading")
       .orders__container(v-scrollbar="")
-        table.orders__body
-          tr.orders__title
-            td.orders__cell.orders__cell--trash
-            td.orders__cell.orders__cell--sell Side
-            td.orders__cell.orders__cell--type Type
-            td.orders__cell.orders__cell--number Price
-            td.orders__cell.orders__cell--number Current
-            td.orders__cell.orders__cell--number Initial
-            td.orders__cell.orders__cell--status Status
-            td.orders__cell.orders__cell--date Date
-        table.orders__body
+        table.orders__table
+          th.orders__head
+            td.orders__title.orders__title--trash
+            td.orders__title.orders__title--sell Side
+            td.orders__title.orders__title--type Type
+            td.orders__title.orders__title--number Price
+            td.orders__title.orders__title--number Current
+            td.orders__title.orders__title--number Initial
+            td.orders__title.orders__title--status Status
+            td.orders__title.orders__title--date Date
+        table.orders__table
           tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
             td.orders__cell.orders__cell--trash
               Icon.orders__trash(id='trash' @click="isActive ? deleteOrder(order.id) : ''", :class="'orders__trash--' + (isActive ? 'active' : 'disabled')")
@@ -40,9 +40,9 @@ Tile(
                 .orders__square(:class="'orders__square--' + getAction(order.side)")
                 .orders__type {{getAction(order.side)}}
             td.orders__cell.orders__cell--type {{orderType[order.type]}}
-            td.orders__cell.orders__cell--number {{order.price}}
-            td.orders__cell.orders__cell--number {{order.leavesQuantity}}
-            td.orders__cell.orders__cell--number {{order.totalQuantity}}
+            td.orders__cell.orders__cell--number {{order.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+            td.orders__cell.orders__cell--number {{order.leavesQuantity | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+            td.orders__cell.orders__cell--number {{order.totalQuantity | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
             td.orders__cell.orders__cell--status {{orderStatus[order.status]}}
             td.orders__cell.orders__cell--date {{setDate(order.creationDate)}}
 </template>
@@ -147,48 +147,50 @@ export default {
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   background-color: $background__white;
-  &:hover {
-    background-color: $background__grey_dark;
-  }
+  padding: 10px;
   &__container {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin: 15px;
   }
-  &__body {
+  &__table {
     width: 100%;
-    padding-right: 15px;
+    border-spacing: 0;
+    border-collapse: separate;
   }
   &__row {
     height: 33px;
     padding-bottom: 15px;
+    cursor: pointer;
+    &:hover {
+      background-color: $background__blue_light;
+    }
   }
-  &__cell {
+  &__cell, &__title {
     width: 12%;
     padding-bottom: 4px;
     &--sell {
       width: 90px;
     }
-    &--status {
-      width: 124px;
-    }
     &--date {
-      width: 130px;
+      min-width: 140px;
     }
     &--trash {
-      max-width: 40px;
-      width: 40px;
+      width: 20px;
+      max-width: 20px;
+      min-width: 20px;
+    }
+    &--number {
+      text-align: right;
+      padding-right: 20px;
     }
   }
-  &__title {
+  &__head {
     text-align: left;
     text-transform: uppercase;
     color: $color__grey;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 300;
-    height: 40px;
-    padding-bottom: 25px;
   }
   &__typeWrapper {
     display: flex;

@@ -18,7 +18,7 @@ Tile(
     :name="data.name"
   )
     .photos
-      .photos__container(v-scrollbar="")
+      .photos__container
         .galleryInfo
           span.current {{ active + 1 }}
           span.length  / {{ length }}
@@ -36,7 +36,6 @@ Tile(
 
 <script>
 import TileBase from '../../mixins/TileBase';
-import {scrollbar} from '@/directives';
 
 export default {
   mixins: [TileBase],
@@ -73,9 +72,6 @@ export default {
       return this.images.length;
     },
   },
-  directives: {
-    scrollbar,
-  },
   methods: {
     setActive(el) {
       this.active = el.index;
@@ -104,7 +100,7 @@ export default {
   display: flex;
   width: 100%;
   background-color: $background__white;
-  padding: 35px 45px;
+  padding: 12px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   &__container {

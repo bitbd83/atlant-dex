@@ -18,29 +18,30 @@ Tile(
     :name="data.name"
   )
     .book
-      CSSLoader(v-if="loading")
-      .book__container(v-scrollbar="")
-        table.book__body
-          tr.book__title
-            //- th Amount
-            th Total
-            th Price
-          tr.book__row(v-for="(order, index) in book.bids")
-            //- td.book__cell {{order.amount.toFixed(4)}}
-            td.book__cell {{(order.price * order.amount).toFixed(4)}}
-            td.book__cell.book__cell--bid {{order.price}}
-    .book
-      CSSLoader(v-if="loading")
-      .book__container(v-scrollbar="")
-        table.book__body
-          tr.book__title
-            th Price
-            //- th Amount
-            th Total
-          tr.book__row(v-for="(order, index) in book.asks")
-            td.book__cell.book__cell--ask {{order.price}}
-            //- td.book__cell {{order.amount.toFixed(4)}}
-            td.book__cell {{(order.price * order.amount).toFixed(4)}}
+      .book__side
+        CSSLoader(v-if="loading")
+        .book__container(v-scrollbar="")
+          table.book__table
+            tr.book__title
+              //- th Amount
+              th Total
+              th Price
+            tr.book__row(v-for="(order, index) in book.bids")
+              //- td.book__cell {{order.amount.toFixed(4)}}
+              td.book__cell {{(order.price * order.amount) | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+              td.book__cell.book__cell--bid {{order.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+      .book__side
+        CSSLoader(v-if="loading")
+        .book__container(v-scrollbar="")
+          table.book__table
+            tr.book__title
+              th Price
+              //- th Amount
+              th Total
+            tr.book__row(v-for="(order, index) in book.asks")
+              td.book__cell.book__cell--ask {{order.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+              //- td.book__cell {{order.amount.toFixed(4)}}
+              td.book__cell {{(order.price * order.amount) | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
 </template>
 
 <script>
@@ -117,16 +118,22 @@ export default {
 
 .book {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1;
   height: 100%;
-  padding: 5px 0 5px 5px;
+  padding: 10px 0 10px 10px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
   background-color: $background__white;
-  &:hover {
-    background-color: $background__grey_dark;
+  &__side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    &:first-child {
+      border-right: 1px solid $color__grey_border;
+    }
+    &:nth-child(2) {
+      padding-left: 15px;
+    }
   }
   &__container {
     position: relative;
@@ -134,10 +141,14 @@ export default {
     flex-direction: column;
     padding-right: 15px;
   }
+  &__table {
+    border-spacing: 0;
+    border-collapse: separate;
+  }
   &__title {
     text-transform: uppercase;
     color: $color__grey;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 300;
     height: 25px;
     padding-bottom: 25px;
@@ -146,12 +157,18 @@ export default {
     }
   }
   &__row {
+    cursor: pointer;
+    &:hover {
+      background-color: $background__blue_light;
+    }
     & td {
       text-align: right;
     }
   }
   &__cell {
-    width: 50%;
+    &:nth-child(2) {
+      width: 100%;
+    }
     // border: 1px solid black;
     &--ask {
       color: $color__red;
