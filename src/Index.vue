@@ -117,9 +117,10 @@ export default {
       changeOrderStatus: 'changeOrderStatus',
       addNewTrade: 'addNewTrade',
     }),
-    ...mapMutations('user', {
-      changePortfolio: 'changePortfolio',
-    }),
+    ...mapMutations('user', [
+      'changePortfolio',
+      'setNotificationsCounter',
+    ]),
     ...mapMutations('alerts', [
       'updateSidebarAlert',
     ]),
@@ -139,6 +140,9 @@ export default {
       'insertSidebarAlert',
       'resetAlertsList',
     ]),
+    ...mapActions('orders', [
+      'updateOrderBook',
+    ]),
     updateOverflow() {
       // document.querySelector('#app').style.overflow = this.showSidebar ? 'hidden' : null;
     },
@@ -150,6 +154,9 @@ export default {
             text: i18n.t(`notifications.${signalRNotification[data.notificationType]}`, i18n.locale, data.arguments),
             type: 'info',
           });
+          if (data.notificationType < 7) {
+            this.setNotificationsCounter(this.notificationsCounter + 1);
+          }
         };
       });
       this.$hub.on('newOrder', (data) => {
@@ -167,6 +174,7 @@ export default {
       this.$hub.on('newTradeStatistic', (data) => {
       });
       this.$hub.on('orderBookChanged', (data) => {
+        this.updateOrderBook(data);
       });
       this.$hub.on('newAlert', (data) => {
         this.insertSidebarAlert(data);

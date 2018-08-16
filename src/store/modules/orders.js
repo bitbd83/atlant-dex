@@ -7,7 +7,6 @@ import * as Orders from 'services/api/orders';
 export default {
   state: {
     book: {
-      status: 0,
       bids: [],
       asks: [],
     },
@@ -82,7 +81,6 @@ export default {
     },
     addActiveOrder(state, obj) {
       state.orders.unshift(obj);
-      state.book.status = 1;
     },
     changeOrderStatus(state, obj) {
       let order = state.orders.find((item) => item.id === obj.id);
@@ -90,7 +88,6 @@ export default {
         order.leavesQuantity = obj.leavesQuantity;
         order.status = obj.status;
       }
-      state.book.status = 1;
     },
     setTradesForOrder(state, data) {
       let arr = state.accountOrders.orders;
@@ -103,6 +100,55 @@ export default {
     addNewTrade(state, obj) {
       state.trades.unshift(obj);
       state.trades.splice(-1, 1);
+    },
+    updateBook(state, data) {
+      const newTop = (book, change, filter) => {
+        if (change.data.price === 0) {
+          book = []; return;
+        }
+        book = book.filter((item) => filter(item.price, change.data.price));
+        book.unshift(change.data);
+        if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+        return book;
+      };
+
+      const newMid = (book, change, filter) => {
+        for (let i in book) {
+          if (book[i].price === change.data.price) {
+            if (change.data.amount === 0) {
+              book.splice(i, 1);
+            } else {
+              book[i].amount = change.data.amount;
+            }
+            break;
+          } else if (filter(book[i].price, change.data.price)) {
+            book.splice(i, 0, change.data);
+            if (book.length > state.bookLimit) book = book.slice(0, state.bookLimit);
+            break;
+          } else if (i == book.length - 1) {
+            book.push(change.data);
+          }
+        }
+        return book;
+      };
+
+      const append = (book, change) => {
+        if (book.length < state.bookLimit) book.push(...change.data);
+        return book;
+      };
+
+      const bookUpdateTypes = [newTop, newMid, append];
+
+      const ordersUpdateBook = (book, filter) => {
+        data.changes.forEach((change) => book = bookUpdateTypes[change.type](book, change, filter));
+        return book;
+      };
+
+      if (data.side === 1) {
+        state.book.asks = ordersUpdateBook(state.book.asks, (itemPrice, cutoffPrice) => itemPrice > cutoffPrice);
+      } else {
+        state.book.bids = ordersUpdateBook(state.book.bids, (itemPrice, cutoffPrice) => itemPrice < cutoffPrice);
+      }
     },
   },
   actions: {
@@ -171,6 +217,12 @@ export default {
         },
       ).then((response) => {
         commit('setTradeHistory', response.data);
+      });
+    },
+    updateOrderBook({state, commit}, data) {
+      commit('updateBook', {
+        changes: data.changes,
+        side: data.side,
       });
     },
   },
