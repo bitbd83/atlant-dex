@@ -23,7 +23,7 @@ export const profileSections = [{
         type: 'route',
       },
       {
-        label: 'Allerts',
+        label: 'Alerts',
         name: 'alertsList',
         type: 'route',
       },

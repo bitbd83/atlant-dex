@@ -4,7 +4,7 @@
 
 <template lang="pug">
 TableLayout(
-  title= "ALLERTS LIST",
+  title= "Alerts LIST",
   :data="data",
   :pageCount='setPagesCount',
   :page="page",

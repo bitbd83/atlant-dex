@@ -117,12 +117,12 @@ export default {
 @import 'variables';
 
   .multiselect {
+    position: relative;
     cursor: pointer;
     display: block;
     outline: 0;
-    position: relative;
     text-align: left;
-    margin-right: 28px;
+    margin-right: 18px;
     &--active /deep/ &__tags {
       border-color: $input-border-color-highlight;
     }
@@ -222,7 +222,7 @@ export default {
       &__select {
         position: absolute;
         height: 100%;
-        right: -28px;
+        right: -15px;
         top: 0;
         padding: 0 9px;
         transition: transform .2s ease;

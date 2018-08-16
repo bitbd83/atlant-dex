@@ -23,14 +23,14 @@ ContentLayout(title="Profile")
           .profile__item.profile__item--other
             .profile__param Email:
             .profile__value.profile__value--inline {{account.email.value}} #[Icon.profile__iconVerified(v-if="account.email.verified" id="icon-status-verified")]
-          .profile__item.profile__item--other
-            ProfilePageChangePhone
           .profile__item
             .profile__param Verification status:
             .profile__value.profile__value--inline
               .profile__rating(:class="`profile__rating--${account.verificationRating}`") Tier {{account.verificationRating}}
               //- .profile__rating(v-show="account.verificationRating") Tier {{account.verificationRating}}
               .link.profile__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="getOpenPage('verification')") Upgrade
+          .profile__item.profile__item--other
+            ProfilePageChangePhone
           //- .profile__item
           //-   .profile__param Theme:
           //-   .profile__value.profile__value--inline
@@ -75,6 +75,9 @@ export default {
     ...mapState('user', {
       account: 'account',
       theme: 'theme',
+    }),
+    ...mapState('geo', {
+      countries: 'countries',
     }),
     regdate() {
       return DateTime.fromISO(this.account.regDate).toFormat('dd LLL. yyyy');
@@ -233,7 +236,7 @@ export default {
   //   margin-top: 20px;
   // }
   &__dropdown {
-    width: 40px;
+    // width: 40px;
     margin-top: 5px;
   }
 }

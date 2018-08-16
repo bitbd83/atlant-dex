@@ -6,7 +6,8 @@
 .changePhone
   .changePhone__param Contact phone:
   .changePhone__row(v-if="step === 0")
-    .changePhone__value {{this.account.phone.value}} #[Icon.changePhone__icon(v-if="account.phone.verified" id="verified")]
+    img.changePhone__imgFlag(:src="`/static/flags/${account.phone.countryCode}.png`")
+    .changePhone__value +{{getCountryPhoneCode(account.phone.countryCode)}}{{account.phone.value}} #[Icon.changePhone__icon(v-if="account.phone.verified" id="verified")]
     .link.changePhone__action(:class="{'changePhone__action--empty' : isEmpty}" @click="changePhone") Change
     .link.changePhone__action(v-if="account.phone.value && !account.phone.verified" @click="verifyPhone") Verify
   .changePhone__row(v-if="step === 1")
@@ -19,9 +20,8 @@
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as User from 'services/api/user';
-import {getCountryCode} from 'services/countries';
 // import {serverNotification} from 'services/notification';
 import FlagSwitch from 'components/FlagSwitch';
 import TFA from 'components/TFA';
@@ -35,15 +35,13 @@ export default {
     };
   },
   computed: {
+    ...mapGetters('geo', ['getCountryPhoneCode']),
     isEmpty() {
       return (this.account.phone.value === null && this.step === 0);
     },
     ...mapState('user', {
       account: 'account',
     }),
-    getCountryCode() {
-      return getCountryCode(this.country);
-    },
   },
   methods: {
     ...mapMutations('user', {
@@ -56,13 +54,14 @@ export default {
       this.step = step;
     },
     changePhone() {
-      this.phone = this.account.phone.value ? this.account.phone.value.substring(getCountryCode(this.account.phone.countryCode).length) : '';
+      // this.phone = this.account.phone.value ? this.account.phone.value.substring(getCountryPhoneCode(this.account.phone.countryCode).length) : '';
+      this.phone = this.account.phone.value ? this.account.phone.value : '';
       this.country = this.account.phone.countryCode ? this.account.phone.countryCode : 'us';
       this.setStep(1);
     },
     setPhoneNumber() {
       this.setPhone({
-        phone: this.getCountryCode + this.phone,
+        phone: this.getCountryPhoneCode() + this.phone,
         countryCode: this.country,
       }).then(() => {
         this.setPhoneVerified(false);
@@ -124,12 +123,18 @@ export default {
     }
   }
   &__dropdown {
-    width: 40px;
-    margin-right: 10px;
+    // width: 40px;
+    // margin-right: 10px;
   }
   &__input {
     width: 180px;
     margin-left: 10px;
+  }
+  &__imgFlag {
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    margin-right: 12px;
   }
   &__icon{
     $size: 13px;
