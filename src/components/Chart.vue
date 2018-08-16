@@ -32,6 +32,8 @@ export default {
           'header_settings',
           'header_undo_redo',
           'header_indicators',
+          'header_fullscreen_button',
+          'header_widget',
         ],
       },
     };

@@ -7,7 +7,7 @@
   .chartHeader__buttons
     .chartHeader__buttonTxt.chartHeader__buttonTxt--period(v-for="period in periods", :class="{'chartHeader__buttonTxt--active' : isCurrentPeriod(period)}", @click="setChartPeriod(period)") {{period}}
   .chartHeader__rightButtons
-    .chartHeader__button.chartHeader__buttonFull
+    .chartHeader__button.chartHeader__buttonFull(@click="fullscreen()")
 </template>
 
 <script>
@@ -29,6 +29,16 @@ export default {
     ...mapActions('chart', {
       setChartPeriod: 'changeChartPeriod',
     }),
+    fullscreen() {
+      const elem = document.getElementById('vue-charting-library');
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.mozRequestFullScreen) {
+        elem.mozRequestFullScreen();
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen();
+      }
+    },
   },
 };
 
