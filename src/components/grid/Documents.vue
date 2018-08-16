@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     prepareFolder(name, open) {
-      return open ? `${ name } <span class="folder__indicator"><span>[-]</span><span>[+]</span></span>` : `${ name } <span class="folder__indicator"><span>[+]</span><span>[-]</span></span>`;
+      return open ? `${ name } <span class="folder__indicator">[-]</span>` : `${ name } <span class="folder__indicator">[+]</span>`;
     },
   },
 };
@@ -146,21 +146,10 @@ export default {
   & .folder{
     position: relative;
     padding-left: 32px;
-
-    &:hover .folder__indicator span:first-child{
-      display: none;
-    }
-
-    &:hover .folder__indicator span:last-child{
-      display: inline;
-    }
+    cursor: pointer;
 
     & .folder__indicator{
       color: $color__blue;
-
-      & span:last-child{
-        display: none;
-      }
     }
 
     &.is-open.first-children-is-folder:after{
