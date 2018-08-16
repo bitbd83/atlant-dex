@@ -21,6 +21,7 @@ Tile(
       VueTreeExample(
         :model="model"
         :prepareFolderNameFunc="prepareFolder"
+        v-scrollbar=""
       )
       small Last update: 25.03.2019
 </template>
@@ -35,13 +36,16 @@ export default {
   components: {
     VueTreeExample,
   },
+  directives: {
+    scrollbar,
+  },
   data() {
     return {
       model: {
-        name: 'My Tree',
+        name: 'Documents',
         children: [
           {
-            name: 'Child folder',
+            name: 'Property details',
             children: [
               {
                 name: '<a href="https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" target="_blank">Overview.pdf</a>',
@@ -70,7 +74,7 @@ export default {
   },
   methods: {
     prepareFolder(name, open) {
-      return open ? `${ name } <span class="folder__indicator">[-]</span>` : `${ name } <span class="folder__indicator">[+]</span>`;
+      return open ? `${ name } <span class="folder__indicator"><span>[-]</span><span>[+]</span></span>` : `${ name } <span class="folder__indicator"><span>[+]</span><span>[-]</span></span>`;
     },
   },
 };
@@ -143,8 +147,20 @@ export default {
     position: relative;
     padding-left: 32px;
 
+    &:hover .folder__indicator span:first-child{
+      display: none;
+    }
+
+    &:hover .folder__indicator span:last-child{
+      display: inline;
+    }
+
     & .folder__indicator{
       color: $color__blue;
+
+      & span:last-child{
+        display: none;
+      }
     }
 
     &.is-open.first-children-is-folder:after{
