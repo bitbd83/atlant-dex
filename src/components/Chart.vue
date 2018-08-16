@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       options: {
+        symbol: 'BTC/USD',
         overrides: {
           'symbolWatermarkProperties.color': 'rgba(0, 0, 0, 0)',
         },

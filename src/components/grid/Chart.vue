@@ -160,6 +160,12 @@ export default {
     // this.loadChart().then(() => {
     //   this.createChart();
     // });
+    this.$hub.on(
+      'candle_1d_BTC_USD',
+      (data, data2) => {
+        console.log('hell', data, data2);
+      }
+    );
     this.$hub.on('Send', this.onSendSignal);
   },
   components: {
