@@ -187,11 +187,20 @@ export default {
   },
   watch: {
     pair() {
-      this.$hub.invoke('setPair', this.pair);
+      this.$hub.invokeByStart
+        .then(
+          (connection) => {
+            connection.invoke('setPair', this.pair);
+          }
+        );
     },
     token() {
       if (this.token) {
-        this.$hub.invoke('authenticate', this.token);
+        this.$hub.invokeByStart.then(
+          (connection) => {
+            connection.invoke('authenticate', this.token);
+          }
+        );
       }
     },
     showSidebar() {
@@ -222,13 +231,6 @@ export default {
       this.getProfileData();
       this.getCurrencies();
     };
-
-    this.$hub.start().then(() => {
-      // this.$hub.invoke('newNotification', 'newMessage');
-      // if (this.isLoggedIn) {
-      //   this.$hub.setToken(this.token);
-      // }
-    });
   },
   mounted() {
     if (showWelcome) {

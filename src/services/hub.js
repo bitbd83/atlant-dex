@@ -9,6 +9,7 @@ export default {
     let connection = new HubConnectionBuilder()
       .withUrl(`${url}?token=${token}&pair=${pair}`)
       .build();
+    connection.invoeByStart = connection.start().then(() => connection);
     Vue.prototype.$hub = connection;
   },
 };
