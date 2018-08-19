@@ -11,5 +11,6 @@ git push deploy dev
 # build frontend after deploying
 ssh deploy@$IP <<EOF
   cd $DEPLOY_DIR
+  npm install
   npm run build
 EOF
