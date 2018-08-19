@@ -1,14 +1,25 @@
-## Build Setup
+## ATLANT - Property Token Exchange
 
-install dependencies
+```
+  License: MS-RSL
+  Author: Tensigma Ltd
+  Language: JavaScript / Vue
+  Homepage: https://atlant.io
+```
+
+[![Build Status](https://travis-ci.org/AtlantPlatform/atlant-dex.svg?branch=dev)](https://travis-ci.org/AtlantPlatform/atlant-dex)
+
+## How to build
+
+Install dependencies
 ``` bash
 npm install
 ```
-serve with hot reload at localhost:3000
+Serve with hot reload at localhost:3000
 ``` bash
 npm run dev
 ```
-build for production with minification
+Build for production with minification
 ``` bash
 npm run build
 ```
