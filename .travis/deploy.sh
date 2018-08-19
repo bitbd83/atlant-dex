@@ -1,0 +1,15 @@
+#!/bin/bash
+
+eval "$(ssh-agent -s)" # Start ssh-agent cache
+chmod 600 .travis/deploy-key # Allow read access to the private key
+ssh-add .travis/deploy-key # Add the private key to SSH
+
+git config --global push.default matching
+git remote add deploy ssh://deploy@$IP$DEPLOY_DIR
+git push deploy dev
+
+# build frontend after deploying
+ssh deploy@$IP <<EOF
+  cd $DEPLOY_DIR
+  npm run build
+EOF
