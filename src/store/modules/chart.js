@@ -5,6 +5,7 @@
 import * as Chart from 'services/api/charts';
 import {defPeriod} from '@/config';
 import {debounce} from 'services/misc';
+import resolutions from '@/store/staticData/resolutions';
 
 export default {
   state: {
@@ -128,16 +129,18 @@ export default {
     },
   },
   actions: {
-    loadChart: debounce(function({commit, state, dispatch, getters, rootState}) {
+    loadChart({commit, state, dispatch, getters, rootState}) {
       return Chart.getCandlesCollection({
         period: state.period,
         pair: rootState.tradeInfo.pair,
       }).then((res) => {
         const candles = getters.getActualizedCandlesCollection(res.data.candles);
         commit('setChartData', Object.assign(res.data, {candles}));
+        return candles;
       });
-    }, 50),
+    },
     changeChartPeriod({commit, dispatch}, period) {
+      window.tvWidget.setSymbol('BTC/USD', resolutions[period]);
       commit('setPeriod', period);
       return dispatch('loadChart');
     },

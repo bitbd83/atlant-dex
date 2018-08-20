@@ -13,4 +13,5 @@ export default {
   Research: 'Research',
   saveView: 'Save view',
   ExtendedInfo: 'Extended info',
+  Documents: 'Documents',
 };

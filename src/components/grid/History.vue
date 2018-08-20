@@ -22,10 +22,13 @@ Tile(
       .history__container(v-scrollbar="")
         table.history__table
           tbody.history__body
+            tr.history__title
+              th Price
+              th Total
             tr.history__row(v-for='(trade, index) in lastTrades')
-              td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price}}
-              td.history__cell {{trade.amount.toFixed(4)}}
-              td.history__cell {{(trade.price * trade.amount).toFixed(4)}}
+              td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+              //- td.history__cell {{trade.amount | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
+              td.history__cell {{(trade.price * trade.amount) | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
 </template>
 
 <script>
@@ -92,13 +95,10 @@ export default {
   display: flex;
   width: 100%;
   background-color: $background__white;
-  padding: 15px 0 15px 15px;
+  padding: 10px 0 10px 10px;
   border-radius: 8px;
   position: relative;
   border: 1px solid $color__grey_border;
-  &:hover {
-    background-color: $background__grey_dark;
-  }
   &__container {
     position: relative;
     overflow: hidden;
@@ -107,22 +107,33 @@ export default {
   }
   &__table {
     width: 100%;
+    border-spacing: 0;
+    border-collapse: separate;
+  }
+  &__title {
+    text-transform: uppercase;
+    color: $color__grey;
+    font-size: 10px;
+    font-weight: 300;
+    height: 25px;
+    padding-bottom: 25px;
+    & th {
+      text-align: right;
+    }
   }
   &__row {
+    cursor: pointer;
+    &:hover {
+      background-color: $background__blue_light;
+    }
     & td {
-      &:nth-child(1) {
-        text-align: left;
-      }
-      &:nth-child(2) {
-        text-align: center;
-      }
-      &:nth-child(3) {
-        text-align: right;
-      }
+      text-align: right;
     }
   }
   &__cell {
-    width: 33.333%;
+    &:nth-child(2) {
+      width: 100%;
+    }
     &--buy {
       color: $color__green;
     }

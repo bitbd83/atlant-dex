@@ -21,11 +21,11 @@ export const getServerErrorText = (responseData) => {
 export const notification = ({title = '', text, type = 'info'}) => {
   let errorTag = '';
   if (type === 'error') {
-    errorTag = `<b style="color:red;">Error. </b>`;
+    errorTag = `<b class="noty_errorText">Error: </b> <br>`;
   };
   new Noty({
     text: `${errorTag}<b>${title}</b> ${text}`,
-    type: 'info',
+    type: type,
     layout: 'topRight',
     closeWith: ['click', 'button'],
     progressBar: false,
