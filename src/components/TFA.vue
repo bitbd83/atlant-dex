@@ -10,13 +10,13 @@
       span.tfa__text {{setTextMessage}}
     .tfa__inputContainer
       IInput.tfa__input(v-model="secureCode", label="Code")
-    BButton.tfa__button(color="malachite" rounded) Confirm
+    BButton.tfa__button(color="malachite" rounded) {{$t('confirm')}}
     .tfa__repeatContainer
-      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") The new code will be available in #[span.link.link--white {{timer}}] sec
-      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") Send code
+      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") {{$t('the_new_code_will_be_available_in')}} #[span.link.link--white {{timer}}] {{$t('sec')}}
+      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") {{$t('send_code')}}
     .tfa__cancelContainer(@click="onCancel()")
       icon.tfa__cancelIcon(id="arrow_short")
-      .link.link--white Cancel
+      .link.link--white {{$t('cancel')}}
   form(v-else)
     .tfa__title.tfa__row
         icon.tfa__icon.tfa__icon--dark(id='icon-modal-confirm-dialog')
@@ -24,14 +24,13 @@
     .tfa__row.tfa__row--desktop
       input.input(placeholder="Enter security code" v-model="secureCode")
       .tfa__row.tfa__row--mobileMargin
-        .link.link.tfa__link(@click="onConfirm(secureCode)") Confirm
-        .link.link.tfa__link(@click="onCancel()") Cancel
+        .link.link.tfa__link(@click="onConfirm(secureCode)") {{$t('confirm')}}
+        .link.link.tfa__link(@click="onCancel()") {{$t('cancel')}}
     .tfa__row(v-if="isLinkAviable && security.tfa.method != 2")
       Icon.tfa__iconResend(id="icon-resend" @click="getCountDown(); onResend()")
-      .link.tfa__link(@click="getCountDown(); onResend()") Resend
-      | confirmation code
+      .link.tfa__link(@click="getCountDown(); onResend()") {{$t('resend_confirmation_code')}}
     .tfa__row(v-if="!isLinkAviable && security.tfa.method != 2")
-      .tfa__repeatText.tfa__repeatText--dark The new code will be available in #[span.link {{timer}}] sec
+      .tfa__repeatText.tfa__repeatText--dark {{$t('the_new_code_will_be_available_in')}} #[span.link {{timer}}] {{$t('sec')}}
 </template>
 
 <script>

@@ -130,6 +130,11 @@ export default {
   transaction_history: 'Transaction History',
   my_orders: 'My Orders',
   notification_history: 'Notification History',
+  the_new_code_will_be_available_in: 'The new code will be available in',
+  sec: 'sec',
+  send_code: 'Send code',
+  resend_confirmation_code: 'Resend | confirmation code',
+  the_new_code_will_be_available_in: 'The new code will be available in',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
