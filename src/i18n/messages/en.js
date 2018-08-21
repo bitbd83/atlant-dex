@@ -135,6 +135,7 @@ export default {
   send_code: 'Send code',
   resend_confirmation_code: 'Resend | confirmation code',
   the_new_code_will_be_available_in: 'The new code will be available in',
+  current_pair: 'Current pair',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

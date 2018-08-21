@@ -4,7 +4,7 @@
 
 <template lang="pug">
 .pair
-  .title.pair__title Current pair:
+  .title.pair__title {{$t('current_pair')}}:
   .pair__currency.pair__currency--main(@click="dropOptions('base')")
     Icon(:id="getCurrencyIconId(baseCurrency)").pair__icon
     .pair__label {{baseCurrency}}
