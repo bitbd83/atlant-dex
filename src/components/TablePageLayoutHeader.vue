@@ -6,8 +6,8 @@
 .tableHeader
   // PageLayoutBackToDashboard.tableHeader__backTo
   .tableHeader__container(v-show="isTradeTables")
-    .tableHeader__title(@click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") Transaction History
-    .tableHeader__title(@click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") My Orders
+    .tableHeader__title(@click="getOpenPage('transactionHistory')", :class="(isThisPage('transactionHistory')) ? 'tableHeader__title--active' : ''") {{$t('transaction_history')}}
+    .tableHeader__title(@click="getOpenPage('myOrders')", :class="(isThisPage('myOrders')) ? 'tableHeader__title--active' : ''") {{$t('my_orders')}}
       Dropdown.tableHeader__dropdown(
         v-if="isThisPage('myOrders')",
         :options="sortTypes",
@@ -18,7 +18,7 @@
         underline,
       )
   .tableHeader__container(v-show="isNotifications")
-    .tableHeader__title(:class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") Notification History
+    .tableHeader__title(:class="(isThisPage('notificationHistory')) ? 'tableHeader__title--active' : ''") {{$t('notification_history')}}
 </template>
 
 <script>
