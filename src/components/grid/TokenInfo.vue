@@ -34,17 +34,17 @@ Tile(
 
         .tokenInfo__labelsRow.tokenInfo__labelsRow--first
           .tokenInfo__label
-            span Tokenised:
+            span {{$t('tokenised')}}:
             span {{ tokenised }}
           .tokenInfo__label.tokenInfo__label--down
-            span Volume 24h:
+            span {{$t('volume_24h')}}:
             span {{ volume | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
         .tokenInfo__labelsRow
           .tokenInfo__label.tokenInfo__label--down
-            span Current value:
+            span {{$t('current_value')}}:
             span {{ value | currency(' USD', 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
           .tokenInfo__label
-            span Total Supply:
+            span {{$t('total_supply')}}:
             span {{ total | currency(' ' + ticker, 0, { thousandsSeparator: '.', decimalSeparator: ',', symbolOnLeft: false }) }}
 </template>
 

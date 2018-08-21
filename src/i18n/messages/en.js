@@ -78,6 +78,10 @@ export default {
   status: 'Status',
   date: 'Date',
   show: 'Show',
+  tokenised: 'Tokenised',
+  volume_24h: 'Volume 24h',
+  current_value: 'Current value',
+  total_supply: 'Total Supply',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
