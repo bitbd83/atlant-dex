@@ -58,6 +58,16 @@ export default {
   emailSent: 'Email sent to {0}',
   serverErrors,
   widgetTitles,
+  market: 'Market',
+  limit: 'Limit',
+  limit_price: 'Limit price',
+  total_amount: 'Total amount',
+  confirm_by_order: 'Confirm buy order',
+  confirm_sell_order: 'Confirm sell order',
+  negative_or_zero_value: 'Negative or zero value:',
+  please_correct_the_value_provided: 'Please correct the value provided.',
+  error: 'error',
+  last_update: 'Last update',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

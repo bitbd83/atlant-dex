@@ -24,7 +24,7 @@ Tile(
           :prepareFolderNameFunc="prepareFolder"
           v-scrollbar=""
         )
-        small Last update: 25.03.2019
+        small {{$t('last_update')}}: 25.03.2019
 </template>
 
 <script>
