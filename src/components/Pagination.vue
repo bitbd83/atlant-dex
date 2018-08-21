@@ -19,7 +19,7 @@
           .pagination__space(v-show="page > 4") ...
           .pagination__number(v-show="(page - 2) > 0", @click="pageAction(page - 2)") {{page - 2}}
           .pagination__number(v-show="(page - 1) > 0", @click="pageAction(page - 1)") {{page - 1}}
-          .pagination__number.pagination__number-active Page {{page}}
+          .pagination__number.pagination__number-active {{$t('page')}} {{page}}
           .pagination__number(v-show="(page + 1) < pageCount", @click="pageAction(page+1)") {{page + 1}}
           .pagination__number(v-show="(page + 2) < pageCount", @click="pageAction(page + 2)") {{page + 2}}
           .pagination__space(v-show="(page + 3) < pageCount") ...
