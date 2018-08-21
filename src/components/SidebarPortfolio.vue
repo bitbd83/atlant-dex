@@ -6,15 +6,15 @@
 .portfolio
   .portfolio__item.portfolio__item--header
     .sidebarChild__headerLine
-      .sidebarChild__title Portfolio value:
+      .sidebarChild__title {{$t('portfolio_value')}}:
     .sidebarChild__headerLine
       .portfolio__balance $ {{portfolioValue | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
         span.portfolio__balanceChangedText {{percChng | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
     .sidebarChild__headerLine
-      .portfolio__action Make deposit
-      .portfolio__action Withdraw
+      .portfolio__action {{$t('make_deposit')}}
+      .portfolio__action {{$t('withdraw')}}
   .portfolio__content(v-scrollbar="")
     Accordion(title="Tokens & Coins:" isSidebar :isHidden="getUserBalancesInCrypto.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
@@ -22,14 +22,14 @@
       )
       .portfolio__add
         Icon.portfolio__addIcon(id="icon__add")
-        .portfolio__addText NEW
+        .portfolio__addText {{$t('new')}}
     Accordion(title="Currencies:" isSidebar :isHidden="getUserBalancesInFiat.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInFiat"
       )
       .portfolio__add
         Icon.portfolio__addIcon(id="icon__add")
-        .portfolio__addText NEW
+        .portfolio__addText {{$t('new')}}
 </template>
 
 <script>

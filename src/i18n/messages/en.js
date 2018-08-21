@@ -116,6 +116,10 @@ export default {
   has: 'has',
   the_value_of: 'the value of',
   below: 'below',
+  portfolio_value: 'Portfolio value',
+  make_deposit: 'Make deposit',
+  withdraw: 'Withdraw',
+  new: 'NEW',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
