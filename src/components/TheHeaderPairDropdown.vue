@@ -9,7 +9,7 @@
     .pairDropdown__label {{currentCurrency}}
   .pairDropdown__container(:class="['pairDropdown__container--' + baseQuote, {'pairDropdown__container--showBorder': showOptions}]")
     .pairDropdown__option(:class="['pairDropdown__option--' + baseQuote, 'pairDropdown__option--' + i]" v-for="i in currencyOptions" @mouseover="currencyHover(i)" @mouseout="currencyUnhover(i)"
-    @click="changeBaseCurrency(i)")
+    @click="changePairCurrrency(i)")
       Icon.pairDropdown__icon.pairDropdown__icon--option(:class="'pairDropdown__icon--' + i", :id="getCurrencyIconId(i)")
       .pairDropdown__label.pairDropdown__label--option(:class="'pairDropdown__label--' + i") {{i}}
 </template>
@@ -49,6 +49,9 @@ export default {
       'getPairs',
       'getPairInfo',
     ]),
+    changePairCurrrency(cur) {
+      this.isBase ? this.changeBaseCurrency(cur) : this.changeQuoteCurrency(cur);
+    },
     currencyHover(cur) {
       if (this.showOptions) {
         TweenLite.to('.pairDropdown__icon--' + cur, 0.1, {width: 35, height: 35, paddingLeft: 0, opacity: 1});
