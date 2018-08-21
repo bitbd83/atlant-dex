@@ -89,6 +89,7 @@ export default {
   cancel: 'Cancel',
   no_results: 'No Results',
   back_to_dashboard: 'Back to dashboard',
+  profile: 'Profile',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

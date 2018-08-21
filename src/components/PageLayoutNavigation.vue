@@ -16,7 +16,7 @@
     :class="{'pageSidebar__mobileList--selected': showNav}",
     @click="toggleNav"
   )
-    .pageSidebar__navHeader Profile #[Icon.pageSidebar__navIcon(:class="{'pageSidebar__navIcon--show' : showNav}" id="arrow_angle")]
+    .pageSidebar__navHeader {{$t('profile')}} #[Icon.pageSidebar__navIcon(:class="{'pageSidebar__navIcon--show' : showNav}" id="arrow_angle")]
     //- li.pageSidebar__mobileItem(
     //-   :class="{'pageSidebar__mobileItem--selected': selectedCat == cat}",
     //-   v-for="cat in categories"
