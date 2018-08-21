@@ -24,8 +24,8 @@ Tile(
           table.book__table
             tr.book__title
               //- th Amount
-              th Total
-              th Price
+              th {{$t('total')}}
+              th {{$t('price')}}
             tr.book__row(v-for="(order, index) in book.bids")
               //- td.book__cell {{order.amount.toFixed(4)}}
               td.book__cell {{(order.price * order.amount) | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
