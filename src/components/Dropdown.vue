@@ -16,7 +16,7 @@
     v-bind="$attrs",
   )
     span.multiselect__placeholder(slot="placeholder") {{placeholder}}
-    span(slot="noResult") No Results
+    span(slot="noResult") {{$t('no_results')}}
     template(v-for="(value, slotName) in $scopedSlots", :slot="slotName",  slot-scope="props")
       slot(:name="slotName" v-bind="props")
 </template>
