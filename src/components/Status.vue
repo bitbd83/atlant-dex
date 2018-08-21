@@ -6,8 +6,8 @@
 .status
   icon.status__angle(id="angle-top-left")
   Icon.status__icon(:id="(isSuccess) ? 'statusSucceed' : 'statusFailed'")
-  p.status__text(v-if="isSuccess") The operation was successfully done.
-  p.status__text(v-else) Something went wrong. Please try again.
+  p.status__text(v-if="isSuccess") {{$t('the_operation_was_successfully_done')}}
+  p.status__text(v-else) {{$t('something_went_wrong_please_try_again')}}
   icon.status__iconAction(v-if="isSuccess" id="arrow_short" @click="close")
   icon.status__iconAction.status__iconAction--back(v-else id="arrow_short"  v-on:click="$emit('getBack')")
 </template>
