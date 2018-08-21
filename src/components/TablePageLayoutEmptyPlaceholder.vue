@@ -5,7 +5,7 @@
 <template lang="pug">
 .empty
   Icon.empty__icon(id="magnifier")
-  .empty__text We couldn’t find any {{content}}
+  .empty__text {{$t('we_couldn_t_find_any')}} {{content}}
 </template>
 
 <script>

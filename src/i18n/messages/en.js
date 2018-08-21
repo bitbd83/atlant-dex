@@ -126,6 +126,7 @@ export default {
   volume: 'Volume',
   the_operation_was_successfully_done: 'The operation was successfully done.',
   something_went_wrong_please_try_again: 'Something went wrong. Please try again.',
+  we_couldn_t_find_any: 'We couldn’t find any',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
