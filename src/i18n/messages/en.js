@@ -68,6 +68,7 @@ export default {
   please_correct_the_value_provided: 'Please correct the value provided.',
   error: 'error',
   last_update: 'Last update',
+  extended_info: 'Extended Info',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

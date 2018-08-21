@@ -16,7 +16,7 @@ Tile(
     :height="data.height"
     :width="data.width"
     :name="data.name"
-  ) Extended Info
+  ) {{$t('extended_info')}}
 </template>
 
 <script>
