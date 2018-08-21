@@ -5,7 +5,7 @@
 <template lang="pug">
 .backToDashboard(@click="close()")
   Icon.backToDashboard__arrow(id="arrow_right")
-  .backToDashboard__back Back to dashboard
+  .backToDashboard__back {{$t('back_to_dashboard')}}
 </template>
 
 <script>
