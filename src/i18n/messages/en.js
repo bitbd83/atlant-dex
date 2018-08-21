@@ -82,6 +82,11 @@ export default {
   volume_24h: 'Volume 24h',
   current_value: 'Current value',
   total_supply: 'Total Supply',
+  contact_phone: 'Contact phone',
+  change: 'Change',
+  verify: 'Verify',
+  save: 'Save',
+  cancel: 'Cancel',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

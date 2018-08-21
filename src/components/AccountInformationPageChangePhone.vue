@@ -4,17 +4,17 @@
 
 <template lang="pug">
 .changePhone
-  .changePhone__param Contact phone:
+  .changePhone__param {{$t('contact_phone')}}:
   .changePhone__row(v-if="step === 0")
     .changePhone__value {{this.account.phone.value}} #[Icon.changePhone__icon(v-if="account.phone.verified" id="verified")]
-    .link.changePhone__action(:class="{'changePhone__action--empty' : isEmpty}" @click="changePhone") Change
-    .link.changePhone__action(v-if="account.phone.value && !account.phone.verified" @click="verifyPhone") Verify
+    .link.changePhone__action(:class="{'changePhone__action--empty' : isEmpty}" @click="changePhone") {{$t('change')}}
+    .link.changePhone__action(v-if="account.phone.value && !account.phone.verified" @click="verifyPhone") {{$t('verify')}}
   .changePhone__row(v-if="step === 1")
     .changePhone__value
       FlagSwitch.changePhone__dropdown(v-model="country" type="phone")
       input.input.changePhone__input(v-model="phone")
-    .link.changePhone__action(@click="setPhoneNumber") Save
-    .link.changePhone__action(@click="setStep(0)") Cancel
+    .link.changePhone__action(@click="setPhoneNumber") {{$t('save')}}
+    .link.changePhone__action(@click="setStep(0)") {{$t('cancel')}}
   TFA(v-if="step === 2", :onCancel="cancelVerification", :onConfirm="finishVerification", :onResend="verifyPhone", :confirmType="1")
 </template>
 
