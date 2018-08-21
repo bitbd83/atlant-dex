@@ -12,7 +12,7 @@
         v-if="validation",
         :id="iconName",
         :class="`verificationFormGroup__icon--${validation}`"
-  )
+      )
 </template>
 
 <script>

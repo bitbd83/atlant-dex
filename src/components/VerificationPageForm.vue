@@ -19,7 +19,7 @@ form.verificationForm
     :validation="getFieldValidationStatus('country')",
     label-for="null",
   )
-    Dropdown.verificationForm__input(
+    Dropdown.input.verificationForm__input(
       :options="countries",
       label="name",
       track-by="code",
@@ -27,18 +27,20 @@ form.verificationForm
       :loading="countriesLoading",
       searchable,
       underline,
+      isColorBlack="",
     )
   VerificationPageFormGroup(
     label="City:",
     :validation="getFieldValidationStatus('city')"
     label-for="null",
   )
-    Dropdown.verificationForm__input(
+    Dropdown.input.verificationForm__input(
       :options="countryCities",
       v-model="verification.city",
       :loading="citiesLoading",
       searchable,
       underline,
+      isColorBlack="",
     )
   VerificationPageFormGroup(
     label="Street Address:",
@@ -70,12 +72,14 @@ form.verificationForm
         v-model="verification.day",
         searchable,
         underline,
+        isColorBlack="",
       )
       Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Month",
         :options="birthdayMonths",
         v-model="verification.month",
         searchable,
+        isColorBlack="",
       )
       Dropdown.verificationForm__input.verificationForm__input--small(
         placeholder="Year",
@@ -83,6 +87,7 @@ form.verificationForm
         v-model="verification.year",
         searchable,
         underline,
+        isColorBlack="",
       )
   VerificationPageFormGroup(
     label="ID or Passport #:",

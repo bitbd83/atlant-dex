@@ -3,21 +3,19 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-PageLayout(
-  title="Verification",
-  :sidebar="true"
-)
+ContentLayout(title="VERIFICATION")
   .verification
-    .verification__title PERSONAL INFORMATION:
-    .verification__form
-      VerificationForm(:validations="this.$v")
-    .verification__title Please upload the following files in order to verify your account:
-    .verification__upload
-      VerificationFiles(:validations="this.$v")
+    Accordion(title="PERSONAL INFORMATION")
+      .verification__form
+        VerificationForm(:validations="this.$v")
+    Accordion(title="FILES")
+      .verification__title Please upload the following files in order to verify your account:
+      .verification__upload
+        VerificationFiles(:validations="this.$v")
     .verification__button
       BButton(
         @click="upload"
-        color="malachite",
+        color="blue",
         rounded,
         caps,
       ) Verify Me
@@ -26,8 +24,9 @@ PageLayout(
 <script>
 import {mapState, mapActions} from 'vuex';
 import {required, minLength} from 'vuelidate/lib/validators';
+import Accordion from 'components/Accordion';
 import BButton from 'components/BButton';
-import PageLayout from 'layouts/PageLayout';
+import ContentLayout from 'layouts/ContentLayout';
 import VerificationForm from 'components/VerificationPageForm';
 import VerificationFiles from 'components/VerificationPageFiles';
 
@@ -55,7 +54,8 @@ export default {
     this.getLastVerification();
   },
   components: {
-    PageLayout,
+    ContentLayout,
+    Accordion,
     BButton,
     VerificationForm,
     VerificationFiles,
@@ -119,19 +119,9 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 .verification {
-  color: $color_white;
   font-size: 14px;
   font-weight: 400;
   line-height: 19px;
-  max-width: 560px;
-
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
   &__form {
     padding: 15px 0 30px;
   }

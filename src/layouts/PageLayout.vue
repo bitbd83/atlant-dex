@@ -4,29 +4,48 @@
 
 <template lang="pug">
 .page
-  PageHeader(:title="title")
   .page__body
-    .page__sidebar(v-if="sidebar" v-scrollbar="")
-      PageNavigation
+    PageNavigation(v-scrollbar="")
     .page__content(v-scrollbar="")
-      slot
+      TransactionHistoryPage(v-if="isPageOpened('transactionHistory')")
+      MyOrdersPage(v-else-if="isPageOpened('myOrders')")
+      VerificationPage(v-else-if="isPageOpened('verification')")
+      VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
+      ProfilePage(v-else-if="isPageOpened('accountInformation')")
+      SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
+      SecurityLogPage(v-else-if="isPageOpened('securityLog')")
+      FAQ(v-else-if="isPageOpened('faq')")
+      NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+      AlertsList(v-else-if="isPageOpened('alertsList')")
+    .page__rigthPanel
+      Logout.page__logout
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import {scrollbar} from '@/directives';
-import PageHeader from 'components/PageLayoutHeader';
 import PageNavigation from 'components/PageLayoutNavigation';
+import TransactionHistoryPage from 'pages/TransactionHistoryPage';
+import MyOrdersPage from 'pages/MyOrdersPage';
+import NotificationHistoryPage from 'pages/NotificationHistoryPage';
+import VerificationPage from 'pages/VerificationPage';
+import VerificationAdminPage from 'pages/VerificationAdminPage';
+import ProfilePage from 'pages/ProfilePage';
+import SecuritySettingsPage from 'pages/SecuritySettingsPage';
+import SecurityLogPage from 'pages/SecurityLogPage';
+import AlertsList from 'pages/AlertsList';
+import Logout from 'components/Logout.vue';
 
 export default {
+  computed: {
+    ...mapGetters('page', {
+      isPageOpened: 'isOpened',
+    }),
+  },
   props: {
     title: {
       type: String,
       default: '',
-      required: false,
-    },
-    sidebar: {
-      type: Boolean,
-      default: false,
       required: false,
     },
   },
@@ -34,8 +53,17 @@ export default {
     scrollbar,
   },
   components: {
-    PageHeader,
     PageNavigation,
+    TransactionHistoryPage,
+    MyOrdersPage,
+    NotificationHistoryPage,
+    VerificationPage,
+    VerificationAdminPage,
+    ProfilePage,
+    SecuritySettingsPage,
+    SecurityLogPage,
+    AlertsList,
+    Logout,
   },
 };
 </script>
@@ -45,17 +73,18 @@ export default {
 .page {
   position: relative;
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  flex: 2;
   &__body {
-    height: 100%;
     display: flex;
+    flex: 2;
   }
   &__content {
     position: relative;
-    width: 100%;
-    padding: 36px;
-    border-top: 1px solid $color_tangaroa;
+    display: flex;
+    flex: 2;
+  }
+  &__logout {
+    padding: 20px 29px;
   }
 }
 </style>

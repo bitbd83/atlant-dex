@@ -12,6 +12,16 @@ export default {
     citiesLoading: false,
     cities: {},
   },
+  getters: {
+    getCountryName: (state) => (countryCode) => {
+      let obj = state.countries.find((el) => el.code == countryCode);
+      return obj ? obj.name : '';
+    },
+    getCountryPhoneCode: (state) => (countryCode) => {
+      let obj = state.countries.find((el) => el.code == countryCode);
+      return obj ? obj.phoneCode : '';
+    },
+  },
   mutations: {
     setAll(state, data) {
       Object.assign(state, data);

@@ -84,7 +84,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "~perfect-scrollbar/dist/css/perfect-scrollbar";
 @import "variables";
 $padding: 40px;
 

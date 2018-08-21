@@ -137,7 +137,6 @@ export default {
 </script>
 
 <style lang='scss'>
-@import 'perfect-scrollbar/dist/css/perfect-scrollbar';
 @import 'variables';
 .orders {
   display: flex;
