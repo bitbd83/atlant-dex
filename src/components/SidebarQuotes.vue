@@ -6,7 +6,7 @@
 .quotes
   .quotes__headerContainer
     .sidebarChild__headerLine
-      .sidebarChild__title CURRENT QUOTES’S:
+      .sidebarChild__title {{$t('current_quotes_s')}}:
     .quotes__paramsContainer
       Dropdown.quotes__headerDropdown(
         :options="aviableTimestamps",
@@ -17,7 +17,7 @@
         underline,
         whiteTriangle,
       )
-      .quotes__headerText Range
+      .quotes__headerText {{$t('range')}}
       Dropdown.quotes__headerDropdown(
         :options="fiatCurrencies",
         v-model="selectedFiatCurrency",
