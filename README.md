@@ -15,7 +15,7 @@ Install dependencies
 ``` bash
 npm install
 ```
-Serve with hot reload at localhost:3000
+Serve with hot reload at localhost:8080
 ``` bash
 npm run dev
 ```
