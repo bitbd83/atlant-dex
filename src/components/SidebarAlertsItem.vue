@@ -11,7 +11,7 @@
     .alert__date {{getDate}}
     Icon.alert__icon(:class="data.activationDate ? 'alert__icon--activeAlert' : 'alert__icon--alert'", :id="data.activationDate ? 'alert-fulfilled' : 'alert-inactive'" @click="removeAlert()")
   .alert__textContainer
-    p.alert__text {{this.data.arguments[4] ? 'Target ' : 'Current '}} price for #[span.alert__text--bold {{this.setBaseCurrency}}] has {{this.priceType[this.data.arguments[1]]}} {{this.data.arguments[4] ? 'the value of ' : 'below '}}
+    p.alert__text {{this.data.arguments[4] ? $t('target') + ' ' : $t('current')  + ' '}} {{$t('price_for')}} #[span.alert__text--bold {{this.setBaseCurrency}}] {{$t('has')}} {{this.priceType[this.data.arguments[1]]}} {{this.data.arguments[4] ? $t('the_value_of') + ' ' : $t('below') + ' '}}
       span.alert__text--bold {{this.data.arguments[2]}} {{this.data.arguments[4] ? this.data.arguments[3] : '%'}}
       | ...
 </template>

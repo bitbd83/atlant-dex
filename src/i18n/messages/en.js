@@ -111,6 +111,11 @@ export default {
   allert_list: 'ALLERT LIST',
   sort_by: 'Sort by',
   add: 'ADD',
+  target: 'Target',
+  price_for: 'price for',
+  has: 'has',
+  the_value_of: 'the value of',
+  below: 'below',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
