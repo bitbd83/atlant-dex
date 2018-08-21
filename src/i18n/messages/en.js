@@ -92,6 +92,12 @@ export default {
   profile: 'Profile',
   page: 'Page',
   additional_email: 'Additional email',
+  current_password: 'Current Password',
+  old_password: 'Old password',
+  new_password: 'New password',
+  repeat_password: 'Repeat password',
+  confirm: 'Confirm',
+  show_passwords: 'Show passwords',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

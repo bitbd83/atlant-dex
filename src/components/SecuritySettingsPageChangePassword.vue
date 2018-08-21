@@ -5,22 +5,22 @@
 <template lang="pug">
 .changePassword
   .changePassword__item(v-if="password.step == 0")
-    .changePassword__param Current Password:
-    .link.changePassword__value(@click="password.step = 1") Change
+    .changePassword__param {{$t('current_password')}}:
+    .link.changePassword__value(@click="password.step = 1") {{$t('change')}}
   .changePassword__item(v-if="password.step == 1")
-    .changePassword__param Old password:
+    .changePassword__param {{$t('old_password')}}:
     input.input.changePassword__value(v-model="password.old", :type="inputType")
-    .changePassword__param New password:
+    .changePassword__param {{$t('new_password')}}:
     input.input.changePassword__value(v-model="password.new", :type="inputType")
-    .changePassword__param Repeat password:
+    .changePassword__param {{$t('repeat_password')}}:
     .changePassword__value.changePassword__desktopRow
       input.input(v-model="password.repeat", :type="inputType")
       .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="validationErrorText") {{validationErrorText}}
-      .link.changePassword__action(@click="requestPasswordChange") Confirm
-      .link.changePassword__action(@click="cancelPasswordChange") Cancel
+      .link.changePassword__action(@click="requestPasswordChange") {{$t('confirm')}}
+      .link.changePassword__action(@click="cancelPasswordChange") {{$t('cancel')}}
     .changePassword__hiddenError.changePassword__hiddenError--desktop(v-if="validationErrorText") {{validationErrorText}}
     Checkbox(v-model="isShowPassword")
-      .changePassword__checkboxText Show passwords
+      .changePassword__checkboxText {{$t('show_passwords')}}
   .changePassword__item(v-if="password.step == 2")
     TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
 </template>
