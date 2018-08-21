@@ -19,10 +19,10 @@
       Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
   .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
     .buySell__types
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") {{$t('market')}}
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") {{$t('limit')}}
     .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
-      .buySell__label Limit price
+      .buySell__label {{$t('limit_price')}}
       .buySell__inputContainer
         IInput.buySell__input(center no-underline v-model="price" type="number")
     .buySell__field
@@ -31,10 +31,10 @@
         .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
     button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
       .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-      .buySell__buttonContent(v-show="open") Confirm buy order
+      .buySell__buttonContent(v-show="open") {{$t('confirm_buy_order')}}
     button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
       .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-      .buySell__buttonContent(v-show="open") Confirm sell order
+      .buySell__buttonContent(v-show="open") {{$t('confirm_sell_order')}}
 </template>
 
 <script>
@@ -111,9 +111,9 @@ export default {
           this.isBuy = isBuy;
         } else {
           notification({
-            title: 'Negative or zero value:',
-            text: 'Please correct the value provided.',
-            type: 'error',
+            title: this.$t('Negative or zero value:'),
+            text: this.$t('Please correct the value provided.'),
+            type: this.$t('error'),
           });
           this.addInvalidQuantityBorder();
           return false;
