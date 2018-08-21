@@ -23,8 +23,8 @@ Tile(
         table.history__table
           tbody.history__body
             tr.history__title
-              th Price
-              th Total
+              th {{$t('price')}}
+              th {{$t('total')}}
             tr.history__row(v-for='(trade, index) in lastTrades')
               td.history__cell(:class="`history__cell--${(trade.side) ? 'sell' : 'buy'}`") {{trade.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
               //- td.history__cell {{trade.amount | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}

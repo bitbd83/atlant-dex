@@ -69,6 +69,8 @@ export default {
   error: 'error',
   last_update: 'Last update',
   extended_info: 'Extended Info',
+  price: 'Price',
+  total: 'Total',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
