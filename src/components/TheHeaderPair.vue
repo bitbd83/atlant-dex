@@ -83,20 +83,12 @@ export default {
         };
       }
     },
-    setQuoteAfterBaseChange(baseCurrency) {
-      // This should be moved to Store
-      // Do not change if current quote available for new base
-      if (this.pairs[baseCurrency].includes(this.quoteCurrency)) return;
-      // If not, change quote currency for first available
-      this.changeQuoteCurrency(this.pairs[baseCurrency][0]);
-    },
     getCurrencyIconId(currencyName) {
       return `cur_${currencyName}`.toLocaleLowerCase();
     },
   },
   watch: {
     baseCurrency(baseCurrency) {
-      this.setQuoteAfterBaseChange(baseCurrency);
       this.getPairInfo();
     },
     quoteCurrency() {
