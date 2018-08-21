@@ -6,9 +6,9 @@
 .alerts
   .alerts__item.alerts__item--header
     .sidebarChild__headerLine
-      .sidebarChild__title ALLERT LIST:
+      .sidebarChild__title {{$t('allert_list')}}:
     .alerts__headerDropdownContainer
-      span Sort by:
+      span {{$t('sort_by')}}:
       Dropdown.alerts__headerDropdown(
         :options="criteria",
         v-model="selected",
@@ -24,7 +24,7 @@
       MugenScroll(:handler="getAccountAlertsList", scroll-container="wrap")
       .alerts__add(@click="open({name:'addAlert'})")
         Icon.alerts__addIcon(id="icon__add")
-        .alerts__addText ADD
+        .alerts__addText {{$t('add')}}
 </template>
 
 <script>

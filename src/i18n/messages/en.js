@@ -108,6 +108,9 @@ export default {
   after_installing_the_app: 'After installing the app add the key by scanning the QR code or entering it manually.',
   now_scan_q_r_code_below: 'Now scan QR-code below',
   copyright: '© Atlant Inc., 2018',
+  allert_list: 'ALLERT LIST',
+  sort_by: 'Sort by',
+  add: 'ADD',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
