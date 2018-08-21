@@ -6,17 +6,17 @@
 .tfaSettings
   .tfaSettings__tfa
     .link.link--green(:class="{'tfaSettings__tfaEnabled' : security.tfa.enabled}" @click="setTFAStep(1)") {{security.tfa.enabled ? "Enabled" : "Enable"}}
-    .tfaSettings__tfaMethod(v-if="security.tfa.enabled") via {{activeTFAMethod}}
+    .tfaSettings__tfaMethod(v-if="security.tfa.enabled") {{$t('via')}} {{activeTFAMethod}}
     .link.link--red.tfaSettings__disable(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}" @click="requestTFAChange()") {{security.tfa.enabled ? "Disable" : "Disabled"}}
   .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
     TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
   div(v-if="!security.tfa.enabled")
     .tfaSettings__item
-      .tfaSettings__param I would like to use:
+      .tfaSettings__param {{$t('i_would_like_to_use')}}:
       .tfaSettings__value.tfaSettings__value--row.tfaSettings__desktopRow
         Radio.tfaSettings__tfaOption(v-for="(tfa, index) in tfaMethods", :key="index", name="tFAMethod", :value="tfa.id", v-model="tfaMethod", :checked="tfaMethod === tfa.id") #[.tfaSettings__tfaOptionName {{tfa.name}}]
     .tfaSettings__item.tfaSettings__desktopRow(v-if="tfaStep === 1 && requiresNumber")
-      .tfaSettings__value My phone number
+      .tfaSettings__value {{$t('my_phone_number')}}
       .tfaSettings__value.tfaSettings__value--row
         FlagSwitch.tfaSettings__dropdown(
           v-model="country",
@@ -24,20 +24,20 @@
           type="phone"
         )
         input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
-      .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Send
+      .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") {{$t('send')}}
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
       TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
     .tfaSettings__item(v-if="tfaStep === 1 && tfaMethod === 2")
-      .tfaSettings__value.tfaSettings__desktopRow You don't have an authentication key. #[.link.tfaSettings__action.tfaSettings__action--mobileLeft(@click="requestTFAChange()") Create key]
+      .tfaSettings__value.tfaSettings__desktopRow {{$t('you_don_t_have_an_authentication_key')}} #[.link.tfaSettings__action.tfaSettings__action--mobileLeft(@click="requestTFAChange()") {{$t('create_key')}}]
       .tfaSettings__param.tfaSettings__param--margin ***
-      .tfaSettings__param Please install one of the following apps to generate key:
+      .tfaSettings__param {{$t('please_install_one_generate_key')}}:
       .tfaSettings__item.tfaSettings__desktopRow
         .tfaSettings__value.tfaSettings__value--row.tfaSettings__value--os(v-for="os in opSys")
           Icon.tfaSettings__osIcon(:id="os.id")
           .link.tfaSettings__action {{os.name}}
-      .tfaSettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
+      .tfaSettings__instruction {{$t('after_installing_the_app')}}
     .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 2")
-      .tfaSettings__value Now scan QR-code below
+      .tfaSettings__value {{$t('now_scan_q_r_code_below')}}
       QR.tfaSettings__value(:text="qrText")
       TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :text="tfaConfirmText")
 </template>

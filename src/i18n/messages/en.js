@@ -98,6 +98,15 @@ export default {
   repeat_password: 'Repeat password',
   confirm: 'Confirm',
   show_passwords: 'Show passwords',
+  via: 'via',
+  i_would_like_to_use: 'I would like to use',
+  my_phone_number: 'My phone number',
+  send: 'Send',
+  you_don_t_have_an_authentication_key: 'You don\'t have an authentication key.',
+  create_key: 'Create key',
+  please_install_one_generate_key: 'Please install one of the following apps to generate key',
+  after_installing_the_app: 'After installing the app add the key by scanning the QR code or entering it manually.',
+  now_scan_q_r_code_below: 'Now scan QR-code below',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
