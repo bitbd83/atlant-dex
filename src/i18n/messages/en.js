@@ -91,6 +91,7 @@ export default {
   back_to_dashboard: 'Back to dashboard',
   profile: 'Profile',
   page: 'Page',
+  additional_email: 'Additional email',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

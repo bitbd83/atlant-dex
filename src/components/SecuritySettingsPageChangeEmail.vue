@@ -4,14 +4,14 @@
 
 <template lang="pug">
 .changeEmail
-  .changeEmail__param Additional email:
+  .changeEmail__param {{$t('additional_email')}}:
   .changeEmail__row(v-if="step === 0")
     .changeEmail__value {{security.additionalEmail.value}} #[Icon.changeEmail__icon(v-if="security.additionalEmail.verified" id="verified")]
-    .link.changeEmail__action(v-show="security.tfa.enabled" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") Change
+    .link.changeEmail__action(v-show="security.tfa.enabled" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") {{$t('change')}}
   .changeEmail__row(v-if="step === 1")
     input.input(v-model="email")
-    .link.changeEmail__action(@click="setExtraEmail") Save
-    .link.changeEmail__action(@click="setStep(0)") Cancel
+    .link.changeEmail__action(@click="setExtraEmail") {{$t('save')}}
+    .link.changeEmail__action(@click="setStep(0)") {{$t('cancel')}}
 </template>
 
 <script>
