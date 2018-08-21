@@ -10,7 +10,7 @@
         SidebarPortfolio(v-if="section == 'wallet'")
         SidebarQuotes(v-if="section == 'quotes'")
         SidebarAlerts(v-if="section == 'alerts'")
-    .sidebar__copyright © Atlant Inc., 2018
+    .sidebar__copyright {{$t('copyright')}}
   SidebarToolbar
 </template>
 
