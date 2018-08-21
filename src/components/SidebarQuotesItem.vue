@@ -23,8 +23,8 @@
       v-on:leave="transitionAccordionLeave"
     )
       .quoteItem__additional(v-if="isActive")
-        .quoteItem__details #[.quoteItem__detail Market Cap:] #[span.quoteItem__number ${{cap | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-        .quoteItem__details #[.quoteItem__detail Volume:] #[span.quoteItem__number ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+        .quoteItem__details #[.quoteItem__detail {{$t('market_cap')}}:] #[span.quoteItem__number ${{cap | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+        .quoteItem__details #[.quoteItem__detail {{$t('volume')}}:] #[span.quoteItem__number ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
 </template>
 
 <script>

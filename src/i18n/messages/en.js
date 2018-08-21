@@ -122,6 +122,8 @@ export default {
   new: 'NEW',
   current_quotes_s: 'CURRENT QUOTES’S',
   range: 'Range',
+  market_cap: 'Market Cap',
+  volume: 'Volume',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
