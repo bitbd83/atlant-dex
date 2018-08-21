@@ -77,6 +77,7 @@ export default {
   initial: 'Initial',
   status: 'Status',
   date: 'Date',
+  show: 'Show',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

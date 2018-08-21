@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .ordersHeader
-  .ordersHeader__text Show:
+  .ordersHeader__text {{$t('show')}}:
   .ordersHeader__buttons
     .ordersHeader__buttonTxt(v-for="type in types", :class="{'ordersHeader__buttonTxt--active' : isCurrentType(type)}", @click="setDashboardOrdersType(type)") {{type}}
 </template>
