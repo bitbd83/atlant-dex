@@ -71,6 +71,12 @@ export default {
   extended_info: 'Extended Info',
   price: 'Price',
   total: 'Total',
+  side: 'Side',
+  type: 'Type',
+  current: 'Current',
+  initial: 'Initial',
+  status: 'Status',
+  date: 'Date',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA

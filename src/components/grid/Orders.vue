@@ -24,13 +24,13 @@ Tile(
         table.orders__table
           th.orders__head
             td.orders__title.orders__title--trash
-            td.orders__title.orders__title--sell Side
-            td.orders__title.orders__title--type Type
-            td.orders__title.orders__title--number Price
-            td.orders__title.orders__title--number Current
-            td.orders__title.orders__title--number Initial
-            td.orders__title.orders__title--status Status
-            td.orders__title.orders__title--date Date
+            td.orders__title.orders__title--sell {{$t('side')}}
+            td.orders__title.orders__title--type {{$t('type')}}
+            td.orders__title.orders__title--number {{$t('price')}}
+            td.orders__title.orders__title--number {{$t('current')}}
+            td.orders__title.orders__title--number {{$t('initial')}}
+            td.orders__title.orders__title--status {{$t('status')}}
+            td.orders__title.orders__title--date {{$t('date')}}
         table.orders__table
           tr.orders__row(v-for="order in (isActive ? getActiveOrders : getClosedOrders)", :key="order.id")
             td.orders__cell.orders__cell--trash
