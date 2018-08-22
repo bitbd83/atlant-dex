@@ -21,11 +21,11 @@ TablePageLayout(
       thead
         tr
           th
-          th ID
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") Time
-          th Amount
-          th.tHistory__header--description Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") Type Status
+          th {{$t('pages.id')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") {{$t('pages.time')}}
+          th {{$t('pages.amount')}}
+          th.tHistory__header--description {{$t('pages.description')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") {{$t('pages.type_status')}}
       tbody
         tr(v-for="(item, index) in data")
           td.tHistory__checkboxContainer
@@ -137,7 +137,7 @@ export default {
       if (typeof this.checked.transactionId == 'undefined') {
         notification({
           title: '',
-          text: 'Please choose transaction.',
+          text: this.$t('please_choose_transaction'),
           type: 'error',
         });
         return true;

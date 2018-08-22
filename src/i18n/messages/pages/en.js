@@ -49,4 +49,7 @@ export default {
   other: 'Other',
   terminate_active_sessions: 'Terminate active sessions',
   terminate: 'Terminate',
+  time: 'Time',
+  type_status: 'Type Status',
+  please_choose_transaction: 'Please choose transaction.',
 };
