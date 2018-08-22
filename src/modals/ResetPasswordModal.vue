@@ -9,12 +9,12 @@ ModalLayout(:step="step", :isWith2fa="true", :isSuccess="isSuccess", title="Rese
       .reset__input
         IInput(v-model="email", label="E-mail", type="email" required="true")
       Checkbox.reset__checkbox(name="acknowledged", :value="true", color="white", v-model="acknowledged"  required="true")
-        .reset__checkboxText {{$t('i_acknowledge_that_my_account')}}
-      BButton.reset__button(color="white" @click.native="reset()") {{$t('reset_it_now')}}
+        .reset__checkboxText {{$t('modals.i_acknowledge_that_my_account')}}
+      BButton.reset__button(color="white" @click.native="reset()") {{$t('modals.reset_it_now')}}
       .reset__linkContainer
-        span.link.link--white(@click="openModal({name: 'signIn'})") {{$t('sign_in')}}
-        span.reset__linkSeparator {{$t('or')}}
-        span.link.link--white(@click="openModal({name: 'signUp'})") {{$t('sign_up')}}
+        span.link.link--white(@click="openModal({name: 'signIn'})") {{$t('modals.sign_in')}}
+        span.reset__linkSeparator {{$t('modals.or')}}
+        span.link.link--white(@click="openModal({name: 'signUp'})") {{$t('modals.sign_up')}}
         icon.reset__linkArrow(id="arrow_short")
     TFA(v-if="step == 1", :onConfirm="confirmReset", :onResend="reset", :onCancel="cancelReset", :isModal="true")
     Status.reset__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="cancelReset")

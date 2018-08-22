@@ -3,18 +3,18 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ModalLayout(:title="`${$t('crypto.withdraw.withdraw')} ${data.currency}`", :step="step", :isSuccess="isSuccess",)
+ModalLayout(:title="`${$t('modals.crypto.withdraw.withdraw')} ${data.currency}`", :step="step", :isSuccess="isSuccess",)
   .cryptoWithdraw
     icon.cryptoWithdraw__angle(id="angle-top-left")
     .cryptoWithdraw__content(v-if="step == 0")
       .cryptoWithdraw__inputContainer
-        IInput(:placeholder="data.currency + ' ' + $t('crypto.withdraw.placeholderAddress')", v-model="address").cryptoWithdraw__input
+        IInput(:placeholder="data.currency + ' ' + $t('modals.crypto.withdraw.placeholderAddress')", v-model="address").cryptoWithdraw__input
       .cryptoWithdraw__inputContainer
-        IInput.cryptoWithdraw__input(:placeholder="data.currency  + ' ' + $t('crypto.withdraw.placeholderAmount')", type="number", v-model="amount")
-        .cryptoWithdraw__fee {{$t('crypto.withdraw.fee')}}: #[span.cryptoWithdraw__feeAmt {{fee}} {{data.currency}}]
-      .cryptoWithdraw__amountText {{$t('crypto.withdraw.text')}} {{data.currency}}:
+        IInput.cryptoWithdraw__input(:placeholder="data.currency  + ' ' + $t('modals.crypto.withdraw.placeholderAmount')", type="number", v-model="amount")
+        .cryptoWithdraw__fee {{$t('modals.crypto.withdraw.fee')}}: #[span.cryptoWithdraw__feeAmt {{fee}} {{data.currency}}]
+      .cryptoWithdraw__amountText {{$t('modals.crypto.withdraw.text')}} {{data.currency}}:
       .link.link--white.cryptoWithdraw__amount  {{netAmount}}
-      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") {{$t('crypto.withdraw.button')}}
+      BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") {{$t('modals.crypto.withdraw.button')}}
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
     Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>

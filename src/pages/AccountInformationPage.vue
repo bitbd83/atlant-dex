@@ -5,47 +5,47 @@
 <template lang="pug">
 PageLayout(title="Account information", :sidebar="true")
   .accountInfo
-    .accountInfo__title General information
+    .accountInfo__title {{$t('pages.general_information')}}
     .accountInfo__content
       Icon.accountInfo__iconMain(id="account")
       .accountInfo__main
         .accountInfo__item
-          .accountInfo__param Account ID:
+          .accountInfo__param {{$t('pages.account_id')}}:
           .accountInfo__value.accountInfo__value--fullWidth
             .accountInfo__value--half {{account.id}}
-            span.accountInfo__registration Registration date: {{regdate}}
+            span.accountInfo__registration {{$t('pages.registration_date')}}: {{regdate}}
         .accountInfo__item(v-if="account.fullName.value")
-          .accountInfo__param Full Name:
+          .accountInfo__param {{$t('pages.full_name')}}:
           .accountInfo__value.accountInfo__value--fullWidth
             .accountInfo__value {{account.fullName.value}}
         .accountInfo__item
-          .accountInfo__param Verification status:
+          .accountInfo__param {{$t('pages.verification_status')}}:
           .accountInfo__value.accountInfo__value--inline
-            .accountInfo__rating(v-show="account.verificationRating") Tier {{account.verificationRating}}
-            .link.accountInfo__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="getOpenPage('verification')") Upgrade
+            .accountInfo__rating(v-show="account.verificationRating") {{$t('pages.tier')}} {{account.verificationRating}}
+            .link.accountInfo__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="getOpenPage('verification')") {{$t('pages.upgrade')}}
         .accountInfo__item
-          .accountInfo__param Email:
+          .accountInfo__param {{$t('pages.email')}}:
           .accountInfo__value.accountInfo__value--inline {{account.email.value}} #[Icon.accountInfo__icon(v-if="account.email.verified" id="verified")]
         .accountInfo__item
-          .accountInfo__param Theme:
+          .accountInfo__param {{$t('pages.theme')}}:
           .accountInfo__value.accountInfo__value--inline
             select(v-model="appTheme")
-              option(value="default") Default
-              option(value="dark") Dark
+              option(value="default") {{$t('pages.default')}}
+              option(value="dark") {{$t('pages.dark')}}
         .accountInfo__item
           AccountInformationPageChangePhone
-        .accountInfo__title Other
+        .accountInfo__title {{$t('pages.other')}}
         .accountInfo__other
           .accountInfo__item.accountInfo__item--other
-            .accountInfo__param I would like to receive:
+            .accountInfo__param {{$t('pages.i_would_like_to_receive')}}:
             Checkbox.accountInfo__checkbox(
               :value="account.subscribe.newsletter",
               @change="setNewsletterSubscription"
-            ) #[.accountInfo__text Email newsletter]
-            Checkbox.accountInfo__checkbox(v-model="account.subscribe.email") #[.accountInfo__text Email notification]
-            Checkbox.accountInfo__checkbox(v-model="account.subscribe.sms") #[.accountInfo__text SMS notification]
+            ) #[.accountInfo__text {{$t('pages.email_newsletter')}}]
+            Checkbox.accountInfo__checkbox(v-model="account.subscribe.email") #[.accountInfo__text {{$t('pages.email_notification')}}]
+            Checkbox.accountInfo__checkbox(v-model="account.subscribe.sms") #[.accountInfo__text {{$t('pages.s_m_s_notification')}}]
           .accountInfo__item.accountInfo__item--other
-            .accountInfo__param Preferred currency:
+            .accountInfo__param {{$t('pages.preferred_currency')}}:
             .accountInfo__value.accountInfo__value--inline
               FlagSwitch.accountInfo__dropdown(
                 type="currency",

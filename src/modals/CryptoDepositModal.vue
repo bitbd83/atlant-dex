@@ -3,14 +3,14 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-ModalLayout(:title="`${$t('crypto.deposit.deposit')} ${data.currency}`")
+ModalLayout(:title="`${$t('modals.crypto.deposit.deposit')} ${data.currency}`")
   .cryptoDeposit
     icon.cryptoDeposit__angle(id="angle-top-left")
     QR.cryptoDeposit__qr(:text='address' size='148')
-    .cryptoDeposit__addressText {{$t('crypto.deposit.title')}}
+    .cryptoDeposit__addressText {{$t('modals.crypto.deposit.title')}}
     .cryptoDeposit__address {{address ? address : '-'}}
-    BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('crypto.deposit.copy')}}
-    .cryptoDeposit__confirmations {{$t('crypto.deposit.description')}}
+    BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('modals.crypto.deposit.copy')}}
+    .cryptoDeposit__confirmations {{$t('modals.crypto.deposit.description')}}
 </template>
 
 <script>

@@ -13,11 +13,11 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
           IInput.singIn__input-input(v-model="password", label="Password", type="password")
       .singIn__checkboxContainer
         Checkbox.singIn__checkbox(name="remember", :value="true", color="white" v-model="remember")
-          .link.link--white.singIn__checkboxLabel {{$t('remember_me')}}
-        span.link.link--white(@click="openResetPassword") {{$t('forgot_password')}}
-      BButton.singIn__button(color="white" type="submit") {{$t('let_me_in')}}
+          .link.link--white.singIn__checkboxLabel {{$t('modals.remember_me')}}
+        span.link.link--white(@click="openResetPassword") {{$t('modals.forgot_password')}}
+      BButton.singIn__button(color="white" type="submit") {{$t('modals.let_me_in')}}
       .singIn__link(@click="openSignUp")
-        span.link.link--white {{$t('sign_up')}}
+        span.link.link--white {{$t('modals.sign_up')}}
         icon.singIn__link-arrow(id="arrow_short")
     Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
 </template>

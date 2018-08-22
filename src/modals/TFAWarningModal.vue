@@ -7,12 +7,12 @@
     .tfaWarning
       icon.tfaWarning__angle(id="angle-top-left")
       Icon.tfaWarning__icon(id="icon-2fa")
-      .tfaWarning__text {{$t('tfaSecureWarning.text')}}
-      BButton.tfaWarning__button(caps, color="white", @click="onYesClick") {{$t('tfaSecureWarning.yesButton')}}
+      .tfaWarning__text {{$t('modals.tfaSecureWarning.text')}}
+      BButton.tfaWarning__button(caps, color="white", @click="onYesClick") {{$t('modals.tfaSecureWarning.yesButton')}}
       .link.link--white(
         role="button",
         @click="onNoClick",
-      ) {{$t('tfaSecureWarning.noButton')}}
+      ) {{$t('modals.tfaSecureWarning.noButton')}}
 </template>
 
 <script>

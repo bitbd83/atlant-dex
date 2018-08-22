@@ -8,7 +8,7 @@ ModalLayout(:step="step", isSuccess="true", title="Save View")
     Icon.saveView__icon(id="pass")
     form.saveView__content(v-if="step == 0" @submit.prevent="saveView()")
       IInput.saveView__input(placeholder="View name" v-model="viewName")
-      BButton.saveView__button(color="malachite" rounded type="submit") {{$t('save')}}
+      BButton.saveView__button(color="malachite" rounded type="submit") {{$t('modals.save')}}
     Status.saveView__status(v-if="step == 1", isSuccess="true")
 </template>
 

@@ -8,17 +8,17 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign up")
     form.signup__content(v-if="step == 0"  @submit.prevent="signUpUser()")
       .signup__inputs
         .signup__input
-          .signup__input-title {{$t('e_mail')}}
+          .signup__input-title {{$t('modals.e_mail')}}
           IInput.signup__input-input(v-model="email", type="email")
         .signup__input
-          .signup__input-title {{$t('password')}}
+          .signup__input-title {{$t('modals.password')}}
           IInput.signup__input-input(v-model="password", type="password")
       .signup__checkboxContainer
         Checkbox.signup__checkbox(name="acknowledged", :value="true", v-model="iAgree", color="white")
-          .signup__checkboxLabel {{$t('i_certify_that_i_am_18_years')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('user_agreement')}}] {{$t('and')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('privacy_policy')}}].
-      BButton.signup__button(color="white" type="submit") {{$t('create_account')}}
+          .signup__checkboxLabel {{$t('modals.i_certify_that_i_am_18_years')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('modals.user_agreement')}}] {{$t('modals.and')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('modals.privacy_policy')}}].
+      BButton.signup__button(color="white" type="submit") {{$t('modals.create_account')}}
       .signup__link(@click="openSignIn")
-        span.link.link--white {{$t('sign_in')}}
+        span.link.link--white {{$t('modals.sign_in')}}
         icon.signup__linkArrow(id="arrow_short")
     Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
 </template>
@@ -49,9 +49,9 @@ export default {
     parsePassword() {
       if (this.$v.$error) {
         if (this.$v.password.$error) {
-          return this.$t('passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
+          return this.$t('modals.passwordValidation.tooShort', {minLength: this.$v.password.$params.minLength.min});
         } else if (this.$v.passwordRepeat.$error) {
-          return this.$t('passwordValidation.notMatch');
+          return this.$t('modals.passwordValidation.notMatch');
         }
       }
       return '';
