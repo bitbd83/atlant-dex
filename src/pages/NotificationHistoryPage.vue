@@ -20,9 +20,9 @@ TablePageLayout(
       thead
         tr
           th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") Time & Date
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") Type
-          th Description
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") {{$t('pages.time_date')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") {{$t('pages.type')}}
+          th {{$t('pages.description')}}
       tbody
         tr(v-for="(item, index) in data")
           td

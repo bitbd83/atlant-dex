@@ -38,4 +38,7 @@ export default {
   amount: 'Amount',
   price: 'Price',
   total: 'Total',
+  time_date: 'Time & Date',
+  type: 'Type',
+  description: 'Description',
 };
