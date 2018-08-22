@@ -19,17 +19,17 @@ TablePageLayout(
       thead
         tr.myAlerts__row
           th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='added'}" @click="sortAlerts('added')") Added
-          th Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='type'}" @click="sortAlerts('type')") Type
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='lifetime'}" @click="sortAlerts('lifetime')") Lifetime
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='added'}" @click="sortAlerts('added')") {{$t('pages.added')}}
+          th {{$t('pages.description')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='type'}" @click="sortAlerts('type')") {{$t('pages.type')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='lifetime'}" @click="sortAlerts('lifetime')") {{$t('pages.lifetime')}}
       tbody
         tr.myAlerts__row(v-for="(item, index) in data")
           td
             Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
           td {{formatTime(item.creationDate)}}
-          td {{item.arguments[4] ? 'Target ' : 'Current '}} price for {{item.arguments[0]}} has {{priceType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : 'below '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
-          td {{item.arguments[4] ? 'Target ' : 'Change '}}
+          td {{item.arguments[4] ? $t('target') + ' ' : $t('current') + ' '}} {{$t('price_for')}} {{item.arguments[0]}} {{$t('has')}} {{priceType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : 'below '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
+          td {{item.arguments[4] ? $t('target') + ' ' : $t('change') + ' '}}
           td
             .myAlerts__lifetimeInDays {{item.lifetimeInDays}} days
 </template>
