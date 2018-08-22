@@ -30,4 +30,6 @@ export default {
   step: 'STEP',
   choose: 'Choose',
   method: 'method',
+  display_symbols: 'Display symbols',
+  reset_now: 'Reset now',
 };
