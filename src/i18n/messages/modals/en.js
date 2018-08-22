@@ -37,4 +37,5 @@ export default {
   or: 'or',
   sign_in: 'Sign in',
   sign_up: 'Sign Up',
+  save: 'Save',
 };
