@@ -6,33 +6,33 @@
 PageLayout(title='Verification management', :sidebar='true')
   .verification
     div(v-if='!isAdminLoggedIn')
-      .verification__label Email:
+      .verification__label {{$t('pages.email')}}:
       input.input.verification__input(v-model='email')
-      .verification__label Password:
+      .verification__label {{$t('pages.password')}}:
       input.input.verification__input(v-model='password' type='password')
-      BButton.verification__button(color='malachite' rounded @click='loginAsAdmin()') Log in as admin
+      BButton.verification__button(color='malachite' rounded @click='loginAsAdmin()') {{$t('pages.log_in_as_admin')}}
     .verification__section(v-else)
       .verification__block.verification__block--left
-        .verification__title User accounts:
+        .verification__title {{$t('pages.user_accounts')}}:
         .verification__users
           .verification__user(v-for='acc in users.accounts' @click='getUserAccount(acc.id)') {{acc.email}}
         Pagination.verification__pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
       .verification__block
-        .verification__title User aplication:
+        .verification__title {{$t('pages.user_aplication')}}:
         div.verification__application(v-if="latestRequest")
-          .verification__field Status: {{verificationStatus}}
+          .verification__field {{$t('pages.status')}}: {{verificationStatus}}
           .verification__field {{latestRequest.firstName}} {{latestRequest.lastName}}
           .verification__field {{birthDate}}
           .verification__field {{latestRequest.address}}, {{latestRequest.city}}, {{latestRequest.country}}, {{latestRequest.postcode}}
           .verification__field {{latestRequest.phoneNumber}}
           .verification__field {{latestRequest.passportId}}
-          .verification__field #[a.link(:href="latestRequest.passportScanUrl" target="_blank" rel="noopener noreferrer") Passport scan]
-          .verification__field #[a.link(:href="latestRequest.selfieUrl" target="_blank" rel="noopener noreferrer") Selfie]
-          .verification__field #[a.link(:href="latestRequest.proofOfResidenceUrl" target="_blank" rel="noopener noreferrer") Proof of residence]
-          BButton.verification__button(color='green' rounded @click='approve()') Approve
+          .verification__field #[a.link(:href="latestRequest.passportScanUrl" target="_blank" rel="noopener noreferrer") {{$t('pages.passport_scan')}}]
+          .verification__field #[a.link(:href="latestRequest.selfieUrl" target="_blank" rel="noopener noreferrer") {{$t('pages.selfie')}}]
+          .verification__field #[a.link(:href="latestRequest.proofOfResidenceUrl" target="_blank" rel="noopener noreferrer") {{$t('pages.proof_of_residence')}}]
+          BButton.verification__button(color='green' rounded @click='approve()') {{$t('pages.approve')}}
           textarea.verification__rejectReason.input(placeholder="Reason for rejection" v-model="reason")
-          BButton.verification__button(color='red' rounded @click='reject()') Reject
-        div(v-else) Choose a different user to see verification rquest
+          BButton.verification__button(color='red' rounded @click='reject()') {{$t('pages.reject')}}
+        div(v-else) {{$t('pages.choose_a_different_user')}}
 </template>
 
 <script>
