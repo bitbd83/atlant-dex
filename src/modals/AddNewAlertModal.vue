@@ -8,10 +8,10 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
       .addAlert__quote "
       .addAlert__block
-        span.addAlert__text Allert &nbsp;
-        span.addAlert__text me &nbsp;
-        span.addAlert__text If &nbsp;
-        span.addAlert__text the &nbsp;
+        span.addAlert__text {{$t('allert')}} &nbsp;
+        span.addAlert__text {{$t('me')}} &nbsp;
+        span.addAlert__text {{$t('if')}} &nbsp;
+        span.addAlert__text {{$t('the')}} &nbsp;
         Dropdown.addAlert__dropdown(
           :options="valueOptions",
           :value="valueSelected",
@@ -22,9 +22,9 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
         )
           template(slot="singleLabel", slot-scope="props")
             .addAlert__selected {{props.option}}
-        .addAlert__text &nbsp; Price
+        .addAlert__text &nbsp; {{$t('price')}}
       .addAlert__block
-        .addAlert__text for
+        .addAlert__text {{$t('for')}}
         Dropdown.addAlert__dropdown(
           :options="userCurrencies",
           :value="currencySelected",
@@ -35,7 +35,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
         )
           template(slot="singleLabel", slot-scope="props")
             .addAlert__selected {{props.option}}
-        .addAlert__text has
+        .addAlert__text {{$t('has')}}
         Dropdown.addAlert__dropdown(
           :options="eventOptions",
           :value="eventSelected",
@@ -47,9 +47,9 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
           template(slot="singleLabel", slot-scope="props")
               .addAlert__selected {{props.option}}
       .addAlert__block
-        .addAlert__text the
-        .addAlert__text value
-        .addAlert__text of
+        .addAlert__text {{$t('the')}}
+        .addAlert__text {{$t('value')}}
+        .addAlert__text {{$t('of')}}
         Dropdown.addAlert__dropdown.addAlert__dropdown--baseCur(
           :options="baseCurrencyOptions",
           :value="baseCurrencySelected",
@@ -63,10 +63,10 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
         IInput(v-model="price" type="number" noUnderline="").addAlert__input
       .addAlert__quote.addAlert__quote--last "
       Checkbox.addAlert__checkbox(name="acknowledged", color="white", :value="true", v-model="autoDisable")
-        .addAlert__checkboxTittle Disable this allert after 1 month from now
-      BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") Add alert
+        .addAlert__checkboxTittle {{$t('disable_this_allert_after_1_month_from_now')}}
+      BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") {{$t('add_alert')}}
       .addAlert__linkContainer(@click="goToPage")
-        .link.link--white.addAlert__link My allerts
+        .link.link--white.addAlert__link {{$t('my_allerts')}}
         icon(id="arrow_short").addAlert__linkArrow
     Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>

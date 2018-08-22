@@ -4,6 +4,7 @@
 
 import serverErrors from './server-errors/en';
 import widgetTitles from './widget-titles/en';
+import modal from './modals/en';
 
 export default {
   copied: 'Copied',
@@ -143,6 +144,7 @@ export default {
   repeat: 'Repeat',
   delete: 'Delete',
   export: 'Export',
+  modal,
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
