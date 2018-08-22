@@ -41,4 +41,7 @@ export default {
   time_date: 'Time & Date',
   type: 'Type',
   description: 'Description',
+  i_p_address: 'IP address',
+  date: 'Date',
+  type: 'Type',
 };

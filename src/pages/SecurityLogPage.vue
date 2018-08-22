@@ -9,9 +9,9 @@ PageLayout(title="Security log", :sidebar="true")
       table.table__body
         thead
           tr
-            th IP address
-            th Date
-            th Type
+            th {{$t('pages.i_p_address')}}
+            th {{$t('pages.date')}}
+            th {{$t('pages.type')}}
         tbody
           tr(v-for="(item, index) in data.logs")
             td {{item.ipAddress}} ({{item.country}})
