@@ -9,7 +9,7 @@
     // transition(name="widgets__transition" @enter="transitionEnter" @leave="transitionLeave")
     .widgets__dropdowns(ref="widget__drops", :class="dropdownClass")
       TheHeaderWidgetsDropdown
-  .widgets__label Widgets
+  .widgets__label {{$t('widgets')}}
 </template>
 
 <script>
