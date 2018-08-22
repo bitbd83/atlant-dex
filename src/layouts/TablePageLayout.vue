@@ -14,10 +14,10 @@
       .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
         .tablePage__panelActions.panel__checkbox(v-if="isCheckbox")
           Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-        .tablePage__panelActions(v-if="getRepeat" @click="getRepeat") Repeat
-        .tablePage__panelActions(v-if="getCancel" @click="getCancel") Cancel
-        .tablePage__panelActions(v-if="getDelete" @click="getDelete") Delete
-        .tablePage__panelActions(v-if="getExport" @click="getExport") Export
+        .tablePage__panelActions(v-if="getRepeat" @click="getRepeat") {{$t('repeat')}}
+        .tablePage__panelActions(v-if="getCancel" @click="getCancel") {{$t('cancel')}}
+        .tablePage__panelActions(v-if="getDelete" @click="getDelete") {{$t('delete')}}
+        .tablePage__panelActions(v-if="getExport" @click="getExport") {{$t('export')}}
 </template>
 
 <script>

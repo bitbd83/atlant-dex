@@ -140,6 +140,9 @@ export default {
   widgets: 'Widgets',
   this_file_type_is_not_acceptable: 'This file type is not acceptable!',
   wrong_file: 'Wrong file',
+  repeat: 'Repeat',
+  delete: 'Delete',
+  export: 'Export',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
