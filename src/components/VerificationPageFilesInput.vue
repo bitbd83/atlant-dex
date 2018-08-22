@@ -64,8 +64,8 @@ export default {
       } else {
         notification({
           type: 'error',
-          text: 'This file type is not acceptable!',
-          title: 'Wrong file',
+          text: {{$t('this_file_type_is_not_acceptable')}},
+          title: {{$t('wrong_file')}},
         });
       }
     },

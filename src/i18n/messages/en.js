@@ -138,6 +138,8 @@ export default {
   current_pair: 'Current pair',
   last: 'Last',
   widgets: 'Widgets',
+  this_file_type_is_not_acceptable: 'This file type is not acceptable!',
+  wrong_file: 'Wrong file',
 };
 // Confirmation code has been sent to enable 2FA
 // Confirmation code has been sent to disable 2FA
