@@ -8,17 +8,17 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign up")
     form.signup__content(v-if="step == 0"  @submit.prevent="signUpUser()")
       .signup__inputs
         .signup__input
-          .signup__input-title E-mail
+          .signup__input-title {{$t('e_mail')}}
           IInput.signup__input-input(v-model="email", type="email")
         .signup__input
-          .signup__input-title Password
+          .signup__input-title {{$t('password')}}
           IInput.signup__input-input(v-model="password", type="password")
       .signup__checkboxContainer
         Checkbox.signup__checkbox(name="acknowledged", :value="true", v-model="iAgree", color="white")
-          .signup__checkboxLabel I certify that I am 18 years of age or older, and I agree to the #[a.link.link--white.signup__agreeLink(href="#") User Agreement] and #[a.link.link--white.signup__agreeLink(href="#") Privacy Policy].
-      BButton.signup__button(color="white" type="submit") Create account
+          .signup__checkboxLabel {{$t('i_certify_that_i_am_18_years')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('user_agreement')}}] {{$t('and')}} #[a.link.link--white.signup__agreeLink(href="#") {{$t('privacy_policy')}}].
+      BButton.signup__button(color="white" type="submit") {{$t('create_account')}}
       .signup__link(@click="openSignIn")
-        span.link.link--white Sign in
+        span.link.link--white {{$t('sign_in')}}
         icon.signup__linkArrow(id="arrow_short")
     Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
 </template>
