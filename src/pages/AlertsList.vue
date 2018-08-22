@@ -3,7 +3,8 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
+TableLayout(
+  title= "Alerts LIST",
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
@@ -39,7 +40,7 @@ import {mapState, mapMutations} from 'vuex';
 import {getAlerts, deleteAlert} from 'services/api/alerts';
 import {DateTime} from 'luxon';
 import {notification} from 'services/notification';
-import TablePageLayout from 'layouts/TablePageLayout';
+import TableLayout from 'layouts/TableLayout';
 import Checkbox from 'components/Checkbox';
 import Dropdown from 'components/Dropdown';
 
@@ -133,7 +134,7 @@ export default {
     this.getAlerts();
   },
   components: {
-    TablePageLayout,
+    TableLayout,
     Checkbox,
     Dropdown,
   },

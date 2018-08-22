@@ -6,9 +6,9 @@ import PerfectScrollbar from 'perfect-scrollbar';
 
 export default {
   inserted(el) {
-    PerfectScrollbar.initialize(el);
+    new PerfectScrollbar(el);
   },
   componentUpdated(el) {
-    PerfectScrollbar.update(el);
+    new PerfectScrollbar(el);
   },
 };

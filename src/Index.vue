@@ -7,19 +7,8 @@
   .index__body
     Sidebar
     .index__content
-      TheHeader
-      .index__page
-        MainLayout(v-if="!isPageOpened()")
-        TransactionHistoryPage(v-else-if="isPageOpened('transactionHistory')")
-        MyOrdersPage(v-else-if="isPageOpened('myOrders')")
-        VerificationPage(v-else-if="isPageOpened('verification')")
-        VerificationAdminPage(v-else-if="isPageOpened('verificationAdmin')")
-        AccountInformation(v-else-if="isPageOpened('accountInformation')")
-        SecuritySettingsPage(v-else-if="isPageOpened('securitySettings')")
-        SecurityLogPage(v-else-if="isPageOpened('securityLog')")
-        AlertsList(v-else-if="isPageOpened('alertsList')")
-        FAQ(v-else-if="isPageOpened('faq')")
-        NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
+      MainPage(v-if="!isPageOpened()")
+      PageLayout(v-else)
     //- Modals
     ResetPasswordModal(v-if="isModalOpened('reset')")
     NewPasswordModal(v-else-if="isModalOpened('newPassword')")
@@ -43,17 +32,8 @@ import {notification} from 'services/notification';
 // import * as Trade from 'services/api/trade';
 import {showWelcome} from '@/config';
 import Sidebar from 'components/Sidebar';
-import TheHeader from 'components/TheHeader';
-import MainLayout from 'layouts/MainLayout';
-import TransactionHistoryPage from 'pages/TransactionHistoryPage';
-import MyOrdersPage from 'pages/MyOrdersPage';
-import NotificationHistoryPage from 'pages/NotificationHistoryPage';
-import VerificationPage from 'pages/VerificationPage';
-import VerificationAdminPage from 'pages/VerificationAdminPage';
-import AccountInformation from 'pages/AccountInformationPage';
-import SecuritySettingsPage from 'pages/SecuritySettingsPage';
-import SecurityLogPage from 'pages/SecurityLogPage';
-import AlertsList from 'pages/AlertsList';
+import MainPage from 'pages/MainPage';
+import PageLayout from 'layouts/PageLayout';
 import ResetPasswordModal from 'modals/ResetPasswordModal';
 import NewPasswordModal from 'modals/NewPasswordModal';
 import SignUpModal from 'modals/SignUpModal';
@@ -187,11 +167,20 @@ export default {
   },
   watch: {
     pair() {
-      this.$hub.invoke('setPair', this.pair);
+      this.$hub.invokeByStart
+        .then(
+          (connection) => {
+            connection.invoke('setPair', this.pair);
+          }
+        );
     },
     token() {
       if (this.token) {
-        this.$hub.invoke('authenticate', this.token);
+        this.$hub.invokeByStart.then(
+          (connection) => {
+            connection.invoke('authenticate', this.token);
+          }
+        );
       }
     },
     showSidebar() {
@@ -222,13 +211,6 @@ export default {
       this.getProfileData();
       this.getCurrencies();
     };
-
-    this.$hub.start().then(() => {
-      // this.$hub.invoke('newNotification', 'newMessage');
-      // if (this.isLoggedIn) {
-      //   this.$hub.setToken(this.token);
-      // }
-    });
   },
   mounted() {
     if (showWelcome) {
@@ -237,18 +219,9 @@ export default {
     this.updateOverflow();
   },
   components: {
-    TheHeader,
     Sidebar,
-    MainLayout,
-    TransactionHistoryPage,
-    MyOrdersPage,
-    NotificationHistoryPage,
-    VerificationPage,
-    VerificationAdminPage,
-    AccountInformation,
-    SecuritySettingsPage,
-    SecurityLogPage,
-    AlertsList,
+    MainPage,
+    PageLayout,
     Status,
     ResetPasswordModal,
     NewPasswordModal,
@@ -268,7 +241,7 @@ export default {
 
 <style src="noty/lib/noty.css"></style>
 <style lang='scss'>
-@import 'perfect-scrollbar/dist/css/perfect-scrollbar';
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 @import 'styles/fonts';
 @import 'styles/defaults';
 @import 'styles/global';
@@ -276,7 +249,6 @@ export default {
 @import 'variables';
 
 .index {
-  background-image: url('~assets/images/pattern.png');
   position: relative;
   display: flex;
   min-width: 1000px;
@@ -302,10 +274,6 @@ export default {
     flex: 2;
     flex-direction: column;
     z-index: 0;
-  }
-  &__page {
-    display: flex;
-    flex: 2;
   }
 }
 </style>

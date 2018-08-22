@@ -7,7 +7,7 @@ div.verificationInput(
   :class="{'verificationInput--focused': isFocused}"
 )
   span.verificationInput__helper(v-if="helper") {{helper}}
-  input.verificationInput__input(
+  input.input(
     type="text",
     :placeholder="placeholder",
     :value="value",
@@ -44,11 +44,11 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import 'variables';
   .verificationInput {
-    background-color: transparent;
-    border: $input-border;
-    padding: $input-padding;
-    transition: $input-transition;
-    min-height: $input-height;
+    // background-color: transparent;
+    // border: $input-border;
+    // padding: $input-padding;
+    // transition: $input-transition;
+    // min-height: $input-height;
     line-height: 16px;
     display: flex;
     flex-direction: row;

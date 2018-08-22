@@ -3,8 +3,8 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 export const countryCurrencies = {
-  cn: 'CNY',
-  eu: 'EUR',
-  ru: 'RUB',
-  us: 'USD',
+  CN: 'CNY',
+  EU: 'EUR',
+  RU: 'RUB',
+  US: 'USD',
 };

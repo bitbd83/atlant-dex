@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
+TableLayout(
   title="Transaction history",
   :data="data",
   :pageCount='setPagesCount',
@@ -40,10 +40,9 @@ TablePageLayout(
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
+import TableLayout from 'layouts/TableLayout';
 import {notification} from 'services/notification';
 import Radio from 'components/Radio';
-import Icon from 'components/Icon';
-import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
@@ -155,8 +154,7 @@ export default {
     this.getUserTransactions();
   },
   components: {
-    TablePageLayout,
-    Icon,
+    TableLayout,
     Radio,
   },
 };

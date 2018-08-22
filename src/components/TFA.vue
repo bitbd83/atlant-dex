@@ -85,7 +85,7 @@ export default {
       required: false,
     },
     confirmType: {
-      type: [String, Boolean],
+      type: [String, Boolean, Number],
       default: false,
       required: false,
     },
