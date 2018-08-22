@@ -6,7 +6,7 @@
 .pairInfo
   // .pairInfo__content(:class="(this.visible) ? 'pairInfo__content--visible' : ''", @click="visible = (visible ? false : true)")
   .pairInfo__container(v-if="pairInfoItems > 0")
-    .pairInfo__label Last:
+    .pairInfo__label {{$t('last')}}:
     .pairInfo__block
       .pairInfo__value.pairInfo__value--last {{last | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
       Icon.pairInfo__triangle(id="triangle", :class="(change  < 0) ? 'pairInfo__triangle--negative' : ''")
@@ -24,7 +24,7 @@
       Icon.pairInfo__triangle(id="triangle", :class="(lowChange  < 0) ? 'pairInfo__triangle--negative' : ''")
       .pairInfo__percent(:class="(lowChange < 0) ? 'pairInfo__percent--negative' : ''") {{(((lowChange < 0) ? -lowChange : lowChange)) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
   .pairInfo__container(v-if="pairInfoItems === 4")
-    .pairInfo__label Volume:
+    .pairInfo__label {{$t('volume')}}:
     .pairInfo__volume ${{volume | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
   .pairInfo__container(v-if="pairInfoItems < 4" @mouseover="hoverEnter()" @mouseout="hoverLeave()")
     .pairInfo__ellipsis
