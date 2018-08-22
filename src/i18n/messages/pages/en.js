@@ -30,4 +30,12 @@ export default {
   price_for: 'price for',
   has: 'has',
   the_value_of: 'the value of',
+  id: 'ID',
+  timestamp: 'Timestamp',
+  fee: 'Fee',
+  action: 'Action',
+  pair: 'Pair',
+  amount: 'Amount',
+  price: 'Price',
+  total: 'Total',
 };

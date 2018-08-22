@@ -23,14 +23,14 @@ TablePageLayout(
       thead
         tr
           th
-          th ID
-          th Timestamp
-          th Fee
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") Action
-          th Pair
-          th Amount
-          th Price
-          th Total
+          th {{$t('id')}}
+          th {{$t('timestamp')}}
+          th {{$t('fee')}}
+          th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") {{$t('action')}}
+          th {{$t('pair')}}
+          th {{$t('amount')}}
+          th {{$t('price')}}
+          th {{$t('total')}}
       transition-group(
         v-for="(item, index) in orders",
         tag="tbody",
