@@ -5,7 +5,7 @@
 <template lang="pug">
 PageLayout(title="Security settings", :sidebar="true")
   .securitySettings
-    .securitySettings__title Main
+    .securitySettings__title {{$t('pages.main')}}
     .securitySettings__item
       SecuritySettingsPageChangePassword
     // .securitySettings__desktopRow
@@ -18,12 +18,12 @@ PageLayout(title="Security settings", :sidebar="true")
       //-   .securitySettings__param Additional Email:
       //-   .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
       //-     .link.securitySettings__action Change
-    .securitySettings__title 2 factor authentication
+    .securitySettings__title {{$t('pages.two_factor_authentication')}}
     SecuritySettingsPageTFASettings
-    .securitySettings__title Other
+    .securitySettings__title {{$t('pages.other')}}
     .securitySettings__item.securitySettings__desktopRow
-      .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
-      .link.securitySettings__action.securitySettings__action--mobileLeft Terminate
+      .securitySettings__row {{$t('pages.terminate_active_sessions')}} #[Icon.securitySettings__terminateIcon(id="terminate")]
+      .link.securitySettings__action.securitySettings__action--mobileLeft {{$t('pages.terminate')}}
     // BButton.accountInfo__button(color="malachite" rounded) Save
 </template>
 

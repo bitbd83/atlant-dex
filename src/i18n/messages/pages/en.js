@@ -44,4 +44,9 @@ export default {
   i_p_address: 'IP address',
   date: 'Date',
   type: 'Type',
+  main: 'Main',
+  two_factor_authentication: '2 factor authentication',
+  other: 'Other',
+  terminate_active_sessions: 'Terminate active sessions',
+  terminate: 'Terminate',
 };
