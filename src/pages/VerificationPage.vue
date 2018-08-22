@@ -8,10 +8,10 @@ PageLayout(
   :sidebar="true"
 )
   .verification
-    .verification__title PERSONAL INFORMATION:
+    .verification__title {{$t('personal_information')}}:
     .verification__form
       VerificationForm(:validations="this.$v")
-    .verification__title Please upload the following files in order to verify your account:
+    .verification__title {{$t('please_upload_the_following')}}:
     .verification__upload
       VerificationFiles(:validations="this.$v")
     .verification__button
@@ -20,7 +20,7 @@ PageLayout(
         color="malachite",
         rounded,
         caps,
-      ) Verify Me
+      ) {{$t('verify_me')}}
 </template>
 
 <script>

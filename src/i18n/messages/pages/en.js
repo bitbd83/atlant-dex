@@ -63,4 +63,7 @@ export default {
   approve: 'Approve',
   reject: 'Reject',
   choose_a_different_user: 'Choose a different user to see verification rquest',
+  personal_information: 'PERSONAL INFORMATION',
+  please_upload_the_following: 'Please upload the following files in order to verify your account',
+  verify_me: 'Verify Me',
 };
