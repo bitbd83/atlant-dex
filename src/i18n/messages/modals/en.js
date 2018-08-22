@@ -32,4 +32,9 @@ export default {
   method: 'method',
   display_symbols: 'Display symbols',
   reset_now: 'Reset now',
+  i_acknowledge_that_my_account: 'I acknowledge that my account will be locked for a minimum of 24 hours.',
+  reset_it_now: 'Reset it now',
+  or: 'or',
+  sign_in: 'Sign in',
+  sign_up: 'Sign Up',
 };
