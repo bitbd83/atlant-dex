@@ -5,33 +5,33 @@
 <template lang="pug">
 ModalLayout(:step="step", :isSuccess="isSuccess", :title="title + ' ' + data.currency")
   .fiat
-    .fiat__balance(v-if="step == 0") {{data.isDeposit ? 'Current balance' : 'Available'}}: #[span.fiat__balanceAmt {{balance.toFixed(2)}} {{data.currency}}]
+    .fiat__balance(v-if="step == 0") {{data.isDeposit ? $t('current_balance') : $t('available') }}: #[span.fiat__balanceAmt {{balance.toFixed(2)}} {{data.currency}}]
     .fiat__content(v-if="step == 0")
       .fiat__block.fiat__block--left
         .fiat__step.fiat__step--1
-          .fiat__stepNumber STEP 1:
-          .fiat__stepText Choose {{transactionType}} method
+          .fiat__stepNumber {{$t('step')}} 1:
+          .fiat__stepText {{$t('choose')}} {{transactionType}} {{$t('method')}}
         .fiat__optionsContainer
           .fiat__options(v-scrollbar="")
             Radio.fiat__option(v-for="(method, index) in paymentMethods", :key="index", name="paymentSys", :value="method.paymentName" v-model="CheckedPaymentSystem" isWhite="" :checked="method.paymentName == CheckedPaymentSystem")
               img.fiat__systemLogo(:src="method.logo", :class="{'fiat__systemLogo--checked': method.paymentName === CheckedPaymentSystem}")
         .fiat__bottom
           div.fiat__separator ***
-          p(v-if="data.isDeposit") Your funds will be held for 24 hours.
-          p(v-else) Withdrawals may take up to 24 hours.
-          p Operations are carried out with a commission with which you can in a special section.
+          p(v-if="data.isDeposit") {{$t('your_funds_will_be_held_for_24_hours')}}
+          p(v-else) {{$t('withdrawals_may_take_up_to_24_hours')}}
+          p {{$t('operations_are_carried_out')}}
       .fiat__block.fiat__block--right
         .fiat__step.fiat__step--2
-          .fiat__stepNumber STEP 2:
-          .fiat__stepText Enter {{data.isDeposit ? 'fiat code or the desired topup amount:' : 'the desired withdrawal amount:'}}
+          .fiat__stepNumber {{$t('step')}} 2:
+          .fiat__stepText {{$t('enter')}} {{data.isDeposit ? $t('fiat_code_or_the_desired_topup_amount') : $t('the_desired_withdrawal_amount')}}
         IInput.fiat__input(:placeholder="'Amount for ' + transactionType", v-model="amount", type="number")
-        .fiat__fee Fee: {{fee}}%
+        .fiat__fee {{$t('fee')}}: {{fee}}%
         .fiat__toReceive
-          span You will receive:
+          span {{$t('you_will_receive')}}:
           span.fiat__receiveAmt {{newBalance.toFixed(2)}} {{data.currency}}
         IInput.fiat__input(placeholder="Contact information" v-model="contact")
         IInput.fiat__input(placeholder="Comment" v-model="comment")
-        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()", :disabled="!valid") {{data.isDeposit ? 'TOPUP BALANCE' : 'WITHDRAW'}}
+        BButton.fiat__button(color="malachite" rounded @click="makeDeposit()", :disabled="!valid") {{data.isDeposit ? $t('topup_balance') : $t('withdraw')}}
     Status.fiat__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
 
