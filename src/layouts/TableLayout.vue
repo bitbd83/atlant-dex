@@ -6,17 +6,13 @@
 .tablePage
   Header(:title="title")
   .tablePage__body
-    .tablePage__content(v-scrollbar="")
-      slot
+    .tablePage__content
       TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
+      slot(v-else)
     Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-    //- .tablePage__panel(:class="{'tablePage__panel--active': isShowPanelInMobileVersion, 'tablePage__panelScrollbarOpened' : showSidebar}")
-    //-   .tablePage__panelActions.panel__checkbox
-    //-     Checkbox.tHistory__checkbox(color="yellow", :value="isAllChecked" @change="toggleCheckboxes")
-    //-   .tablePage__panelActions(v-if="getRepeat") Repeat
-    //-   .tablePage__panelActions(v-if="getCancel") Cancel
-    //-   .tablePage__panelActions(v-if="getDelete") Delete
-    //-   .tablePage__panelActions(v-if="getExport") Export
+    .tablePage__panel(:class="{'tablePage__panelScrollbarOpened' : showSidebar}")
+      .tablePage__panelActions(v-if="getRepeat && checkedArray" @click="getRepeat") Repeat
+      .tablePage__panelActions(@click="getExport") Export
 </template>
 
 <script>
@@ -35,12 +31,6 @@ export default {
     ...mapState('page', {
       content: 'name',
     }),
-    isAllChecked() {
-      return this.checkedArray.length === this.data.length;
-    },
-    isShowPanelInMobileVersion() {
-      return Boolean(this.checkedArray.length);
-    },
     getTableContent() {
       switch (this.content) {
         case 'myOrders': return 'orders';
@@ -51,9 +41,6 @@ export default {
   methods: {
     switchAllCheckboxes(val) {
       this.$emit('update:checkedArray', val ? this.data.map((item) => item.id) : []);
-    },
-    toggleCheckboxes() {
-      this.isAllChecked ? this.switchAllCheckboxes(false) : this.switchAllCheckboxes(true);
     },
   },
   directives: {
@@ -66,8 +53,8 @@ export default {
       required: true,
     },
     checkedArray: {
-      type: Array,
-      required: true,
+      type: [Array, Object],
+      required: false,
     },
     page: [Number, String],
     pageCount: [Number, String],
@@ -77,17 +64,7 @@ export default {
       default: false,
       required: false,
     },
-    getUndo: {
-      type: [Function, Boolean],
-      default: false,
-      required: false,
-    },
     getCancel: {
-      type: [Function, Boolean],
-      default: false,
-      required: false,
-    },
-    getDelete: {
       type: [Function, Boolean],
       default: false,
       required: false,
@@ -108,6 +85,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'variables';
 .tablePage {
   display: flex;
   flex-direction: column;
@@ -120,8 +98,49 @@ export default {
   }
 
   &__content {
+    position: relative;
     display: flex;
     flex-grow: 2;
+    overflow: hidden;
+    & thead {
+      background-color: $background__blue;
+    }
+
+    & tr {
+      border: none;
+    }
+
+    & th {
+      color: $color__white;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    & td {
+      color: $color__black;
+      font-family: "Century Gothic";
+      font-size: 12px;
+      font-weight: 400;
+      padding: 15px 0;
+      letter-spacing: 0.5px;
+    }
+  }
+  &__panel {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-color: $background__blue;
+    z-index: 1;
+  }
+  &__panelActions {
+    color: $color__white;
+    font-family: Supply;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    &:not(:first-child) {
+      margin-left: 40px;
+    }
   }
 }
 </style>

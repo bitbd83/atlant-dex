@@ -11,43 +11,48 @@ TableLayout(
   :checkedArray='checked',
   :changeActivePage="changeActivePage"
   :getRepeat="getRepeat",
+  :getExport="getExport",
   :isCheckbox="false",
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
   :getApiRequest="getUserTransactions"
 )
-  .tHistory.table
-    table.table__body
-      thead
-        tr
-          th
-          th ID
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") Time
-          th Amount
-          th.tHistory__header--description Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") Type Status
-      tbody
-        tr(v-for="(item, index) in data")
-          td.tHistory__checkboxContainer
-            Radio(size="17", :name="item", :value="item", v-model="checked")
-          td {{item.transactionId}}
-          td.tHistory__date {{setDate(item.creationDate)}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
-          td.tHistory__description {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
+  .tHistory
+    .table
+      table.table__body
+        thead
+          tr
+            th.tHistory__checkboxContainer
+            th.tHistory__cell ID
+            th.tHistory__cell.table__sortable(:class="{'table__sortable--desc': sortBy==='datetime' && !asc}" @click="sortTransactions('datetime')") Time
+            th.tHistory__cell Amount
+            th.tHistory__header--description Description
+            th.tHistory__cell.table__sortable(:class="{'table__sortable--desc': sortBy==='status' && !asc}" @click="sortTransactions('status')") Status
+    .table.tHistory__table(v-scrollbar="")
+      table.table__body
+        tbody
+          tr(v-for="(item, index) in data")
+            td.tHistory__checkboxContainer
+              Radio(size="17", :name="item", :value="item", v-model="checked")
+            td.tHistory__cell {{item.transactionId}}
+            td.tHistory__cell.tHistory__date {{setDate(item.creationDate)}}
+            td.tHistory__cell.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
+            td.tHistory__description {{item.description}}
+            td.tHistory__cell.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {getAccountTransactionCSV} from 'services/api/user';
+import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
-import {notification} from 'services/notification';
 import Radio from 'components/Radio';
 
 export default {
   data() {
     return {
-      checked: {},
+      checked: undefined,
       status: [
         'Pending',
         'Processing',
@@ -108,6 +113,26 @@ export default {
         return error;
       });
     },
+    getExport() {
+      getAccountTransactionCSV({
+        SortBy: this.sortBy,
+        Ascending: this.asc,
+      }).then((res) => {
+        let blob = new Blob([res.data], {type: 'application/csv'});
+        let url = window.URL.createObjectURL(blob);
+        let link = document.createElement('a');
+        let date = new Date().toLocaleDateString();
+        link.href = url;
+        link.download = `atlant-transactions-${date}.csv`;
+        link.click();
+        setTimeout(() => {
+          // For Firefox it is necessary to delay revoking the ObjectURL
+          window.URL.revokeObjectURL(url);
+        }, 100);
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
     sortTransactions(column) {
       if (this.sortBy === column) {
         this.asc = !this.asc;
@@ -122,8 +147,8 @@ export default {
       this.getUserTransactions();
     },
     getRepeat() {
-      if (this.isNothingChecked()) return false;
-      let name = !this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
+      if (this.checked == undefined) return false;
+      let name = this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
       this.openModal({
         name: name,
         data: {
@@ -131,17 +156,6 @@ export default {
           amount: this.checked.amount,
         },
       });
-    },
-    isNothingChecked() {
-      if (typeof this.checked.transactionId == 'undefined') {
-        notification({
-          title: '',
-          text: 'Please choose transaction.',
-          type: 'error',
-        });
-        return true;
-      };
-      return false;
     },
   },
   watch: {
@@ -152,6 +166,9 @@ export default {
   created() {
     this.setAccountTransactionPage(1);
     this.getUserTransactions();
+  },
+  directives: {
+    scrollbar,
   },
   components: {
     TableLayout,
@@ -164,13 +181,12 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 .tHistory {
-  &__header {
-    &--description {
-      padding-left: 26px;
-    }
-  }
-  &__description {
-    min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  width: 100%;
+  &__table {
+    position: relative;
   }
   &__amount {
     &--positive {
@@ -208,13 +224,18 @@ export default {
     }
   }
   &__checkboxContainer {
-    width: 50px;
-    min-width: 32px;
-    position: relative;
+    width: 80px;
+    padding-left: 10px;
   }
   &__checkbox {
     position: absolute;
     top: 20px;
+  }
+  &__cell, &__sortable {
+    width: 10%;
+  }
+  &__description {
+    min-width: 320px;
   }
 }
 </style>
