@@ -19,69 +19,73 @@ TableLayout(
   .myOrders.table
     table.table__body
       thead
-        tr
+        tr.myOrders__row
           th
           th
           th ID
           th Timestamp
           th Fee
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='action'}" @click="sortOrders('action')") Action
+          th.table__sortable(:class="{'table__sortable--desc': sortBy==='action' && !asc}" @click="sortOrders('action')") Action
           th Pair
           th Amount
           th Price
           th Total
-      transition-group(
-        v-for="(item, index) in orders",
-        tag="tbody",
-        :key="index",
-        name="order-list",
-      )
-        tr.myOrders__row(
-          @click="getTrades(item.id)"
-          key="main"
-        )
-          td.myOrders__checkboxCell
-            .myOrders__checkboxContainer
-              div(@click.stop="()=>{}")
-                Radio(size="16", :name="item", :value="item", v-model="checked")
-          td.myOrders__checkboxCell
-            .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
-              .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
-          td {{item.id}}
-          td {{setDate(item.creationDate)}}
-          td {{getOrderFee(item)}}
-          td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
-          td {{item.baseCurrency}}/{{item.quoteCurrency}}
-          td {{item.totalQuantity | setFixNumber}} {{item.baseCurrency}}
-          td {{item.price | setFixNumber}} {{item.quoteCurrency}}
-          td {{item.totalQuantity * item.price | setFixNumber}} {{item.quoteCurrency}}
-        tr.myOrders__loading(
-          key="spinner"
-          v-if="isOrderTradesLoading(item)",
-        )
-          td(colspan="9") loading...
-        tr.myOrders__trades.order-list-item(
-          v-for="(trade, index) in item.trades",
-          v-if="isOrderDetailed(item)",
+    .table.myOrders__table(v-scrollbar="")
+      table.table__body
+        transition-group(
+          v-for="(item, index) in orders",
+          tag="tbody",
           :key="index",
+          name="order-list",
         )
-          td.myOrders__guidline
-          td
-          td
-          td {{getTradeFee(item.side, trade)}}
-          td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
-          td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
-          td {{trade.amount | setFixNumber}} {{trade.baseCurrency}}
-          td {{trade.price | setFixNumber}} {{trade.quoteCurrency}}
-          td {{trade.amount * trade.price | setFixNumber}} {{trade.quoteCurrency}}
+          tr.myOrders__row(
+            @click="getTrades(item.id)"
+            key="main"
+          )
+            td.myOrders__checkboxCell
+              .myOrders__checkboxContainer
+                div(@click.stop="()=>{}")
+                  Radio(size="16", :name="item", :value="item", v-model="checked")
+            td.myOrders__checkboxCell
+              .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
+                .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
+            td {{item.id}}
+            td {{setDate(item.creationDate)}}
+            td {{getOrderFee(item)}}
+            td.myOrders__action(:class="'myOrders__action--' + getAction(item.side)") {{getAction(item.side)}}
+            td {{item.baseCurrency}}/{{item.quoteCurrency}}
+            td {{item.totalQuantity | setFixNumber}} {{item.baseCurrency}}
+            td {{item.price | setFixNumber}} {{item.quoteCurrency}}
+            td {{item.totalQuantity * item.price | setFixNumber}} {{item.quoteCurrency}}
+          tr.myOrders__loading(
+            key="spinner"
+            v-if="isOrderTradesLoading(item)",
+          )
+            td(colspan="9") loading...
+          tr.myOrders__trades.order-list-item(
+            v-for="(trade, index) in item.trades",
+            v-if="isOrderDetailed(item)",
+            :key="index",
+          )
+            td.myOrders__guidline
+            td
+            td
+            td
+            td {{getTradeFee(item.side, trade)}}
+            td.myOrders__action(:class="'myOrders__action--' + getTradeAction(item.side)") {{getTradeAction(item.side)}}
+            td {{trade.baseCurrency}}/{{trade.quoteCurrency}}
+            td {{trade.amount | setFixNumber}} {{trade.baseCurrency}}
+            td {{trade.price | setFixNumber}} {{trade.quoteCurrency}}
+            td {{trade.amount * trade.price | setFixNumber}} {{trade.quoteCurrency}}
 </template>
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {getOrdersCSV} from 'services/api/orders';
+import {exportCSV} from 'services/misc';
+import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
-import {notification} from 'services/notification';
 import Radio from 'components/Radio';
 
 export default {
@@ -196,7 +200,7 @@ export default {
       this.getMyOrders();
     },
     getRepeat() {
-      if (this.isNothingChecked()) return false;
+      if (this.checked == undefined) return false;
       this.openModal({
         name: 'modalBuySell',
         data: {
@@ -209,45 +213,15 @@ export default {
         },
       });
     },
-    // getCancel() {
-    //   cancelOrder({
-    //     orderId: this.checked.id,
-    //     priority: 0,
-    //   }).then(() => {
-    //     this.getMyOrders();
-    //   }).catch((res) => {
-    //     serverNotification(res);
-    //   });
-    // },
     getExport() {
       getOrdersCSV({
         SortBy: this.sortBy,
         Ascending: this.asc,
       }).then((res) => {
-        let blob = new Blob([res.data], {type: 'application/csv'});
-        let url = window.URL.createObjectURL(blob);
-        let link = document.createElement('a');
-        let date = new Date().toLocaleDateString();
-        link.href = url;
-        link.download = `atlant-orders-${date}.csv`;
-        link.click();
-        setTimeout(() => {
-          window.URL.revokeObjectURL(url);
-        }, 100);
+        exportCSV(res, 'orders');
       }).catch((res) => {
         serverNotification(res);
       });
-    },
-    isNothingChecked() {
-      if (this.checked.length == 0) {
-        notification({
-          title: '',
-          text: 'Please choose order.',
-          type: 'error',
-        });
-        return true;
-      };
-      return false;
     },
   },
   filters: {
@@ -279,6 +253,9 @@ export default {
   created() {
     this.getMyOrders();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     TableLayout,
     Radio,
@@ -290,7 +267,13 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 .myOrders {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  width: 100%;
+  &__table {
+    position: relative;
+  }
   &__action {
     text-transform: capitalize;
     &--buy {
@@ -302,12 +285,18 @@ export default {
   }
   &__row {
     cursor: pointer;
-    & > td {
+    & > td, th {
       width: 10%;
-      &:nth-child(3) {
-        width: 200px;
+      &:nth-child(1) {
+        width: 50px;
+      }
+      &:nth-child(2) {
+        width: 50px;
       }
       &:nth-child(4) {
+        width: 125px;
+      }
+      &:nth-child(5) {
         width: 125px;
       }
     }
@@ -339,9 +328,9 @@ export default {
     }
   }
   &__chevronContainer {
-    flex: 1;
-    justify-content: center;
     display: flex;
+    align-items: center;
+    flex: 1;
   }
   &__chevron {
     border-color: #e9bd24;
@@ -360,7 +349,7 @@ export default {
     }
   }
   &__checkboxCell {
-    width: 80px;
+    width: 50px;
     position: relative;
   }
   &__checkboxContainer {

@@ -9,6 +9,7 @@ TableLayout(
   :pageCount="pageCount",
   :changeActivePage="changeActivePage",
   :page="page",
+  :getExport="getExport",
 )
   .securityLog
     .table
@@ -34,6 +35,8 @@ TableLayout(
 
 <script>
 import * as User from 'services/api/user';
+import {getSecurityLogCSV} from 'services/api/user';
+import {exportCSV} from 'services/misc';
 import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
@@ -71,6 +74,16 @@ export default {
         limit: this.limit,
       }).then((response) => {
         this.data = response.data;
+      });
+    },
+    getExport() {
+      getSecurityLogCSV({
+        SortBy: this.sortBy,
+        Ascending: this.asc,
+      }).then((res) => {
+        exportCSV(res, 'securityLog');
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
   },

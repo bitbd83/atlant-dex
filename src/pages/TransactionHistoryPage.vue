@@ -32,7 +32,7 @@ TableLayout(
         tbody
           tr(v-for="(item, index) in data")
             td.tHistory__checkboxContainer
-              Radio(size="17", :name="item", :value="item", v-model="checked")
+              Radio.tHistory__radio(size="17", :name="item", :value="item", v-model="checked")
             td.tHistory__cell {{item.transactionId}}
             td.tHistory__cell.tHistory__date {{setDate(item.creationDate)}}
             td.tHistory__cell.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
@@ -43,6 +43,8 @@ TableLayout(
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {getAccountTransactionCSV} from 'services/api/user';
+import {exportCSV} from 'services/misc';
+import {serverNotification} from 'services/notification.js';
 import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
@@ -117,17 +119,7 @@ export default {
         SortBy: this.sortBy,
         Ascending: this.asc,
       }).then((res) => {
-        let blob = new Blob([res.data], {type: 'application/csv'});
-        let url = window.URL.createObjectURL(blob);
-        let link = document.createElement('a');
-        let date = new Date().toLocaleDateString();
-        link.href = url;
-        link.download = `atlant-transactions-${date}.csv`;
-        link.click();
-        setTimeout(() => {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(url);
-        }, 100);
+        exportCSV(res, 'transactions');
       }).catch((res) => {
         serverNotification(res);
       });
@@ -228,15 +220,12 @@ export default {
   }
   &__radio {
     padding-left: 10px;
-<<<<<<< Updated upstream
   }
   &__cell, &__sortable {
     width: 10%;
   }
   &__description {
     min-width: 320px;
-=======
->>>>>>> Stashed changes
   }
 }
 </style>

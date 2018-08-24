@@ -152,18 +152,6 @@ a {
           transform: rotate(180deg);
       }
     }
-    &--desc {
-      &:after {
-          content: "";
-          position: absolute;
-          margin-top: 4px;
-          margin-left: 4px;
-          border-top: 0 solid transparent;
-          border-left: 6px solid transparent;
-          border-right: 6px solid transparent;
-          transform: rotate(180deg);
-      }
-    }
   }
 
   thead {
