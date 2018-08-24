@@ -11,7 +11,7 @@
       slot(v-else)
     Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
     .tablePage__panel(:class="{'tablePage__panelScrollbarOpened' : showSidebar}")
-      .tablePage__panelActions(v-if="getRepeat && checkedArray" @click="getRepeat") Repeat
+      .tablePage__panelActions(v-if="getRepeat && checked" @click="getRepeat") Repeat
       .tablePage__panelActions(@click="getExport") Export
 </template>
 
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     switchAllCheckboxes(val) {
-      this.$emit('update:checkedArray', val ? this.data.map((item) => item.id) : []);
+      this.$emit('update:checked', val ? this.data.map((item) => item.id) : []);
     },
   },
   directives: {
@@ -52,7 +52,7 @@ export default {
       type: Array,
       required: true,
     },
-    checkedArray: {
+    checked: {
       type: [Array, Object],
       required: false,
     },

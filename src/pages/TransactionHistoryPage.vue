@@ -8,14 +8,13 @@ TableLayout(
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
-  :checkedArray='checked',
+  :checked='checked',
   :changeActivePage="changeActivePage"
   :getRepeat="getRepeat",
   :getExport="getExport",
   :isCheckbox="false",
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
-  :getApiRequest="getUserTransactions"
 )
   .tHistory
     .table
@@ -224,12 +223,11 @@ export default {
     }
   }
   &__checkboxContainer {
-    width: 80px;
-    padding-left: 10px;
+    width: 50px;
+    position: relative;
   }
-  &__checkbox {
-    position: absolute;
-    top: 20px;
+  &__radio {
+    padding-left: 10px;
   }
   &__cell, &__sortable {
     width: 10%;

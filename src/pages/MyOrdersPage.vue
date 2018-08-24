@@ -9,19 +9,18 @@ TableLayout(
   :pageCount='setPagesCount',
   :page="page",
   :changeActivePage="changeActivePage",
-  :checkedArray='checked',
+  :checked='checked',
   :getRepeat="getRepeat",
-  :getCancel="isCancelActive ? getCancel : false",
   :getExport="getExport",
   :isCheckbox="false",
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
-  :getApiRequest="getMyOrders"
 )
   .myOrders.table
     table.table__body
       thead
         tr
+          th
           th
           th ID
           th Timestamp
@@ -43,10 +42,11 @@ TableLayout(
         )
           td.myOrders__checkboxCell
             .myOrders__checkboxContainer
-              // div(@click.stop="()=>{}")
-                Radio(size="17", :name="item", :value="item", v-model="checked")
-              .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
-                .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
+              div(@click.stop="()=>{}")
+                Radio(size="16", :name="item", :value="item", v-model="checked")
+          td.myOrders__checkboxCell
+            .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
+              .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
           td {{item.id}}
           td {{setDate(item.creationDate)}}
           td {{getOrderFee(item)}}
@@ -78,7 +78,7 @@ TableLayout(
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
-import {cancelOrder, getOrdersCSV} from 'services/api/orders';
+import {getOrdersCSV} from 'services/api/orders';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import {notification} from 'services/notification';
@@ -87,7 +87,7 @@ import Radio from 'components/Radio';
 export default {
   data() {
     return {
-      checked: [],
+      checked: undefined,
       currentOrderId: null,
       orderIdTradesLoading: null,
       page: 1,
@@ -109,9 +109,9 @@ export default {
     setPagesCount() {
       return Math.ceil(this.totalItems / this.itemsOnPage);
     },
-    isCancelActive() {
-      return (this.checked.status == 0 || this.checked.status == 1);
-    },
+    // isCancelActive() {
+    //   return (this.checked.status == 0 || this.checked.status == 1);
+    // },
   },
   methods: {
     ...mapMutations('modal', {
@@ -209,16 +209,16 @@ export default {
         },
       });
     },
-    getCancel() {
-      cancelOrder({
-        orderId: this.checked.id,
-        priority: 0,
-      }).then(() => {
-        this.getMyOrders();
-      }).catch((res) => {
-        serverNotification(res);
-      });
-    },
+    // getCancel() {
+    //   cancelOrder({
+    //     orderId: this.checked.id,
+    //     priority: 0,
+    //   }).then(() => {
+    //     this.getMyOrders();
+    //   }).catch((res) => {
+    //     serverNotification(res);
+    //   });
+    // },
     getExport() {
       getOrdersCSV({
         SortBy: this.sortBy,
@@ -232,7 +232,6 @@ export default {
         link.download = `atlant-orders-${date}.csv`;
         link.click();
         setTimeout(() => {
-          // For Firefox it is necessary to delay revoking the ObjectURL
           window.URL.revokeObjectURL(url);
         }, 100);
       }).catch((res) => {
@@ -361,11 +360,11 @@ export default {
     }
   }
   &__checkboxCell {
-    width: 50px;
-    min-width: 32px;
+    width: 80px;
     position: relative;
   }
   &__checkboxContainer {
+    padding-left: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
