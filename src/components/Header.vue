@@ -4,24 +4,25 @@
 
 <template lang="pug">
 .pageHeader
-  .pageHeader__title {{title}}
-    Dropdown.pageHeader__dropdown(
-      v-if="pageName == 'myOrders'",
-      :options="sortTypes",
-      v-model="sortTypeForMyOrders",
-      no-border,
-      no-paddding,
-      preselect-first,
-      underline,
-      isColorBlue="",
-    )
-    | :
+  .pageHeader__content
+    .pageHeader__title {{title}}
+      Dropdown.pageHeader__dropdown(
+        v-if="pageName == 'myOrders'",
+        :options="sortTypes",
+        v-model="sortTypeForMyOrders",
+        no-border,
+        no-paddding,
+        preselect-first,
+        underline,
+        isColorBlue="",
+      )
+    BButton(v-if="btnText", @click="btnFunction", :color="isBtnCompleted ? 'green' : 'blue'") {{isBtnCompleted ? 'SENT' : btnText}}
 </template>
 
 <script>
 import {mapState, mapMutations, mapActions} from 'vuex';
-import IInput from 'components/IInput';
 import Dropdown from 'components/Dropdown';
+import BButton from 'components/BButton';
 
 export default {
   data() {
@@ -75,10 +76,17 @@ export default {
       default: '',
       required: false,
     },
+    btnText: String,
+    btnFunction: {
+      type: Function,
+      required: false,
+      default: () => {},
+    },
+    isBtnCompleted: Boolean,
   },
   components: {
-    IInput,
     Dropdown,
+    BButton,
   },
 };
 </script>
@@ -87,11 +95,15 @@ export default {
 @import 'variables';
 
 .pageHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 18px;
-  margin-bottom: 65px;
+  height: 56px;
+  margin-bottom: 45px;
+
+  &__content {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   &__title {
     display: flex;
