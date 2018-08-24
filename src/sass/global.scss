@@ -8,6 +8,10 @@
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+}
+
 .index {
   height: 100%;
 }
@@ -63,22 +67,28 @@
 }
 
 .input {
-  padding: 7px;
-  border-color: #044568;
-  background-color: transparent;
-  color: $color_summersky;
-
+  display: inline-block;
+  padding: 7px 12px;
+  border-color: transparent;
+  background: rgba(238, 238, 238, 0.74);
+  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 19px;
+  color: $color__black;
   &::placeholder{
     color: #044568;
   }
 
   &:hover, &:focus{
     border-color: $color_summersky;
-    color: $color_summersky;
   }
 
   &[type="password"]{
     letter-spacing: 4px;
+  }
+  &--error {
+    background: rgba(243, 72, 86, 0.7);
   }
 }
 

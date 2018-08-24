@@ -44,9 +44,8 @@
 
 <script>
 import i18n from '@/i18n';
-import {mapState, mapMutations} from 'vuex';
+import {mapState, mapGetters, mapMutations} from 'vuex';
 import * as User from 'services/api/user';
-import {getCountryCode} from 'services/countries';
 // import {serverNotification} from 'services/notification';
 import {operatingSystems, tfaMethods} from '@/config';
 import Radio from 'components/Radio';
@@ -61,7 +60,7 @@ export default {
       tfaMethod: 3,
       number: '',
       qr: '',
-      country: 'us',
+      country: 'US',
       opSys: [],
       tfaMethods: [],
     };
@@ -71,14 +70,12 @@ export default {
       security: 'security',
       account: 'account',
     }),
+    ...mapGetters('geo', ['getCountryPhoneCode']),
     requiresNumber() {
       return this.tfaMethod === 1 || this.tfaMethod === 3;
     },
-    getCountryCode() {
-      return getCountryCode(this.country);
-    },
     fullNumber() {
-      return (this.number) ? this.getCountryCode + this.number : '';
+      return (this.number) ? this.getCountryPhoneCode(this.country) + this.number : '';
     },
     activeTFAMethod() {
       return this.tfaMethods.find((item) => item.id === this.security.tfa.method).name;
@@ -241,7 +238,7 @@ export default {
     margin-left: 28px;
   }
   &__dropdown {
-    width: 40px;
+    // width: 40px;
     margin: 0 10px 0;
   }
   &__input {

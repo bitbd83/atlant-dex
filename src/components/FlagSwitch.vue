@@ -12,64 +12,72 @@ Dropdown.flagSwitch(
   :value="value",
   @input="setFlag",
   v-bind="$attrs",
+  isColorBlack="",
+  isSmallTriangle="",
 )
   template(
     slot="option",
     slot-scope="props",
   )
     .flagSwitch__option
-      img.flagSwitch__optionImage(:src="flagPath(props.option)")
+      img.flagSwitch__optionImage(:src="`/static/flags/${props.option}.png`")
       div.flagSwitch__optionText {{getOptionText(props.option)}}
   template(
     slot="singleLabel",
     slot-scope="props",
   )
     .flagSwitch__option
-      div.flagSwitch__optionText.flagSwitch__optionText--singleLabel {{getSingleLabelText(props.option)}}
-      img.flagSwitch__optionImage(:src="flagPath(props.option)")
+      div.flagSwitch__optionText.flagSwitch__optionText--singleLabel #[span(v-show="isPhone") +]{{getSingleLabelText(props.option)}}
+      img.flagSwitch__optionImage(:src="`/static/flags/${props.option}.png`")
 </template>
 
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex';
+import {getCountryCurrency} from 'services/countries';
 import Dropdown from 'components/Dropdown';
-import {
-  getCountryName,
-  getCountryCurrency,
-  getCountryCode,
-} from 'services/countries';
 import {countryCurrencies} from '@/store/staticData/countryCurrencies';
-import {countryData} from '@/store/staticData/countryData';
 
 export default {
   computed: {
+    ...mapState('geo', ['countries']),
+    ...mapGetters('geo', ['getCountryName', 'getCountryPhoneCode']),
     isCurrency() {
       return this.type === 'currency';
     },
     isPhone() {
       return this.type === 'phone';
     },
+    countriesArray() {
+      let arr = [];
+      this.countries.forEach((el) => {
+        arr.push(el.code);
+      });
+      return arr;
+    },
     flags() {
-      return this.isCurrency ? Object.keys(countryCurrencies) : Object.keys(countryData);
+      return this.isCurrency ? Object.keys(countryCurrencies) : this.countriesArray;
     },
   },
   methods: {
+    ...mapActions('geo', ['getCountries']),
     setFlag(flag) {
       this.$emit('input', flag);
     },
     getOptionText(option) {
-      return this.isCurrency ? getCountryCurrency(option) : getCountryName(option);
+      return this.isCurrency ? getCountryCurrency(option) : this.getCountryName(option);
     },
     getSingleLabelText(option) {
       if (this.isCurrency) {
         return getCountryCurrency(option);
       } else if (this.isPhone) {
-        return getCountryCode(option);
+        return this.getCountryPhoneCode(option);
       } else {
-        return getCountryName(option);
+        return this.getCountryName(option);
       }
     },
-    flagPath(flag = this.currentFlag) {
-      return require('@/assets/images/flags/flag_' + flag + '.png');
-    },
+  },
+  created() {
+    this.getCountries();
   },
   props: {
     value: {
@@ -91,24 +99,24 @@ export default {
 <style lang='scss' scoped>
 @import 'variables';
 .flagSwitch {
-  width: 80px;
+  /* width: 50px; */
 
   &--phone & {
+
     &__optionText--singleLabel {
       min-width: 33px;
       text-align: left;
     }
   }
+
   &__option {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    width: 165px;
     width: max-content;
   }
+
   &__optionImage {
-    height: 24px;
-    width: 24px;
+    width: 20px;
   }
 
   &__optionImage + &__optionText,

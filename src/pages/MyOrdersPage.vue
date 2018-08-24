@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-TablePageLayout(
+TableLayout(
   title="My orders",
   :data="orders",
   :pageCount='setPagesCount',
@@ -43,7 +43,7 @@ TablePageLayout(
         )
           td.myOrders__checkboxCell
             .myOrders__checkboxContainer
-              div(@click.stop="()=>{}")
+              // div(@click.stop="()=>{}")
                 Radio(size="17", :name="item", :value="item", v-model="checked")
               .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
                 .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")
@@ -80,10 +80,9 @@ TablePageLayout(
 import {mapGetters, mapMutations, mapActions} from 'vuex';
 import {cancelOrder, getOrdersCSV} from 'services/api/orders';
 import {DateTime} from 'luxon';
+import TableLayout from 'layouts/TableLayout';
 import {notification} from 'services/notification';
 import Radio from 'components/Radio';
-import Icon from 'components/Icon';
-import TablePageLayout from 'layouts/TablePageLayout';
 
 export default {
   data() {
@@ -282,8 +281,7 @@ export default {
     this.getMyOrders();
   },
   components: {
-    TablePageLayout,
-    Icon,
+    TableLayout,
     Radio,
   },
 };

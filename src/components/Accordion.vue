@@ -44,6 +44,7 @@ export default {
 
       setTimeout(() => {
         el.style.height = 'auto';
+        el.style.overflow = 'inherit';
       }, 500);
     },
     transitionAccordionBeforeLeave(el) {
@@ -51,6 +52,7 @@ export default {
     },
     transitionAccordionLeave(el) {
       el.style.height = el.scrollHeight + 'px';
+      el.style.overflow = 'hidden';
       el.style.height = '0';
     },
     setShow() {
