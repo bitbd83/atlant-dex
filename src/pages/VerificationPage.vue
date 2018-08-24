@@ -46,7 +46,6 @@ export default {
         return;
       }
       this.verifyTierOne().then(() => {
-        alert('Sended');
         this.isDataSended = true;
       });
     },

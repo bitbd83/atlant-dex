@@ -16,7 +16,7 @@
         underline,
         isColorBlue="",
       )
-    BButton(v-if="btnText", @click="btnFunction", :color="isBtnCompleted ? 'green' : 'blue'") {{isBtnCompleted ? 'SENDED' : btnText}}
+    BButton(v-if="btnText", @click="btnFunction", :color="isBtnCompleted ? 'green' : 'blue'") {{isBtnCompleted ? 'SENT' : btnText}}
 </template>
 
 <script>

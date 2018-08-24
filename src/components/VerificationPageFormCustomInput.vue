@@ -57,7 +57,7 @@ export default {
     onBlur() {
       setTimeout(() => {
         this.focused = false;
-      }, 10);
+      }, 100);
     },
 
   },
