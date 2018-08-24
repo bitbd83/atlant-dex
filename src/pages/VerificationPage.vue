@@ -3,62 +3,63 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-ContentLayout(title="VERIFICATION")
+ContentLayout(title="VERIFICATION", btnText="VERIFY ME", :btnFunction="upload", isContentPage="", :isBtnCompleted="isDataSended")
   .verification
     Accordion(title="PERSONAL INFORMATION")
-      .verification__form
-        VerificationForm(:validations="this.$v")
+      .verification__content
+        VerificationPageForm(:validations="this.$v")
     Accordion(title="FILES")
-      .verification__title Please upload the following files in order to verify your account:
-      .verification__upload
-        VerificationFiles(:validations="this.$v")
-    .verification__button
-      BButton(
-        @click="upload"
-        color="blue",
-        rounded,
-        caps,
-      ) Verify Me
+      .verification__content
+        .verification__title Please upload the following files in order to verify your account:
+        VerificationPageFiles(:validations="this.$v")
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
 import {required, minLength} from 'vuelidate/lib/validators';
-import Accordion from 'components/Accordion';
-import BButton from 'components/BButton';
 import ContentLayout from 'layouts/ContentLayout';
-import VerificationForm from 'components/VerificationPageForm';
-import VerificationFiles from 'components/VerificationPageFiles';
+import Accordion from 'components/Accordion';
+import VerificationPageForm from 'components/VerificationPageForm';
+import VerificationPageFiles from 'components/VerificationPageFiles';
 
 export default {
-  name: 'VerificationPage',
+  data() {
+    return {
+      isDataSended: false,
+    };
+  },
   computed: {
-    ...mapState('verify', [
-      'verification',
-    ]),
+    ...mapState('verify', ['verification']),
   },
   methods: {
     ...mapActions('verify', [
       'verifyTierOne',
       'getLastVerification',
     ]),
+    ...mapActions('geo', [
+      'getCountries',
+      'getCities',
+    ]),
     upload() {
       if (this.$v.$invalid) {
         this.$v.$touch();
         return;
       }
-      this.verifyTierOne(this.verification.getFormData());
+      this.verifyTierOne().then(() => {
+        alert('Sended');
+        this.isDataSended = true;
+      });
     },
   },
-  mounted() {
+  created() {
     this.getLastVerification();
+    this.getCountries();
   },
   components: {
     ContentLayout,
     Accordion,
-    BButton,
-    VerificationForm,
-    VerificationFiles,
+    VerificationPageForm,
+    VerificationPageFiles,
   },
   validations: {
     verification: {
@@ -86,7 +87,7 @@ export default {
       },
       phoneNumber: {
         required,
-        minLength: minLength(4),
+        minLength: minLength(3),
       },
       day: {
         required,
@@ -95,6 +96,9 @@ export default {
         required,
       },
       year: {
+        required,
+      },
+      dateOfBirth: {
         required,
       },
       passportId: {
@@ -110,7 +114,6 @@ export default {
         required,
       },
     },
-    birthday: ['verification.day', 'verification.month', 'verification.year'],
   },
 };
 </script>
@@ -118,15 +121,14 @@ export default {
 
 <style lang="scss" scoped>
 @import 'variables';
+
 .verification {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 19px;
-  &__form {
-    padding: 15px 0 30px;
+  &__content {
+    margin-top: 46px;
+    margin-bottom: 20px;
   }
-  &__button {
-    margin-top: 50px;
+  &__title {
+    margin-bottom: 46px;
   }
 }
 </style>

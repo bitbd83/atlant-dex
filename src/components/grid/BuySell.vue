@@ -5,38 +5,36 @@
 <template lang='pug'>
 .buySell
   CSSLoader(v-if="loading")
-  .buySell__default(v-show="!isDone")
-    .buySell__headerContainer
-      .buySell__header
-        .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
-        Icon.buySell__arrow(id="arrow_short")
-        .buySell__infoContainer
-          .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
-          .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
-    .buySell__buttons
-      .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
-        IInput.buySell__input(v-show="!open" placeholder="Quantity" center no-underline v-model="amount" type="number")
-        .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
-        Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
-    .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
-      .buySell__types
-        .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
-        .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
-      .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
-        .buySell__label Limit price
-        .buySell__inputContainer
-          IInput.buySell__input(center no-underline v-model="price" type="number")
-      .buySell__field
-        .buySell__label Total amount
-        .buySell__inputContainer
-          .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
-      button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
-        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-        .buySell__buttonContent(v-show="open") Confirm buy order
-      button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
-        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-        .buySell__buttonContent(v-show="open") Confirm sell order
-  .buySell__done(v-show="isDone" @click="isDone = false") Done
+  .buySell__headerContainer
+    .buySell__header
+      .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
+      Icon.buySell__arrow(id="arrow_short")
+      .buySell__infoContainer
+        .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
+        .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
+  .buySell__buttons
+    .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
+      IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline v-model="amount" type="number")
+      .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
+      Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
+  .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
+    .buySell__types
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
+    .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
+      .buySell__label Limit price
+      .buySell__inputContainer
+        IInput.buySell__input(center no-underline v-model="price" type="number")
+    .buySell__field
+      .buySell__label Total amount
+      .buySell__inputContainer
+        .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
+    button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
+      .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+      .buySell__buttonContent(v-show="open") Confirm buy order
+    button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
+      .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+      .buySell__buttonContent(v-show="open") Confirm sell order
 </template>
 
 <script>
@@ -50,7 +48,6 @@ export default {
   data() {
     return {
       open: false,
-      isDone: false,
       type: 'market',
       isBuy: false,
       amount: '',
@@ -196,30 +193,27 @@ export default {
 <style lang='scss'>
 @import 'variables';
 .buySell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
   overflow: hidden;
-  width: 360px;
+  width: 350px;
   color: $color__white;
   border-radius: 8px;
   z-index: 100000;
-  &__default {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    background-color: $color__blue;
-  }
+  background-color: $color__blue;
   &__headerContainer {
     width: 100%;
-    padding: 15px 23px 15px 0;
+    padding: 6px 23px 6px 0;
   }
   &__header{
-    min-height: 28px;
-    max-height: 28px;
+    min-height: 27px;
+    max-height: 27px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-left: 5px solid $color__white;
+    border-left: 6px solid $color__white;
   }
   &__title {
     white-space: nowrap;
@@ -251,15 +245,15 @@ export default {
   }
   &__buttons {
     width: 100%;
-    height: 66px;
+    height: 60px;
     display: flex;
     justify-content: center;
   }
   &__button {
     position: absolute;
     bottom: 0;
-    width: 120px;
-    height: 66px;
+    width: 115px;
+    height: 60px;
     font-size: 12px;
     transition: width .4s ease-out;
     &--buy {
@@ -284,6 +278,7 @@ export default {
   &__buttonContent {
     font-size: 16px;
     font-weight: 400;
+    text-transform: uppercase;
   }
   &__quantity {
     display: flex;
@@ -309,10 +304,10 @@ export default {
       padding: 23px;
     }
     &--open.buySell__main--limit {
-      height: 380px;
+      height: 360px;
     }
     &--open.buySell__main--market {
-      height: 271px;
+      height: 260px;
     }
   }
   &__types {
@@ -320,7 +315,7 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    margin-bottom: 28px;
+    margin-bottom: 23px;
   }
   &__typeBox {
     font-size: 16px;
@@ -346,7 +341,7 @@ export default {
     }
     &--showLimit {
       height: 79px;
-      margin-bottom: 28px;
+      margin-bottom: 22px;
     }
   }
   &__inputContainer {
@@ -370,7 +365,7 @@ export default {
     font-size: 16px;
     font-weight: 400;
     width: 100%;
-    margin-bottom: 14px;
+    margin-bottom: 11px;
   }
   &__close {
     $size: 15px;

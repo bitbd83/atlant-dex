@@ -2,46 +2,44 @@
 // Use of this source code is governed by Microsoft Reference Source
 // License (MS-RSL) that can be found in the LICENSE file.
 
-<template>
-  <div class="lds-ripple"><div></div><div></div></div>
+<template lang="pug">
+  .loader
+    .loader__body
+    .loader__body
 </template>
 
-<style scoped>
-  .lds-ripple {
-    display: inline-block;
+<style lang="scss" scoped>
+  $size: 64px;
+  .loader {
     position: absolute;
-    width: 64px;
-    height: 64px;
-    left: 50%;
     top: 50%;
-    margin-left: -32px;
-    margin-top: -32px;
+    left: 50%;
+    margin-left: -$size / 2;
+    margin-top: -$size / 2;
+
+    &__body {
+      position: absolute;
+      border: 4px solid #fff;
+      opacity: 1;
+      width: $size;
+      height: $size;
+      border-radius: 50%;
+      animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+
+      &:nth-child(2) {
+        animation-delay: -1s;
+      }
+    }
   }
-  .lds-ripple div {
-    position: absolute;
-    border: 4px solid #fff;
-    opacity: 1;
-    border-radius: 50%;
-    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-  }
-  .lds-ripple div:nth-child(2) {
-    animation-delay: -1s;
-  }
+
   @keyframes lds-ripple {
     0% {
-      top: 28px;
-      left: 28px;
-      width: 0;
-      height: 0;
+      transform: scale(0);
       opacity: 1;
     }
     100% {
-      top: -1px;
-      left: -1px;
-      width: 58px;
-      height: 58px;
+      transform: scale(1);
       opacity: 0;
     }
   }
-
 </style>

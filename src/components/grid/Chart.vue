@@ -19,8 +19,7 @@ Tile(
     :name="data.name"
   )
     .chart
-      CSSLoader(v-if="loading")
-      IEcharts(:option="chart", :loading="false", :resizable="true")#chart
+      Chart
 </template>
 
 <script>
@@ -35,7 +34,7 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
-import CSSLoader from 'components/CSSLoader';
+import Chart from './../Chart';
 
 export default {
   mixins: [TileBase],
@@ -101,212 +100,13 @@ export default {
     ...mapActions('chart', [
       'addNewCandle',
     ]),
+    initChart() {
+    },
     createChart() {
-      this.chart = {
-        tooltip: {
-          trigger: 'axis',
-          showContent: false,
-        },
-        axisPointer: {
-          type: 'cross',
-        },
-        animation: false,
-        grid: [
-          {
-            show: false,
-            left: 0,
-            right: 70,
-            bottom: 32,
-            top: 64,
-            width: 'auto',
-            height: 'auto',
-            containLabel: false,
-          },
-          {
-            show: false,
-            left: 0,
-            right: 70,
-            bottom: 32,
-            top: '70%',
-            width: 'auto',
-            height: 'auto',
-            containLabel: false,
-          },
-        ],
-        xAxis: [
-          {
-            type: 'category',
-            data: this.timeSeries,
-            scale: true,
-            axisLine: {
-              show: false,
-            },
-            axisLabel: {
-              color: '#7aa9ff',
-              fontFamily: 'Supply',
-            },
-            axisTick: {
-              show: false,
-            },
-            axisPointer: {
-              show: true,
-              lineStyle: {
-                color: '#004dff',
-                type: 'dashed',
-              },
-              label: {
-                show: true,
-                color: '#004dff',
-                fontFamily: 'Supply',
-                backgroundColor: '#fff',
-                shadowBlur: 0,
-              },
-            },
-          },
-          {
-            show: false,
-            gridIndex: 1,
-            type: 'category',
-            data: this.volumeSeries,
-            scale: false,
-            boundaryGap: true, // don't touch this!
-            axisPointer: {
-              show: false,
-            },
-          },
-        ],
-        yAxis: [
-          {
-            scale: true,
-            position: 'right',
-            offset: false,
-            width: 100,
-            splitArea: {
-              show: false,
-            },
-            splitLine: {
-              show: true,
-              lineStyle: {
-                color: '#f1f1f1',
-                width: 1,
-              },
-            },
-            axisLabel: {
-              show: true,
-              color: '#3f79f7',
-              fontFamily: 'Supply',
-              verticalAlign: 'middle',
-            },
-            axisLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-          },
-          {
-            scale: false,
-            gridIndex: 1,
-            splitNumber: 5,
-            axisLabel: {show: false},
-            axisLine: {show: false},
-            axisTick: {show: false},
-            splitLine: {show: false},
-          },
-        ],
-        dataZoom: [
-          {
-            type: 'inside',
-            xAxisIndex: [0, 1],
-            start: this.setStartDataZoomOfChart,
-            end: 100,
-            throttle: false,
-          },
-          {
-            type: 'inside',
-            xAxisIndex: [0, 1],
-            start: this.setStartDataZoomOfChart,
-            end: 100,
-            throttle: false,
-          },
-        ],
-        series: [
-          priceChartSettings(this.currentChart, this.priceSeries),
-          {
-            name: 'MA10',
-            type: 'line',
-            data: this.calculateMA(10),
-            lineStyle: {
-              color: this.technicalIndicators['MA10'].color,
-              opacity: this.technicalIndicators['MA10'].enabled,
-            },
-            showSymbol: false,
-            symbolSize: 0,
-            zlevel: 1,
-          },
-          {
-            name: 'EMA10',
-            type: 'line',
-            data: this.calculateEMA(10),
-            lineStyle: {
-              color: this.technicalIndicators['EMA10'].color,
-              opacity: this.technicalIndicators['EMA10'].enabled,
-            },
-            showSymbol: false,
-            symbolSize: 0,
-            zlevel: 1,
-          },
-          // {
-          //   name: 'MACD',
-          //   type: 'line',
-          //   data: this.technical('MACD'),
-          //   lineStyle: {
-          //     color: this.technicalIndicators['MACD'].color,
-          //     opacity: this.technicalIndicators['MACD'].enabled,
-          //   },
-          //   showSymbol: false,
-          //   zlevel: 1,
-          // },
-          {
-            name: 'Volume',
-            type: 'bar',
-            xAxisIndex: 1,
-            yAxisIndex: 1,
-            data: this.volumeSeries,
-            itemStyle: {
-              color: '#376691',
-              opacity: 0.3,
-            },
-          },
-        ],
-      };
     },
     calculateMA(count = 10) {
-      let result = [];
-
-      for (let i = 0, len = this.rawCandles.length; i < len; i++) {
-        if (i < count) {
-          result.push('');
-          continue;
-        };
-        let sum = 0;
-        for (let j = 0; j < count; j++) {
-          sum += this.rawCandles[i - j].high;
-        };
-        result.push(sum / count);
-      }
-      return result;
     },
     calculateEMA(count = 10) {
-      if (!this.rawCandles.length) return 0;
-      let result = [];
-      let k = 2 / (count + 1);
-
-      result = [this.rawCandles[0].high];
-      for (let i = 1; i < this.rawCandles.length; i++) {
-        result.push(this.rawCandles[i].high * k + result[i - 1] * (1 - k));
-      };
-      return result;
     },
     onSendSignal({payload, metadata}) {
       if (
@@ -316,7 +116,8 @@ export default {
         payload.quoteCurrency === this.quoteCurrency &&
         payload.period === this.candlePeriod
       ) {
-        this.addNewCandle(payload);
+        console.log(payload);
+        // this.addNewCandle(payload);
       }
     },
     addEmptyCandle() {
@@ -337,7 +138,7 @@ export default {
     rawCandles() {
       this.calculateMA(10);
       this.calculateEMA(10);
-      this.createChart();
+      // this.createChart();
       this.setEmptyCandleHandler();
     },
     currentChart() {
@@ -349,20 +150,20 @@ export default {
     },
     technicalIndicators: {
       handler() {
-        this.createChart();
+        // this.createChart();
       },
       deep: true,
     },
   },
   created() {
-    this.loading = true;
-    this.loadChart().then(() => {
-      this.createChart();
-      this.loading = false;
-    })
-    .catch(
-      () => {
-        this.loading = false;
+    this.initChart();
+    // this.loadChart().then(() => {
+    //   this.createChart();
+    // });
+    this.$hub.on(
+      'candle_1d_BTC_USD',
+      (data, data2) => {
+        console.log('hell', data, data2);
       }
     );
     this.$hub.on('Send', this.onSendSignal);
@@ -370,7 +171,7 @@ export default {
   components: {
     IEcharts,
     ChartHeader,
-    CSSLoader,
+    Chart,
   },
 };
 </script>
@@ -383,7 +184,6 @@ export default {
   background-color: $background__white;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
-  padding: 0 0 0 15px;
-  position: relative;
+  padding: 0 0 0 3px;
 }
 </style>

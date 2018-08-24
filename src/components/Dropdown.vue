@@ -4,7 +4,7 @@
 
 <template lang="pug">
   VSelect.dropdown(
-    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle, 'dropdown--blue': isColorBlue, 'dropdown--black': isColorBlack, 'dropdown--flagSwitch': isFlagSwitch}",
+    :class="{'dropdown--noBorder': noBorder, 'dropdown--noPadding': noPadding, 'dropdown--underline': underline, 'dropdown--noTriangle':  noTriangle, 'dropdown--whiteTriangle': whiteTriangle, 'dropdown--blue': isColorBlue, 'dropdown--black': isColorBlack, 'dropdown--smallTriangle': isSmallTriangle}",
     :options="$_options",
     placeholder="",
     :show-labels="false",
@@ -16,7 +16,7 @@
     v-bind="$attrs",
     no-border,
     no-padding,
-    preselect-first,
+    :preselect-first="preselectFirs",
     underline,
     whiteTriangle,
     :maxHeight="maxHeight",
@@ -79,9 +79,13 @@ export default {
       type: [String, Number],
       default: '',
     },
+    preselectFirs: {
+      type: Boolean,
+      default: true,
+    },
     placeholder: {
       type: String,
-      default: '-',
+      default: 'sdfsdf',
     },
     options: [Array, Object],
     trackBy: String,
@@ -105,7 +109,7 @@ export default {
       required: false,
       default: 240,
     },
-    isFlagSwitch: Boolean,
+    isSmallTriangle: Boolean,
   },
   components: {
     VSelect,
@@ -358,7 +362,7 @@ export default {
       color: $color__black;
     }
 
-    &--flagSwitch {
+    &--smallTriangle {
       & /deep/ .multiselect {
         &__select {
           &:before {
