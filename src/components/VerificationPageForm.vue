@@ -155,7 +155,11 @@ export default {
       },
     },
     dateOfBirth() {
-      return (this.verificationState.year && this.verificationState.month && this.verificationState.day) ? `${this.verificationState.year}-${this.birthdayMonths.indexOf(this.verificationState.month) + 1}-${this.verificationState.day}` : false;
+      let year = this.verificationState.year;
+      let month = this.verificationState.month;
+      let day = this.verificationState.day;
+
+      return (year && month && day) ? `${year}-${this.birthdayMonths.indexOf(month) + 1}-${day}` : false;
     },
     getCountriesArray() {
       return this.countries.map((el) => el.name);

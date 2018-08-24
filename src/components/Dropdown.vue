@@ -228,7 +228,7 @@ export default {
         height: 100%;
         right: -15px;
         top: 0;
-        padding: 0 9px;
+        // padding: 0 9px;
         transition: transform .2s ease;
         display: flex;
         align-items: center;
@@ -286,7 +286,7 @@ export default {
         padding: 0 19px 0 0;
       }
       &__select {
-        padding:  0 0 0 9px;
+        padding:  0 0 0 0px;
       }
     }
     &--underline /deep/ .multiselect {

@@ -91,6 +91,7 @@ export default {
     background: none;
     padding-bottom: 11px;
     border-bottom: 3.5px solid $background__white;
+    color: $color__white;
     &--center {
       text-align: center;
     }
