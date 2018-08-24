@@ -13,7 +13,7 @@ Dropdown.flagSwitch(
   @input="setFlag",
   v-bind="$attrs",
   isColorBlack="",
-  isFlagSwitch="",
+  isSmallTriangle="",
 )
   template(
     slot="option",
