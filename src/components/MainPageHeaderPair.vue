@@ -16,7 +16,7 @@ import TheHeaderPairDropdown from './TheHeaderPairDropdown';
 export default {
   data() {
     return {
-      currentDropdown: 'base',
+      currentDropdown: '',
     };
   },
   methods: {
