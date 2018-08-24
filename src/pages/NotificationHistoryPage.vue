@@ -4,7 +4,7 @@
 
 <template lang="pug">
 TableLayout(
-  title="NOTIFICATION_HISTORY",
+  title="Notification history",
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
