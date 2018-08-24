@@ -228,12 +228,15 @@ export default {
   }
   &__radio {
     padding-left: 10px;
+<<<<<<< Updated upstream
   }
   &__cell, &__sortable {
     width: 10%;
   }
   &__description {
     min-width: 320px;
+=======
+>>>>>>> Stashed changes
   }
 }
 </style>
