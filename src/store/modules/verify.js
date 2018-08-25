@@ -3,12 +3,28 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 import * as Verification from 'services/api/verify';
-import VerificationData from '@/models/VerificationData';
 import {notification} from 'services/notification';
+import {birthdayMonths} from '@/store/staticData/birthday.js';
 
 export default {
   state: {
-    verification: new VerificationData,
+    verification: {
+      firstName: '',
+      lastName: '',
+      country: '',
+      city: '',
+      address: '',
+      postCode: '',
+      phoneNumber: '',
+      dateOfBirth: '',
+      day: '',
+      month: '',
+      year: '',
+      passportId: '',
+      passportScan: '',
+      selfie: '',
+      proofOfResidenceScan: '',
+    },
     users: {
       accounts: [],
       totalItems: 0,
@@ -32,11 +48,15 @@ export default {
     latestRequest(state) {
       return state.applications.verificationRequests[state.applications.verificationRequests.length - 1];
     },
+    getFormDataForApiRequest(state) {
+      const formData = new FormData();
+      Object.keys(state.verification).forEach((key) => {
+        if (!['day', 'month', 'year'].includes(key)) formData.append(key, state.verification[key]);
+      });
+      return formData;
+    },
   },
   mutations: {
-    setVerificationData(state, data) {
-      state.verification = new VerificationData(data);
-    },
     loginAdmin(state) {
       state.adminLoggedIn = true;
     },
@@ -49,10 +69,23 @@ export default {
     setVerificationStatus(state, status) {
       state.applications.verificationRequests[state.applications.verificationRequests.length - 1].status = status;
     },
+    updateVerificationData(state, value) {
+      state.verification = value;
+
+      if (value.dateOfBirth) {
+        let dateOfBirth = new Date(value.dateOfBirth);
+        state.verification.day = dateOfBirth.toLocaleTimeString([], {day: '2-digit'}).split(',')[0];
+        state.verification.month = birthdayMonths[dateOfBirth.toLocaleTimeString([], {month: 'numeric'}).split(',')[0] - 1];
+        state.verification.year = dateOfBirth.toLocaleTimeString([], {year: 'numeric'}).split(',')[0];
+      }
+    },
+    updateVerificationDateOfBirth(state, value) {
+      state.verification.dateOfBirth = value;
+    },
   },
   actions: {
-    verifyTierOne({}, data) {
-      Verification.tierOneVerify(data)
+    verifyTierOne({getters}) {
+      Verification.tierOneVerify(getters.getFormDataForApiRequest)
       .then(() => {
         notification({
           title: 'Success:',
@@ -63,7 +96,7 @@ export default {
     },
     getLastVerification({commit}) {
       Verification.getLastVerification().then((response) => {
-        commit('setVerificationData', response.data);
+        commit('updateVerificationData', response.data);
       });
     },
     adminLogin({commit, dispatch}, {login, password}) {
