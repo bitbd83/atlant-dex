@@ -33,7 +33,7 @@ TableLayout(
         tbody
           tr(v-for="(item, index) in data")
             td.tHistory__checkboxContainer
-              Radio.tHistory__radio(size="17", :name="item", :value="item", v-model="checked")
+              Radio.tHistory__radio(isTable="", :name="item", :value="item", v-model="checked")
             td.tHistory__cell {{item.transactionId}}
             td.tHistory__cell.tHistory__date {{setDate(item.creationDate)}}
             td.tHistory__cell.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}

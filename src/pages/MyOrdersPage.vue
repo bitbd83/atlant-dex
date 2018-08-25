@@ -46,7 +46,7 @@ TableLayout(
             td.myOrders__checkboxCell
               .myOrders__checkboxContainer
                 div(@click.stop="()=>{}")
-                  Radio(size="16", :name="item", :value="item", v-model="checked")
+                  Radio(isTable="", :name="item", :value="item", v-model="checked")
             td.myOrders__checkboxCell
               .myOrders__chevronContainer(v-if="isOrderHasDetails(item)")
                 .myOrders__chevron(:class="{'myOrders__chevron--down': isOrderDetailed(item)}")

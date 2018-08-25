@@ -4,10 +4,20 @@
 
 <template lang="pug">
   .loader
-    .loader__body
-    .loader__body
+    .loader__body(:class="{'loader__body--white' : isWhite}")
+    .loader__body(:class="{'loader__body--white' : isWhite}")
 </template>
-
+<script>
+export default {
+  props: {
+    isWhite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+};
+</script>
 <style lang="scss" scoped>
   $size: 64px;
   .loader {
@@ -25,7 +35,9 @@
       height: $size;
       border-radius: 50%;
       animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-
+      &--white {
+        border-color: #fff;
+      }
       &:nth-child(2) {
         animation-delay: -1s;
       }

@@ -9,8 +9,9 @@
     .tablePage__content
       TablePageLayoutEmptyPlaceholder(v-if="data.length == 0 && !isLoading", :content="getTableContent")
       slot(v-else)
-    Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
-    .tablePage__panel(:class="{'tablePage__panelScrollbarOpened' : showSidebar}")
+    .tablePage__paginationContainer
+      Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
+    .tablePage__panel
       .tablePage__panelActions(v-if="getRepeat && checked" @click="getRepeat") Repeat
       .tablePage__panelActions(@click="getExport") Export
 </template>
@@ -132,10 +133,13 @@ export default {
       letter-spacing: 0.5px;
     }
   }
+  &__paginationContainer{
+    height: 111px;
+  }
   &__panel {
     display: flex;
     align-items: center;
-    height: 50px;
+    min-height: 50px;
     background-color: $background__blue;
     z-index: 1;
   }

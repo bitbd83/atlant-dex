@@ -28,7 +28,7 @@ TableLayout(
         tbody
           tr(v-for="(item, index) in data.logs")
             td.securityLog__radio
-              Radio(size="16", :name="item", :value="item", v-model="checked")
+              Radio(isTable="", :name="item", :value="item", v-model="checked")
             td.securityLog__cell {{getLogTime(item.dateTime)}}
             td.securityLog__cell {{item.description}}
             td.securityLog__location {{item.ipAddress}}
