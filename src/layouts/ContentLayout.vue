@@ -34,6 +34,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
+  margin-bottom: 50px;
   max-width: 774px;
   &__body {
     position: relative;

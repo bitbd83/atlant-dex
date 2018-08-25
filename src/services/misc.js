@@ -67,3 +67,17 @@ export const priceChartSettings = (chartType, priceSeries) => {
     },
   };
 };
+
+export const exportCSV = (response, fileName) => {
+  let blob = new Blob([response.data], {type: 'application/csv'});
+  let url = window.URL.createObjectURL(blob);
+  let link = document.createElement('a');
+  let date = new Date().toLocaleDateString();
+  link.href = url;
+  link.download = `atlant-${fileName}-${date}.csv`;
+  link.click();
+  setTimeout(() => {
+    // For Firefox it is necessary to delay revoking the ObjectURL
+    window.URL.revokeObjectURL(url);
+  }, 100);
+};

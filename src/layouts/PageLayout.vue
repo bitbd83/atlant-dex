@@ -17,8 +17,9 @@
       FAQ(v-else-if="isPageOpened('faq')")
       NotificationHistoryPage(v-else-if="isPageOpened('notificationHistory')")
       AlertsList(v-else-if="isPageOpened('alertsList')")
-    .page__rigthPanel
+    .page__rightPanel
       Logout.page__logout
+  .page__panel
 </template>
 
 <script>
@@ -85,6 +86,14 @@ export default {
   }
   &__logout {
     padding: 20px 29px;
+  }
+  &__panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background-color: $background__blue;
   }
 }
 </style>

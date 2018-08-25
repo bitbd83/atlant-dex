@@ -4,7 +4,7 @@
 
 export default {
   state: {
-    name: '',
+    name: 'transactionHistory',
     data: {},
   },
   mutations: {
