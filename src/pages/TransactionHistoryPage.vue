@@ -27,7 +27,8 @@ TableLayout(
             th.tHistory__cell Amount
             th.tHistory__header--description Description
             th.tHistory__cell.table__sortable(:class="{'table__sortable--desc': sortBy==='status' && !asc}" @click="sortTransactions('status')") Status
-    .table.tHistory__table(v-scrollbar="")
+    CSSLoader(v-if="loadingContent")
+    .table.tHistory__table(v-else v-scrollbar="")
       table.table__body
         tbody
           tr(v-for="(item, index) in data")
@@ -49,6 +50,7 @@ import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -164,6 +166,7 @@ export default {
   components: {
     TableLayout,
     Radio,
+    CSSLoader,
   },
 };
 </script>

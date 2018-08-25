@@ -24,14 +24,15 @@ TableLayout(
             th.table__sortable(:class="{'table__sortable--desc': sortBy==='datetime' && !asc}" @click="sortNotifications('datetime')") Time & Date
             th.table__sortable(:class="{'table__sortable--desc': sortBy==='level' && !asc}" @click="sortNotifications('level')") Type
             th Description
-    .table.notificationHistory__table(v-scrollbar="")
+    CSSLoader(v-if="loadingContent")
+    .table.notificationHistory__table(v-else v-scrollbar="")
       table.table__body
         tbody
           tr.notificationHistory__row(v-for="(item, index) in data")
             //- td
             //-   Radio.notificationHistory__radio(size="17", :name="item", :value="item", v-model="checked")
             td {{formatTime(item.dateTime)}}
-            td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
+            td.notificationHistory__capital(:class="{'notificationHistory__capital--red' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
             td {{$t('notifications.' + getStatus(item), item.arguments)}}
 </template>
 
@@ -46,6 +47,7 @@ import {signalRNotification} from '@/store/staticData/signalRNotification';
 import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
 import TableLayout from 'layouts/TableLayout';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -151,6 +153,7 @@ export default {
   components: {
     TableLayout,
     Checkbox,
+    CSSLoader,
   },
 };
 </script>
@@ -168,6 +171,10 @@ export default {
     }
     &__capital {
       text-transform: capitalize;
+      color: $color__green;
+      &--red {
+        color: $color__red;
+      }
     }
     &__table {
       position: relative;

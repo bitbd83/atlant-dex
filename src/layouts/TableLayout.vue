@@ -7,7 +7,7 @@
   Header(:title="title")
   .tablePage__body
     .tablePage__content
-      TablePageLayoutEmptyPlaceholder(v-if="data.length == 0", :content="getTableContent")
+      TablePageLayoutEmptyPlaceholder(v-if="data.length == 0 && !isLoading", :content="getTableContent")
       slot(v-else)
     Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
     .tablePage__panel(:class="{'tablePage__panelScrollbarOpened' : showSidebar}")
@@ -33,8 +33,10 @@ export default {
     }),
     getTableContent() {
       switch (this.content) {
-        case 'myOrders': return 'orders';
-        case 'transactionHistory': return 'transactions';
+        case 'myOrders': return `Couldn't find any orders`;
+        case 'transactionHistory': return `Couldn't find any transactions`;
+        case 'notificationHistory': return `Couldn't find any notifications`;
+        case 'securityLog': return `Couldn't find any security logs`;
       };
     },
   },
@@ -73,6 +75,11 @@ export default {
       type: [Function, Boolean],
       default: false,
       required: false,
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+      required: true,
     },
   },
   components: {

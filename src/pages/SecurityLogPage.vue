@@ -10,6 +10,7 @@ TableLayout(
   :changeActivePage="changeActivePage",
   :page="page",
   :getExport="getExport",
+  :isLoading="loadingContent",
 )
   .securityLog
     .table
@@ -21,7 +22,8 @@ TableLayout(
             th.securityLog__cell Type
             th.securityLog__location IP Address
             th.securityLog__cell Location
-    .table.securityLog__table(v-scrollbar="")
+    CSSLoader(v-if="loadingContent")
+    .table.securityLog__table(v-else v-scrollbar="")
       table.table__body
         tbody
           tr(v-for="(item, index) in data.logs")
@@ -42,6 +44,7 @@ import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Pagination from 'components/Pagination';
 import Radio from 'components/Radio';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -53,6 +56,7 @@ export default {
       limit: 12,
       page: 1,
       checked: {},
+      loadingContent: false,
     };
   },
   computed: {
@@ -69,11 +73,15 @@ export default {
       this.getSecurityLog();
     },
     getSecurityLog() {
+      this.loadingContent = true;
       User.getSecurityLog({
         page: this.page,
         limit: this.limit,
       }).then((response) => {
         this.data = response.data;
+        this.loadingContent = false;
+      }).catch(() => {
+        this.loadingContent = false;
       });
     },
     getExport() {
@@ -97,6 +105,7 @@ export default {
     TableLayout,
     Pagination,
     Radio,
+    CSSLoader,
   },
 };
 </script>

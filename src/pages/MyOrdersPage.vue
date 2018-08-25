@@ -30,7 +30,8 @@ TableLayout(
           th Amount
           th Price
           th Total
-    .table.myOrders__table(v-scrollbar="")
+    CSSLoader(v-if="loadingContent")
+    .table.myOrders__table(v-else v-scrollbar="")
       table.table__body
         transition-group(
           v-for="(item, index) in orders",
@@ -87,6 +88,7 @@ import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -259,6 +261,7 @@ export default {
   components: {
     TableLayout,
     Radio,
+    CSSLoader,
   },
 };
 </script>
@@ -313,14 +316,6 @@ export default {
   &__guidline {
     $line-color: #e9bd2455;
     position: relative;
-    &:before {
-      border-left: 1px solid $line-color;
-      position: absolute;
-      top: 0;
-      margin-left: 8px;
-      bottom: 0;
-      content: '';
-    }
     tbody tr.myOrders__trades:last-child &:before {
       bottom: 50%;
       width: 5px;
@@ -333,7 +328,7 @@ export default {
     flex: 1;
   }
   &__chevron {
-    border-color: #e9bd24;
+    border-color: $color__blue;
     border-style: solid;
     border-width: 2px 2px 0 0;
     content: "";

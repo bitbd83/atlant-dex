@@ -3,10 +3,14 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template>
-  <div class="lds-ripple"><div></div><div></div></div>
+  <div class="lds-ripple">
+    <div></div>
+    <div></div>
+  </div>
 </template>
 
 <style scoped>
+  @import "~variables";
   .lds-ripple {
     display: inline-block;
     position: absolute;
@@ -19,7 +23,7 @@
   }
   .lds-ripple div {
     position: absolute;
-    border: 4px solid #fff;
+    border: 4px solid #004dff;
     opacity: 1;
     border-radius: 50%;
     animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
