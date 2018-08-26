@@ -10,7 +10,7 @@
       .changeEmail__value(v-if="!isEmpty") {{hiddenEmail}} #[Icon.changeEmail__icon(v-if="setEmailData.verified" id="icon-form-check")]
       .link.changeEmail__action(v-if="security.tfa.enabled && isAdditionalEmail" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") {{(isEmpty) ? 'Add' : 'Change'}}
     .changeEmail__content(v-if="step === 1")
-      input.input.changeEmail__input(v-model="email")
+      input.input.changeEmail__input(v-model="email" autofocus="")
       .link.changeEmail__action(@click="setExtraEmail") Save
       .link.changeEmail__action(@click="setStep(0)") Cancel
 </template>
@@ -63,7 +63,7 @@ export default {
       this.step = step;
     },
     changeEmail() {
-      this.email = this.security.additionalEmail.value;
+      // this.email = this.security.additionalEmail.value;
       this.setStep(1);
     },
     setExtraEmail() {
