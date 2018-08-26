@@ -106,6 +106,8 @@ $ROOT: "radio";
     }
     &--table {
       $size: 16px;
+      width: $size;
+      height: $size;
       border-width: 2px;
     }
   }

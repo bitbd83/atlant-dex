@@ -19,6 +19,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import "variables";
   $size: 64px;
   .loader {
     position: absolute;
@@ -29,14 +30,14 @@ export default {
 
     &__body {
       position: absolute;
-      border: 4px solid #004dff;
+      border: 4px solid $color__blue;
       opacity: 1;
       width: $size;
       height: $size;
       border-radius: 50%;
       animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
       &--white {
-        border-color: #fff;
+        border-color: $color__white;
       }
       &:nth-child(2) {
         animation-delay: -1s;
