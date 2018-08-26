@@ -70,7 +70,8 @@ export default {
         sortBy: data.sortBy,
         isSortAscending: data.ascending,
         triggeredFirst: data.isSidebar ? true : false,
-        active: data.isSidebar ? true : false,
+        // active: data.isSidebar ? true : false,
+        active: true,
       }).then((response) => {
         if (data.isSidebar) {
           commit('setSidebarAlerts', response.data);

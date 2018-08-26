@@ -4,79 +4,73 @@
 
 <template lang="pug">
 TableLayout(
-  title= "Alerts LIST",
-  :data="data",
+  title="Alert list",
+  :data="alertsList",
   :pageCount='setPagesCount',
-  :page="page",
+  :page="alertsPage",
   :changeActivePage="changeActivePage",
-  :checkedArray.sync='checkedArray',
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
-  :getApiRequest="getAlerts"
-  :getDelete="getDeleteAlerts"
 )
   .myAlerts.table
-    table.myAlerts__body.table__body
+    table.table__body
       thead
         tr.myAlerts__row
-          th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='added'}" @click="sortAlerts('added')") Added
+          th.table__sortable(:class="{'table__sortable--desc': sortBy==='added' && !asc}" @click="sortAlerts('added')") Added
           th Description
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='type'}" @click="sortAlerts('type')") Type
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='lifetime'}" @click="sortAlerts('lifetime')") Lifetime
-      tbody
-        tr.myAlerts__row(v-for="(item, index) in data")
-          td
-            Checkbox(color="yellow", :value="isChecked(item.id)" @change="setCheckedArray(item.id)")
-          td {{formatTime(item.creationDate)}}
-          td {{item.arguments[4] ? 'Target ' : 'Current '}} price for {{item.arguments[0]}} has {{priceType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : 'below '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
-          td {{item.arguments[4] ? 'Target ' : 'Change '}}
-          td
-            .myAlerts__lifetimeInDays {{item.lifetimeInDays}} days
+          th.table__sortable(:class="{'table__sortable--desc': sortBy==='type' && !asc}" @click="sortAlerts('type')") Type
+          th.table__sortable(:class="{'table__sortable--desc': sortBy==='lifetime' && !asc}" @click="sortAlerts('lifetime')") Lifetime remaining
+    CSSLoader(v-if="loadingContent")
+    .myAlerts__table(v-else v-scrollbar="")
+      table.table
+        tbody
+          tr.myAlerts__row(v-for="(item, index) in alertsList")
+            td {{formatTime(item.creationDate)}}
+            td {{priceType[item.arguments[5]]}} price of {{item.arguments[0]}} to {{targetType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : ' '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
+            td {{item.arguments[4] ? 'Target ' : 'Change '}}
+            td
+              .myAlerts__daysLeft {{(item.daysLeft) ? item.daysLeft + ' days' : '&#8734'}}
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex';
-import {getAlerts, deleteAlert} from 'services/api/alerts';
+import {mapState, mapMutations, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
-import {notification} from 'services/notification';
+import {scrollbar} from '@/directives';
+// import {notification} from 'services/notification';
 import TableLayout from 'layouts/TableLayout';
-import Checkbox from 'components/Checkbox';
-import Dropdown from 'components/Dropdown';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
     return {
       checkedArray: [],
-      page: 1,
-      limit: 10,
-      totalItems: 1,
       sortBy: 'added',
       asc: false,
-      data: [],
-      priceType: ['growth', 'reached', 'fall'],
+      targetType: ['exceed', 'reach', 'fall'],
+      priceType: ['Bid', 'Ask'],
       loadingContent: false,
       isLoadingError: false,
     };
   },
   computed: {
-    ...mapState('user', [
-      'alertsListChanged',
+    ...mapState('alerts', [
+      'alertsList',
+      'alertsListCount',
+      'alertsPage',
+      'alertsLimit',
     ]),
     setPagesCount() {
-      return Math.ceil(this.totalItems / this.limit);
+      return Math.ceil(this.alertsListCount / this.alertsLimit);
     },
   },
   methods: {
-    ...mapMutations('user', [
-      'setAlertsListChange',
+    ...mapMutations('alerts', [
+      'setAlertsPage',
     ]),
-    isChecked(id) {
-      return Boolean(this.checkedArray.indexOf(id) != -1);
-    },
-    setCheckedArray(id) {
-      this.isChecked(id) ? this.checkedArray = this.checkedArray.filter((item) => item != id) : this.checkedArray.push(id);
-    },
+    ...mapActions('alerts', [
+      'getAlertsList',
+      'deleteAlert',
+    ]),
     formatTime(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
@@ -84,31 +78,30 @@ export default {
       if (this.loadingContent == true && this.isLoadingError == false) return false;
       this.isLoadingError = false;
       this.loadingContent = true;
-      return getAlerts({
-        page: this.page,
-        limit: this.limit,
-        isSortAscending: 1,
+      this.getAlertsList({
+        page: this.alertsPage,
         sortBy: this.sortBy,
-      }).then((response) => {
-        this.data = response.data.data;
-        this.totalItems = response.data.totalItems;
+        ascending: this.asc,
+      }).then(() => {
         this.loadingContent = false;
       }).catch(() => {
+        this.loadingContent = false;
         this.isLoadingError = true;
       });
     },
-    getDeleteAlerts() {
-      for (let i = 0; i < this.checkedArray.length; i++) {
-        deleteAlert(this.checkedArray[i]).then(() => {
-          notification({
-            title: 'Alerts event:',
-            text: `Alert №${this.checkedArray[i]} deleted`,
-            type: 'info',
-          });
-        });
-        this.setAlertsListChange();
-      };
-    },
+    // getDeleteAlerts() {
+    //   this.deleteAlert({
+    //     alertsDeleteModel: this.checkedArray,
+    //   }).then(() => {
+    //     this.getAlerts();
+    //     notification({
+    //       title: 'Alerts event:',
+    //       text: `${this.checkedArray.length} alerts deleted`,
+    //       type: 'info',
+    //     });
+    //     this.checkedArray = [];
+    //   });
+    // },
     sortAlerts(column) {
       if (this.sortBy === column) {
         this.asc = !this.asc;
@@ -119,52 +112,50 @@ export default {
       this.getAlerts();
     },
     changeActivePage(num) {
-      this.page = num;
-      this.getAlerts();
-    },
-  },
-  watch: {
-    alertsListChanged() {
-      this.data = [];
-      this.totalItems = 1;
+      this.setAlertsPage(num);
       this.getAlerts();
     },
   },
   created() {
     this.getAlerts();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     TableLayout,
-    Checkbox,
-    Dropdown,
+    CSSLoader,
   },
 };
 </script>
 
 
 <style lang="scss" scoped>
-@import "variables";
+@import "~variables";
 .myAlerts {
-  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  &__table {
+    position: relative;
+  }
   &__row {
-    & > td {
-      width: 15%;
+    & > td, th {
+      width: 20%;
       &:nth-child(1) {
-        width: 60px;
+        padding-left: 10px;
       }
-      &:nth-child(3) {
-        width: 300px;
+      &:nth-child(2) {
+        width: 40%;
       }
     }
   }
-  &__dropdown {
-    max-width: 110px;
-  }
-  &__lifetimeInDays {
+  &__daysLeft {
     width: 82px;
     padding: 8px 13px;
     border-radius: 2px;
-    border: 1px solid #ffffff;
+    border: 1px solid $color__blue;
+    text-align: center;
   }
 }
 </style>

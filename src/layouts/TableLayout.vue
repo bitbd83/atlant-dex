@@ -13,7 +13,7 @@
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
     .tablePage__panel
       .tablePage__panelActions(v-if="getRepeat && checked" @click="getRepeat") Repeat
-      .tablePage__panelActions(@click="getExport") Export
+      .tablePage__panelActions(v-if="getExport" @click="getExport") Export
 </template>
 
 <script>

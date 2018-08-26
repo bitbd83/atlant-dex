@@ -6,7 +6,7 @@
 .alerts
   .alerts__item.alerts__item--header
     .sidebarChild__headerLine
-      .sidebarChild__title ALLERT LIST:
+      .sidebarChild__title ALERT LIST:
     .alerts__headerDropdownContainer
       span Sort by:
       Dropdown.alerts__headerDropdown(
