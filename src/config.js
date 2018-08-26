@@ -40,28 +40,31 @@ export const operatingSystems = [
   {
     id: 'android',
     name: 'Android',
+    link: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ru',
   },
   {
     id: 'ios',
     name: 'iOS',
+    link: 'https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8',
   },
   {
     id: 'windows',
     name: 'Windows phone',
+    link: '',
   },
 ];
 
 export const tfaMethods = [
+  {
+    id: 3,
+    name: 'Telegram',
+  },
   {
     id: 1,
     name: 'SMS',
   },
   {
     id: 2,
-    name: 'Google Auth',
-  },
-  {
-    id: 3,
-    name: 'Telegram',
+    name: 'Google authentificator',
   },
 ];

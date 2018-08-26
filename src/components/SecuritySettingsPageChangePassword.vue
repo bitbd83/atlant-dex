@@ -14,7 +14,7 @@
     input.input.changePassword__value(v-model="password.new", :type="inputType")
     .changePassword__param Repeat password:
     .changePassword__value.changePassword__desktopRow
-      input.input(v-model="password.repeat", :type="inputType")
+      input.input(v-model="password.repeat", :type="inputType", autocomplete="repeat-password")
       .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="validationErrorText") {{validationErrorText}}
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
@@ -92,6 +92,12 @@ export default {
     cancelPasswordChange() {
       this.clearInputs();
       this.setStep(0);
+    },
+    pwdOnFocus(evt) {
+      this[`${evt.target.name}Readonly`] = false;
+    },
+    pwdOnBlur(evt) {
+      this[`${evt.target.name}Readonly`] = true;
     },
   },
   components: {

@@ -4,26 +4,30 @@
 
 <template lang="pug">
 .tfaSettings
-  .tfaSettings__tfa
-    .link.link--green(:class="{'tfaSettings__tfaEnabled' : security.tfa.enabled}" @click="setTFAStep(1)") {{security.tfa.enabled ? "Enabled" : "Enable"}}
-    .tfaSettings__tfaMethod(v-if="security.tfa.enabled") via {{activeTFAMethod}}
-    .link.link--red.tfaSettings__disable(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}" @click="requestTFAChange()") {{security.tfa.enabled ? "Disable" : "Disabled"}}
+  .tfaSettings__tfaStatusContainer
+    .link.link--red(:class="{'link--green' : !security.tfa.enabled}" @click="security.tfa.enabled ? requestTFAChange() : setTFAStep(1)") {{security.tfa.enabled ? "Disable" : "Enable"}}
+    .tfaSettings__status(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}") Now: #[span.tfaSettings__status--disabled(:class="{'tfaSettings__status--enabled' : security.tfa.enabled}") {{security.tfa.enabled ? "Enabled" : "Disabled"}}] #[span(v-if="security.tfa.enabled") via {{activeTFAMethod}}]
   .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
     TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
   div(v-if="!security.tfa.enabled")
-    .tfaSettings__item
-      .tfaSettings__param I would like to use:
-      .tfaSettings__value.tfaSettings__value--row.tfaSettings__desktopRow
-        Radio.tfaSettings__tfaOption(v-for="(tfa, index) in tfaMethods", :key="index", name="tFAMethod", :value="tfa.id", v-model="tfaMethod", :checked="tfaMethod === tfa.id") #[.tfaSettings__tfaOptionName {{tfa.name}}]
-    .tfaSettings__item.tfaSettings__desktopRow(v-if="tfaStep === 1 && requiresNumber")
+    .tfaSettings__title I would like to use:
+    .tfaSettings__methodsContainer
+      Radio.tfaSettings__methods(
+        v-for="(tfa, index) in tfaMethods",
+        :key="index", name="tFAMethod",
+        :value="tfa.id",
+        v-model="tfaMethod",
+        :checked="tfaMethod === tfa.id"
+        :label="tfa.name"
+      )
+    .tfaSettings__item(v-if="tfaStep === 1 && requiresNumber")
       .tfaSettings__value My phone number
-      .tfaSettings__value.tfaSettings__value--row
-        FlagSwitch.tfaSettings__dropdown(
-          v-model="country",
-          :max-height="200",
-          type="phone"
-        )
-        input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
+      FlagSwitch.tfaSettings__dropdown(
+        v-model="country",
+        :max-height="200",
+        type="phone"
+      )
+      input.input.tfaSettings__input(placeholder="" v-model="number")
       .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Send
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
       TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
@@ -32,9 +36,10 @@
       .tfaSettings__param.tfaSettings__param--margin ***
       .tfaSettings__param Please install one of the following apps to generate key:
       .tfaSettings__item.tfaSettings__desktopRow
-        .tfaSettings__value.tfaSettings__value--row.tfaSettings__value--os(v-for="os in opSys")
-          Icon.tfaSettings__osIcon(:id="os.id")
-          .link.tfaSettings__action {{os.name}}
+        .tfaSettings__value.tfaSettings__value--row.tfaSettings__value--os(v-for="os in operatingSystems")
+          a(:href="os.link" target="_blank").tfaSettings__desktopRow
+            Icon.tfaSettings__osIcon(:id="os.id")
+            .link.tfaSettings__action {{os.name}}
       .tfaSettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
     .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 2")
       .tfaSettings__value Now scan QR-code below
@@ -57,12 +62,12 @@ export default {
   data() {
     return {
       tfaStep: 0,
-      tfaMethod: 3,
+      tfaMethod: '',
       number: '',
       qr: '',
       country: 'US',
-      opSys: [],
-      tfaMethods: [],
+      tfaMethods,
+      operatingSystems,
     };
   },
   computed: {
@@ -149,10 +154,6 @@ export default {
       this.setTFAStep(1);
     },
   },
-  created() {
-    this.opSys = operatingSystems;
-    this.tfaMethods = tfaMethods;
-  },
   components: {
     Radio,
     FlagSwitch,
@@ -163,15 +164,61 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'variables';
+
 .tfaSettings {
+  &__tfaStatusContainer {
+    display: flex;
+    margin-bottom: 62px;
+  }
+  &__status {
+    margin-left: 50px;
+
+    &--enabled {
+      color: $color__green;
+    }
+
+    &--disabled {
+      color: $color__red;
+    }
+   }
+   &__title {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 19px;
+    text-transform: uppercase;
+    margin-bottom: 31px;
+   }
+   &__methodsContainer {
+     display: flex;
+     margin-bottom: 50px;
+   }
+   &__methods {
+     margin-right: 40px;
+   }
+   &__mathodsLabel {
+     margin-left: 15px;
+   }
+   &__item {
+    display: flex;
+    align-items: center;
+   }
+    &__input {
+      width: 180px;
+      margin-left: 10px;
+    }
+
+
   &__desktopRow {
     display: flex;
     align-items: center;
   }
+  &
+
   &__item {
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 43px;
+    // font-size: 14px;
+    // line-height: 19px;
+    // margin-bottom: 43px;
   }
   &__param {
     font-weight: 700;
@@ -179,73 +226,70 @@ export default {
       margin-top: 38px;
     }
   }
-  &__value {
-    margin-top: 18px;
-    font-weight: 400;
-    &--row {
-      display: flex;
-      align-items: center;
-    }
-    &--os {
-      &:not(:first-of-type) {
-        margin-left: 45px;
-      }
-    }
-  }
-  &__action {
-    margin-right: 5px;
-    margin-left: 19px;
-  }
-  &__tfa {
-    display: flex;
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 50px;
-  }
-  &__tfaEnabled {
-    font-weight: 700;
-    cursor: default;
-    border: none;
-  }
-  &__disable {
-    margin-left: 30px;
-  }
-  &__tfaMethod {
-    margin-left: 5px;
-    padding-top: 3px;
-    font-weight: 700;
-    color: #fff;
-    text-decoration: none;
-  }
-  &__tfaOption {
-    &:not(:first-of-type){
-      margin-left: 28px;
-    }
-  }
-  &__tfaOptionName {
-    margin-left: 18px;
-  }
-  &__osIcon {
-    $size: 24px;
-    height: $size;
-    width: $size;
-  }
-  &__instruction {
-    font-size: 12px;
-    line-height: 24px;
-  }
-  &__code {
-    margin-left: 28px;
-  }
-  &__dropdown {
-    // width: 40px;
-    margin: 0 10px 0;
-  }
-  &__input {
-    width: 120px;
-  }
-  &__qr {
-    margin-top: 36px;
-  }
+  // &__value {
+  //   margin-top: 18px;
+  //   font-weight: 400;
+  //   &--row {
+  //     display: flex;
+  //     align-items: center;
+  //   }
+  //   &--os {
+  //     &:not(:first-of-type) {
+  //       margin-left: 45px;
+  //     }
+  //   }
+  // }
+  // &__action {
+  //   margin-right: 5px;
+  //   margin-left: 19px;
+  // }
+  // &__tfa {
+  //   display: flex;
+  //   font-size: 14px;
+  //   line-height: 19px;
+  //   margin-bottom: 50px;
+  // }
+  // &__tfaEnabled {
+  //   font-weight: 700;
+  //   cursor: default;
+  //   border: none;
+  // }
+  // &__disable {
+  //   margin-left: 30px;
+  // }
+  // &__tfaMethod {
+  //   margin-left: 5px;
+  //   padding-top: 3px;
+  //   font-weight: 700;
+  //   color: #fff;
+  //   text-decoration: none;
+  // }
+  // &__tfaOption {
+  //   &:not(:first-of-type){
+  //     margin-left: 28px;
+  //   }
+  // }
+  // &__tfaOptionName {
+  //   margin-left: 18px;
+  // }
+  // &__osIcon {
+  //   $size: 24px;
+  //   height: $size;
+  //   width: $size;
+  // }
+  // &__instruction {
+  //   font-size: 12px;
+  //   line-height: 24px;
+  // }
+  // &__code {
+  //   margin-left: 28px;
+  // }
+  // &__dropdown {
+  //   // width: 40px;
+  //   margin: 0 10px 0;
+  // }
+  // &__qr {
+  //   margin-top: 36px;
+  // }
 }
 </style>

@@ -64,6 +64,12 @@ a {
       background: $background__red;
     }
   }
+  &--green {
+    color: $color__green;
+    &:after {
+      background: $background__green;
+    }
+  }
 }
 
 .input {
