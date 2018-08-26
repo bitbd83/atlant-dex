@@ -5,8 +5,10 @@
 <template lang="pug">
 .changePassword
   .changePassword__item(v-if="password.step == 0")
-    .changePassword__param Current Password:
-    .link.changePassword__value(@click="password.step = 1") Change
+    .changePassword__title Current Password:
+    .changePassword__row
+      .changePassword__passwordMask **********
+      .link.changePassword__link(@click="password.step = 1") Change
   .changePassword__item(v-if="password.step == 1")
     .changePassword__param Old password:
     input.input.changePassword__value(v-model="password.old", :type="inputType")
@@ -15,11 +17,10 @@
     .changePassword__param Repeat password:
     .changePassword__value.changePassword__desktopRow
       input.input(v-model="password.repeat", :type="inputType", autocomplete="repeat-password")
-      .changePassword__hiddenError.changePassword__hiddenError--mobile(v-show="validationErrorText") {{validationErrorText}}
       .link.changePassword__action(@click="requestPasswordChange") Confirm
       .link.changePassword__action(@click="cancelPasswordChange") Cancel
     .changePassword__hiddenError.changePassword__hiddenError--desktop(v-if="validationErrorText") {{validationErrorText}}
-    Checkbox(v-model="isShowPassword")
+    Checkbox.changePassword__checkbox(v-model="isShowPassword")
       .changePassword__checkboxText Show passwords
   .changePassword__item(v-if="password.step == 2")
     TFA(:onConfirm="confirmPasswordChange", :onCancel="cancelPasswordChange", :onResend="requestPasswordChange")
@@ -120,14 +121,37 @@ export default {
 
 
 <style lang="scss">
+@import "variables";
 
 .changePassword {
+  &__title {
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 19px;
+    text-transform: uppercase;
+    margin-bottom: 23px;
+  }
+  &__row {
+    display: flex;
+  }
+  &__passwordMask {
+    font-family: CenturyGothic;
+    font-size: 14px;
+    letter-spacing: 4.4px;
+    line-height: 19px;
+  }
+  &__link {
+    margin-left: 60px;
+  }
   &__desktopRow {
     display: flex;
     align-items: center;
   }
   &__param {
     font-weight: 700;
+    font-size: 12px;
+    line-height: 19px;
+    text-transform: uppercase;
   }
   &__value {
     font-weight: 400;
@@ -137,19 +161,17 @@ export default {
     margin: 0 5px 0 19px;
   }
   &__hiddenError {
-    color: #f33a3a;
+    color: $color__red;
     width: 181px;
-
-    &--mobile {
-      display: none;
-    }
+  }
+  &__checkbox {
+    margin-top: 15px;
   }
   &__checkboxText {
     font-size: 12px;
     font-weight: 400;
     line-height: 19px;
     margin-left: 10px;
-    padding-top: 5px;
   }
 }
 </style>

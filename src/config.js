@@ -38,14 +38,14 @@ export const sidebarSections = [
 
 export const operatingSystems = [
   {
+    id: 'ios',
+    name: 'Apple',
+    link: 'https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8',
+  },
+  {
     id: 'android',
     name: 'Android',
     link: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ru',
-  },
-  {
-    id: 'ios',
-    name: 'iOS',
-    link: 'https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8',
   },
   {
     id: 'windows',

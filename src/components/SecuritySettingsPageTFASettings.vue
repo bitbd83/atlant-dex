@@ -6,9 +6,9 @@
 .tfaSettings
   .tfaSettings__tfaStatusContainer
     .link.link--red(:class="{'link--green' : !security.tfa.enabled}" @click="security.tfa.enabled ? requestTFAChange() : setTFAStep(1)") {{security.tfa.enabled ? "Disable" : "Enable"}}
-    .tfaSettings__status(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}") Now: #[span.tfaSettings__status--disabled(:class="{'tfaSettings__status--enabled' : security.tfa.enabled}") {{security.tfa.enabled ? "Enabled" : "Disabled"}}] #[span(v-if="security.tfa.enabled") via {{activeTFAMethod}}]
+    .tfaSettings__status Now: #[span.tfaSettings__status--disabled(:class="{'tfaSettings__status--enabled' : security.tfa.enabled}") {{(security.tfa.enabled ? "Enabled" : "Disabled" + " ")}}] #[span(v-if="security.tfa.enabled") via {{activeTFAMethod}}]
   .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
-    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
+    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :confirmType="tfaMethod")
   div(v-if="!security.tfa.enabled")
     .tfaSettings__title I would like to use:
     .tfaSettings__methodsContainer
@@ -20,35 +20,35 @@
         :checked="tfaMethod === tfa.id"
         :label="tfa.name"
       )
-    .tfaSettings__item(v-if="tfaStep === 1 && requiresNumber")
+    .tfaSettings__row(v-if="tfaStep === 1 && requiresNumber")
       .tfaSettings__value My phone number
       FlagSwitch.tfaSettings__dropdown(
         v-model="country",
         :max-height="200",
         type="phone"
       )
-      input.input.tfaSettings__input(placeholder="" v-model="number")
+      input.input.tfaSettings__input(type="number" placeholder="" v-model="number")
       .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") Send
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
-      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
+      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :confirmType="tfaMethod")
     .tfaSettings__item(v-if="tfaStep === 1 && tfaMethod === 2")
-      .tfaSettings__value.tfaSettings__desktopRow You don't have an authentication key. #[.link.tfaSettings__action.tfaSettings__action--mobileLeft(@click="requestTFAChange()") Create key]
-      .tfaSettings__param.tfaSettings__param--margin ***
-      .tfaSettings__param Please install one of the following apps to generate key:
+      .tfaSettings__valueCreateKey You don't have an authentification key #[.link.tfaSettings__valueCreateKeyLink(@click="requestTFAChange()") Create key]
+      .tfaSettings__paramSeparator ***
+      .tfaSettings__paramTitle Please install one of the following apps to generate key:
       .tfaSettings__item.tfaSettings__desktopRow
-        .tfaSettings__value.tfaSettings__value--row.tfaSettings__value--os(v-for="os in operatingSystems")
+        .tfaSettings__osContainer(v-for="os in operatingSystems")
           a(:href="os.link" target="_blank").tfaSettings__desktopRow
             Icon.tfaSettings__osIcon(:id="os.id")
             .link.tfaSettings__action {{os.name}}
       .tfaSettings__instruction After installing the app add the key by scanning the QR code or entering it manually.
+
     .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 2")
       .tfaSettings__value Now scan QR-code below
-      QR.tfaSettings__value(:text="qrText")
-      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :text="tfaConfirmText")
+      QR(:text="qrText" isWhiteBackground="")
+      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :confirmType="tfaMethod")
 </template>
 
 <script>
-import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import * as User from 'services/api/user';
 // import {serverNotification} from 'services/notification';
@@ -95,12 +95,6 @@ export default {
     },
     qrText() {
       return encodeURI(`otpauth://totp/${this.account.email.value}?secret=${this.qr}&issuer=ATLANT`);
-    },
-    tfaConfirmText() {
-      if (!this.selectedTFAMethod) return '';
-      const methodName = this.selectedTFAMethod.split(' ')[0];
-      const status = this.security.tfa.enabled ? 'Disable' : 'Enable';
-      return i18n.t(`tfaConfirmText${methodName}${status}`);
     },
   },
   methods: {
@@ -150,7 +144,7 @@ export default {
     },
   },
   watch: {
-    tfaMethod() {
+    tfaMethod(value) {
       this.setTFAStep(1);
     },
   },
@@ -174,122 +168,80 @@ export default {
   &__status {
     margin-left: 50px;
 
-    &--enabled {
-      color: $color__green;
-    }
-
     &--disabled {
       color: $color__red;
     }
-   }
-   &__title {
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 19px;
-    text-transform: uppercase;
-    margin-bottom: 31px;
-   }
-   &__methodsContainer {
-     display: flex;
-     margin-bottom: 50px;
-   }
-   &__methods {
-     margin-right: 40px;
-   }
-   &__mathodsLabel {
-     margin-left: 15px;
-   }
-   &__item {
-    display: flex;
-    align-items: center;
-   }
-    &__input {
-      width: 180px;
-      margin-left: 10px;
-    }
 
+    &--enabled {
+      color: $color__green;
+    }
+  }
+  &__title {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 19px;
+  text-transform: uppercase;
+  margin-bottom: 31px;
+  }
+  &__methodsContainer {
+    display: flex;
+    margin-bottom: 50px;
+  }
+  &__methods {
+    margin-right: 40px;
+  }
+  &__mathodsLabel {
+    margin-left: 15px;
+  }
+  &__row{
+  display: flex;
+  align-items: center;
+  }
+  &__value {
+    margin-right: 20px;
+  }
+  &__input {
+    width: 180px;
+    margin: 0 20px;
+  }
 
   &__desktopRow {
     display: flex;
     align-items: center;
   }
-  &
 
-  &__item {
-    // font-size: 14px;
-    // line-height: 19px;
-    // margin-bottom: 43px;
+  &__valueCreateKey {
+    margin-bottom: 36px;
   }
-  &__param {
-    font-weight: 700;
-    &--margin {
-      margin-top: 38px;
-    }
+
+  &__valueCreateKeyLink {
+    margin-left: 20px;
   }
-  // &__value {
-  //   margin-top: 18px;
-  //   font-weight: 400;
-  //   &--row {
-  //     display: flex;
-  //     align-items: center;
-  //   }
-  //   &--os {
-  //     &:not(:first-of-type) {
-  //       margin-left: 45px;
-  //     }
-  //   }
-  // }
-  // &__action {
-  //   margin-right: 5px;
-  //   margin-left: 19px;
-  // }
-  // &__tfa {
-  //   display: flex;
-  //   font-size: 14px;
-  //   line-height: 19px;
-  //   margin-bottom: 50px;
-  // }
-  // &__tfaEnabled {
-  //   font-weight: 700;
-  //   cursor: default;
-  //   border: none;
-  // }
-  // &__disable {
-  //   margin-left: 30px;
-  // }
-  // &__tfaMethod {
-  //   margin-left: 5px;
-  //   padding-top: 3px;
-  //   font-weight: 700;
-  //   color: #fff;
-  //   text-decoration: none;
-  // }
-  // &__tfaOption {
-  //   &:not(:first-of-type){
-  //     margin-left: 28px;
-  //   }
-  // }
-  // &__tfaOptionName {
-  //   margin-left: 18px;
-  // }
-  // &__osIcon {
-  //   $size: 24px;
-  //   height: $size;
-  //   width: $size;
-  // }
-  // &__instruction {
-  //   font-size: 12px;
-  //   line-height: 24px;
-  // }
-  // &__code {
-  //   margin-left: 28px;
-  // }
-  // &__dropdown {
-  //   // width: 40px;
-  //   margin: 0 10px 0;
-  // }
-  // &__qr {
-  //   margin-top: 36px;
-  // }
+
+  &__paramSeparator {
+    margin-bottom: 8px;
+  }
+
+  &__paramTitle {
+    margin-bottom: 28px;
+  }
+
+  &__osContainer {
+    margin-bottom: 46px;
+    margin-right: 45px;
+  }
+
+  &__osIcon {
+    $size: 24px;
+    height: $size;
+    width: $size;
+    margin-right: 20px;
+  }
+
+  &__instruction {
+    width: 444px;
+    font-size: 12px;
+    line-height: 19px;
+  }
 }
 </style>

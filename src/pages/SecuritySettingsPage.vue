@@ -9,24 +9,18 @@ ContentLayout(title="Security settings")
       .securitySettings__section
         .securitySettings__item
           SecuritySettingsPageChangePassword
-        // .securitySettings__desktopRow
-        .securitySettings__item
+        .securitySettings__emailContainer
           SecuritySettingsPageChangeEmail
-          //-   .securitySettings__param Current Email:
-          //-   .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
-          //-     .link.securitySettings__action Change
-          //- .securitySettings__item.securitySettings__item--column
-          //-   .securitySettings__param Additional Email:
-          //-   .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
-          //-     .link.securitySettings__action Change
-    Accordion(title="2 factor authentication")
+          SecuritySettingsPageChangeEmail(isAdditionalEmail="")
+    Accordion(title="2 factor authentification")
       .securitySettings__section
         SecuritySettingsPageTFASettings
-    Accordion(title="Other")
-      .securitySettings__section
-        .securitySettings__item.securitySettings__desktopRow
-          .securitySettings__row Terminate active sessions #[Icon.securitySettings__terminateIcon(id="terminate")]
-          .link.securitySettings__action.securitySettings__action--mobileLeft Terminate
+    //- Accordion(title="Other")
+    //-   .securitySettings__section
+    //-     .securitySettings__other
+    //-       span.securitySettings__row Terminate active sessions
+    //-       Icon.securitySettings__terminateIcon(id="terminate")
+    //-       span.link.link--red Terminate
 </template>
 
 <script>
@@ -69,7 +63,32 @@ export default {
 <style lang="scss">
 .securitySettings {
   &__section {
-    margin-top: 55px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+
+  &__item {
+    margin-bottom: 60px;
+
+    &:last-of-type {
+      margin-bottom: 40px;
+    }
+  }
+
+  &__emailContainer {
+    display: flex;
+  }
+
+  &__other {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__terminateIcon {
+    width: 32px;
+    height: 24px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
 }
 </style>
