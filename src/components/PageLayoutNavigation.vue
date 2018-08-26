@@ -163,6 +163,7 @@ export default {
     right: 0;
     width: $shadowWidth;
     background-image: linear-gradient(90deg, rgba(0,0,0,0.10) 2%, rgba(255,255,255,0.00) 100%);
+    z-index: 1;
   }
 }
 </style>

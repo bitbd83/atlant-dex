@@ -5,28 +5,46 @@
 <template lang="pug">
 TableLayout(
   title="Security log",
+  :data="data.logs",
+  :pageCount="pageCount",
+  :changeActivePage="changeActivePage",
+  :page="page",
+  :getExport="getExport",
+  :isLoading="loadingContent",
 )
   .securityLog
     .table
       table.table__body
         thead
           tr
-            th IP address
-            th Date
-            th Type
+            th.securityLog__radio
+            th.securityLog__cell Date
+            th.securityLog__cell Type
+            th.securityLog__location IP Address
+            th.securityLog__cell Location
+    CSSLoader(v-if="loadingContent")
+    .table.securityLog__table(v-else v-scrollbar="")
+      table.table__body
         tbody
           tr(v-for="(item, index) in data.logs")
-            td {{item.ipAddress}} ({{item.country}})
-            td {{getLogTime(item.dateTime)}}
-            td {{item.description}}
-    Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
+            td.securityLog__radio
+              Radio(isTable="", :name="item", :value="item", v-model="checked")
+            td.securityLog__cell {{getLogTime(item.dateTime)}}
+            td.securityLog__cell {{item.description}}
+            td.securityLog__location {{item.ipAddress}}
+            td.securityLog__cell {{item.country}}
 </template>
 
 <script>
 import * as User from 'services/api/user';
+import {getSecurityLogCSV} from 'services/api/user';
+import {exportCSV} from 'services/misc';
+import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Pagination from 'components/Pagination';
+import Radio from 'components/Radio';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -37,6 +55,8 @@ export default {
       },
       limit: 12,
       page: 1,
+      checked: {},
+      loadingContent: false,
     };
   },
   computed: {
@@ -53,28 +73,65 @@ export default {
       this.getSecurityLog();
     },
     getSecurityLog() {
+      this.loadingContent = true;
       User.getSecurityLog({
         page: this.page,
         limit: this.limit,
       }).then((response) => {
         this.data = response.data;
+        this.loadingContent = false;
+      }).catch(() => {
+        this.loadingContent = false;
+      });
+    },
+    getExport() {
+      getSecurityLogCSV({
+        SortBy: this.sortBy,
+        Ascending: this.asc,
+      }).then((res) => {
+        exportCSV(res, 'securityLog');
+      }).catch((res) => {
+        serverNotification(res);
       });
     },
   },
   created() {
     this.getSecurityLog();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     TableLayout,
     Pagination,
+    Radio,
+    CSSLoader,
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .securityLog {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  width: 100%;
+  padding-right: 15px;
   td {
     white-space: normal;
+  }
+  &__cell {
+    width: 20%;
+  }
+  &__location {
+    width: 30%;
+  }
+  &__radio {
+    width: 80px;
+    padding-left: 10px;
+  }
+  &__table {
+    position: relative;
   }
 }
 </style>

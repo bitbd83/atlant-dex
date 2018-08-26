@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .buySell
-  CSSLoader(v-if="loading")
+  CSSLoader(isWhite="" v-if="loading")
   .buySell__headerContainer
     .buySell__header
       .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}

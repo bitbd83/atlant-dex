@@ -86,10 +86,6 @@ export default {
         this.$emit('setShow', curType);
       }
     },
-    setQuoteAfterBaseChange(baseCurrency) {
-      if (this.pairs[baseCurrency].includes(this.quoteCurrency)) return;
-      this.changeQuoteCurrency(this.pairs[baseCurrency][0]);
-    },
     getCurrencyIconId(currencyName) {
       return `cur_${currencyName}`.toLocaleLowerCase();
     },
@@ -106,7 +102,6 @@ export default {
   },
   watch: {
     baseCurrency(baseCurrency) {
-      this.setQuoteAfterBaseChange(baseCurrency);
       this.getPairInfo();
     },
     quoteCurrency() {

@@ -5,7 +5,7 @@
 <template lang='pug'>
 label.radio(:class="{'radio--white' : isWhite}")
   input.radio__input(:id="`radio${_uid}`", type="radio", :name="name", @change="change" :class="{'radio__input--white' : isWhite}")
-  .radio__icon(:class="{'radio__icon--white' : isWhite}")
+  .radio__icon(:class="[{'radio__icon--white' : isWhite}, {'radio__icon--table' : isTable}]")
   .radio__text(v-if="label") {{label}}
   slot
 </template>
@@ -54,6 +54,7 @@ export default {
       default: false,
     },
     isWhite: Boolean,
+    isTable: Boolean,
   },
 };
 
@@ -102,6 +103,10 @@ $ROOT: "radio";
     flex-shrink: 0;
     &--white {
       border-color: $background__white;
+    }
+    &--table {
+      $size: 16px;
+      border-width: 2px;
     }
   }
   &__text {

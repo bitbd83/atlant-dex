@@ -4,7 +4,7 @@
 
 <template lang="pug">
 TableLayout(
-  title="NOTIFICATION_HISTORY",
+  title="Notification history",
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
@@ -15,31 +15,39 @@ TableLayout(
   :getApiRequest="getNotifications"
   :getExport="getExport",
 )
-  .notificationHistory.table
-    table.table__body
-      thead
-        tr
-          th
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortNotifications('datetime')") Time & Date
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='level'}" @click="sortNotifications('level')") Type
-          th Description
-      tbody
-        tr(v-for="(item, index) in data")
-          td
-            Checkbox(:value="isChecked(item.id)" @change="setCheckedArray(item.id)" color="blue")
-          td {{formatTime(item.dateTime)}}
-          td.notificationHistory__capital(:class="{'notificationHistory__redText' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
-          td {{$t('notifications.' + getStatus(item), item.arguments)}}
+  .notificationHistory
+    .table
+      table.table__body
+        thead
+          tr.notificationHistory__row
+            //- th
+            th.table__sortable(:class="{'table__sortable--desc': sortBy==='datetime' && !asc}" @click="sortNotifications('datetime')") Time & Date
+            th.table__sortable(:class="{'table__sortable--desc': sortBy==='level' && !asc}" @click="sortNotifications('level')") Type
+            th Description
+    CSSLoader(v-if="loadingContent")
+    .table.notificationHistory__table(v-else v-scrollbar="")
+      table.table__body
+        tbody
+          tr.notificationHistory__row(v-for="(item, index) in data")
+            //- td
+            //-   Radio.notificationHistory__radio(size="17", :name="item", :value="item", v-model="checked")
+            td {{formatTime(item.dateTime)}}
+            td.notificationHistory__capital(:class="{'notificationHistory__capital--red' : getNotificationType(item.level) === 'Warning' || getNotificationType(item.level) === 'Error'}") {{getNotificationType(item.level)}}
+            td {{$t('notifications.' + getStatus(item), item.arguments)}}
 </template>
 
 <script>
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {getNotificationsHistoryCSV} from 'services/api/user.js';
+import {exportCSV} from 'services/misc';
+import {serverNotification} from 'services/notification.js';
+import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import {signalRNotification} from '@/store/staticData/signalRNotification';
 import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
 import TableLayout from 'layouts/TableLayout';
+import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
@@ -130,17 +138,7 @@ export default {
         ascending: this.asc,
         Ids: this.checkedArray.toString(),
       }).then((res) => {
-        let blob = new Blob([res.data], {type: 'application/csv'});
-        let url = window.URL.createObjectURL(blob);
-        let link = document.createElement('a');
-        let date = new Date().toLocaleDateString();
-        link.href = url;
-        link.download = `atlant-notifications-${date}.csv`;
-        link.click();
-        setTimeout(() => {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(url);
-        }, 100);
+        exportCSV(res, 'notifications');
       }).catch((res) => {
         serverNotification(res);
       });
@@ -149,9 +147,13 @@ export default {
   created() {
     this.getNotifications();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     TableLayout,
     Checkbox,
+    CSSLoader,
   },
 };
 </script>
@@ -160,11 +162,36 @@ export default {
 <style lang="scss" scoped>
 @import "variables";
 .notificationHistory {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 2;
+    width: 100%;
     &__redText {
       color: $color_red;
     }
     &__capital {
       text-transform: capitalize;
+      color: $color__green;
+      &--red {
+        color: $color__red;
+      }
+    }
+    &__table {
+      position: relative;
+    }
+    &__row {
+      & > th, td {
+        &:nth-child(1) {
+          padding-left: 10px;
+          width: 25%;
+        }
+        &:nth-child(2) {
+          width: 25%;
+        }
+        &:nth-child(3) {
+          width: 50%;
+        }
+      }
     }
 }
 </style>
