@@ -50,7 +50,7 @@ export const operatingSystems = [
   {
     id: 'windows',
     name: 'Windows phone',
-    link: '',
+    link: 'https://www.microsoft.com/en-us/p/authenticator/9nblggh08h54',
   },
 ];
 
