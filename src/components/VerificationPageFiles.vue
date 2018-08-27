@@ -106,14 +106,15 @@ export default {
     margin-right: 57px;
   }
   &__descTextContainer {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: #AAAABA;
     letter-spacing: 0.5px;
     line-height: 19px;
   }
   &__descSeparator {
-    font-family: CenturyGothic-Bold;
+    font-family: "Century Gothic";
+    font-weight: 700;
     margin-bottom: 5px;
   }
   &__descText {

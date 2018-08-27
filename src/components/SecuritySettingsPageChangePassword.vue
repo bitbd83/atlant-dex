@@ -129,7 +129,7 @@ export default {
     display: flex;
   }
   &__passwordMask {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 14px;
     letter-spacing: 4.4px;
     line-height: 19px;

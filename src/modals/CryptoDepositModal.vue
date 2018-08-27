@@ -95,7 +95,7 @@ export default {
   }
 
   &__addressText {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 14px;
     color: $color__white;
     letter-spacing: 0.44px;
@@ -120,7 +120,7 @@ export default {
 
   &__confirmations {
     max-width: 256px;
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: $color__white;
     letter-spacing: 0.38px;
