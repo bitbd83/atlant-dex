@@ -7,15 +7,6 @@ export default {
     name: '',
     data: {},
   },
-  mutations: {
-    open(state, name) {
-      state.name = name;
-    },
-    close(state) {
-      state.name = '';
-      state.data = {};
-    },
-  },
   getters: {
     isOpened: (state) => (name) => {
       return (name) ? (state.name === name) : (state.name !== '');
@@ -32,6 +23,15 @@ export default {
     },
     isPageHistoryOpened(state) {
       return state.name === 'transactionHistory' || state.name === 'myOrders';
+    },
+  },
+  mutations: {
+    open(state, name) {
+      state.name = name;
+    },
+    close(state) {
+      state.name = '';
+      state.data = {};
     },
   },
   actions: {

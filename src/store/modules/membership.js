@@ -59,6 +59,7 @@ export default {
       commit('flushUser');
       commit('orders/cleanOrders', null, {root: true});
       commit('user/cleanAfterLogout', null, {root: true});
+      commit('page/close', null, {root: true});
       commit('modal/open', {name: 'signIn'}, {root: true});
     },
     refreshToken({state, commit, dispatch}) {
@@ -90,9 +91,9 @@ export default {
       dispatch('dropUser');
       return Promise.reject('');
     },
-    setRefreshTimeout({state, commit, dispatch}) {
+    setRefreshTimeout({state, getters, commit, dispatch}) {
       setTimeout(() => {
-        dispatch('refreshToken');
+        if (getters.hasRefreshToken) dispatch('refreshToken');
       }, state.tokenRefreshTime);
     },
     rememberLastAction({getters, commit}) {
