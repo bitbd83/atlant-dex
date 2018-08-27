@@ -8,14 +8,14 @@
 
 <script>
 export default {
-  data() {
-    return {
-      style: {
+  computed: {
+    style() {
+      return {
         left: this.left + 'px',
         top: this.top + 'px',
         zIndex: 0,
-      },
-    };
+      };
+    },
   },
   props: {
     left: {
