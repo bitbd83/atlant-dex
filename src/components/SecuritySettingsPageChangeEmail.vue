@@ -7,8 +7,8 @@
   .changeEmail__container
     .changeEmail__title {{isAdditionalEmail ? 'Additional e-mail:' : 'Current e-mail:'}}
     .changeEmail__content(v-if="step === 0")
-      .changeEmail__value(v-if="!isEmpty") {{hiddenEmail}} #[Icon.changeEmail__icon(v-if="setEmailData.verified" id="icon-form-check")]
-      .link.changeEmail__action(v-if="security.tfa.enabled && isAdditionalEmail" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") {{(isEmpty) ? 'Add' : 'Change'}}
+      .changeEmail__value(v-if="!isEmpty") {{setEmailData.value}} #[Icon.changeEmail__icon(v-if="setEmailData.verified" id="icon-form-check")]
+      .link.changeEmail__action(v-if="isAdditionalEmail" :class="{'changeEmail__action--empty' : isEmpty}" @click="changeEmail") {{(isEmpty) ? 'Add' : 'Change'}}
     .changeEmail__content(v-if="step === 1")
       input.input.changeEmail__input(v-model="email" autofocus="")
       .link.changeEmail__action(@click="setExtraEmail") Save
@@ -34,26 +34,6 @@ export default {
     setEmailData() {
       return this.isAdditionalEmail ? this.security.additionalEmail : this.account.email;
     },
-    hiddenEmail() {
-      let split = this.setEmailData.value.split('@');
-      let letter1 = split[0].substring(0, 1);
-      let letter2 = split[0].substring(split[0].length - 1, split[0].length);
-      let newFirst = letter1;
-      for (let i = 0; i < split[0].length - 2; i++) {
-          newFirst += '*';
-      }
-      newFirst += letter2;
-
-      let letter3 = split[1].substring(0, 1);
-      let extension = letter3;
-      for (let i = 0; i < split[1].split('.')[0].length - 1; i++) {
-          extension += '*';
-      }
-      extension += '.' + split[1].split('.')[1];
-      let result = newFirst + '@' + extension;
-
-      return result;
-      },
   },
   methods: {
     ...mapActions('user', {
