@@ -94,12 +94,6 @@ export default {
       this.clearInputs();
       this.setStep(0);
     },
-    pwdOnFocus(evt) {
-      this[`${evt.target.name}Readonly`] = false;
-    },
-    pwdOnBlur(evt) {
-      this[`${evt.target.name}Readonly`] = true;
-    },
   },
   components: {
     TFA,
