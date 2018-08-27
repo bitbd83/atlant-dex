@@ -100,7 +100,7 @@ export default {
   }
 
   &__value {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 14px;
     letter-spacing: 0.5px;
     line-height: 19px;

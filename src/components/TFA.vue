@@ -175,7 +175,7 @@ export default {
 
   &__repeatText {
     color: $color__white;
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     letter-spacing: 0.38px;
     line-height: 25px;
