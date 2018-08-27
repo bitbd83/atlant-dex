@@ -26,7 +26,7 @@
       .buySell__inputContainer
         IInput.buySell__input(center no-underline v-model="price" type="number")
     .buySell__field
-      .buySell__label Total amount
+      .buySell__label {{$t('total_amount')}}
       .buySell__inputContainer
         .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
     button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
