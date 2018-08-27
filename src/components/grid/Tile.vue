@@ -13,7 +13,7 @@ export default {
       return {
         left: this.left + 'px',
         top: this.top + 'px',
-        zIndex: 0,
+        zIndex: this.getMaxZIndex(),
       };
     },
   },
