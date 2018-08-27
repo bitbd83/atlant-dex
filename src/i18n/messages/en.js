@@ -145,6 +145,8 @@ export default {
   repeat: 'Repeat',
   delete: 'Delete',
   export: 'Export',
+  tokens_coins: 'Tokens & Coins:',
+  search_for: 'Search for...',
   modal,
   pages,
 };

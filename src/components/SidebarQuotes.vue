@@ -27,9 +27,9 @@
         underline,
         whiteTriangle,
       )
-    input.quotes__search(type="text", placeholder="Search for..." v-model="search")
+    input.quotes__search(type="text", :placeholder="$t('search_for')" v-model="search")
   .quotes__content(v-scrollbar="")
-    Accordion(title="Tokens & Coins:" isSidebar :isHidden="filteredQuotes.length == 0")
+    Accordion(:title="$t('tokens_coins')" isSidebar :isHidden="filteredQuotes.length == 0")
       SidebarQuotesItem(
         v-for="chart in filteredQuotes",
         :key="chart.currency",
