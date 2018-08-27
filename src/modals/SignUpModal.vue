@@ -20,7 +20,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign up")
       .signup__link(@click="openSignIn")
         span.link.link--white Sign in
         icon.signup__linkArrow(id="arrow_short")
-    Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
+    Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", successText="To finish registration please follow the instructions sent via email", v-on:getBack="step = 0")
 </template>
 
 <script>

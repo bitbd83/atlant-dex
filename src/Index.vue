@@ -22,7 +22,6 @@
     EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
     AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
     SaveViewModal(v-else-if="isModalOpened('saveView')")
-    Status(v-else-if="isModalOpened('status')")
 </template>
 
 <script>
@@ -46,7 +45,6 @@ import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
 import EventStatusFailedModal from 'modals/EventStatusFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
 import SaveViewModal from 'modals/SaveViewModal';
-import Status from 'components/Status';
 import {signalRNotification} from '@/store/staticData/signalRNotification';
 
 export default {
@@ -222,7 +220,6 @@ export default {
     Sidebar,
     MainPage,
     PageLayout,
-    Status,
     ResetPasswordModal,
     NewPasswordModal,
     SignUpModal,
