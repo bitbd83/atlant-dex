@@ -30,13 +30,15 @@
       .portfolio__add
         Icon.portfolio__addIcon(id="icon__add")
         .portfolio__addText NEW
+    Loader(:isLoading="isLoading" isWhite="")
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import SidebarPortfolioBalance from './SidebarPortfolioBalance';
 import Accordion from 'components/Accordion';
+import SidebarPortfolioBalance from 'components/SidebarPortfolioBalance';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -45,6 +47,7 @@ export default {
       selected: '',
       selectedCur: '',
       percChng: 2.73,
+      isLoading: false,
     };
   },
   computed: {
@@ -64,16 +67,27 @@ export default {
     setContentActiveBGHeight(index) {
       return (index + 1) * 80 + 'px';
     },
+    getApiRequest() {
+      if (this.getUserBalancesInCrypto.length == 0) {
+        this.isLoading = true;
+        this.getBalances().then(() => {
+          this.isLoading = false;
+        }).catch(() => {
+          this.getApiRequest();
+        });
+      };
+    },
   },
   created() {
-    this.getBalances();
+    this.getApiRequest();
   },
   directives: {
     scrollbar,
   },
   components: {
-    SidebarPortfolioBalance,
     Accordion,
+    SidebarPortfolioBalance,
+    Loader,
   },
 };
 
@@ -86,6 +100,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
 
   &__icon {
     $size: 14px;
@@ -174,6 +189,7 @@ export default {
 
   &__content {
     position: relative;
+    flex-grow: 2;
   }
 
   &__add {
