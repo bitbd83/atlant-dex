@@ -17,7 +17,7 @@ ModalLayout(:step="step", :isWith2fa="true", :isSuccess="isSuccess", title="Rese
         span.link.link--white(@click="openModal({name: 'signUp'})") Sign Up
         icon.reset__linkArrow(id="arrow_short")
     TFA(v-if="step == 1", :onConfirm="confirmReset", :onResend="reset", :onCancel="cancelReset", :isModal="true")
-    Status.reset__status(v-if="step == 2", :isSuccess="isSuccess", v-on:getBack="cancelReset")
+    Status.reset__status(v-if="step == 2", :isSuccess="isSuccess", successText="The confirmation link was sent to the email address you used to register", v-on:getBack="cancelReset")
 </template>
 
 <script>
