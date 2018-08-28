@@ -133,6 +133,7 @@ export default {
         ),
         type: 'custom',
       });
+      state.savedViews = [...state.savedViews];
     },
   },
   actions: {
