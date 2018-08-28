@@ -25,13 +25,13 @@ Tile(
 <script>
 import TileBase from '../../mixins/TileBase';
 import ChartHeader from './ChartHeader';
-import IEcharts from 'vue-echarts-v3/src/lite.js';
-import 'echarts/lib/chart/line';
-import 'echarts/lib/chart/bar';
-import 'echarts/lib/chart/candlestick';
-import 'echarts/lib/chart/lines';
-import 'echarts/lib/component/tooltip';
-import 'echarts/lib/component/dataZoom';
+// import IEcharts from 'vue-echarts-v3/src/lite.js';
+// import 'echarts/lib/chart/line';
+// import 'echarts/lib/chart/bar';
+// import 'echarts/lib/chart/candlestick';
+// import 'echarts/lib/chart/lines';
+// import 'echarts/lib/component/tooltip';
+// import 'echarts/lib/component/dataZoom';
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {priceChartSettings} from 'services/misc';
 import Chart from './../Chart';
@@ -169,7 +169,7 @@ export default {
     this.$hub.on('Send', this.onSendSignal);
   },
   components: {
-    IEcharts,
+    // IEcharts,
     ChartHeader,
     Chart,
   },
