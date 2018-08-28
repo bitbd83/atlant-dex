@@ -8,12 +8,17 @@
 
 <script>
 export default {
+  data() {
+    return {
+      zIndex: 0,
+    };
+  },
   computed: {
     style() {
       return {
         left: this.left + 'px',
         top: this.top + 'px',
-        zIndex: this.getMaxZIndex(),
+        zIndex: this.zIndex,
       };
     },
   },
@@ -33,6 +38,7 @@ export default {
   },
   methods: {
     getMaxZIndex() {
+      console.log('Hello');
       let maxZ = 0;
       for (let tile of document.getElementsByClassName('gridTile')) {
         maxZ = Math.max(maxZ, tile.style.zIndex);
@@ -41,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.style.zIndex = this.getMaxZIndex();
+    this.zIndex = this.getMaxZIndex();
   },
 };
 </script>
