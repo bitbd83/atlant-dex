@@ -91,6 +91,11 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .history{
+  border: 1px solid $border__dark_theme_tile;
+  background-color: $background__dark_tile;
+}
+
 .history {
   display: flex;
   width: 100%;

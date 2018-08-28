@@ -49,6 +49,10 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 
+.index--dark .gridTile{
+  background-color: $background__dark_theme;
+}
+
 .gridTile {
   position: absolute;
   display: flex;

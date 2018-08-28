@@ -122,6 +122,11 @@ export default {
 <style lang='scss'>
 @import 'variables';
 
+.index--dark .toolbar{
+  &:before{
+    background-color: $background__dark_toolbar;
+  }
+}
 .toolbar {
   position: relative;
   width: 55px;

@@ -29,6 +29,16 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 
+.index--dark{
+  & .gridTile__header{
+    border-color: $border__color_dark;
+  }
+
+  & .gridTile__title{
+    color: $color_white;
+  }
+}
+
 .gridTile {
   &__headerContainer {
     padding: 5px 0;
