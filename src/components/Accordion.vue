@@ -110,20 +110,26 @@ export default {
 
   &__title {
 
+    &--active {
+      color: $color_white;
+    }
+
     &--sidebar {
       color: $color_white;
     }
   }
 
   &__background {
-
+    background: $background__dark_toolbar;
     &--sidebar {
       background: $background__dark_toolbar;
     }
   }
 
   &__icon {
-
+    &--active {
+      fill: $color_white;
+    }
     &--sidebar {
       fill: $color_white;
     }
