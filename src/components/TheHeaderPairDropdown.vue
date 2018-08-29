@@ -119,6 +119,17 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+
+.index--dark .pairDropdown{
+  &__container{
+    background-color: $background__dark_tile;
+    border: 0;
+  }
+
+  &__current{
+    background-color: $background__dark_tile;
+  }
+}
 .pairDropdown {
   position: relative;
   background-color: transparent;
