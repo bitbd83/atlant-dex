@@ -13,6 +13,7 @@
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
     .tablePage__panel
       .tablePage__panelActions(v-if="getRepeat && checked" @click="getRepeat") Repeat
+      .tablePage__panelActions(v-if="getDelete && checked" @click="getDelete") Delete
       .tablePage__panelActions(v-if="getExport" @click="getExport") Export
 </template>
 
@@ -38,6 +39,7 @@ export default {
         case 'transactionHistory': return `Couldn't find any transactions`;
         case 'notificationHistory': return `Couldn't find any notifications`;
         case 'securityLog': return `Couldn't find any security logs`;
+        case 'alertsList': return `Couldn't find any alerts`;
       };
     },
   },
@@ -63,6 +65,11 @@ export default {
     pageCount: [Number, String],
     changeActivePage: Function,
     getRepeat: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getDelete: {
       type: [Function, Boolean],
       default: false,
       required: false,

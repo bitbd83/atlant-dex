@@ -9,13 +9,16 @@ TableLayout(
   :pageCount='setPagesCount',
   :page="alertsPage",
   :changeActivePage="changeActivePage",
+  :checked='checked',
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
+  :getDelete="getDeleteAlerts",
 )
   .myAlerts.table
     table.table__body
       thead
         tr.myAlerts__row
+          th
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='added' && !asc}" @click="sortAlerts('added')") Added
           th Description
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='type' && !asc}" @click="sortAlerts('type')") Type
@@ -25,6 +28,8 @@ TableLayout(
       table.table
         tbody
           tr.myAlerts__row(v-for="(item, index) in alertsList")
+            td
+              Radio.myAlerts__radio(isTable="", :name="item", :value="item", v-model="checked")
             td {{formatTime(item.creationDate)}}
             td {{priceType[item.arguments[5]]}} price of {{item.arguments[0]}} to {{targetType[item.arguments[1]]}} {{item.arguments[4] ? 'the value of ' : ' '}} {{item.arguments[2]}} {{item.arguments[4] ? item.arguments[3] : '%'}}
             td {{item.arguments[4] ? 'Target ' : 'Change '}}
@@ -38,12 +43,13 @@ import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
 // import {notification} from 'services/notification';
 import TableLayout from 'layouts/TableLayout';
+import Radio from 'components/Radio';
 import CSSLoader from 'components/CSSLoader';
 
 export default {
   data() {
     return {
-      checkedArray: [],
+      checked: undefined,
       sortBy: 'added',
       asc: false,
       targetType: ['exceed', 'reach', 'fall'],
@@ -89,19 +95,23 @@ export default {
         this.isLoadingError = true;
       });
     },
-    // getDeleteAlerts() {
-    //   this.deleteAlert({
-    //     alertsDeleteModel: this.checkedArray,
-    //   }).then(() => {
-    //     this.getAlerts();
-    //     notification({
-    //       title: 'Alerts event:',
-    //       text: `${this.checkedArray.length} alerts deleted`,
-    //       type: 'info',
-    //     });
-    //     this.checkedArray = [];
-    //   });
-    // },
+    getDeleteAlerts() {
+      this.deleteAlert({
+        alertId: this.checked.id,
+        // this parameter is reserved for mass deletion
+        // alertsDeleteModel: this.checked.map((arr) => {
+        //   return arr.id;
+        // }),
+      }).then(() => {
+        this.getAlerts();
+        // notification({
+        //   title: 'Alerts event:',
+        //   text: `${this.checked.length} alerts deleted`,
+        //   type: 'info',
+        // });
+        this.checked = undefined;
+      });
+    },
     sortAlerts(column) {
       if (this.sortBy === column) {
         this.asc = !this.asc;
@@ -125,6 +135,7 @@ export default {
   components: {
     TableLayout,
     CSSLoader,
+    Radio,
   },
 };
 </script>
@@ -141,11 +152,12 @@ export default {
   }
   &__row {
     & > td, th {
-      width: 20%;
+      width: 15%;
       &:nth-child(1) {
+        width: 50px;
         padding-left: 10px;
       }
-      &:nth-child(2) {
+      &:nth-child(3) {
         width: 40%;
       }
     }
