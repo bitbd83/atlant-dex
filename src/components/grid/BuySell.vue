@@ -192,6 +192,11 @@ export default {
 
 <style lang='scss'>
 @import 'variables';
+
+.index--dark .buySell{
+  background-color: $background__dark_toolbar;
+}
+
 .buySell {
   display: flex;
   flex-direction: column;
