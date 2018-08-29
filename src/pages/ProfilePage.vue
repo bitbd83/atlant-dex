@@ -135,11 +135,16 @@ export default {
 @import 'variables';
 
 .index--dark .profile{
+  color: $color__white;
   &__param {
     color: $color__white;
   }
 
   &__value {
+    color: $color__white;
+  }
+
+  &__text{
     color: $color__white;
   }
 }
