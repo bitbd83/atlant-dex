@@ -129,6 +129,10 @@ export default {
   &__current{
     background-color: $background__dark_tile;
   }
+
+  &__label{
+    color: $color__white;
+  }
 }
 .pairDropdown {
   position: relative;
