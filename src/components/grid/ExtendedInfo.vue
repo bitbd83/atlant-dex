@@ -19,15 +19,13 @@ Tile(
   )
     .extendedInfo
       .extendedInfo__title MAIN FACTS
-      .extendedInfo__container(v-scrollbar="")
-        ul.extendedInfo__list
+      .extendedInfo__container
+        ul.extendedInfo__list(v-scrollbar="")
           li.extendedInfo__item Condo
           li.extendedInfo__item Built in 2003
-          li.extendedInfo__item Days on Atlant: Less than 1 day on
-          li.extendedInfo__item Atlant
+          li.extendedInfo__item Days on Atlant: Less than 1 day on Atlant
           li.extendedInfo__item Views since listing: 25
           li.extendedInfo__item 0 shoppers saved this home
-        ul.extendedInfo__list
           li.extendedInfo__item Pets: Contact manager
           li.extendedInfo__item Parking: 1 space
           li.extendedInfo__item Price/sqft: $980
@@ -84,9 +82,14 @@ export default {
   }
 
   &__list {
+    display: flex;
+    flex-direction: column;
     flex-grow: 2;
-    margin-left: 78px;
+    flex-wrap: wrap;
+    flex-grow: 2;
     list-style: square outside url('~assets/images/icon-list-point.png');
+    min-height: 220px;
+    padding: 0 65px;
   }
 
   &__item {
@@ -95,6 +98,8 @@ export default {
     line-height: 35px;
     white-space: nowrap;
     padding-left: 32px;
+    margin-left: 15px;
+    padding-right: 65px;
   }
 }
 </style>
