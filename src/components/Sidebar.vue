@@ -43,6 +43,12 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .sidebar{
+  &__container{
+    background: $background__dark_tile;
+  }
+}
+
 .sidebar {
   position: relative;
   display: flex;
