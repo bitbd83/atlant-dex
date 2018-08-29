@@ -134,6 +134,16 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .profile{
+  &__param {
+    color: $color__white;
+  }
+
+  &__value {
+    color: $color__white;
+  }
+}
+
 .profile {
   &__accordion {
     margin-bottom: 56px;
