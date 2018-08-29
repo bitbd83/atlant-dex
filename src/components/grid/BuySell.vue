@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .buySell
-  Loader(isWhite="", :isLoading="loading")
+  Loader(isWidthOverflow="", isWhite="", :isLoading="loading")
   .buySell__headerContainer
     .buySell__header
       .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
