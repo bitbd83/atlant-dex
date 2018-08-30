@@ -160,13 +160,35 @@ export default {
     // this.loadChart().then(() => {
     //   this.createChart();
     // });
+    this.$hub.invokeByStart
+      .then(
+        (connection) => {
+          let candle = {
+              'type': 'candle',
+              'baseCurrency': 'BTC',
+              'chartPeriod': '1h',
+              'quoteCurrency': 'USD',
+          };
+          connection.invoke('JoinGroupAsync', candle);
+          connection.invoke('LeftGroupAsync', candle).then(
+            (res) => {
+              console.log('Res', res);
+            }
+          ).catch(
+            (err) => {
+              console.log('Err', err);
+            }
+          );
+          console.log('Invoked');
+          window.tt = connection;
+        }
+      );
     this.$hub.on(
-      'candle_1d_BTC_USD',
-      (data, data2) => {
-        console.log('hell', data, data2);
+      'Send',
+      (data) => {
+        console.log('Send', data);
       }
     );
-    this.$hub.on('Send', this.onSendSignal);
   },
   components: {
     // IEcharts,
