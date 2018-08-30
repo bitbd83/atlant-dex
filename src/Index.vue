@@ -255,6 +255,10 @@ export default {
   min-height: 700px;
   height: 100vh;
 
+  &--dark {
+    color: white;
+  }
+
   &__body {
     display: flex;
     width: 100%;
