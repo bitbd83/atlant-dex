@@ -51,6 +51,7 @@ const store = new Vuex.Store({
       'tradeInfo.pairs',
       'user.account.currency',
       'grid.gridData',
+      'grid.savedViews',
     ],
   })],
 });
