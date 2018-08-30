@@ -69,7 +69,7 @@ export default {
 
   &__number {
     position: relative;
-    color: $color__black;
+    // color: $color__black;
     font-size: 16px;
     text-align: center;
     margin: 0 16px;
