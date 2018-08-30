@@ -106,6 +106,9 @@ export default {
   &__header{
     background: $background__dark_toolbar;
     color: $color_white;
+    &--toolbar {
+      background: transparent;
+    }
   }
 
   &__title {
@@ -123,6 +126,9 @@ export default {
     background: $background__dark_toolbar;
     &--sidebar {
       background: $background__dark_toolbar;
+    }
+    &--toolbar {
+      background: transparent;
     }
   }
 
