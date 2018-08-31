@@ -89,6 +89,7 @@ export default {
       });
       window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
       dispatch('setPair', pair);
+      dispatch('chart/invokeNewCandle');
       dispatch('chart/loadChart', null, {root: true});
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
@@ -96,6 +97,7 @@ export default {
         quote: currency,
       });
       dispatch('setPair', pair);
+      dispatch('chart/invokeNewCandle');
       dispatch('chart/loadChart', null, {root: true});
     },
     setPair({commit, dispatch, getters, state}, pair) {

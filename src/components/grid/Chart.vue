@@ -99,6 +99,7 @@ export default {
     ]),
     ...mapActions('chart', [
       'addNewCandle',
+      'invokeNewCandle',
     ]),
     initChart() {
     },
@@ -157,38 +158,7 @@ export default {
   },
   created() {
     this.initChart();
-    // this.loadChart().then(() => {
-    //   this.createChart();
-    // });
-    this.$hub.invokeByStart
-      .then(
-        (connection) => {
-          let candle = {
-              'type': 'candle',
-              'baseCurrency': 'BTC',
-              'chartPeriod': '1h',
-              'quoteCurrency': 'USD',
-          };
-          connection.invoke('JoinGroupAsync', candle);
-          connection.invoke('LeftGroupAsync', candle).then(
-            (res) => {
-              console.log('Res', res);
-            }
-          ).catch(
-            (err) => {
-              console.log('Err', err);
-            }
-          );
-          console.log('Invoked');
-          window.tt = connection;
-        }
-      );
-    this.$hub.on(
-      'Send',
-      (data) => {
-        console.log('Send', data);
-      }
-    );
+    this.invokeNewCandle();
   },
   components: {
     // IEcharts,

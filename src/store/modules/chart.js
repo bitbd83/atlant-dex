@@ -141,8 +141,24 @@ export default {
     },
     changeChartPeriod({commit, dispatch}, period) {
       window.tvWidget.setSymbol('BTC/USD', resolutions[period]);
+      dispatch('invokeNewCandle');
       commit('setPeriod', period);
       return dispatch('loadChart');
+    },
+    invokeNewCandle({state, rootGetters}) {
+      this._vm.$hub.invokeByStart.then(
+        (connection) => {
+          connection.invoke(
+            'JoinGroupAsync',
+            {
+                'type': 'candle',
+                'baseCurrency': rootGetters['tradeInfo/baseCurrency'],
+                'chartPeriod': state.period,
+                'quoteCurrency': rootGetters['tradeInfo/quoteCurrency'],
+            }
+          );
+        }
+      );
     },
     addNewCandle({dispatch, commit}, candle) {
       commit('addNewCandle', candle);

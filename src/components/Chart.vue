@@ -5,7 +5,7 @@
 </template>
 <script>
 import VueCharting from 'vue-charting';
-import DataFeed from '../services/dataFeed';
+import dataFeed from '../services/dataFeed';
 
 export default {
   name: 'Chart',
@@ -19,7 +19,7 @@ export default {
         overrides: {
           'symbolWatermarkProperties.color': 'rgba(0, 0, 0, 0)',
         },
-        datafeed: DataFeed,
+        datafeed: dataFeed(this),
         library_path: '/static/js/charting_library/',
         disabled_features: [
           'left_toolbar',
