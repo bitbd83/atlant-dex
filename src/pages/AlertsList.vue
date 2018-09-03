@@ -95,9 +95,11 @@ export default {
       });
     },
     getDeleteAlerts() {
+      this.loadingContent = true;
       this.deleteAlert({
         alertId: this.checked.id,
       }).then(() => {
+        this.loadingContent = false;
         if (this.alertsList.length === 1) this.page -= 1;
         this.getAlerts();
         this.checked = undefined;
@@ -119,12 +121,10 @@ export default {
   },
   created() {
     this.getAlerts();
-    this.$hub.on('newAlert', (data) => {
-      console.log('you have a new alert');
-    });
+    EventHub.$on('appendAlertsList', () => this.getAlerts());
   },
   destroyed() {
-    console.log('destroyed alerts list');
+    EventHub.$off('appendAlertsList');
   },
   directives: {
     scrollbar,

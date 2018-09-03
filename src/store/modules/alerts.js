@@ -57,8 +57,6 @@ export default {
         }
       }
     },
-    insertListAlert(state, data) {
-    },
   },
   actions: {
     getAlertsList({state, commit}, data) {
@@ -91,8 +89,7 @@ export default {
       });
     },
     deleteAlert({commit, dispatch}, data) {
-      return Alerts.deleteAlert(data.alertId, data.alertsDeleteModel).then(() => {
-      });
+      return Alerts.deleteAlert(data.alertId, data.alertsDeleteModel);
     },
   },
   namespaced: true,

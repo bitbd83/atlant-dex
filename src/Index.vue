@@ -119,7 +119,6 @@ export default {
     ]),
     ...mapActions('alerts', [
       'insertSidebarAlert',
-      'appendAlertsList',
     ]),
     ...mapActions('orders', [
       'updateOrderBook',
@@ -158,11 +157,11 @@ export default {
         this.updateOrderBook(data);
       });
       this.$hub.on('newAlert', (data) => {
-        this.insertSidebarAlert(data);
-        this.insertListAlert(data);
+        // this.insertSidebarAlert(data);
+        EventHub.$emit('appendAlertsList');
       });
       this.$hub.on('alertTriggered', (data) => {
-        this.updateSidebarAlert(data);
+        // this.updateSidebarAlert(data);
       });
     },
   },
