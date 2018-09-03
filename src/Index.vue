@@ -103,6 +103,7 @@ export default {
     ]),
     ...mapMutations('alerts', [
       'updateSidebarAlert',
+      'insertListAlert',
     ]),
     ...mapActions('membership', [
       'dropUser',
@@ -118,7 +119,7 @@ export default {
     ]),
     ...mapActions('alerts', [
       'insertSidebarAlert',
-      'resetAlertsList',
+      'appendAlertsList',
     ]),
     ...mapActions('orders', [
       'updateOrderBook',
@@ -158,7 +159,7 @@ export default {
       });
       this.$hub.on('newAlert', (data) => {
         this.insertSidebarAlert(data);
-        this.resetAlertsList();
+        this.insertListAlert(data);
       });
       this.$hub.on('alertTriggered', (data) => {
         this.updateSidebarAlert(data);

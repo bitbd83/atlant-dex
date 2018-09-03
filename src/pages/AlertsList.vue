@@ -7,7 +7,7 @@ TableLayout(
   title="Alert list",
   :data="alertsList",
   :pageCount='setPagesCount',
-  :page="alertsPage",
+  :page="page",
   :changeActivePage="changeActivePage",
   :checked='checked',
   :isLoading="loadingContent",
@@ -23,6 +23,7 @@ TableLayout(
           th Description
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='type' && !asc}" @click="sortAlerts('type')") Type
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='lifetime' && !asc}" @click="sortAlerts('lifetime')") Lifetime remaining
+          th Status
     CSSLoader(v-if="loadingContent")
     .myAlerts__table(v-else v-scrollbar="")
       table.table
@@ -35,13 +36,13 @@ TableLayout(
             td {{item.arguments[4] ? 'Target ' : 'Change '}}
             td
               .myAlerts__daysLeft {{(item.daysLeft) ? item.daysLeft + ' days' : '&#8734'}}
+            td {{status[item.status]}}
 </template>
 
 <script>
-import {mapState, mapMutations, mapActions} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
-// import {notification} from 'services/notification';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
 import CSSLoader from 'components/CSSLoader';
@@ -54,15 +55,16 @@ export default {
       asc: false,
       targetType: ['exceed', 'reach', 'fall'],
       priceType: ['Bid', 'Ask'],
+      status: ['Active', 'Triggered', 'Expired'],
       loadingContent: false,
       isLoadingError: false,
+      page: 1,
     };
   },
   computed: {
     ...mapState('alerts', [
       'alertsList',
       'alertsListCount',
-      'alertsPage',
       'alertsLimit',
     ]),
     setPagesCount() {
@@ -70,9 +72,6 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('alerts', [
-      'setAlertsPage',
-    ]),
     ...mapActions('alerts', [
       'getAlertsList',
       'deleteAlert',
@@ -85,7 +84,7 @@ export default {
       this.isLoadingError = false;
       this.loadingContent = true;
       this.getAlertsList({
-        page: this.alertsPage,
+        page: this.page,
         sortBy: this.sortBy,
         ascending: this.asc,
       }).then(() => {
@@ -98,17 +97,9 @@ export default {
     getDeleteAlerts() {
       this.deleteAlert({
         alertId: this.checked.id,
-        // this parameter is reserved for mass deletion
-        // alertsDeleteModel: this.checked.map((arr) => {
-        //   return arr.id;
-        // }),
       }).then(() => {
+        if (this.alertsList.length === 1) this.page -= 1;
         this.getAlerts();
-        // notification({
-        //   title: 'Alerts event:',
-        //   text: `${this.checked.length} alerts deleted`,
-        //   type: 'info',
-        // });
         this.checked = undefined;
       });
     },
@@ -122,12 +113,18 @@ export default {
       this.getAlerts();
     },
     changeActivePage(num) {
-      this.setAlertsPage(num);
+      this.page = num;
       this.getAlerts();
     },
   },
   created() {
     this.getAlerts();
+    this.$hub.on('newAlert', (data) => {
+      console.log('you have a new alert');
+    });
+  },
+  destroyed() {
+    console.log('destroyed alerts list');
   },
   directives: {
     scrollbar,
@@ -152,13 +149,16 @@ export default {
   }
   &__row {
     & > td, th {
-      width: 15%;
+      width: 10%;
       &:nth-child(1) {
         width: 50px;
         padding-left: 10px;
       }
       &:nth-child(3) {
-        width: 40%;
+        width: 50%;
+      }
+      &:nth-child(5) {
+        width: 180px;
       }
     }
   }

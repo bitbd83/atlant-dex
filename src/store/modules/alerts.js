@@ -12,7 +12,6 @@ export default {
     isSidebarLoadingError: false,
     alertsList: [],
     alertsListCount: 0,
-    alertsPage: 1,
     alertsLimit: 10,
   },
   getters: {
@@ -39,10 +38,7 @@ export default {
       state.alertsList = data.data;
       state.alertsListCount = data.totalItems;
     },
-    setAlertsPage(state, num) {
-      state.alertsPage = num;
-    },
-    dropAlertsList(state, data) {
+    dropAlertsList(state) {
       state.alertsList = [];
       state.alertsListCount = 0;
     },
@@ -61,6 +57,8 @@ export default {
         }
       }
     },
+    insertListAlert(state, data) {
+    },
   },
   actions: {
     getAlertsList({state, commit}, data) {
@@ -70,8 +68,7 @@ export default {
         sortBy: data.sortBy,
         isSortAscending: data.ascending,
         triggeredFirst: data.isSidebar ? true : false,
-        // active: data.isSidebar ? true : false,
-        active: true,
+        statuses: '0,1,2',
       }).then((response) => {
         if (data.isSidebar) {
           commit('setSidebarAlerts', response.data);
@@ -86,19 +83,7 @@ export default {
       });
     },
     insertSidebarAlert({commit, dispatch}, data) {
-    //   commit('setSidebarLoading', true);
-    //   commit('dropSidebarAlerts');
-    //   dispatch('getAlertsList', {
-    //     page: 1,
-    //     isSidebar: true,
-    //   });
-    // },
       commit('insertSidebarAlert', data);
-    },
-    resetAlertsList({state, dispatch}, data) {
-      dispatch('getAlertsList', {
-        page: state.alertsPage,
-      });
     },
     disableAlertInSidebar({commit}, alertId) {
       return Alerts.disableAlert(alertId).then(() => {
@@ -107,14 +92,6 @@ export default {
     },
     deleteAlert({commit, dispatch}, data) {
       return Alerts.deleteAlert(data.alertId, data.alertsDeleteModel).then(() => {
-        commit('setSidebarLoading', true);
-        // commit('removeSidebarAlert', id);
-        commit('dropSidebarAlerts');
-        dispatch('getAlertsList', {
-          page: 1,
-          isSidebar: true,
-        });
-        dispatch('resetAlertsList');
       });
     },
   },

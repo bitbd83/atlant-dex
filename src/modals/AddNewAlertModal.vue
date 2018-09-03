@@ -170,7 +170,6 @@ export default {
       }).then(() => {
         this.step = 1;
         this.isSuccess = true;
-        // this.setAlertsListChange();
       }).catch(() => {
         this.step = 1;
       });
