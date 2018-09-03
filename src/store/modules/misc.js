@@ -53,7 +53,5 @@ export default {
       if (state.showSidebar === false) state.showSidebar = true;
     },
   },
-
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };
