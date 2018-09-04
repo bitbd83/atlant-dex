@@ -10,9 +10,6 @@ export default {
     sidebarAlertsCount: 1,
     isSidebarLoading: false,
     isSidebarLoadingError: false,
-    alertsList: [],
-    alertsListCount: 0,
-    alertsLimit: 10,
   },
   getters: {
   },
@@ -33,14 +30,6 @@ export default {
       let alertIndex = state.sidebarAlerts.indexOf(state.sidebarAlerts.find((item) => item.id === alert.id));
       state.sidebarAlerts.splice(alertIndex, 1);
       state.sidebarAlerts.unshift(alert);
-    },
-    setAlertsList(state, data) {
-      state.alertsList = data.data;
-      state.alertsListCount = data.totalItems;
-    },
-    dropAlertsList(state) {
-      state.alertsList = [];
-      state.alertsListCount = 0;
     },
     setSidebarLoading(state, isLoading) {
       state.isSidebarLoading = isLoading;
@@ -87,9 +76,6 @@ export default {
       return Alerts.disableAlert(alertId).then(() => {
         commit('removeSidebarAlert', alertId);
       });
-    },
-    deleteAlert({commit, dispatch}, data) {
-      return Alerts.deleteAlert(data.alertId, data.alertsDeleteModel);
     },
   },
   namespaced: true,

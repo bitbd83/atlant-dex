@@ -162,6 +162,7 @@ export default {
       });
       this.$hub.on('alertTriggered', (data) => {
         // this.updateSidebarAlert(data);
+        EventHub.$emit('updateAlertsList', data);
       });
     },
   },

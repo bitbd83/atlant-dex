@@ -44,16 +44,6 @@ export default {
       const name = this.data.arguments[0].toUpperCase();
       return cryptoName[name];
     },
-    deleteSidebarAlert() {
-      if (!this.isDeleting) {
-        this.isDeleting = true;
-        this.deleteAlert({
-          alertId: this.data.id,
-        }).catch(() => {
-          this.isDeleting = false;
-        });
-      };
-    },
     removeAlert() {
       if (this.data.activationDate) {
         this.disableAlertInSidebar(this.data.id);
