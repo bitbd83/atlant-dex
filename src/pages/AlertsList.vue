@@ -24,7 +24,7 @@ TableLayout(
           //- th.table__sortable(:class="{'table__sortable--desc': sortBy==='type' && !asc}" @click="sortAlerts('type')") Type
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='lifetime' && !asc}" @click="sortAlerts('lifetime')") Lifetime remaining
           th.table__sortable(:class="{'table__sortable--desc': sortBy==='activationDate' && !asc}" @click="sortAlerts('activationDate')") Activation date
-    CSSLoader(v-if="loadingContent")
+    Loader(v-if="loadingContent")
     .myAlerts__table(v-else v-scrollbar="")
       table.table
         tbody
@@ -44,7 +44,7 @@ import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 import * as Alerts from 'services/api/alerts';
 
 export default {
@@ -146,7 +146,7 @@ export default {
   },
   components: {
     TableLayout,
-    CSSLoader,
+    Loader,
     Radio,
   },
 };
