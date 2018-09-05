@@ -122,6 +122,29 @@ export default {
 <style lang='scss'>
 @import 'variables';
 
+.index--dark .toolbar{
+  &:before{
+    background-color: $background__dark_toolbar;
+  }
+
+  &__iconWrap {
+
+    &--active {
+      background: $fill__dark_hover_toolbar;
+    }
+  }
+
+  &__icon {
+
+    &--active {
+      fill: $fill__white;
+
+      &:hover {
+        fill: $fill__white;
+      }
+    }
+  }
+}
 .toolbar {
   position: relative;
   width: 55px;

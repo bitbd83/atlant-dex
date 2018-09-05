@@ -97,6 +97,12 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .changePhone {
+  &__param{
+    color: $color__white;
+  }
+}
+
 .changePhone {
   &__row {
     margin-top: 18px;

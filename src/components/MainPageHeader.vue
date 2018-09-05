@@ -74,6 +74,10 @@ export default {
 <style lang='scss'>
 @import 'variables';
 
+.index--dark .header{
+  color: $color__white;
+}
+
 .header {
   position: relative;
   padding: 12px 25px;

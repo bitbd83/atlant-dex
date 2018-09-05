@@ -116,6 +116,11 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .book{
+  border: 1px solid $border__dark_theme_tile;
+  background: $background__dark_tile;
+}
+
 .book {
   display: flex;
   height: 100%;

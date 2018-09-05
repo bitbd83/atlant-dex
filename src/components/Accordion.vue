@@ -102,6 +102,46 @@ export default {
  <style lang="scss">
 @import "variables";
 
+.index--dark .accordion{
+  &__header{
+    background: $background__dark_toolbar;
+    color: $color_white;
+    &--toolbar {
+      background: transparent;
+    }
+  }
+
+  &__title {
+
+    &--active {
+      color: $color_white;
+    }
+
+    &--sidebar {
+      color: $color_white;
+    }
+  }
+
+  &__background {
+    background: $background__dark_toolbar;
+    &--sidebar {
+      background: $background__dark_toolbar;
+    }
+    &--toolbar {
+      background: transparent;
+    }
+  }
+
+  &__icon {
+    &--active {
+      fill: $color_white;
+    }
+    &--sidebar {
+      fill: $color_white;
+    }
+  }
+}
+
 .accordion {
   display: flex;
   flex-direction: column;
