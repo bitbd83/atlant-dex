@@ -17,9 +17,11 @@ export const changeAdditionalEmail = (email) => api.put(`profile/fields/addition
 export const verifyAdditionalEmail = (confirmationCode) => api.put(`profile/fields/verify/additionalEmail/${confirmationCode}`);
 
 export const getAccountTransactionHistory = ({page, limit, sortBy, ascending}) => api.get('/transactions/history?', {params: {page, limit, sortBy, ascending}});
+export const getAccountTransactionCSV = ({sortBy, ascending, Ids}) => api.get('/Transactions/history/csv', {params: {sortBy, ascending, Ids}});
 export const getNotificationHistory = ({page, limit, sortBy, ascending}) => api.get('/notifications/history', {params: {page, limit, sortBy, ascending}});
 export const getNotificationsHistoryCSV = ({sortBy, ascending, Ids}) => api.get('/Notifications/history/csv', {params: {sortBy, ascending, Ids}});
 export const getSecurityLog = ({page, limit}) => api.get('logs/security', {params: {page, limit}});
+export const getSecurityLogCSV = ({Ids}) => api.get('/Logs/security/csv', {params: {Ids}});
 
 export const getBalances = () => api.get('account/balances');
 export const getCurrencies = () => api.get('/exchange/currencies');

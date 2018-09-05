@@ -3,15 +3,18 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  .verificationUploadInput(
-    :class="[{'verificationUploadInput--help': isShowHelp}, validationClass]"
-  )
-    .verificationUploadInput__inputBlock
-      .verificationUploadInput__inputWrap(
-        :class="{'verificationUploadInput__inputWrap--canDrop': canDrop}"
+  .verificationUploadInput
+    icon.verificationUploadInput__helpIcon(
+      :class="{'verificationUploadInput__helpIcon--active' : active}",
+      id="help",
+      @click="$emit('showDesc')",
+    )
+    label.verificationUploadInput__inputBlock
+      .input.verificationUploadInput__inputWrap(
+        :class="{'verificationUploadInput__inputWrap--canDrop': canDrop, 'input--error': isError}"
       )
         .verificationUploadInput__fileName(v-if="fileName") {{fileName}}
-        .verificationUploadInput__plus(v-else="fileName") +
+        icon(id="icon-upload").verificationUploadInput__icon(v-else="fileName")
         input.verificationUploadInput__input(
           type="file",
           :accept="acceptTypes",
@@ -21,14 +24,7 @@
           @dragleave="canDrop = false",
           @drop="canDrop = false",
         )
-      .verificationUploadInput__helpIcon(
-        @mouseenter="isShowHelp = true",
-        @mouseleave="isShowHelp = false",
-      )
-        Icon(id="help")
-    img.verificationUploadInput__image(
-      :src="imageSrc"
-    )
+      span.verificationUploadInput__label {{label}}
 </template>
 
 <script>
@@ -40,7 +36,6 @@ export default {
   name: 'VerificationUploadInput',
   data() {
     return {
-      // file: null,
       isShowHelp: false,
       canDrop: false,
       acceptTypes: acceptTypes.join(','),
@@ -49,11 +44,6 @@ export default {
   computed: {
     fileName() {
       return this.value ? this.value.name : null;
-    },
-    validationClass() {
-      if (this.validation) {
-        return `verificationUploadInput--${this.validation}`;
-      }
     },
   },
   methods: {
@@ -74,9 +64,11 @@ export default {
     },
   },
   props: {
-    imageSrc: String,
     validation: [String, Boolean],
     value: [File, String],
+    label: String,
+    active: Boolean,
+    isError: Boolean,
   },
 };
 </script>
@@ -86,20 +78,20 @@ export default {
   .verificationUploadInput {
     position: relative;
     display: flex;
-    flex-direction: row;
-    align-items: center;
 
     &__inputBlock {
-      position: relative;
+      display: flex;
+      align-items: center;
     }
     &__inputWrap {
-      align-items: center;
-      border: 1px dashed $input-border-color;
-      display: flex;
-      height: 96px;
-      justify-content: center;
       position: relative;
-      width: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 139px;
+      min-width: 139px;
+      height: 139px;
+      border-radius: 2px;
 
       &--canDrop {
         background-color: rgba($input-valid-color, .3);
@@ -107,10 +99,10 @@ export default {
     }
     &__input {
       cursor: pointer;
+      position: absolute;
       height: 100%;
       left: 0;
       opacity: 0;
-      position: absolute;
       top: 0;
       width: 100%;
     }
@@ -123,33 +115,27 @@ export default {
       white-space: normal;
       word-break: break-all;
     }
-    &__plus {
-      font-size: 30px;
-      font-weight: bold;
+    &__icon {
+      width: 25px;
+      height: 25px;
+      fill: $background__blue;
     }
     &__helpIcon {
       cursor: pointer;
-      fill: #ffc600;
+      fill: $fill__blue;
       position: absolute;
-      right: -25px;
-      top: -15px;
-      transition: fill .3s ease;
+      left: 145px;
+      top: -10px;
+      width: 15px;
+      height: 15px;
+      &--active {
+        fill: $fill__green;
+      }
     }
     &__image {
       margin-left: 85px;
       opacity: .25;
-      transition: opacity .3s ease;
     }
-
-    &--help &{
-      &__image {
-        opacity: 1;
-      }
-      &__helpIcon {
-        fill: #034468;
-      }
-    }
-
     &--valid & {
       &__inputWrap {
         border-color: $input-valid-color;
@@ -159,6 +145,15 @@ export default {
       &__inputWrap {
         border-color: $input-error-color;
       }
+    }
+    &__label {
+      display: inline;
+      cursor: pointer;
+      max-width: 114px;
+      margin-left: 20px;
+      text-decoration: underline;
+      font-size: 12px;
+      line-height: 19px;
     }
   }
 </style>

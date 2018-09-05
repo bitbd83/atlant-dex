@@ -12,8 +12,8 @@
       IInput.tfa__input(v-model="secureCode", label="Code")
     BButton.tfa__button(color="malachite" rounded) {{$t('confirm')}}
     .tfa__repeatContainer
-      .tfa__repeatText(v-if="!isLinkAviable && security.tfa.method != 2") {{$t('the_new_code_will_be_available_in')}} #[span.link.link--white {{timer}}] {{$t('sec')}}
-      .link.link--white(v-if="isLinkAviable && security.tfa.method != 2" @click="getCountDown(); onResend()") {{$t('send_code')}}
+      .tfa__repeatText(v-if="!isLinkAviable && confirmMethod != 2") {{$t('the_new_code_will_be_available_in')}} #[span.link.link--white {{timer}}] {{$t('sec')}}
+      .link.link--white(v-if="isLinkAviable && setTFAtype != 2" @click="getCountDown(); onResend()") {{$t('send_code')}}
     .tfa__cancelContainer(@click="onCancel()")
       icon.tfa__cancelIcon(id="arrow_short")
       .link.link--white {{$t('cancel')}}
@@ -26,10 +26,11 @@
       .tfa__row.tfa__row--mobileMargin
         .link.link.tfa__link(@click="onConfirm(secureCode)") {{$t('confirm')}}
         .link.link.tfa__link(@click="onCancel()") {{$t('cancel')}}
-    .tfa__row(v-if="isLinkAviable && security.tfa.method != 2")
+    .tfa__row(v-if="isLinkAviable && setTFAtype != 2")
       Icon.tfa__iconResend(id="icon-resend" @click="getCountDown(); onResend()")
-      .link.tfa__link(@click="getCountDown(); onResend()") {{$t('resend_confirmation_code')}}
-    .tfa__row(v-if="!isLinkAviable && security.tfa.method != 2")
+      .link.tfa__link(@click="getCountDown(); onResend()") Resend
+      span confirmation code
+    .tfa__row(v-if="!isLinkAviable && setTFAtype != 2")
       .tfa__repeatText.tfa__repeatText--dark {{$t('the_new_code_will_be_available_in')}} #[span.link {{timer}}] {{$t('sec')}}
 </template>
 
@@ -52,9 +53,11 @@ export default {
     ...mapState('user', {
       security: 'security',
     }),
+    setTFAtype() {
+      return this.confirmType ? parseInt(this.confirmType) : this.security.tfa.method;
+    },
     setTextMessage() {
-      let confirmMethod = (this.confirmType) ? this.confirmType : this.security.tfa.method;
-      return (this.text === false) ? i18n.t(`sent2FA.${confirmMethod}`) : this.text;
+      return (this.text === false) ? i18n.t(`sent2FA.${this.setTFAtype}`) : this.text;
     },
   },
   methods: {
@@ -172,7 +175,7 @@ export default {
 
   &__repeatText {
     color: $color__white;
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     letter-spacing: 0.38px;
     line-height: 25px;

@@ -3,6 +3,21 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 export default {
+  crypto: {
+    deposit: {
+      deposit: 'Deposit',
+      title: 'Your wallet address for deposit:',
+      description: 'Funds will be deposited automatically after 3 confirmations',
+    },
+    withdraw: {
+      withdraw: 'WITHDRAW',
+      placeholderAddress: 'wallet address',
+      placeholderAmount: 'withdrawal amount (e.g. 0.5)',
+      fee: 'Fee',
+      text: 'Your will receive',
+      button: 'Withdraw',
+    },
+  },
   allert: 'Allert',
   me: 'me',
   if: 'If',

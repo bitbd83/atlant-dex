@@ -4,13 +4,14 @@
 
 <template lang='pug'>
 ModalLayout(:title="`${$t('modals.crypto.deposit.deposit')} ${data.currency}`")
-  .cryptoDeposit
+  .cryptoDeposit(v-show="isLoading == false")
     icon.cryptoDeposit__angle(id="angle-top-left")
     QR.cryptoDeposit__qr(:text='address' size='148')
     .cryptoDeposit__addressText {{$t('modals.crypto.deposit.title')}}
     .cryptoDeposit__address {{address ? address : '-'}}
-    BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('modals.crypto.deposit.copy')}}
+    BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('copy')}}
     .cryptoDeposit__confirmations {{$t('modals.crypto.deposit.description')}}
+  Loader(:isLoading="isLoading" isWhite="")
 </template>
 
 <script>
@@ -18,6 +19,7 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as User from 'services/api/user';
 import clipboard from '@/directives/clipboard';
 import ModalLayout from '@/layouts/ModalLayout';
+import Loader from 'components/Loader';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
 
@@ -25,6 +27,7 @@ export default {
   data() {
     return {
       address: '',
+      isLoading: false,
     };
   },
   computed: {
@@ -51,19 +54,27 @@ export default {
         amount: 100000,
       });
     },
+    getApiREquest() {
+      if (this.isLoading == false) this.isLoading = true;
+      User.getDepositAddress({
+        currency: this.data.currency,
+      }).then((response) => {
+        this.address = response.data.address;
+        this.isLoading = false;
+      }).catch(() => {
+        this.getApiREquest();
+      });
+    },
   },
   created() {
-    User.getDepositAddress({
-      currency: this.data.currency,
-    }).then((response) => {
-      this.address = response.data.address;
-    });
+    this.getApiREquest();
   },
   directives: {
     clipboard,
   },
   components: {
     ModalLayout,
+    Loader,
     BButton,
     QR,
   },
@@ -95,7 +106,7 @@ export default {
   }
 
   &__addressText {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 14px;
     color: $color__white;
     letter-spacing: 0.44px;
@@ -120,7 +131,7 @@ export default {
 
   &__confirmations {
     max-width: 256px;
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: $color__white;
     letter-spacing: 0.38px;

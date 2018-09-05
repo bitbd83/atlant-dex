@@ -32,7 +32,7 @@ export default {
     },
     security: {
       additionalEmail: {
-        value: null,
+        value: '',
         verified: false,
       },
       tfa: {
@@ -181,7 +181,7 @@ export default {
       };
       state.security = {
         additionalEmail: {
-          value: null,
+          value: '',
             verified: false,
         },
           tfa: {

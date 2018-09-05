@@ -4,7 +4,7 @@
 
 <template lang="pug">
 .pageContent
-  Header(:title="title")
+  Header(:title="title", :btnText="btnText", :btnFunction="btnFunction" :isBtnCompleted="isBtnCompleted")
   .pageContent__body(v-scrollbar="")
     slot
 </template>
@@ -19,6 +19,9 @@ export default {
   },
   props: {
     title: String,
+    btnText: String,
+    btnFunction: Function,
+    isBtnCompleted: Boolean,
   },
   components: {
     Header,
@@ -31,14 +34,13 @@ export default {
   display: flex;
   flex-direction: column;
   flex-grow: 2;
-
+  margin-bottom: 50px;
+  max-width: 774px;
   &__body {
     position: relative;
-    padding-right: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 2;
-    max-width: 794px;
   }
 }
 </style>

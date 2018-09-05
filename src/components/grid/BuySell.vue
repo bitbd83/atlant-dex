@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .buySell
-  CSSLoader(v-if="loading")
+  Loader(isWidthOverflow="", isWhite="", :isLoading="loading")
   .buySell__headerContainer
     .buySell__header
       .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
@@ -42,7 +42,7 @@ import {mapState, mapActions, mapGetters, mapMutations} from 'vuex';
 import {notification} from 'services/notification';
 import {addTileToDashboard} from 'services/grid';
 import IInput from 'components/IInput';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -184,7 +184,7 @@ export default {
   },
   components: {
     IInput,
-    CSSLoader,
+    Loader,
   },
 };
 

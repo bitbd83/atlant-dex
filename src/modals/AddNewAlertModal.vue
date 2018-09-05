@@ -248,7 +248,7 @@ export default {
   }
 
   &__checkboxTittle {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: $color__white;
     letter-spacing: 0.38px;

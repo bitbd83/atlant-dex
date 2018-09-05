@@ -3,38 +3,34 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-  //- PageLayout(title="Security settings", :sidebar="true")
+ContentLayout(title="Security settings")
   .securitySettings
-    .securitySettings__title {{$t('pages.main')}}
-    .securitySettings__item
-      SecuritySettingsPageChangePassword
-    // .securitySettings__desktopRow
-    .securitySettings__item
-      SecuritySettingsPageChangeEmail
-      //-   .securitySettings__param Current Email:
-      //-   .securitySettings__value.securitySettings__value--row {{email.value}} #[Icon.securitySettings__icon(v-if="email.verified" id="verified")]
-      //-     .link.securitySettings__action Change
-      //- .securitySettings__item.securitySettings__item--column
-      //-   .securitySettings__param Additional Email:
-      //-   .securitySettings__value.securitySettings__value--row {{additionalEmail.value}} #[Icon.securitySettings__icon(v-if="security.additionalEmail.verified" id="verified")]
-      //-     .link.securitySettings__action Change
-    .securitySettings__title {{$t('pages.two_factor_authentication')}}
-    SecuritySettingsPageTFASettings
-    .securitySettings__title {{$t('pages.other')}}
-    .securitySettings__item.securitySettings__desktopRow
-      .securitySettings__row {{$t('pages.terminate_active_sessions')}} #[Icon.securitySettings__terminateIcon(id="terminate")]
-      .link.securitySettings__action.securitySettings__action--mobileLeft {{$t('pages.terminate')}}
-    // BButton.accountInfo__button(color="malachite" rounded) Save
+    Accordion(:title="$t('pages.main')")
+      .securitySettings__section
+        .securitySettings__item
+          SecuritySettingsPageChangePassword
+        .securitySettings__emailContainer
+          SecuritySettingsPageChangeEmail
+          SecuritySettingsPageChangeEmail(isAdditionalEmail="")
+    Accordion(:title="$t('pages.two_factor_authentication')")
+      .securitySettings__section
+        SecuritySettingsPageTFASettings
+    //- Accordion(:title="$t('pages.other')")
+    //-   .securitySettings__section
+    //-     .securitySettings__other
+    //-       span.securitySettings__row {{$t('pages.terminate_active_sessions')}}
+    //-       Icon.securitySettings__terminateIcon(id="terminate")
+    //-       span.link.link--red {{$t('pages.terminate')}}
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import BButton from 'components/BButton';
+import Accordion from 'components/Accordion';
 import SecuritySettingsPageChangePassword from 'components/SecuritySettingsPageChangePassword';
 import SecuritySettingsPageChangeEmail from 'components/SecuritySettingsPageChangeEmail';
 import SecuritySettingsPageTFASettings from 'components/SecuritySettingsPageTFASettings';
 // import {serverNotification} from 'services/notification';
-import PageLayout from 'layouts/PageLayout';
+import ContentLayout from 'layouts/ContentLayout';
 
 export default {
   data() {
@@ -55,8 +51,8 @@ export default {
     this.getProfileData();
   },
   components: {
-    PageLayout,
-    BButton,
+    ContentLayout,
+    Accordion,
     SecuritySettingsPageChangePassword,
     SecuritySettingsPageChangeEmail,
     SecuritySettingsPageTFASettings,
@@ -66,61 +62,33 @@ export default {
 
 <style lang="scss">
 .securitySettings {
-  max-width: 600px;
-  &__title {
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 25px;
-    text-transform: uppercase;
+  &__section {
+    margin-top: 50px;
     margin-bottom: 40px;
   }
-  &__desktopRow {
-    display: flex;
-    align-items: center;
-  }
-  &__row {
-    display: flex;
-  }
+
   &__item {
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 43px;
-    &--column {
-      width: 50%;
+    margin-bottom: 60px;
+
+    &:last-of-type {
+      margin-bottom: 40px;
     }
   }
-  &__param {
-    font-weight: 700;
+
+  &__emailContainer {
+    display: flex;
   }
-  &__value {
-    margin-top: 18px;
-    font-weight: 400;
-    &--row {
-      display: flex;
-      align-items: center;
-    }
+
+  &__other {
+    display: flex;
+    align-items: flex-end;
   }
-  &__action {
-    margin-right: 5px;
-    margin-left: 19px;
-  }
-  &__icon{
-    $size: 13px;
-    height: $size;
-    width: $size;
-    margin-left: 14px;
-  }
+
   &__terminateIcon {
-    height: 19px;
-    width: 25px;
-    margin-left: 16px;
-  }
-  &__button {
-    padding: 8px 44px;
-    font-size: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-top: 20px;
+    width: 32px;
+    height: 24px;
+    margin-left: 25px;
+    margin-right: 25px;
   }
 }
 </style>

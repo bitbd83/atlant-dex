@@ -88,15 +88,26 @@ export default {
         base: currency,
       });
       window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
-      commit('setPair', pair);
+      dispatch('setPair', pair);
       dispatch('chart/loadChart', null, {root: true});
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
         quote: currency,
       });
-      commit('setPair', pair);
+      dispatch('setPair', pair);
       dispatch('chart/loadChart', null, {root: true});
+    },
+    setPair({commit, dispatch, getters, state}, pair) {
+      const pairArr = pair.split('_');
+      const baseCurrency = pairArr[0];
+      const quoteCurrency = pairArr[1];
+
+      if (state.pairs[baseCurrency].includes(quoteCurrency)) {
+        commit('setPair', pair);
+      } else {
+        commit('setPair', [baseCurrency, state.pairs[baseCurrency][0]].join('_'));
+      }
     },
   },
   namespaced: true,

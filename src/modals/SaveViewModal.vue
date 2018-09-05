@@ -13,7 +13,7 @@ ModalLayout(:step="step", isSuccess="true", title="Save View")
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapMutations} from 'vuex';
 // import {serverNotification} from 'services/notification';
 import Checkbox from 'components/Checkbox';
 import BButton from 'components/BButton';
@@ -34,14 +34,12 @@ export default {
     }),
   },
   methods: {
+     ...mapMutations('grid', {
+      addView: 'addView',
+    }),
     saveView() {
-    //   Grid.addCustomView({
-    //   }).then(() => {
-           this.data.saveView(this.viewName);
-           this.step = 1;
-    //   }).catch((res) => {
-    //     serverNotification(res);
-    //   });
+      this.addView(this.viewName);
+      this.step = 1;
     },
   },
   components: {

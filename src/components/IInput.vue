@@ -91,6 +91,7 @@ export default {
     background: none;
     padding-bottom: 11px;
     border-bottom: 3.5px solid $background__white;
+    color: $color__white;
     &--center {
       text-align: center;
     }
@@ -99,7 +100,7 @@ export default {
       padding-bottom: 0;
     }
     &::placeholder {
-      font-family: CenturyGothic;
+      font-family: "Century Gothic";
       font-size: 14px;
       letter-spacing: 0.5px;
       line-height: 26px;

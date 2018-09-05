@@ -4,46 +4,51 @@
 
 <template lang="pug">
 .tfaSettings
-  .tfaSettings__tfa
-    .link.link--green(:class="{'tfaSettings__tfaEnabled' : security.tfa.enabled}" @click="setTFAStep(1)") {{security.tfa.enabled ? "Enabled" : "Enable"}}
-    .tfaSettings__tfaMethod(v-if="security.tfa.enabled") {{$t('via')}} {{activeTFAMethod}}
-    .link.link--red.tfaSettings__disable(:class="{'tfaSettings__tfaEnabled' : !security.tfa.enabled}" @click="requestTFAChange()") {{security.tfa.enabled ? "Disable" : "Disabled"}}
+  .tfaSettings__tfaStatusContainer
+    .link.link--red(:class="{'link--green' : !security.tfa.enabled}" @click="security.tfa.enabled ? requestTFAChange() : setTFAStep(1)") {{security.tfa.enabled ? "Disable" : "Enable"}}
+    .tfaSettings__status Now: #[span.tfaSettings__status--disabled(:class="{'tfaSettings__status--enabled' : security.tfa.enabled}") {{(security.tfa.enabled ? "Enabled" : "Disabled" + " ")}}] #[span(v-if="security.tfa.enabled") via {{activeTFAMethod}}]
   .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 0")
-    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
+    TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :confirmType="tfaMethod")
   div(v-if="!security.tfa.enabled")
-    .tfaSettings__item
-      .tfaSettings__param {{$t('i_would_like_to_use')}}:
-      .tfaSettings__value.tfaSettings__value--row.tfaSettings__desktopRow
-        Radio.tfaSettings__tfaOption(v-for="(tfa, index) in tfaMethods", :key="index", name="tFAMethod", :value="tfa.id", v-model="tfaMethod", :checked="tfaMethod === tfa.id") #[.tfaSettings__tfaOptionName {{tfa.name}}]
-    .tfaSettings__item.tfaSettings__desktopRow(v-if="tfaStep === 1 && requiresNumber")
+    .tfaSettings__title {{$t('i_would_like_to_use')}}:
+    .tfaSettings__methodsContainer
+      Radio.tfaSettings__methods(
+        v-for="(tfa, index) in tfaMethods",
+        :key="index", name="tFAMethod",
+        :value="tfa.id",
+        v-model="tfaMethod",
+        :checked="tfaMethod === tfa.id"
+        :label="tfa.name"
+      )
+    .tfaSettings__row(v-if="tfaStep === 1 && requiresNumber")
       .tfaSettings__value {{$t('my_phone_number')}}
-      .tfaSettings__value.tfaSettings__value--row
-        FlagSwitch.tfaSettings__dropdown(
-          v-model="country",
-          :max-height="200",
-          type="phone"
-        )
-        input.input.tfaSettings__input(placeholder="965 296 36 36" v-model="number")
+      FlagSwitch.tfaSettings__dropdown(
+        v-model="country",
+        :max-height="200",
+        type="phone"
+      )
+      input.input.tfaSettings__input(type="number" placeholder="" v-model="number")
       .link.tfaSettings__action.tfaSettings__action--mobileLeft.tfaSettings__value(@click="requestTFAChange()") {{$t('send')}}
     .tfaSettings__item(v-if="tfaStep === 2 && requiresNumber")
-      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :text="tfaConfirmText")
+      TFA(:onConfirm="finish2FAChange", :onResend="requestTFAChange", :onCancel="cancel2FA", :confirmType="tfaMethod")
     .tfaSettings__item(v-if="tfaStep === 1 && tfaMethod === 2")
-      .tfaSettings__value.tfaSettings__desktopRow {{$t('you_don_t_have_an_authentication_key')}} #[.link.tfaSettings__action.tfaSettings__action--mobileLeft(@click="requestTFAChange()") {{$t('create_key')}}]
-      .tfaSettings__param.tfaSettings__param--margin ***
-      .tfaSettings__param {{$t('please_install_one_generate_key')}}:
+      .tfaSettings__valueCreateKey {{$t('you_don_t_have_an_authentication_key')}} #[.link.tfaSettings__valueCreateKeyLink(@click="requestTFAChange()") {{$t('create_key')}}]
+      .tfaSettings__paramSeparator ***
+      .tfaSettings__paramTitle {{$t('please_install_one_generate_key')}}:
       .tfaSettings__item.tfaSettings__desktopRow
-        .tfaSettings__value.tfaSettings__value--row.tfaSettings__value--os(v-for="os in opSys")
-          Icon.tfaSettings__osIcon(:id="os.id")
-          .link.tfaSettings__action {{os.name}}
+        .tfaSettings__osContainer(v-for="os in operatingSystems")
+          a(:href="os.link" target="_blank").tfaSettings__desktopRow
+            Icon.tfaSettings__osIcon(:id="os.id")
+            .link.tfaSettings__action {{os.name}}
       .tfaSettings__instruction {{$t('after_installing_the_app')}}
+
     .tfaSettings__item(v-if="tfaStep === 2 && tfaMethod === 2")
       .tfaSettings__value {{$t('now_scan_q_r_code_below')}}
-      QR.tfaSettings__value(:text="qrText")
-      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :text="tfaConfirmText")
+      QR(:text="qrText" isWhiteBackground="")
+      TFA(:onConfirm="finish2FAChange", :onCancel="cancel2FA" :confirmType="tfaMethod")
 </template>
 
 <script>
-import i18n from '@/i18n';
 import {mapState, mapGetters, mapMutations} from 'vuex';
 import * as User from 'services/api/user';
 // import {serverNotification} from 'services/notification';
@@ -57,12 +62,12 @@ export default {
   data() {
     return {
       tfaStep: 0,
-      tfaMethod: 3,
+      tfaMethod: '',
       number: '',
       qr: '',
       country: 'US',
-      opSys: [],
-      tfaMethods: [],
+      tfaMethods,
+      operatingSystems,
     };
   },
   computed: {
@@ -90,12 +95,6 @@ export default {
     },
     qrText() {
       return encodeURI(`otpauth://totp/${this.account.email.value}?secret=${this.qr}&issuer=ATLANT`);
-    },
-    tfaConfirmText() {
-      if (!this.selectedTFAMethod) return '';
-      const methodName = this.selectedTFAMethod.split(' ')[0];
-      const status = this.security.tfa.enabled ? 'Disable' : 'Enable';
-      return i18n.t(`tfaConfirmText${methodName}${status}`);
     },
   },
   methods: {
@@ -145,13 +144,9 @@ export default {
     },
   },
   watch: {
-    tfaMethod() {
+    tfaMethod(value) {
       this.setTFAStep(1);
     },
-  },
-  created() {
-    this.opSys = operatingSystems;
-    this.tfaMethods = tfaMethods;
   },
   components: {
     Radio,
@@ -163,89 +158,90 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'variables';
+
 .tfaSettings {
+  &__tfaStatusContainer {
+    display: flex;
+    margin-bottom: 62px;
+  }
+  &__status {
+    margin-left: 50px;
+
+    &--disabled {
+      color: $color__red;
+    }
+
+    &--enabled {
+      color: $color__green;
+    }
+  }
+  &__title {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 19px;
+  text-transform: uppercase;
+  margin-bottom: 31px;
+  }
+  &__methodsContainer {
+    display: flex;
+    margin-bottom: 50px;
+  }
+  &__methods {
+    margin-right: 40px;
+  }
+  &__mathodsLabel {
+    margin-left: 15px;
+  }
+  &__row{
+  display: flex;
+  align-items: center;
+  }
+  &__value {
+    margin-right: 20px;
+  }
+  &__input {
+    width: 180px;
+    margin: 0 20px;
+  }
+
   &__desktopRow {
     display: flex;
     align-items: center;
   }
-  &__item {
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 43px;
+
+  &__valueCreateKey {
+    margin-bottom: 36px;
   }
-  &__param {
-    font-weight: 700;
-    &--margin {
-      margin-top: 38px;
-    }
+
+  &__valueCreateKeyLink {
+    margin-left: 20px;
   }
-  &__value {
-    margin-top: 18px;
-    font-weight: 400;
-    &--row {
-      display: flex;
-      align-items: center;
-    }
-    &--os {
-      &:not(:first-of-type) {
-        margin-left: 45px;
-      }
-    }
+
+  &__paramSeparator {
+    margin-bottom: 8px;
   }
-  &__action {
-    margin-right: 5px;
-    margin-left: 19px;
+
+  &__paramTitle {
+    margin-bottom: 28px;
   }
-  &__tfa {
-    display: flex;
-    font-size: 14px;
-    line-height: 19px;
-    margin-bottom: 50px;
+
+  &__osContainer {
+    margin-bottom: 46px;
+    margin-right: 45px;
   }
-  &__tfaEnabled {
-    font-weight: 700;
-    cursor: default;
-    border: none;
-  }
-  &__disable {
-    margin-left: 30px;
-  }
-  &__tfaMethod {
-    margin-left: 5px;
-    padding-top: 3px;
-    font-weight: 700;
-    color: #fff;
-    text-decoration: none;
-  }
-  &__tfaOption {
-    &:not(:first-of-type){
-      margin-left: 28px;
-    }
-  }
-  &__tfaOptionName {
-    margin-left: 18px;
-  }
+
   &__osIcon {
     $size: 24px;
     height: $size;
     width: $size;
+    margin-right: 20px;
   }
+
   &__instruction {
+    width: 444px;
     font-size: 12px;
-    line-height: 24px;
-  }
-  &__code {
-    margin-left: 28px;
-  }
-  &__dropdown {
-    // width: 40px;
-    margin: 0 10px 0;
-  }
-  &__input {
-    width: 120px;
-  }
-  &__qr {
-    margin-top: 36px;
+    line-height: 19px;
   }
 }
 </style>

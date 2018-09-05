@@ -165,7 +165,7 @@ export default {
     margin-bottom: 23px;
   }
   &__value {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 14px;
     color: $color__black;
     letter-spacing: 0.5px;

@@ -18,7 +18,7 @@ Tile(
     :name="data.name"
   )
     .history
-      CSSLoader(v-if="loading")
+      Loader(:isLoading="loading")
       .history__container(v-scrollbar="")
         table.history__table
           tbody.history__body
@@ -35,12 +35,12 @@ Tile(
 import {mapState, mapGetters, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
 import TileBase from '../../mixins/TileBase';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   mixins: [TileBase],
   components: {
-    CSSLoader,
+    Loader,
   },
   data() {
     return {

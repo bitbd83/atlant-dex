@@ -4,7 +4,7 @@
 
 import serverErrors from './server-errors/en';
 import widgetTitles from './widget-titles/en';
-import modal from './modals/en';
+import modals from './modals/en';
 import pages from './pages/en';
 
 export default {
@@ -40,22 +40,6 @@ export default {
     orderFilledSell: 'Order #{0} filled: sold {1} {4} for {3} {2}',
     orderPartiallyFilledBuy: 'Order #{0} partially filled: bought {1} {4} for {3} {2}',
     orderFilledBuy: 'Order #{0} filled: bought {1} {4} for {3} {2}',
-  },
-  crypto: {
-    deposit: {
-      deposit: 'Deposit',
-      title: 'Your wallet address for deposit:',
-      copy: 'Copy',
-      description: 'Funds will be deposited automatically after 3 confirmations',
-    },
-    withdraw: {
-      withdraw: 'WITHDRAW',
-      placeholderAddress: 'wallet address',
-      placeholderAmount: 'withdrawal amount (e.g. 0.5)',
-      fee: 'Fee',
-      text: 'Your will receive',
-      button: 'Withdraw',
-    },
   },
   emailSent: 'Email sent to {0}',
   serverErrors,
@@ -100,7 +84,6 @@ export default {
   repeat_password: 'Repeat password',
   confirm: 'Confirm',
   show_passwords: 'Show passwords',
-  via: 'via',
   i_would_like_to_use: 'I would like to use',
   my_phone_number: 'My phone number',
   send: 'Send',
@@ -128,14 +111,12 @@ export default {
   volume: 'Volume',
   the_operation_was_successfully_done: 'The operation was successfully done.',
   something_went_wrong_please_try_again: 'Something went wrong. Please try again.',
-  we_couldn_t_find_any: 'We couldn’t find any',
   transaction_history: 'Transaction History',
   my_orders: 'My Orders',
   notification_history: 'Notification History',
   the_new_code_will_be_available_in: 'The new code will be available in',
   sec: 'sec',
   send_code: 'Send code',
-  resend_confirmation_code: 'Resend | confirmation code',
   the_new_code_will_be_available_in: 'The new code will be available in',
   current_pair: 'Current pair',
   last: 'Last',
@@ -147,7 +128,7 @@ export default {
   export: 'Export',
   tokens_coins: 'Tokens & Coins:',
   search_for: 'Search for...',
-  modal,
+  modals,
   pages,
 };
 // Confirmation code has been sent to enable 2FA

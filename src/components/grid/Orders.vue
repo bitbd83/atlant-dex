@@ -19,7 +19,7 @@ Tile(
     :name="data.name"
   )
     .orders
-      CSSLoader(v-if="loading")
+      Loader(:isLoading="loading")
       .orders__container(v-scrollbar="")
         table.orders__table
           th.orders__head
@@ -53,7 +53,7 @@ import {DateTime} from 'luxon';
 import {scrollbar} from '@/directives';
 import OrdersHeader from './OrdersHeader';
 import TileBase from '../../mixins/TileBase';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   mixins: [TileBase],
@@ -130,7 +130,7 @@ export default {
   },
   components: {
     OrdersHeader,
-    CSSLoader,
+    Loader,
   },
 };
 

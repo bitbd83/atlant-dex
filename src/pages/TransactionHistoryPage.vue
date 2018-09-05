@@ -8,46 +8,54 @@ TableLayout(
   :data="data",
   :pageCount='setPagesCount',
   :page="page",
-  :checkedArray='checked',
+  :checked='checked',
   :changeActivePage="changeActivePage"
   :getRepeat="getRepeat",
+  :getExport="getExport",
   :isCheckbox="false",
   :isLoading="loadingContent",
   :isLoadingError="isLoadingError",
-  :getApiRequest="getUserTransactions"
 )
-  .tHistory.table
-    table.table__body
-      thead
-        tr
-          th
-          th {{$t('pages.id')}}
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='datetime'}" @click="sortTransactions('datetime')") {{$t('pages.time')}}
-          th {{$t('pages.amount')}}
-          th.tHistory__header--description {{$t('pages.description')}}
-          th.table__sortable(:class="{'table__sortable--active': sortBy==='status'}" @click="sortTransactions('status')") {{$t('pages.type_status')}}
-      tbody
-        tr(v-for="(item, index) in data")
-          td.tHistory__checkboxContainer
-            Radio(size="17", :name="item", :value="item", v-model="checked")
-          td {{item.transactionId}}
-          td.tHistory__date {{setDate(item.creationDate)}}
-          td.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
-          td.tHistory__description {{item.description}}
-          td.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
+  .tHistory
+    .table
+      table.table__body
+        thead
+          tr
+            th.tHistory__checkboxContainer
+            th.tHistory__cell {{$t('pages.id')}}
+            th.tHistory__cell.table__sortable(:class="{'table__sortable--desc': sortBy==='datetime' && !asc}" @click="sortTransactions('datetime')") {{$t('pages.time')}}
+            th.tHistory__cell {{$t('pages.amount')}}
+            th.tHistory__header--description {{$t('pages.description')}}
+            th.tHistory__cell.table__sortable(:class="{'table__sortable--desc': sortBy==='status' && !asc}" @click="sortTransactions('status')") {{$t('pages.type_status')}}
+    Loader(v-if="loadingContent")
+    .table.tHistory__table(v-else v-scrollbar="")
+      table.table__body
+        tbody
+          tr(v-for="(item, index) in data")
+            td.tHistory__checkboxContainer
+              Radio.tHistory__radio(isTable="", :name="item", :value="item", v-model="checked")
+            td.tHistory__cell {{item.transactionId}}
+            td.tHistory__cell.tHistory__date {{setDate(item.creationDate)}}
+            td.tHistory__cell.tHistory__amount(:class="'tHistory__amount--' + (!item.type ? 'positive' : 'negative')") {{item.amount}} {{item.currency}}
+            td.tHistory__description {{item.description}}
+            td.tHistory__cell.tHistory__status(:class="'tHistory__status--' + status[item.status].toLowerCase()") {{status[item.status]}}
 </template>
 
 <script>
 import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {getAccountTransactionCSV} from 'services/api/user';
+import {exportCSV} from 'services/misc';
+import {serverNotification} from 'services/notification.js';
+import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
-import {notification} from 'services/notification';
 import Radio from 'components/Radio';
+import Loader from 'components/Loader';
 
 export default {
   data() {
     return {
-      checked: {},
+      checked: undefined,
       status: [
         'Pending',
         'Processing',
@@ -108,6 +116,16 @@ export default {
         return error;
       });
     },
+    getExport() {
+      getAccountTransactionCSV({
+        SortBy: this.sortBy,
+        Ascending: this.asc,
+      }).then((res) => {
+        exportCSV(res, 'transactions');
+      }).catch((res) => {
+        serverNotification(res);
+      });
+    },
     sortTransactions(column) {
       if (this.sortBy === column) {
         this.asc = !this.asc;
@@ -122,8 +140,8 @@ export default {
       this.getUserTransactions();
     },
     getRepeat() {
-      if (this.isNothingChecked()) return false;
-      let name = !this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
+      if (this.checked == undefined) return false;
+      let name = this.checked.type ? 'cryptoWithdraw' : 'cryptoDeposit';
       this.openModal({
         name: name,
         data: {
@@ -131,17 +149,6 @@ export default {
           amount: this.checked.amount,
         },
       });
-    },
-    isNothingChecked() {
-      if (typeof this.checked.transactionId == 'undefined') {
-        notification({
-          title: '',
-          text: this.$t('please_choose_transaction'),
-          type: 'error',
-        });
-        return true;
-      };
-      return false;
     },
   },
   watch: {
@@ -153,9 +160,13 @@ export default {
     this.setAccountTransactionPage(1);
     this.getUserTransactions();
   },
+  directives: {
+    scrollbar,
+  },
   components: {
     TableLayout,
     Radio,
+    Loader,
   },
 };
 </script>
@@ -164,13 +175,12 @@ export default {
 <style lang="scss" scoped>
 @import "~variables";
 .tHistory {
-  &__header {
-    &--description {
-      padding-left: 26px;
-    }
-  }
-  &__description {
-    min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
+  width: 100%;
+  &__table {
+    position: relative;
   }
   &__amount {
     &--positive {
@@ -209,12 +219,16 @@ export default {
   }
   &__checkboxContainer {
     width: 50px;
-    min-width: 32px;
     position: relative;
   }
-  &__checkbox {
-    position: absolute;
-    top: 20px;
+  &__radio {
+    padding-left: 10px;
+  }
+  &__cell, &__sortable {
+    width: 10%;
+  }
+  &__description {
+    min-width: 320px;
   }
 }
 </style>
