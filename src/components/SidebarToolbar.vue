@@ -59,7 +59,7 @@
           target="_blank"
         )
           Icon.toolbar__icon.toolbar__icon--bottom(
-            id='info',
+            id='icon-link-faq',
           )
     Icon.toolbar__points(id="points")
 </template>
