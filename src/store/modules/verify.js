@@ -69,15 +69,17 @@ export default {
     setVerificationStatus(state, status) {
       state.applications.verificationRequests[state.applications.verificationRequests.length - 1].status = status;
     },
-    updateVerificationData(state, value) {
-      state.verification = value;
-
+    updateVerificationData(state, {val, section}) {
+      state.verification[section] = val;
+    },
+    setLastVerificationData(state, value) {
       if (value.dateOfBirth) {
         let dateOfBirth = new Date(value.dateOfBirth);
-        state.verification.day = dateOfBirth.toLocaleTimeString([], {day: '2-digit'}).split(',')[0];
-        state.verification.month = birthdayMonths[dateOfBirth.toLocaleTimeString([], {month: 'numeric'}).split(',')[0] - 1];
-        state.verification.year = dateOfBirth.toLocaleTimeString([], {year: 'numeric'}).split(',')[0];
-      }
+        value.day = dateOfBirth.toLocaleTimeString([], {day: '2-digit'}).split(',')[0];
+        value.month = birthdayMonths[dateOfBirth.toLocaleTimeString([], {month: 'numeric'}).split(',')[0] - 1];
+        value.year = dateOfBirth.toLocaleTimeString([], {year: 'numeric'}).split(',')[0];
+      };
+      state.verification = value;
     },
     updateVerificationDateOfBirth(state, value) {
       state.verification.dateOfBirth = value;
@@ -96,7 +98,7 @@ export default {
     },
     getLastVerification({commit}) {
       Verification.getLastVerification().then((response) => {
-        commit('updateVerificationData', response.data);
+        commit('setLastVerificationData', response.data);
       });
     },
     adminLogin({commit, dispatch}, {login, password}) {
