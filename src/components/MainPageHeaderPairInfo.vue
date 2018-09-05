@@ -105,7 +105,7 @@ export default {
   z-index: 2;
   display: flex;
   align-items: center;
-  margin-top: -5px;
+  margin-top: -2px;
   white-space: nowrap;
   &__container {
     position: relative;
