@@ -51,7 +51,7 @@ export default {
     },
   },
   created() {
-    this.getLastVerification();
+    // this.getLastVerification();
     this.getCountries();
   },
   components: {

@@ -13,6 +13,7 @@
     .verificationFiles__item
       VerificationPageFilesInput(
         :value="verification.passportScan",
+        :url="verification.selfieUrl",
         @input="(val) => updateverification(val, 'passportScan')",
         :active="activeSection == 'passportScan'",
         @showDesc="showHelp('passportScan')"
@@ -22,6 +23,7 @@
     .verificationFiles__item
       VerificationPageFilesInput(
         :value="verification.proofOfResidenceScan",
+        :url="verification.selfieUrl",
         @input="(val) => updateverification(val, 'proofOfResidenceScan')",
         :active="activeSection == 'proofOfResidenceScan'",
         @showDesc="showHelp('proofOfResidenceScan')",
@@ -31,6 +33,7 @@
     .verificationFiles__item
       VerificationPageFilesInput(
         :value="verification.selfie",
+        :url="verification.selfieUrl",
         @input="(val) => updateverification(val, 'selfie')",
         :active="activeSection == 'selfie'",
         @showDesc="showHelp('selfie')",
