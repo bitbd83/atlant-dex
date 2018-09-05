@@ -113,6 +113,7 @@ export default {
         return response;
       }).catch((error) => {
         this.isLoadingError = true;
+        this.loadingContent = false;
         return error;
       });
     },

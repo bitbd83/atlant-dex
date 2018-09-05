@@ -71,7 +71,7 @@ export default {
         this.getBalances().then(() => {
           this.isLoading = false;
         }).catch(() => {
-          this.getApiRequest();
+          this.isLoading = false;
         });
       };
     },
