@@ -18,6 +18,8 @@ Vue.use(Vue2Filters);
 Vue.use(Vuelidate);
 Vue.use(hub, hubURL, store.state.membership.token, store.state.tradeInfo.pair);
 
+window.EventHub = new Vue();
+
 new Vue({
   el: '#app',
   i18n,
