@@ -4,7 +4,7 @@
 
 import * as TradeInfo from 'services/api/tradeInfo';
 import {serverNotification} from 'services/notification';
-import resolutions from '@/store/staticData/resolutions';
+// import resolutions from '@/store/staticData/resolutions';
 
 export default {
   state: {
@@ -87,7 +87,6 @@ export default {
       const pair = getters.getPairName({
         base: currency,
       });
-      window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
       dispatch('setPair', pair);
       dispatch('chart/invokeNewCandle');
       dispatch('chart/loadChart', null, {root: true});
@@ -113,5 +112,4 @@ export default {
     },
   },
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };

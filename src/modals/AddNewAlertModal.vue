@@ -8,7 +8,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
     form.addAlert__content(v-if="step == 0" @submit.prevent="")
       .addAlert__quote "
       .addAlert__block
-        span.addAlert__text Allert &nbsp;
+        span.addAlert__text Alert &nbsp;
         span.addAlert__text me &nbsp;
         span.addAlert__text If &nbsp;
         span.addAlert__text the &nbsp;
@@ -63,10 +63,10 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
         IInput(v-model="price" type="number" noUnderline="").addAlert__input
       .addAlert__quote.addAlert__quote--last "
       Checkbox.addAlert__checkbox(name="acknowledged", color="white", :value="true", v-model="autoDisable")
-        .addAlert__checkboxTittle Disable this allert after 1 month from now
+        .addAlert__checkboxTittle Disable this alert after 1 month from now
       BButton.addAlert__button(color="malachite" rounded type="submit" @click="getApiRequestForCreateAlert") Add alert
       .addAlert__linkContainer(@click="goToPage")
-        .link.link--white.addAlert__link My allerts
+        .link.link--white.addAlert__link My alerts
         icon(id="arrow_short").addAlert__linkArrow
     Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
 </template>
@@ -170,7 +170,6 @@ export default {
       }).then(() => {
         this.step = 1;
         this.isSuccess = true;
-        // this.setAlertsListChange();
       }).catch(() => {
         this.step = 1;
       });

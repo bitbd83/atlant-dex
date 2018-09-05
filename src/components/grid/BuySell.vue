@@ -4,7 +4,7 @@
 
 <template lang='pug'>
 .buySell
-  Loader(isWhite="", :isLoading="loading")
+  Loader(isWidthOverflow="", isWhite="", :isLoading="loading")
   .buySell__headerContainer
     .buySell__header
       .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
@@ -192,6 +192,11 @@ export default {
 
 <style lang='scss'>
 @import 'variables';
+
+.index--dark .buySell{
+  background-color: $background__dark_toolbar;
+}
+
 .buySell {
   display: flex;
   flex-direction: column;

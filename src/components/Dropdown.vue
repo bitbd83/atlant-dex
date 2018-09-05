@@ -119,7 +119,11 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import 'variables';
-
+.index--dark .dropdown {
+  &--black{
+    color: $color__white;
+  }
+}
   .multiselect {
     position: relative;
     cursor: pointer;

@@ -31,12 +31,12 @@ ContentLayout(title="Profile")
               .link.profile__action(v-show="account.verificationRating < 3 || typeof account.verificationRating == 'undefined'" @click="getOpenPage('verification')") Upgrade
           .profile__item.profile__item--other
             ProfilePageChangePhone
-          //- .profile__item
-          //-   .profile__param Theme:
-          //-   .profile__value.profile__value--inline
-          //-     select(v-model="appTheme")
-          //-       option(value="default") Default
-          //-       option(value="dark") Dark
+          .profile__item
+            .profile__param Theme:
+            .profile__value.profile__value--inline
+              select(v-model="appTheme")
+                option(value="default") Default
+                option(value="dark") Dark
       Accordion(title="Other").profile__accordion
         .profile__content
           .profile__other
@@ -133,6 +133,21 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+
+.index--dark .profile{
+  color: $color__white;
+  &__param {
+    color: $color__white;
+  }
+
+  &__value {
+    color: $color__white;
+  }
+
+  &__text{
+    color: $color__white;
+  }
+}
 
 .profile {
   &__accordion {

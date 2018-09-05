@@ -18,6 +18,13 @@ export default {
         symbol: 'BTC/USD',
         overrides: {
           'symbolWatermarkProperties.color': 'rgba(0, 0, 0, 0)',
+          'paneProperties.background': '#131722',
+          'paneProperties.vertGridProperties.color': '#363c4e',
+          'paneProperties.horzGridProperties.color': '#363c4e',
+          'symbolWatermarkProperties.transparency': 90,
+          'scalesProperties.textColor': '#AAA',
+          'mainSeriesProperties.candleStyle.wickUpColor': '#336854',
+          'mainSeriesProperties.candleStyle.wickDownColor': '#7f323f',
         },
         datafeed: dataFeed(this),
         library_path: '/static/js/charting_library/',

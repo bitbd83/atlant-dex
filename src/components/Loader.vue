@@ -4,7 +4,7 @@
 
 <template lang="pug">
   .loader(v-show="isLoading")
-    .loader__overflow(v-if="isWithOverflow")
+    .loader__overflow(v-if="isWidthOverflow")
     .loader__container
       .loader__body(:class="{'loader__body--white' : isWhite}")
       .loader__body(:class="{'loader__body--white' : isWhite}")
@@ -16,7 +16,7 @@ export default {
       type: Boolean,
       default: true,
     },
-    isWithOverflow: Boolean,
+    isWidthOverflow: Boolean,
     isWhite: Boolean,
   },
 };

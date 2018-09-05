@@ -72,6 +72,27 @@ export default {
 
 <style lang='scss'>
 @import 'variables';
+
+.index--dark .chartHeader{
+  color: $color_white;
+
+  &__button{
+    border: 0;
+  }
+
+  &__buttonIcon {
+    fill: $fill__white;
+
+    &--active {
+      fill: $fill__blue;
+    }
+  }
+
+  &__buttonFull{
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiI+PGRlZnM+PHBhdGggaWQ9InFlbzZhIiBkPSJNMTc5OC43MiAxNjMuMzNsLTIuNjYgMi42N2guMjdjLjM3IDAgLjY3LjMuNjcuNjd2LjI3bDIuNjctMi42NlYxNjZhLjY3LjY3IDAgMSAwIDEuMzMgMHYtMy4zM2EuNjYuNjYgMCAwIDAtLjY5LS42N0gxNzk3YS42Ny42NyAwIDAgMCAwIDEuMzN6bS0xLjkyIDMuOGEuNjYuNjYgMCAwIDEtLjk0IDAgLjY3LjY3IDAgMCAxIDAtLjkzbC4yLS4yaC01Ljczdi02LjY3aDEzLjM0djEzLjM0SDE3OTd2LTUuNzN6bS4yIDYuMmEuNjcuNjcgMCAxIDEtMS4zMyAwdi0uNjZoMS4zM3ptLTEuMzMtLjY2aC01LjM0di01LjM0aDUuMzR6bS01LjM0LTUuMzRoLS42NmEuNjcuNjcgMCAwIDEtLjY3LS42NnY2YzAgLjczLjYgMS4zMyAxLjMzIDEuMzNoMTMuMzRjLjczIDAgMS4zMy0uNiAxLjMzLTEuMzN2LTEzLjM0YzAtLjczLS42LTEuMzMtMS4zMy0xLjMzaC0xMy4zNGMtLjczIDAtMS4zMy42LTEuMzMgMS4zM3Y3LjM0YzAtLjM3LjMtLjY3LjY3LS42N2guNjZ6Ii8+PC9kZWZzPjxnPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xNzg5IC0xNTgpIj48dXNlIGZpbGw9IiNmZmYiIHhsaW5rOmhyZWY9IiNxZW82YSIvPjwvZz48L2c+PC9zdmc+);
+  }
+}
+
 .chartHeader {
   width: 100%;
   display: flex;
