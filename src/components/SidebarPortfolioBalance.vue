@@ -81,6 +81,10 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .balance__content:hover{
+  background: $background__dark_toolbar;
+}
+
 .balance {
   position: relative;
   margin-top: 24px;

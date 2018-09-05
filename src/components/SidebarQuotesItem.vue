@@ -89,6 +89,15 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark {
+  .quoteItem {
+    &:hover {
+      background: $background__dark_toolbar;
+      transition: background .5s;
+    }
+  }
+}
+
 .quoteItem {
   position: relative;
   display: flex;

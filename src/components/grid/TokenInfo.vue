@@ -112,6 +112,11 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+
+.index--dark .tokenInfo{
+  background-color: $background__dark_tile;
+}
+
 #mapid{
   position: absolute;
   width: 100%;

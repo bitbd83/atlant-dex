@@ -134,6 +134,14 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 
+.index--dark {
+  .quotes {
+    &__search {
+      background: $background__dark_toolbar;
+    }
+  }
+}
+
 .quotes {
   position: relative;
   display: flex;
