@@ -12,24 +12,22 @@
       .portfolio__balanceChanged
         Icon.portfolio__balanceChangedIcon(id="triangle" :class="{'portfolio__balanceChangedIcon--positive' : percChng > 0}")
         span.portfolio__balanceChangedText {{percChng | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%
-    .sidebarChild__headerLine
-      .portfolio__action Make deposit
-      .portfolio__action Withdraw
   .portfolio__content(v-scrollbar="")
     Accordion(title="Tokens & Coins:" isSidebar :isHidden="getUserBalancesInCrypto.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInCrypto"
       )
-      .portfolio__add
-        Icon.portfolio__addIcon(id="icon__add")
-        .portfolio__addText NEW
+      //- .portfolio__add
+      //-   Icon.portfolio__addIcon(id="icon__add")
+      //-   .portfolio__addText NEW
     Accordion(title="Currencies:" isSidebar :isHidden="getUserBalancesInFiat.length == 0")
       SidebarPortfolioBalance.portfolio__balanceItem(
         :data="getUserBalancesInFiat"
+        isFiat=""
       )
-      .portfolio__add
-        Icon.portfolio__addIcon(id="icon__add")
-        .portfolio__addText NEW
+      //- .portfolio__add
+      //-   Icon.portfolio__addIcon(id="icon__add")
+      //-   .portfolio__addText NEW
     Loader(:isLoading="isLoading" isWhite="")
 </template>
 
@@ -119,7 +117,7 @@ export default {
   }
 
   &__item {
-    padding: 20px 18px 32px 25px;
+    padding: 20px 18px 15px 25px;
     font-size: 12px;
 
     &--header {
