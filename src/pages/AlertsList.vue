@@ -89,7 +89,7 @@ export default {
         sortBy: this.sortBy,
         isSortAscending: this.asc,
         limit: this.limit,
-        // statuses: '0,1,2',
+        statuses: '0,1,2',
       }).then((alerts) => {
         this.alertsList = alerts.data.data;
         this.alertsCount = alerts.data.totalItems;

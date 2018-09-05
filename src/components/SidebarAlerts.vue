@@ -19,27 +19,30 @@
         whiteTriangle,
       )
   .alerts__content(ref="wrap" v-scrollbar="")
-    Accordion(title="Tokens & Coins:" isSidebar :isHidden="isSidebarLoading")
-      SidebarAlertsItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
-      MugenScroll(:handler="getAccountAlertsList", scroll-container="wrap")
-      .alerts__add(@click="open({name:'addAlert'})")
-        Icon.alerts__addIcon(id="icon__add")
-        .alerts__addText ADD
-    Loader(:isLoading="isSidebarLoading" isWhite="")
+    Accordion(title="Tokens & Coins:" isSidebar :isHidden="loadingContent")
+      SidebarAlertsItem(:data="alert" v-for="alert in alertsList", :key="alert.id")
+      MugenScroll(:handler="getAlerts", scroll-container="wrap")
+      Loader(:isLoading="loadingContent" isWhite="")
+  .alerts__add(@click="open({name:'addAlert'})")
+    Icon.alerts__addIcon(id="icon__add")
+    .alerts__addText ADD
 </template>
 
 <script>
 import MugenScroll from 'vue-mugen-scroll';
-import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapMutations} from 'vuex';
 import {scrollbar} from '@/directives';
 import Dropdown from 'components/Dropdown';
 import Accordion from 'components/Accordion';
 import SidebarAlertsItem from 'components/SidebarAlertsItem';
 import Loader from 'components/Loader';
+import * as Alerts from 'services/api/alerts';
 
 export default {
   data() {
     return {
+      alertsList: [],
+      alertsCount: 1,
       selected: '',
       selectedCur: 'btc',
       percChng: 2.73,
@@ -47,21 +50,14 @@ export default {
         'Price target',
         'Volume change',
       ],
+      limit: 10,
+      loadingContent: false,
+      isLoadingError: false,
     };
   },
   computed: {
-    ...mapState('alerts', [
-      'sidebarAlerts',
-      'sidebarAlertsCount',
-      'alertsLimit',
-      'isSidebarLoading',
-      'isSidebarLoadingError',
-    ]),
-    ...mapGetters('membership', {
-      isLoggedIn: 'isLoggedIn',
-    }),
     getPageNumber() {
-      return (this.sidebarAlerts.length / this.alertsLimit + 1).toFixed(0);
+      return (this.alertsList.length / this.limit + 1).toFixed(0);
     },
   },
   methods: {
@@ -71,31 +67,52 @@ export default {
     ...mapMutations('modal', [
       'open',
     ]),
-    ...mapMutations('alerts', [
-      'dropSidebarAlerts',
-      'setSidebarLoading',
-      'setSidebarLoadingError',
-    ]),
-    ...mapActions('alerts', [
-      'getAlertsList',
-    ]),
-    getAccountAlertsList() {
-      if (this.isSidebarLoading == true && this.isSidebarLoadingError == false) return false;
-      if (this.sidebarAlertsCount <= this.sidebarAlerts.length) return false;
-      this.setSidebarLoadingError(false);
-      this.setSidebarLoading(true);
-      this.getAlertsList({
+    getAlerts() {
+      if (this.loadingContent == true && this.isLoadingError == false) return false;
+      if (this.alertsCount <= this.alertsList.length) return false;
+      this.isLoadingError = false;
+      this.loadingContent = true;
+      Alerts.getAlerts({
         page: this.getPageNumber,
-        isSidebar: true,
-      }).then(() => {
-        this.setSidebarLoading(false);
+        limit: this.limit,
+        triggeredFirst: true,
+        statuses: '0,1',
+      }).then((alerts) => {
+        this.alertsList.push(...alerts.data.data);
+        this.alertsCount = alerts.data.totalItems;
+        this.loadingContent = false;
       }).catch(() => {
-        this.setSidebarLoadingError(true);
+        this.loadingContent = false;
+        this.isLoadingError = true;
       });
+    },
+    dropSidebarAlerts() {
+      this.alertsList = [];
+      this.alertsCount = 1;
+    },
+    insertSidebarAlert(alert) {
+      for (let i in this.alertsList) {
+        if (!this.alertsList[i].activationDate) {
+          this.alertsList.splice(i, 0, alert);
+          this.alertsList.splice(-1, 1);
+          break;
+        }
+      }
     },
   },
   created() {
     this.dropSidebarAlerts();
+    this.getAlerts();
+    EventHub.$on('appendSidebarAlerts', (data) => {
+      this.insertSidebarAlert(data);
+    });
+    // EventHub.$on('updateSidebarAlerts', (alert) => {
+    //   this.updateAlert(alert);
+    // });
+  },
+  destroyed() {
+    EventHub.$off('appendSidebarAlerts');
+    // EventHub.$off('updateSidebarAlerts');
   },
   directives: {
     scrollbar,

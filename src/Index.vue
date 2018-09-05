@@ -157,11 +157,11 @@ export default {
         this.updateOrderBook(data);
       });
       this.$hub.on('newAlert', (data) => {
-        // this.insertSidebarAlert(data);
+        EventHub.$emit('appendSidebarAlerts', data);
         EventHub.$emit('appendAlertsList');
       });
       this.$hub.on('alertTriggered', (data) => {
-        // this.updateSidebarAlert(data);
+        EventHub.$emit('updateSidebarAlerts', data);
         EventHub.$emit('updateAlertsList', data);
       });
     },
