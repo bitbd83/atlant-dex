@@ -123,7 +123,7 @@ export default {
 
 .book {
   display: flex;
-  height: 100%;
+  flex-grow: 2;
   padding: 10px 0 10px 10px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
