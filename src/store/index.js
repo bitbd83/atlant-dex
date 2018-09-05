@@ -51,8 +51,10 @@ const store = new Vuex.Store({
       'tradeInfo.pairs',
       'user.account.currency',
       'grid.gridData',
+      'grid.savedViews',
     ],
   })],
+  strict: process.env.NODE_ENV !== 'production',
 });
 
 export default store;

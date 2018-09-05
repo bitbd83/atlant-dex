@@ -41,15 +41,17 @@
         :isActive="activeCur == chart.currency",
         @click.native="openChart(chart.currency)",
       )
+    Loader(:isLoading="isLoading" isWhite="")
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
+import {cryptoName} from '@/store/staticData/cryptoName';
 import Dropdown from 'components/Dropdown';
 import Accordion from 'components/Accordion';
 import SidebarQuotesItem from 'components/SidebarQuotesItem';
-import {cryptoName} from '@/store/staticData/cryptoName';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -61,6 +63,7 @@ export default {
       search: '',
       activeCur: 'btc',
       aviableQuotes: ['BTC', 'ETH', 'LTC', 'ATL'],
+      isLoading: false,
     };
   },
   computed: {
@@ -93,11 +96,18 @@ export default {
     openChart(cur) {
       this.activeCur = cur;
     },
-    getApiRequest() {
-      this.getQuotesInfo({
-        period: this.selectedTimestamp,
-        currencies: this.aviableQuotesToQueryString,
-      });
+    getApiRequest(isChangeTimeStamp = false) {
+      if (this.filteredQuotes.length == 0 || isChangeTimeStamp) {
+        this.isLoading = true;
+        this.getQuotesInfo({
+          period: this.selectedTimestamp,
+          currencies: this.aviableQuotesToQueryString,
+        }).then(() => {
+          this.isLoading = false;
+        }).catch(() => {
+          this.getApiRequest();
+        });
+      };
     },
   },
   created() {
@@ -105,7 +115,7 @@ export default {
   },
   watch: {
     selectedTimestamp() {
-      this.getApiRequest();
+      this.getApiRequest(true);
     },
   },
   directives: {
@@ -115,6 +125,7 @@ export default {
     Dropdown,
     Accordion,
     SidebarQuotesItem,
+    Loader,
   },
 };
 
@@ -123,10 +134,19 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 
+.index--dark {
+  .quotes {
+    &__search {
+      background: $background__dark_toolbar;
+    }
+  }
+}
+
 .quotes {
   position: relative;
   display: flex;
   flex-direction: column;
+  flex-grow: 2;
   &__headerContainer {
     padding: 20px 23px 28px 23px;
   }
@@ -156,6 +176,7 @@ export default {
 
   &__content {
     position: relative;
+    flex-grow: 2;
   }
 
 }

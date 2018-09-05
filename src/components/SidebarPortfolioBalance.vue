@@ -7,29 +7,60 @@
   .balance__content(
     v-for="(bal, index) in data",
     :key="bal.currency",
+    @click="getShowButtons(bal.currency)"
   )
-    Icon.balance__currencyIcon(:id="'cur_' + setCurrency(bal.currency)")
-    .balance__currencyContainer
-      .balance__main
-        .balance__currencyName {{bal.currency}}
-        .balance__changeIconContainer
-          Icon.balance__changeIcon(id="triangle-up")
-        .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
-          .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
-          .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
-    Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
+    .balance__container
+      Icon.balance__currencyIcon(:id="'cur_' + setCurrency(bal.currency)")
+      .balance__currencyContainer
+        .balance__main
+          .balance__currencyName {{bal.currency}}
+          .balance__changeIconContainer
+            Icon.balance__changeIcon(id="triangle-up")
+          .balance__amount(:class="{'balance__amount--zero': bal.availableFunds == 0}")
+            .balance__currencyBalance {{bal.availableFunds | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
+            .balance__equivBalance ${{bal.balanceFiat | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}
+      Icon.balance__icon.balance__icon--alert(id="alert-inactive" @click="open({name:'addAlert'})")
+    .balance__buttonContainer(v-show="showButtons == bal.currency")
+      button.balance__button(@click="openDeposit(bal.currency)") Deposit
+      button.balance__button.balance__button--withdraw(@click="openWithdraw(bal.currency)")  Withdraw
 </template>
 
 <script>
 import {mapMutations} from 'vuex';
 
 export default {
+  data() {
+    return {
+      showButtons: '',
+    };
+  },
   methods: {
     ...mapMutations('modal', [
       'open',
     ]),
     setCurrency(curr) {
       if (typeof curr == 'string') return curr.toLowerCase();
+    },
+    getShowButtons(curr) {
+      this.showButtons = this.showButtons == curr ? '' : curr;
+    },
+    openDeposit(curr) {
+      this.open({
+        name: this.isFiat ? 'fiat' : 'cryptoDeposit',
+        data: {
+          isDeposit: true,
+          currency: curr,
+        },
+      });
+    },
+    openWithdraw(curr) {
+      this.open({
+        name: this.isFiat ? 'fiat' : 'cryptoWithdraw',
+        data: {
+          isDeposit: false,
+          currency: curr,
+        },
+      });
     },
   },
   props: {
@@ -41,6 +72,7 @@ export default {
       default: false,
       required: false,
     },
+    isFiat: Boolean,
   },
 };
 
@@ -49,14 +81,18 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .balance__content:hover{
+  background: $background__dark_toolbar;
+}
+
 .balance {
   position: relative;
   margin-top: 24px;
   &__content {
     position: relative;
     display: flex;
-    height: 75px;
-    padding: 16px 16px 0 24px;
+    flex-direction: column;
+    padding: 16px 16px 16px 24px;
     margin-bottom: 14px;
     background: transparent;
     transition: background .5s;
@@ -64,6 +100,10 @@ export default {
       background: $background__blue_white;
       transition: background .5s;
     }
+  }
+  &__container {
+    display: flex;
+    padding-bottom: 14px;
   }
   &__currencyContainer {
     width: 100%;
@@ -119,7 +159,29 @@ export default {
     font-weight: 400;
     white-space: nowrap;
   }
-  &__icon{
+  &__buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 40px;
+  }
+  &__button {
+    width: 80px;
+    height: 26px;
+    border-radius: 2px;
+    background: $background__green;
+    color: $color__white;
+
+    &--withdraw {
+      border: solid 1px $background__white;
+      background: transparent;
+    }
+
+    &:hover {
+      background: $background__yellow;
+      border-width: 0px;
+    }
+  }
+  &__icon {
     width: 16px;
     height: 17px;
     &--alert {

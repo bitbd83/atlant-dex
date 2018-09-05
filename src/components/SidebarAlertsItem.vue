@@ -66,6 +66,14 @@ export default {
 <style lang="scss">
 @import "variables";
 
+.index--dark {
+  .alert {
+    &:hover {
+      background: $background__dark_toolbar;
+    }
+  }
+}
+
 .alert {
   display: flex;
   flex-direction: column;

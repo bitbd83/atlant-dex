@@ -133,6 +133,7 @@ export default {
         ),
         type: 'custom',
       });
+      state.savedViews = [...state.savedViews];
     },
   },
   actions: {
@@ -147,5 +148,4 @@ export default {
     },
   },
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };

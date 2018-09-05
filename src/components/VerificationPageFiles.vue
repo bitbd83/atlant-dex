@@ -12,7 +12,8 @@
   .verificationFiles__fromContainer
     .verificationFiles__item
       VerificationPageFilesInput(
-        v-model="verification.passportScan",
+        :value="verification.passportScan",
+        @input="(val) => updateverification(val, 'passportScan')",
         :active="activeSection == 'passportScan'",
         @showDesc="showHelp('passportScan')"
         label="ID scan",
@@ -20,7 +21,8 @@
       )
     .verificationFiles__item
       VerificationPageFilesInput(
-        v-model="verification.proofOfResidenceScan",
+        :value="verification.proofOfResidenceScan",
+        @input="(val) => updateverification(val, 'proofOfResidenceScan')",
         :active="activeSection == 'proofOfResidenceScan'",
         @showDesc="showHelp('proofOfResidenceScan')",
         label="Proof of address",
@@ -28,9 +30,10 @@
       )
     .verificationFiles__item
       VerificationPageFilesInput(
-        v-model="verification.selfie",
+        :value="verification.selfie",
+        @input="(val) => updateverification(val, 'selfie')",
         :active="activeSection == 'selfie'",
-        @showDesc="showHelp('selfie')"
+        @showDesc="showHelp('selfie')",
         label="Selfie holding ID card & signed «Atlant» paper",
         :isError="validations.verification.selfie.$error",
       )
@@ -65,22 +68,15 @@ export default {
     };
   },
   computed: {
-    ...mapState('verify', {
-      verificationState: 'verification',
-    }),
-    verification: {
-      get() {
-        return this.verificationState;
-      },
-      set(value) {
-        this.updateVerificationData(value);
-      },
-    },
+    ...mapState('verify', ['verification']),
   },
   methods: {
     ...mapMutations('verify', [
       'updateVerificationData',
     ]),
+    updateverification(val, section) {
+      this.updateVerificationData({val, section});
+    },
     showHelp(section) {
       this.activeSection = (this.activeSection == section) ? '' : section;
     },
@@ -106,14 +102,15 @@ export default {
     margin-right: 57px;
   }
   &__descTextContainer {
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: #AAAABA;
     letter-spacing: 0.5px;
     line-height: 19px;
   }
   &__descSeparator {
-    font-family: CenturyGothic-Bold;
+    font-family: "Century Gothic";
+    font-weight: 700;
     margin-bottom: 5px;
   }
   &__descText {

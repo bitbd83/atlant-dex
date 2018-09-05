@@ -41,7 +41,7 @@ instance.interceptors.response.use((response) => {
       .catch((err) => {});
     });
   } else {
-    console.log(response);
+    // console.log(response);
     serverNotification2(response);
     return Promise.reject(response);
   }

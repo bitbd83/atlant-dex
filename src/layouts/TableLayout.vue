@@ -101,6 +101,15 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+.index--dark {
+  .tablePage {
+    &__content {
+      & thead  {
+        background-color: $background__dark_toolbar;
+      }
+    }
+  }
+}
 .tablePage {
   display: flex;
   flex-direction: column;
@@ -132,7 +141,6 @@ export default {
     }
 
     & td {
-      color: $color__black;
       font-family: "Century Gothic";
       font-size: 12px;
       font-weight: 400;
@@ -147,7 +155,6 @@ export default {
     display: flex;
     align-items: center;
     min-height: 50px;
-    background-color: $background__blue;
     z-index: 1;
   }
   &__panelActions {

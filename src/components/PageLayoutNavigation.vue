@@ -93,6 +93,19 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .pageSidebar{
+  background: $background__dark_theme;
+
+  &__label{
+    color: $color_white;
+    fill: $color_white;
+
+    &--selected, &:hover {
+      background: $background__dark_toolbar;
+    }
+  }
+}
+
 .pageSidebar {
   $shadowWidth: 47px;
   position: relative;

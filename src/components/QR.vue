@@ -16,8 +16,8 @@ canvas#qr
           element: document.querySelector('#qr'),
           value: this.text,
           size: this.size,
-          background: '#004DFF',
-          foreground: '#ffffff',
+          background: this.isWhiteBackground ? '#ffffff' : '#004DFF',
+          foreground: this.isWhiteBackground ? '#000000' : '#ffffff',
         });
       },
     },
@@ -40,6 +40,7 @@ canvas#qr
         required: false,
         default: 128,
       },
+      isWhiteBackground: Boolean,
     },
   };
 </script>

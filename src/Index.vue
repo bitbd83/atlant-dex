@@ -256,9 +256,8 @@ export default {
   min-height: 700px;
   height: 100vh;
 
-  &--dark{
-    background-image: none;
-    background: $background__dark;
+  &--dark {
+    color: white;
   }
 
   &__body {

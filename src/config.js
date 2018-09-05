@@ -38,30 +38,33 @@ export const sidebarSections = [
 
 export const operatingSystems = [
   {
-    id: 'android',
-    name: 'Android',
+    id: 'ios',
+    name: 'Apple',
+    link: 'https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8',
   },
   {
-    id: 'ios',
-    name: 'iOS',
+    id: 'android',
+    name: 'Android',
+    link: 'https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=ru',
   },
   {
     id: 'windows',
     name: 'Windows phone',
+    link: 'https://www.microsoft.com/en-us/p/authenticator/9nblggh08h54',
   },
 ];
 
 export const tfaMethods = [
+  {
+    id: 3,
+    name: 'Telegram',
+  },
   {
     id: 1,
     name: 'SMS',
   },
   {
     id: 2,
-    name: 'Google Auth',
-  },
-  {
-    id: 3,
-    name: 'Telegram',
+    name: 'Google authentificator',
   },
 ];
