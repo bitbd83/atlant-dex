@@ -62,7 +62,7 @@ export default {
         this.address = response.data.address;
         this.isLoading = false;
       }).catch(() => {
-        this.getApiREquest();
+        this.isLoading = false;
       });
     },
   },
