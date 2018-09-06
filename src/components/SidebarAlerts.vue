@@ -99,6 +99,11 @@ export default {
         }
       }
     },
+    updateSidebarAlert(alert) {
+      let alertIndex = this.alertsList.findIndex((item) => item.id === alert.id);
+      this.alertsList.splice(alertIndex, 1);
+      this.alertsList.unshift(alert);
+    },
   },
   created() {
     this.dropSidebarAlerts();
@@ -106,13 +111,13 @@ export default {
     EventHub.$on('appendSidebarAlerts', (data) => {
       this.insertSidebarAlert(data);
     });
-    // EventHub.$on('updateSidebarAlerts', (alert) => {
-    //   this.updateAlert(alert);
-    // });
+    EventHub.$on('updateSidebarAlerts', (alert) => {
+      this.updateSidebarAlert(alert);
+    });
   },
   destroyed() {
     EventHub.$off('appendSidebarAlerts');
-    // EventHub.$off('updateSidebarAlerts');
+    EventHub.$off('updateSidebarAlerts');
   },
   directives: {
     scrollbar,
