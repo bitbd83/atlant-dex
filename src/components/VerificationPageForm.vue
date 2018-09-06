@@ -6,7 +6,8 @@ table
     td
       input.input.verificationForm__input.verificationForm__rowPaddings(
         type="text",
-        v-model="verification.firstName",
+        :value="verification.firstName",
+        @input="(val) => updateverification(val.target.value, 'firstName')",
         :class="{'input--error' : validations.verification.firstName.$error}",
       )
       icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.firstName.$invalid}")
@@ -16,7 +17,8 @@ table
     td
       input.input.verificationForm__input.verificationForm__rowPaddings(
         type="text"
-        v-model="verification.lastName"
+        :value="verification.lastName",
+        @input="(val) => updateverification(val.target.value, 'lastName')",
         :class="{'input--error' : validations.verification.lastName.$error}",
       )
       icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.lastName.$invalid}")
@@ -25,7 +27,8 @@ table
       .verificationForm__label Country:
     td
       VerificationPageFormCustomInput.verificationForm__rowPaddings(
-        v-model="verification.country",
+        :value="verification.country",
+        @change="(val) => updateverification(val, 'country')",
         :list="getCountriesArray",
         :isError="validations.verification.country.$error",
         :isLoading="countriesLoading",
@@ -36,7 +39,8 @@ table
       .verificationForm__label City:
     td
       VerificationPageFormCustomInput.verificationForm__rowPaddings(
-        v-model="verification.city",
+        :value="verification.city",
+        @change="(val) => updateverification(val, 'city')",
         :list="countryCities",
         :isError="validations.verification.city.$error",
         :isLoading="citiesLoading",
@@ -48,7 +52,8 @@ table
     td
       input.input.verificationForm__input.verificationForm__rowPaddings(
         type="text"
-        v-model="verification.address"
+        :value="verification.address",
+        @input="(val) => updateverification(val.target.value, 'address')",
         :class="{'input--error' : validations.verification.address.$error}",
       )
       icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.address.$invalid}")
@@ -58,7 +63,8 @@ table
     td
       input.input.verificationForm__input.verificationForm__rowPaddings(
         type="text"
-        v-model="verification.postCode"
+        :value="verification.postCode",
+        @input="(val) => updateverification(val.target.value, 'postCode')",
         :class="{'input--error' : validations.verification.postCode.$error}",
       )
       icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.postCode.$invalid}")
@@ -70,7 +76,11 @@ table
         .input.verificationForm__input(:class="{'input--error' : validations.verification.phoneNumber.$error}")
           img.verificationForm__inputImg(v-if="getCountryCode", :src="`/static/flags/${getCountryCode}.png`")
           | {{getCountryPhoneCode}}
-          input(type="text" v-model="verification.phoneNumber" style="width: 100%")
+          input(type="text"
+                :value="verification.phoneNumber",
+                @input="(val) => updateverification(val.target.value, 'phoneNumber')",
+                style="width: 100%"
+          )
         icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.phoneNumber.$invalid}")
   tr
     td
@@ -81,11 +91,12 @@ table
           Dropdown.verificationForm__dropdown--day(
             placeholder="Day",
             :options="birthdayDays",
-            v-model="verification.day",
+            :value="verification.day",
+            @input="(val) => updateverification(val, 'day')",
             isColorBlack="",
             searchable="",
-            :preselectFirs="false"
             isSmallTriangle="",
+            :preselectFirs="false",
             no-border="",
             no-padding="",
           )
@@ -93,21 +104,23 @@ table
           Dropdown.verificationForm__dropdown--month(
             placeholder="Month",
             :options="birthdayMonths",
-            v-model="verification.month",
+            :value="verification.month",
+            @input="(val) => updateverification(val, 'month')",
             isColorBlack="",
-            searchable=""
-            :preselectFirs="false"
-            isSmallTriangle=""
+            searchable="",
+            :preselectFirs="false",
+            isSmallTriangle="",
           )
         .input.verificationForm__dataInput.verificationForm__dataInput--year(:class="{'input--error' : validations.verification.year.$error}")
           Dropdown.verificationForm__dropdown--year(
             placeholder="Year",
             :options="birthdayYears",
-            v-model="verification.year",
+            :value="verification.year",
+            @input="(val) => updateverification(val, 'year')",
             isColorBlack="",
-            searchable=""
-            :preselectFirs="false"
-            isSmallTriangle=""
+            searchable="",
+            :preselectFirs="false",
+            isSmallTriangle="",
           )
       icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.dateOfBirth.$invalid}")
     tr
@@ -115,9 +128,10 @@ table
         .verificationForm__label ID or Passport #:
       td
         input.input.verificationForm__input.verificationForm__rowPaddings(
-          type="text"
-          v-model="verification.passportId"
-          :class="{'input--error' : validations.verification.passportId.$error}"
+          type="text",
+          :value="verification.passportId",
+          @input="(val) => updateverification(val.target.value, 'passportId')",
+          :class="{'input--error' : validations.verification.passportId.$error}",
         )
         icon.verificationForm__iconCheck(id="icon-form-check" :class="{'verificationForm__iconCheck--done': !validations.verification.passportId.$invalid}")
 </template>
@@ -137,27 +151,19 @@ export default {
     };
   },
   computed: {
-    ...mapState('verify', {
-      verificationState: 'verification',
-    }),
+    ...mapState('verify',
+      ['verification']
+    ),
     ...mapState('geo', [
       'countries',
       'cities',
       'countriesLoading',
       'citiesLoading',
     ]),
-    verification: {
-      get() {
-        return this.verificationState;
-      },
-      set(value) {
-        this.updateVerificationData(value);
-      },
-    },
     dateOfBirth() {
-      let year = this.verificationState.year;
-      let month = this.verificationState.month;
-      let day = this.verificationState.day;
+      let year = this.verification.year;
+      let month = this.verification.month;
+      let day = this.verification.day;
 
       return (year && month && day) ? `${year}-${this.birthdayMonths.indexOf(month) + 1}-${day}` : false;
     },
@@ -182,16 +188,12 @@ export default {
       'updateVerificationData',
       'updateVerificationDateOfBirth',
     ]),
-    ...mapActions('verify', [
-      'verifyTierOne',
-      'getLastVerification',
-    ]),
     ...mapActions('geo', [
       'getCountries',
       'getCities',
     ]),
-    upload() {
-      this.verifyTierOne(this.getFormData());
+    updateverification(val, section) {
+      this.updateVerificationData({val, section});
     },
   },
   watch: {
@@ -271,10 +273,10 @@ export default {
       width: 40px;
     }
     &--month {
-      width: 65px;
+      width: 55px;
     }
     &--year {
-      width: 58px;
+      width: 50px;
     }
   }
   &__button {

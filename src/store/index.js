@@ -54,6 +54,7 @@ const store = new Vuex.Store({
       'grid.savedViews',
     ],
   })],
+  strict: process.env.NODE_ENV !== 'production',
 });
 
 export default store;

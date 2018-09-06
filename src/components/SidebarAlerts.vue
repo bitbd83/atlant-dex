@@ -6,7 +6,7 @@
 .alerts
   .alerts__item.alerts__item--header
     .sidebarChild__headerLine
-      .sidebarChild__title ALLERT LIST:
+      .sidebarChild__title ALERT LIST:
     .alerts__headerDropdownContainer
       span Sort by:
       Dropdown.alerts__headerDropdown(
@@ -20,21 +20,22 @@
       )
   .alerts__content(ref="wrap" v-scrollbar="")
     Accordion(title="Tokens & Coins:" isSidebar :isHidden="isSidebarLoading")
-      AlertItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
+      SidebarAlertsItem(:data="alert" v-for="alert in sidebarAlerts", :key="alert.id")
       MugenScroll(:handler="getAccountAlertsList", scroll-container="wrap")
       .alerts__add(@click="open({name:'addAlert'})")
         Icon.alerts__addIcon(id="icon__add")
         .alerts__addText ADD
+    Loader(:isLoading="isSidebarLoading" isWhite="")
 </template>
 
 <script>
 import MugenScroll from 'vue-mugen-scroll';
 import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import Icon from 'components/Icon';
 import Dropdown from 'components/Dropdown';
-import AlertItem from './SidebarAlertsItem';
 import Accordion from 'components/Accordion';
+import SidebarAlertsItem from 'components/SidebarAlertsItem';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -101,10 +102,10 @@ export default {
   },
   components: {
     MugenScroll,
-    Icon,
     Dropdown,
-    AlertItem,
     Accordion,
+    SidebarAlertsItem,
+    Loader,
   },
 };
 
@@ -117,7 +118,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  flex: 2;
+  flex-grow: 2;
 
   &__icon {
     $size: 14px;
@@ -157,7 +158,7 @@ export default {
   }
 
   &__content {
-    flex: 2;
+    flex-grow: 2;
     position: relative;
   }
 

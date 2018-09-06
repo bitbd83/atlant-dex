@@ -25,7 +25,5 @@ export default {
       return (name) ? (state.name === name) : (state.name !== '');
     },
   },
-
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };

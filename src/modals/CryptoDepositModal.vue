@@ -4,13 +4,14 @@
 
 <template lang='pug'>
 ModalLayout(:title="`${$t('crypto.deposit.deposit')} ${data.currency}`")
-  .cryptoDeposit
+  .cryptoDeposit(v-show="isLoading == false")
     icon.cryptoDeposit__angle(id="angle-top-left")
     QR.cryptoDeposit__qr(:text='address' size='148')
     .cryptoDeposit__addressText {{$t('crypto.deposit.title')}}
     .cryptoDeposit__address {{address ? address : '-'}}
     BButton(color="malachite" rounded v-clipboard='address' @click="makeDeposit()").cryptoDeposit__button {{$t('crypto.deposit.copy')}}
     .cryptoDeposit__confirmations {{$t('crypto.deposit.description')}}
+  Loader(:isLoading="isLoading" isWhite="")
 </template>
 
 <script>
@@ -18,6 +19,7 @@ import {mapState, mapGetters, mapMutations, mapActions} from 'vuex';
 import * as User from 'services/api/user';
 import clipboard from '@/directives/clipboard';
 import ModalLayout from '@/layouts/ModalLayout';
+import Loader from 'components/Loader';
 import BButton from 'components/BButton';
 import QR from 'components/QR';
 
@@ -25,6 +27,7 @@ export default {
   data() {
     return {
       address: '',
+      isLoading: false,
     };
   },
   computed: {
@@ -51,19 +54,27 @@ export default {
         amount: 100000,
       });
     },
+    getApiREquest() {
+      if (this.isLoading == false) this.isLoading = true;
+      User.getDepositAddress({
+        currency: this.data.currency,
+      }).then((response) => {
+        this.address = response.data.address;
+        this.isLoading = false;
+      }).catch(() => {
+        this.isLoading = false;
+      });
+    },
   },
   created() {
-    User.getDepositAddress({
-      currency: this.data.currency,
-    }).then((response) => {
-      this.address = response.data.address;
-    });
+    this.getApiREquest();
   },
   directives: {
     clipboard,
   },
   components: {
     ModalLayout,
+    Loader,
     BButton,
     QR,
   },

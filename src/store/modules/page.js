@@ -4,7 +4,7 @@
 
 export default {
   state: {
-    name: '',
+    name: 'alertsList',
     data: {},
   },
   getters: {
@@ -45,5 +45,4 @@ export default {
     },
   },
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };
