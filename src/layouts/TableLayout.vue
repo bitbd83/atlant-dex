@@ -13,7 +13,8 @@
       Pagination(v-show="pageCount > 1", :page="page", :pageCount="pageCount", :pageAction="changeActivePage")
     .tablePage__panel
       .tablePage__panelActions(v-if="getRepeat && checked" @click="getRepeat") Repeat
-      .tablePage__panelActions(@click="getExport") Export
+      .tablePage__panelActions(v-if="getDelete && checked" @click="getDelete") Delete
+      .tablePage__panelActions(v-if="getExport" @click="getExport") Export
 </template>
 
 <script>
@@ -38,6 +39,7 @@ export default {
         case 'transactionHistory': return `Couldn't find any transactions`;
         case 'notificationHistory': return `Couldn't find any notifications`;
         case 'securityLog': return `Couldn't find any security logs`;
+        case 'alertsList': return `Couldn't find any alerts`;
       };
     },
   },
@@ -63,6 +65,11 @@ export default {
     pageCount: [Number, String],
     changeActivePage: Function,
     getRepeat: {
+      type: [Function, Boolean],
+      default: false,
+      required: false,
+    },
+    getDelete: {
       type: [Function, Boolean],
       default: false,
       required: false,
@@ -94,6 +101,15 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+.index--dark {
+  .tablePage {
+    &__content {
+      & thead  {
+        background-color: $background__dark_toolbar;
+      }
+    }
+  }
+}
 .tablePage {
   display: flex;
   flex-direction: column;
@@ -125,7 +141,6 @@ export default {
     }
 
     & td {
-      color: $color__black;
       font-family: "Century Gothic";
       font-size: 12px;
       font-weight: 400;
@@ -140,7 +155,6 @@ export default {
     display: flex;
     align-items: center;
     min-height: 50px;
-    background-color: $background__blue;
     z-index: 1;
   }
   &__panelActions {

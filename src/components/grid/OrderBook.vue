@@ -19,7 +19,7 @@ Tile(
   )
     .book
       .book__side
-        CSSLoader(v-if="loading")
+        Loader(:isLoading="loading")
         .book__container(v-scrollbar="")
           table.book__table
             tr.book__title
@@ -31,7 +31,7 @@ Tile(
               td.book__cell {{(order.price * order.amount) | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
               td.book__cell.book__cell--bid {{order.price | currency('', 2, { thousandsSeparator: '', decimalSeparator: '.'})}}
       .book__side
-        CSSLoader(v-if="loading")
+        Loader(:isLoading="loading")
         .book__container(v-scrollbar="")
           table.book__table
             tr.book__title
@@ -48,12 +48,12 @@ Tile(
 import TileBase from '../../mixins/TileBase';
 import {mapState, mapActions} from 'vuex';
 import {scrollbar} from '@/directives';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   mixins: [TileBase],
   components: {
-    CSSLoader,
+    Loader,
   },
   computed: {
     ...mapState('tradeInfo', {
@@ -116,9 +116,14 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .book{
+  border: 1px solid $border__dark_theme_tile;
+  background: $background__dark_tile;
+}
+
 .book {
   display: flex;
-  height: 100%;
+  flex-grow: 2;
   padding: 10px 0 10px 10px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;

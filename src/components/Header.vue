@@ -94,6 +94,12 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .pageHeader{
+  &__title {
+    color: $color__white;
+  }
+}
+
 .pageHeader {
   height: 56px;
   margin-bottom: 45px;

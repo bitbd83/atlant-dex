@@ -43,7 +43,14 @@ export default {
   },
   computed: {
     fileName() {
-      return this.value ? this.value.name : null;
+      let name = '';
+      if (this.value) {
+        name = this.value.name;
+      } else if (this.url) {
+        name = this.url.split('/');
+        name = name[name.length - 1];
+      }
+      return name;
     },
   },
   methods: {
@@ -66,6 +73,7 @@ export default {
   props: {
     validation: [String, Boolean],
     value: [File, String],
+    url: String,
     label: String,
     active: Boolean,
     isError: Boolean,

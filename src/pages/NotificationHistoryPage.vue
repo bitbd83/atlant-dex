@@ -24,7 +24,7 @@ TableLayout(
             th.table__sortable(:class="{'table__sortable--desc': sortBy==='datetime' && !asc}" @click="sortNotifications('datetime')") Time & Date
             th.table__sortable(:class="{'table__sortable--desc': sortBy==='level' && !asc}" @click="sortNotifications('level')") Type
             th Description
-    CSSLoader(v-if="loadingContent")
+    Loader(v-if="loadingContent")
     .table.notificationHistory__table(v-else v-scrollbar="")
       table.table__body
         tbody
@@ -47,7 +47,7 @@ import {signalRNotification} from '@/store/staticData/signalRNotification';
 import {notificationType} from '@/store/staticData/notificationType';
 import Checkbox from 'components/Checkbox';
 import TableLayout from 'layouts/TableLayout';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -113,6 +113,7 @@ export default {
         return response;
       }).catch((error) => {
         this.isLoadingError = true;
+        this.loadingContent = false;
         return error;
       });
     },
@@ -153,7 +154,7 @@ export default {
   components: {
     TableLayout,
     Checkbox,
-    CSSLoader,
+    Loader,
   },
 };
 </script>

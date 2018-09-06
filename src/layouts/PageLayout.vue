@@ -71,6 +71,18 @@ export default {
 
 <style lang="scss">
 @import 'variables';
+
+.index--dark{
+  .page {
+    &__panel {
+      background-color: $border__color_dark;
+    }
+
+    &__body {
+      background-color: $background__dark_theme;
+    }
+  }
+}
 .page {
   position: relative;
   display: flex;

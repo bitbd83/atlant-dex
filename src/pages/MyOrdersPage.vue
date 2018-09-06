@@ -30,7 +30,7 @@ TableLayout(
           th Amount
           th Price
           th Total
-    CSSLoader(v-if="loadingContent")
+    Loader(v-if="loadingContent")
     .table.myOrders__table(v-else v-scrollbar="")
       table.table__body
         transition-group(
@@ -88,7 +88,7 @@ import {scrollbar} from '@/directives';
 import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -172,6 +172,7 @@ export default {
         return response;
       }).catch((error) => {
         this.isLoadingError = true;
+        this.loadingContent = false;
         return error;
       });
     },
@@ -261,7 +262,7 @@ export default {
   components: {
     TableLayout,
     Radio,
-    CSSLoader,
+    Loader,
   },
 };
 </script>

@@ -112,7 +112,7 @@ export default {
   }
   &__checkboxText {
     max-width: 325px;
-    font-family: CenturyGothic;
+    font-family: "Century Gothic";
     font-size: 12px;
     color: #FFFFFF;
     letter-spacing: 0.38px;

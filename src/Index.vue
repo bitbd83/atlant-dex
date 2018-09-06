@@ -101,6 +101,7 @@ export default {
     ]),
     ...mapMutations('alerts', [
       'updateSidebarAlert',
+      'insertListAlert',
     ]),
     ...mapActions('membership', [
       'dropUser',
@@ -116,7 +117,6 @@ export default {
     ]),
     ...mapActions('alerts', [
       'insertSidebarAlert',
-      'resetAlertsList',
     ]),
     ...mapActions('orders', [
       'updateOrderBook',
@@ -155,11 +155,12 @@ export default {
         this.updateOrderBook(data);
       });
       this.$hub.on('newAlert', (data) => {
-        this.insertSidebarAlert(data);
-        this.resetAlertsList();
+        // this.insertSidebarAlert(data);
+        EventHub.$emit('appendAlertsList');
       });
       this.$hub.on('alertTriggered', (data) => {
-        this.updateSidebarAlert(data);
+        // this.updateSidebarAlert(data);
+        EventHub.$emit('updateAlertsList', data);
       });
     },
   },
@@ -252,9 +253,8 @@ export default {
   min-height: 700px;
   height: 100vh;
 
-  &--dark{
-    background-image: none;
-    background: $background__dark;
+  &--dark {
+    color: white;
   }
 
   &__body {

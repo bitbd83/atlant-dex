@@ -4,60 +4,72 @@
 
 <template lang="pug">
   .loader(v-show="isLoading")
-    .loader__hour
-    .loader__minute
+    .loader__overflow(v-if="isWidthOverflow")
+    .loader__container
+      .loader__body(:class="{'loader__body--white' : isWhite}")
+      .loader__body(:class="{'loader__body--white' : isWhite}")
 </template>
 <script>
 export default {
   props: {
     isLoading: {
       type: Boolean,
-      required: true,
-      default: false,
+      default: true,
     },
-    isLoadingError: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
+    isWidthOverflow: Boolean,
+    isWhite: Boolean,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.loader {
-  display: block;
-  margin: auto;
-  position: relative;
-  width: 4rem;
-  height: 4rem;
-  border: 0.4rem solid #2085e6;
-  border-radius: 100%;
-  &__hour,
-  &__minute {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -0.2rem 0 0 -0.2rem;
-    border-bottom: 0.4rem solid #2085e6;
-    border-radius: 0.6rem;
-    transform-origin: 0.2rem center;
-  }
-  &__hour {
-    width: 30%;
-    animation: rotate 10s linear infinite;
-  }
-  &__minute {
-    width: 40%;
-    background-color: #2085e6;
-    animation: rotate 1s linear infinite;
-  }
-}
+@import "variables";
+  .loader {
+    $size: 64px;
 
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
+    &__overflow {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: #000;
+      opacity: .2;
+    }
+
+    &__container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -$size / 2;
+      margin-top: -$size / 2;
+    }
+
+    &__body {
+      position: absolute;
+      border: 4px solid $color__blue;
+      opacity: 1;
+      width: $size;
+      height: $size;
+      border-radius: 50%;
+      animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+      &--white {
+        border-color: $color__white;
+      }
+      &:nth-child(2) {
+        animation-delay: -1s;
+      }
+    }
   }
-}
+
+  @keyframes lds-ripple {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
 </style>

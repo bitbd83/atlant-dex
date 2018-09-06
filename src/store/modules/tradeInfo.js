@@ -4,7 +4,7 @@
 
 import * as TradeInfo from 'services/api/tradeInfo';
 import {serverNotification} from 'services/notification';
-import resolutions from '@/store/staticData/resolutions';
+// import resolutions from '@/store/staticData/resolutions';
 
 export default {
   state: {
@@ -87,9 +87,11 @@ export default {
       const pair = getters.getPairName({
         base: currency,
       });
-      window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
       dispatch('setPair', pair);
-      dispatch('chart/loadChart', null, {root: true});
+      dispatch('chart/loadChart', null, {
+        root: true,
+      });
+      // window.tvWidget.setSymbol(pair, resolutions[rootState.chart.period]);
     },
     changeQuoteCurrency({commit, dispatch, getters}, currency) {
       const pair = getters.getPairName({
@@ -111,5 +113,4 @@ export default {
     },
   },
   namespaced: true,
-  strict: process.env.NODE_ENV !== 'production',
 };

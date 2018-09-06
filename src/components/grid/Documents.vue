@@ -84,6 +84,11 @@ export default {
 <style lang="scss">
 @import 'variables';
 
+.index--dark .documents{
+  border: 1px solid $border__dark_theme_tile;
+  background: $background__dark_tile;
+}
+
 .documents{
   background: $background__white;
   border: 1px solid $color__grey_border;

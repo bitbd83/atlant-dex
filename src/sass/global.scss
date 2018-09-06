@@ -64,6 +64,12 @@ a {
       background: $background__red;
     }
   }
+  &--green {
+    color: $color__green;
+    &:after {
+      background: $background__green;
+    }
+  }
 }
 
 .input {
@@ -215,5 +221,17 @@ a {
   }
   100% {
     background: inherit;
+  }
+}
+
+// Dark theme
+.index--dark {
+  .input {
+    background: $background__dark_toolbar;
+    color: $color__white;
+
+    &::placeholder {
+      color: $color__white;
+    }
   }
 }

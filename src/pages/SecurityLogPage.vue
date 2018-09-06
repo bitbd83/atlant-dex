@@ -22,7 +22,7 @@ TableLayout(
             th.securityLog__cell Type
             th.securityLog__location IP Address
             th.securityLog__cell Location
-    CSSLoader(v-if="loadingContent")
+    Loader(v-if="loadingContent")
     .table.securityLog__table(v-else v-scrollbar="")
       table.table__body
         tbody
@@ -44,7 +44,7 @@ import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Pagination from 'components/Pagination';
 import Radio from 'components/Radio';
-import CSSLoader from 'components/CSSLoader';
+import Loader from 'components/Loader';
 
 export default {
   data() {
@@ -105,7 +105,7 @@ export default {
     TableLayout,
     Pagination,
     Radio,
-    CSSLoader,
+    Loader,
   },
 };
 </script>
