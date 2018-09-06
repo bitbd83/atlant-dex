@@ -23,7 +23,11 @@ export const addTileToDashboard = (vm, tile) => {
           return Math.round(endValue / vm.state.grid.gridSize) * vm.state.grid.gridSize;
         },
       },
+      onDragStart: function() {
+        vm.commit('grid/setGridVisibility', true);
+      },
       onDragEnd: function() {
+        vm.commit('grid/setGridVisibility', false);
         if (tile.isHideable) {
           vm.commit(
             'grid/setTilePosition',
@@ -72,6 +76,7 @@ export const snapOnResize = ({state, commit}, tile) => {
       tile.container,
       _.debounce(
         (el) => {
+          console.log('resize event');
           tile.container.style.height = Math.round(el.offsetHeight / state.grid.gridSize) * state.grid.gridSize + 'px';
           tile.container.style.width = Math.round(el.offsetWidth / state.grid.gridSize) * state.grid.gridSize + 'px';
           if (el.offsetHeight > 0 && el.offsetWidth > 0) {

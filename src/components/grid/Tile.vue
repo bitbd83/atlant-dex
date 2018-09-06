@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     getMaxZIndex() {
-      console.log('Hello');
       let maxZ = 0;
       for (let tile of document.getElementsByClassName('gridTile')) {
         maxZ = Math.max(maxZ, tile.style.zIndex);
