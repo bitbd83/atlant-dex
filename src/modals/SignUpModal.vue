@@ -20,7 +20,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign up")
       .signup__link(@click="openSignIn")
         span.link.link--white Sign in
         icon.signup__linkArrow(id="arrow_short")
-    Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", successText="The confirmation link was sent to the email address you used to register", v-on:getBack="step = 0")
+    Status.signup__status(v-if="step == 1", :isSuccess="isSuccess", :successText="successText" v-on:getBack="step = 0")
 </template>
 
 <script>
@@ -55,6 +55,9 @@ export default {
         }
       }
       return '';
+    },
+    successText() {
+      return `The confirmation link was sent to ${this.email}`;
     },
   },
   methods: {

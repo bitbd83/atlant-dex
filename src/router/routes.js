@@ -24,13 +24,10 @@ export default [
     }),
     beforeEnter(to, from, next) {
       store.dispatch('membership/regFinish', to.query.code).then((data) => {
-        store.commit('modal/open', {
-          name: 'eventStatusCompleted',
-        });
         next('/');
       }).catch(() => {
         store.commit('modal/open', {
-          name: 'eventStatusFailed',
+          name: 'registrationFailed',
         });
         next('/');
       });

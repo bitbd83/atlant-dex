@@ -68,7 +68,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess",  title="Add alert")
       .addAlert__linkContainer(@click="goToPage")
         .link.link--white.addAlert__link My alerts
         icon(id="arrow_short").addAlert__linkArrow
-    Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
+    Status.addAlert__status(v-if="step == 1", :isSuccess="isSuccess", :successText="successText", v-on:getBack="step--")
 </template>
 
 <script>
@@ -118,6 +118,9 @@ export default {
       date = date.setMonth(date.getMonth() + 1);
 
       return this.autoDisable ? new Date(date).toISOString() : null;
+    },
+    successText() {
+      return `Price alert for ${this.currencySelected} has been successfully set`;
     },
   },
   methods: {

@@ -16,7 +16,7 @@ ModalLayout(:title="`${$t('crypto.withdraw.withdraw')} ${data.currency}`", :step
       .link.link--white.cryptoWithdraw__amount  {{netAmount}}
       BButton.cryptoWithdraw__button(color="malachite" rounded  @click.native="withdraw") {{$t('crypto.withdraw.button')}}
     TFA(v-if="step == 1", :onConfirm="tryConfirmation", :onCancel="cancelConfirmation", :onResend="withdraw", :isModal="true")
-    Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess", v-on:getBack="step--")
+    Status.cryptoWithdraw__status(v-if="step === 2", :isSuccess="isSuccess", :successText="successText", v-on:getBack="step--")
 </template>
 
 <script>
@@ -45,6 +45,9 @@ export default {
     }),
     netAmount() {
       return Math.max(this.amount - this.fee, 0);
+    },
+    successText() {
+      return `${this.amount} ${this.data.currency} has been successfully sent to the address provided`;
     },
   },
   methods: {

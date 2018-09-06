@@ -9,7 +9,7 @@ ModalLayout(:step="step", isSuccess="true", title="Save View")
     form.saveView__content(v-if="step == 0" @submit.prevent="saveView()")
       IInput.saveView__input(placeholder="View name" v-model="viewName")
       BButton.saveView__button(color="malachite" rounded type="submit") Save
-    Status.saveView__status(v-if="step == 1", isSuccess="true")
+    Status.saveView__status(v-if="step == 1", :successText="successText", isSuccess="true")
 </template>
 
 <script>
@@ -32,6 +32,9 @@ export default {
     ...mapState('modal', {
       data: 'data',
     }),
+    successText() {
+      return `Custom dashboard view successfully saved as ${this.viewName}`;
+    },
   },
   methods: {
      ...mapMutations('grid', {
