@@ -4,7 +4,7 @@
 
 export default {
   state: {
-    name: 'alertsList',
+    name: '',
     data: {},
   },
   getters: {
