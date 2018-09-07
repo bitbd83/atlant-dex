@@ -69,6 +69,7 @@ export default {
     display: flex;
     overflow: scroll;
     flex: 1;
+    border-top: 1px solid transparent;
     &--showGrid {
       $gridColor: $color__grey;
       $gridSize: 10px;
