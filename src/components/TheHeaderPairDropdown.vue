@@ -100,14 +100,6 @@ export default {
       required: true,
     },
   },
-  watch: {
-    baseCurrency(baseCurrency) {
-      this.getPairInfo();
-    },
-    quoteCurrency() {
-      this.getPairInfo();
-    },
-  },
   created() {
     this.getPairs();
     this.getPairInfo();
