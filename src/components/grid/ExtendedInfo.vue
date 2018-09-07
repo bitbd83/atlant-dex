@@ -95,7 +95,7 @@ export default {
   &__item {
     font-family: "Century Gothic";
     font-size: 14px;
-    line-height: 35px;
+    line-height: 25px;
     white-space: nowrap;
     padding-left: 15px;
     padding-right: 65px;
