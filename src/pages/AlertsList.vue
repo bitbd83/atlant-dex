@@ -111,6 +111,7 @@ export default {
         this.loadingContent = false;
         if (this.alertsList.length === 1) this.page -= 1;
         this.getAlerts();
+        EventHub.$emit('deleteAlert', this.checked.id);
         this.checked = undefined;
       });
     },

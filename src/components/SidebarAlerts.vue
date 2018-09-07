@@ -104,20 +104,32 @@ export default {
       this.alertsList.splice(alertIndex, 1);
       this.alertsList.unshift(alert);
     },
+    deleteAlert(id) {
+      let alertIndex = this.alertsList.findIndex((item) => item.id === id);
+      this.alertsList.splice(alertIndex, 1);
+    },
+    resetSidebarAlerts() {
+      this.dropSidebarAlerts();
+      this.getAlerts();
+    },
   },
   created() {
-    this.dropSidebarAlerts();
-    this.getAlerts();
+    this.resetSidebarAlerts();
     EventHub.$on('appendSidebarAlerts', (data) => {
       this.insertSidebarAlert(data);
     });
     EventHub.$on('updateSidebarAlerts', (alert) => {
       this.updateSidebarAlert(alert);
     });
+    EventHub.$on('deleteAlert', (id) => {
+      this.deleteAlert(id);
+      this.resetSidebarAlerts();
+    });
   },
   destroyed() {
     EventHub.$off('appendSidebarAlerts');
     EventHub.$off('updateSidebarAlerts');
+    EventHub.$off('deleteAlert');
   },
   directives: {
     scrollbar,
