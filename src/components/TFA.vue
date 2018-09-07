@@ -12,7 +12,7 @@
       IInput.tfa__input(v-model="secureCode", label="Code")
     BButton.tfa__button(color="malachite" rounded) Confirm
     .tfa__repeatContainer
-      .tfa__repeatText(v-if="!isLinkAviable && confirmMethod != 2") The new code will be available in #[span.link.link--white {{timer}}] sec
+      .tfa__repeatText(v-if="!isLinkAviable && setTFAtype != 2") The new code will be available in #[span.link.link--white {{timer}}] sec
       .link.link--white(v-if="isLinkAviable && setTFAtype != 2" @click="getCountDown(); onResend()") Send code
     .tfa__cancelContainer(@click="onCancel()")
       icon.tfa__cancelIcon(id="arrow_short")

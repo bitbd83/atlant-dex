@@ -18,11 +18,9 @@
     CryptoWithdrawModal(v-else-if="isModalOpened('cryptoWithdraw')")
     FiatModal(v-else-if="isModalOpened('fiat')")
     TFAWarningModal(v-else-if="isModalOpened('tfaWarningModal')")
-    EventStatusCompletedModal(v-else-if="isModalOpened('eventStatusCompleted')")
-    EventStatusFailedModal(v-else-if="isModalOpened('eventStatusFailed')")
+    RegistrationFailedModal(v-else-if="isModalOpened('registrationFailed')")
     AddNewAlertModal(v-else-if="isModalOpened('addAlert')")
     SaveViewModal(v-else-if="isModalOpened('saveView')")
-    Status(v-else-if="isModalOpened('status')")
 </template>
 
 <script>
@@ -42,11 +40,9 @@ import CryptoDepositModal from 'modals/CryptoDepositModal';
 import CryptoWithdrawModal from 'modals/CryptoWithdrawModal';
 import FiatModal from 'modals/FiatModal';
 import TFAWarningModal from 'modals/TFAWarningModal';
-import EventStatusCompletedModal from 'modals/EventStatusCompletedModal';
-import EventStatusFailedModal from 'modals/EventStatusFailedModal';
+import RegistrationFailedModal from 'modals/RegistrationFailedModal';
 import AddNewAlertModal from 'modals/AddNewAlertModal';
 import SaveViewModal from 'modals/SaveViewModal';
-import Status from 'components/Status';
 import {signalRNotification} from '@/store/staticData/signalRNotification';
 
 export default {
@@ -223,7 +219,6 @@ export default {
     Sidebar,
     MainPage,
     PageLayout,
-    Status,
     ResetPasswordModal,
     NewPasswordModal,
     SignUpModal,
@@ -232,8 +227,7 @@ export default {
     CryptoWithdrawModal,
     FiatModal,
     TFAWarningModal,
-    EventStatusCompletedModal,
-    EventStatusFailedModal,
+    RegistrationFailedModal,
     AddNewAlertModal,
     SaveViewModal,
   },

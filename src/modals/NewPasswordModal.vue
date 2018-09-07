@@ -16,7 +16,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess", title="Reset password")
         Checkbox.newPassword__checkbox(name="showSymbols", :value="true", color="white" v-model="showSymbols")
           .link.link--white.newPassword__checkboxLabel Display symbols
       BButton.newPassword__button(color="white" type="submit") Reset now
-    Status.newPassword__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step--")
+    Status.newPassword__status(v-if="step == 1", :isSuccess="isSuccess", successText="New password set successfully", v-on:getBack="step--")
 </template>
 
 <script>

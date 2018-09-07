@@ -19,7 +19,7 @@ ModalLayout(:step="step", :isSuccess="isSuccess" title="Sign in")
       .singIn__link(@click="openSignUp")
         span.link.link--white Sign up
         icon.singIn__link-arrow(id="arrow_short")
-    Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess", v-on:getBack="step = 0")
+    Status.singIn__status(v-if="step == 1", :isSuccess="isSuccess", successText="Signed in successfully", v-on:getBack="step = 0")
 </template>
 
 <script>
