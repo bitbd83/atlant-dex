@@ -200,7 +200,10 @@ export default {
 .buySell {
   position: absolute;
   z-index: 100000;
-  padding: 20px;
+  $safetyPadding: 20px;
+  padding: $safetyPadding;
+  top: -$safetyPadding;
+  left: -$safetyPadding;
   &__container {
     display: flex;
     flex-direction: column;
