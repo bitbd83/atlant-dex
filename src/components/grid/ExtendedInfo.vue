@@ -64,7 +64,7 @@ export default {
   padding: 10px 0 10px 10px;
   border-radius: 8px;
   border: 1px solid $color__grey_border;
-  padding: 5px 0 15px 0;
+  padding: 5px 15px 15px 15px;
 
   &__title {
     font-family: "Century Gothic";
@@ -72,7 +72,6 @@ export default {
     font-weight: 700;
     line-height: 35px;
     text-transform: uppercase;
-    margin-left: 15px;
     margin-bottom: 5px;
   }
 
@@ -82,6 +81,7 @@ export default {
   }
 
   &__list {
+    position: relative;
     display: flex;
     flex-direction: column;
     flex-grow: 2;
@@ -98,7 +98,6 @@ export default {
     line-height: 35px;
     white-space: nowrap;
     padding-left: 15px;
-    margin-left: 15px;
     padding-right: 65px;
   }
 }
