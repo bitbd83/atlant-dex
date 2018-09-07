@@ -3,7 +3,8 @@
   :class="`gridTile--${ name }`"
   :style="style"
 )
-  slot
+  .gridTile__container
+    slot
 </template>
 
 <script>
@@ -38,7 +39,6 @@ export default {
   },
   methods: {
     getMaxZIndex() {
-      console.log('Hello');
       let maxZ = 0;
       for (let tile of document.getElementsByClassName('gridTile')) {
         maxZ = Math.max(maxZ, tile.style.zIndex);
@@ -61,10 +61,12 @@ export default {
 
 .gridTile {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  background-color: $background__grey_white;
-  border-radius: 8px;
-  padding: 0;
+  padding: 20px;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    background-color: $background__grey_white;
+    border-radius: 8px;
+  }
 }
 </style>

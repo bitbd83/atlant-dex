@@ -4,37 +4,38 @@
 
 <template lang='pug'>
 .buySell
-  Loader(isWidthOverflow="", isWhite="", :isLoading="loading")
-  .buySell__headerContainer
-    .buySell__header
-      .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
-      Icon.buySell__arrow(id="arrow_short")
-      .buySell__infoContainer
-        .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
-        .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
-  .buySell__buttons
-    .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
-      IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline v-model="amount" type="number")
-      .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
-      Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
-  .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
-    .buySell__types
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
-    .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
-      .buySell__label Limit price
-      .buySell__inputContainer
-        IInput.buySell__input(center no-underline v-model="price" type="number")
-    .buySell__field
-      .buySell__label Total amount
-      .buySell__inputContainer
-        .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
-    button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
-      .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-      .buySell__buttonContent(v-show="open") Confirm buy order
-    button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
-      .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
-      .buySell__buttonContent(v-show="open") Confirm sell order
+  .buySell__container
+    Loader(isWidthOverflow="", isWhite="", :isLoading="loading")
+    .buySell__headerContainer
+      .buySell__header
+        .title.buySell__title  {{baseCurrency}} / {{quoteCurrency}}
+        Icon.buySell__arrow(id="arrow_short")
+        .buySell__infoContainer
+          .buySell__info #[.buySell__infoLabel Spread] #[span {{bidAskSpread | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
+          .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
+    .buySell__buttons
+      .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
+        IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline v-model="amount" type="number")
+        .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
+        Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
+    .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
+      .buySell__types
+        .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
+        .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
+      .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
+        .buySell__label Limit price
+        .buySell__inputContainer
+          IInput.buySell__input(center no-underline v-model="price" type="number")
+      .buySell__field
+        .buySell__label Total amount
+        .buySell__inputContainer
+          .buySell__totalAmount {{getTotal | currency('', 4, { thousandsSeparator: '.', decimalSeparator: ','}) }} {{quoteCurrency}}
+      button.buySell__button.buySell__button--buy(:class="{'buySell__button--hide': !isBuy && open, 'buySell__button--full': isBuy && open}" color="green" caps @click="startTransaction(true)")
+        .buySell__buttonContent(v-show="!open") #[b Buy] #[div {{ask | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+        .buySell__buttonContent(v-show="open") Confirm buy order
+      button.buySell__button.buySell__button--sell(:class="{'buySell__button--hide': isBuy && open, 'buySell__button--full': !isBuy && open}" color="red" caps @click="startTransaction(false)")
+        .buySell__buttonContent(v-show="!open") #[b Sell] #[div {{bid | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}]
+        .buySell__buttonContent(v-show="open") Confirm sell order
 </template>
 
 <script>
@@ -148,7 +149,6 @@ export default {
       )
       .catch(
         (err) => {
-          console.log(err);
           this.loading = false;
         }
       );
@@ -198,16 +198,19 @@ export default {
 }
 
 .buySell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: absolute;
-  overflow: hidden;
-  width: 350px;
-  color: $color__white;
-  border-radius: 8px;
   z-index: 100000;
-  background-color: $color__blue;
+  padding: 20px;
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    width: 350px;
+    color: $color__white;
+    border-radius: 8px;
+    background-color: $color__blue;
+  }
   &__headerContainer {
     width: 100%;
     padding: 6px 23px 6px 0;
@@ -378,7 +381,7 @@ export default {
     height: $size;
     fill: $fill__white;
     position: absolute;
-    right: 20px;
+    right: 40px;
     cursor: pointer;
     animation: spin .5s linear;
   }
