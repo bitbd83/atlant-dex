@@ -8,9 +8,9 @@ export const defaultData = new Map([
   ['Orders', {name: 'Orders', height: 300, width: 700, x: 0, y: 450, isHidden: false}],
   ['OrderBook', {name: 'OrderBook', height: 360, width: 340, x: 760, y: 0, isHidden: false}],
   ['TokenInfo', {name: 'TokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: true}],
-  ['Photos', {name: 'Photos', height: 260, width: 780, x: 0, y: 0, isHidden: true}],
+  ['Photos', {name: 'Photos', height: 270, width: 780, x: 0, y: 0, isHidden: true}],
   ['Documents', {name: 'Documents', height: 280, width: 400, x: 0, y: 0, isHidden: true}],
-  ['ExtendedInfo', {name: 'ExtendedInfo', height: 300, width: 840, x: 0, y: 0, isHidden: true}],
+  ['ExtendedInfo', {name: 'ExtendedInfo', height: 311, width: 851, x: 0, y: 0, isHidden: true}],
 ]);
 
 export default {
@@ -19,7 +19,6 @@ export default {
     gridSize: 10,
     savedViews: [],
     resizeDetector: {},
-    showGrid: false,
   },
   getters: {
     getTileSize: (state) => (name) => {
@@ -135,9 +134,6 @@ export default {
         type: 'custom',
       });
       state.savedViews = [...state.savedViews];
-    },
-    setGridVisibility(state, isVisible) {
-      state.showGrid = isVisible;
     },
   },
   actions: {

@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang="pug">
-.grid(:class="{'grid--showGrid' : showGrid}" v-scrollbar="")
+.grid(v-scrollbar="")
   component(
     v-for="item in visibleGrid"
     :key="item.name"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
 import {setupDashboard} from '../../services/grid';
 import {scrollbar} from '@/directives';
 import UserVisibility from 'components/UserVisibility';
@@ -31,9 +31,6 @@ import ExtendedInfo from './ExtendedInfo';
 
 export default {
   computed: {
-    ...mapState('grid', [
-      'showGrid',
-    ]),
     ...mapGetters('grid', [
       'getGridData',
     ]),
@@ -69,13 +66,5 @@ export default {
     display: flex;
     overflow: scroll;
     flex: 1;
-    &--showGrid {
-      $gridColor: $color__grey;
-      $gridSize: 10px;
-      border-top: 1px solid $gridColor;
-      background-size: $gridSize $gridSize;
-      background-image: repeating-linear-gradient(0deg, $gridColor, $gridColor 1px, transparent 1px, transparent $gridSize),
-                        repeating-linear-gradient(-90deg, $gridColor, $gridColor 1px, transparent 1px, transparent $gridSize);
-    }
   }
 </style>
