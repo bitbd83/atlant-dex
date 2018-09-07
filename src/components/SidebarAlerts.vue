@@ -22,7 +22,8 @@
     Accordion(title="Tokens & Coins:" isSidebar :isHidden="loadingContent")
       SidebarAlertsItem(:data="alert" v-for="alert in alertsList", :key="alert.id")
       MugenScroll(:handler="getAlerts", scroll-container="wrap")
-      Loader(:isLoading="loadingContent" isWhite="")
+      .alerts__loaderContainer
+        Loader(:isLoading="loadingContent" isWhite="")
   .alerts__add(@click="open({name:'addAlert'})")
     Icon.alerts__addIcon(id="icon__add")
     .alerts__addText ADD
@@ -209,6 +210,11 @@ export default {
     height: $size;
     fill: $fill__white;
     margin-right: 12px;
+  }
+
+  &__loaderContainer {
+    position: relative;
+    height: 20px;
   }
 
   &__addText {
