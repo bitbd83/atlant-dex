@@ -110,6 +110,8 @@ export default {
       } else {
         commit('setPair', [baseCurrency, state.pairs[baseCurrency][0]].join('_'));
       }
+
+      dispatch('getPairInfo');
     },
   },
   namespaced: true,
