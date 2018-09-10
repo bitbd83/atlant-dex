@@ -29,8 +29,18 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use((response) => {
   store.dispatch('membership/rememberLastAction');
   return response;
-}, ({response}) => {
-  const {status, config} = response;
+}, ({response, code}) => {
+  if (code === 'ECONNABORTED') {
+    response = {
+      status: 408,
+      data: {
+        status: '408',
+      },
+    };
+  }
+
+  const {status, config} = response || {};
+
   if (status === 401) {
     return new Promise((resolve, reject) => {
       store.dispatch('membership/tryReconnect', {response}).then((res) => {
@@ -38,10 +48,9 @@ instance.interceptors.response.use((response) => {
         config.headers.Authorization = 'token ' + token;
         resolve(axios(config));
       })
-      .catch((err) => {});
+        .catch(console.error);
     });
   } else {
-    // console.log(response);
     serverNotification2(response);
     return Promise.reject(response);
   }
