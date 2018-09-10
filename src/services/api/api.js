@@ -32,6 +32,7 @@ instance.interceptors.response.use((response) => {
 }, ({response, code}) => {
   if (code === 'ECONNABORTED') {
     response = {
+      ...response,
       status: 408,
       data: {
         status: '408',
