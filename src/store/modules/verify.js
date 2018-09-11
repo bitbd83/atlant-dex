@@ -31,7 +31,7 @@ export default {
     },
     limit: 10,
     adminLoggedIn: false,
-    applications: {
+    application: {
       verificationRequests: [],
     },
   },
@@ -46,7 +46,7 @@ export default {
       return state.limit;
     },
     latestRequest(state) {
-      return state.applications.verificationRequests[state.applications.verificationRequests.length - 1];
+      return state.application.verificationRequests[state.application.verificationRequests.length - 1];
     },
     getFormDataForApiRequest(state) {
       const formData = new FormData();
@@ -63,11 +63,11 @@ export default {
     setUserList(state, data) {
       state.users = data;
     },
-    setUserApplications(state, data) {
-      state.applications = data;
+    setUserApplication(state, data) {
+      state.application = data;
     },
     setVerificationStatus(state, status) {
-      state.applications.verificationRequests[state.applications.verificationRequests.length - 1].status = status;
+      state.application.verificationRequests[state.application.verificationRequests.length - 1].status = status;
     },
     updateVerificationData(state, {val, section}) {
       state.verification[section] = val;
@@ -132,7 +132,7 @@ export default {
     },
     getUserApplication({commit}, userId) {
       Verification.getUserApplication(userId).then((response) => {
-        commit('setUserApplications', response.data);
+        commit('setUserApplication', response.data);
       });
     },
   },

@@ -34,11 +34,11 @@ export const profileSections = [{
     name: 'verification',
     type: 'route',
   },
-  // {
-  //   label: 'Verification (admin)',
-  //   name: 'verificationAdmin',
-  //   category: 'user info',
-  // },
+  {
+    label: 'Verification (admin)',
+    name: 'verificationAdmin',
+    type: 'route',
+  },
   {
     label: 'Security settings',
     name: 'securitySettings',

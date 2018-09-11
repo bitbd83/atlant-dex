@@ -3,7 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 <template lang='pug'>
-  //- PageLayout(title='Verification management', :sidebar='true')
+ContentLayout(title="VERIFICATION ADMINISTRATION")
   .verification
     div(v-if='!isAdminLoggedIn')
       .verification__label Email:
@@ -38,8 +38,8 @@
 <script>
 import {mapGetters, mapActions} from 'vuex';
 import {DateTime} from 'luxon';
+import ContentLayout from 'layouts/ContentLayout';
 import BButton from 'components/BButton';
-import PageLayout from 'layouts/PageLayout';
 import Pagination from 'components/Pagination';
 
 export default {
@@ -112,7 +112,7 @@ export default {
   mounted() {
   },
   components: {
-    PageLayout,
+    ContentLayout,
     BButton,
     Pagination,
   },

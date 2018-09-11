@@ -4,7 +4,7 @@
 
 export default {
   state: {
-    name: '',
+    name: 'verificationAdmin',
     data: {},
   },
   getters: {
