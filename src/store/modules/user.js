@@ -43,13 +43,6 @@ export default {
       data: [],
       totalItems: 0,
     },
-    accountTransactionHistory: {
-      data: [],
-    },
-    accountTransactionParameters: {
-      page: 1,
-      limit: 10,
-    },
     notificationsOnPage: 10,
     notificationsCounter: 0,
     theme: 'default',
@@ -82,18 +75,6 @@ export default {
     },
     getPortofolioValue(state) {
       return state.portfolio.portfolioValue;
-    },
-    getAccountTransactions(state) {
-      return state.accountTransactionHistory.data;
-    },
-    getAccountTransactionItems(state) {
-      return state.accountTransactionHistory.totalItems;
-    },
-    getAccountTransactionPage(state) {
-      return state.accountTransactionParameters.page;
-    },
-    getAccountTransactionLimit(state) {
-      return state.accountTransactionParameters.limit;
     },
     getCurrencyTransFees(state) {
       return state.transactionFees;
@@ -192,27 +173,9 @@ export default {
         data: [],
           totalItems: 0,
       };
-      state.accountTransactionHistory = {
-        data: [],
-      };
-      state.accountTransactionParameters = {
-        page: 1,
-        limit: 10,
-      };
-    },
-    setAccountTransactionPage(state, num) {
-      state.accountTransactionParameters.page = num;
-    },
-    cleanAccountTransactionHistory(state) {
-      state.accountTransactionHistory = {
-        data: [],
-      };
     },
     setNotificationsCounter(state, data) {
       state.notificationsCounter = data;
-    },
-    setAccountTransactionHistory(state, data) {
-      state.accountTransactionHistory = data;
     },
     setTransactionFees(state, data) {
       state.transactionFees = data;
@@ -287,16 +250,6 @@ export default {
     getBalances({commit}) {
       return User.getBalances().then((response) => {
         commit('setBalances', response.data);
-      });
-    },
-    getAccountTransactionHistory({commit, state, getters}, {page, limit, sortBy, ascending}) {
-      return User.getAccountTransactionHistory({
-        page,
-        limit,
-        sortBy,
-        ascending,
-      }).then((response) => {
-        commit('setAccountTransactionHistory', response.data);
       });
     },
     getCurrencies({commit}) {
