@@ -16,7 +16,7 @@ export default {
       orders: [],
     },
     orders: [],
-    limit: 23,
+    bookLimit: 20,
     trades: [],
   },
   getters: {
@@ -144,10 +144,22 @@ export default {
         return book;
       };
 
+      // const checkPriceOrder = (book, filter) => {
+      //   for (let i in book) {
+      //     if (i) {
+      //       if (book[parseInt(i) + 1] && filter(book[i].price, book[parseInt(i) + 1].price)) {
+      //         console.log('order incorrect', book, data.changes);
+      //       };
+      //     }
+      //   }
+      // };
+
       if (data.side === 1) {
         state.book.asks = ordersUpdateBook(state.book.asks, (itemPrice, cutoffPrice) => itemPrice > cutoffPrice);
+        // checkPriceOrder(state.book.asks, (itemPrice, cutoffPrice) => itemPrice > cutoffPrice);
       } else {
         state.book.bids = ordersUpdateBook(state.book.bids, (itemPrice, cutoffPrice) => itemPrice < cutoffPrice);
+        // checkPriceOrder(state.book.bids, (itemPrice, cutoffPrice) => itemPrice < cutoffPrice);
       }
     },
   },
