@@ -3,6 +3,7 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 export default {
+  408: 'Request timeout',
   1001: 'Email is required',
   1002: 'Email is invalid',
   1003: 'Password is required',
