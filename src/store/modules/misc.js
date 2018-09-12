@@ -6,8 +6,8 @@ import {sidebarSections} from '@/config';
 
 export default {
   state: {
-    showSidebar: true,
-    section: 'alerts',
+    showSidebar: false,
+    section: '',
   },
 
   getters: {

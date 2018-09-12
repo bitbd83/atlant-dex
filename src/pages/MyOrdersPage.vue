@@ -97,9 +97,9 @@ export default {
       currentOrderId: null,
       orderIdTradesLoading: null,
       page: 1,
-      sortBy: 'action',
+      sortBy: '',
       asc: false,
-      itemsOnPage: 10,
+      itemsOnPage: 7,
       loadingContent: false,
       isLoadingError: false,
     };
@@ -233,21 +233,8 @@ export default {
     },
   },
   watch: {
-    asc() {
-      this.page = 1;
-    },
     orderFilter() {
-      this.page = 1;
-      this.getMyOrders();
-    },
-    setPageNum() {
-      this.getAccountTradeHistory;
-    },
-    setPagesCount() {
-      this.getAccountTradeHistory;
-    },
-    dataType() {
-      this.getAccountTradeHistory;
+      this.changeActivePage(1);
     },
     isLoggedIn() {
       this.getMyOrders();
@@ -255,6 +242,12 @@ export default {
   },
   created() {
     this.getMyOrders();
+    EventHub.$on('appendAccountOrder', () => {
+      this.getMyOrders();
+    });
+  },
+  beforeDestroy() {
+    EventHub.$off('appendAccountOrder');
   },
   directives: {
     scrollbar,

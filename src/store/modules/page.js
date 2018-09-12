@@ -4,7 +4,7 @@
 
 export default {
   state: {
-    name: '',
+    name: 'myOrders',
     data: {},
   },
   getters: {
