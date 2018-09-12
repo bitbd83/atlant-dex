@@ -147,6 +147,9 @@ export default {
       this.$hub.on('newBalance', (data) => {
         this.changePortfolio(data);
       });
+      this.$hub.on('newTransaction', (data) => {
+        EventHub.$emit('updateTransactions', data);
+      });
       this.$hub.on('newTradeStatistic', (data) => {
       });
       this.$hub.on('orderBookChanged', (data) => {

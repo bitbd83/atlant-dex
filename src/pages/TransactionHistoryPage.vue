@@ -5,7 +5,7 @@
 <template lang="pug">
 TableLayout(
   title="Transaction history",
-  :data="data",
+  :data="transactions",
   :pageCount='setPagesCount',
   :page="page",
   :checked='checked',
@@ -31,7 +31,7 @@ TableLayout(
     .table.tHistory__table(v-else v-scrollbar="")
       table.table__body
         tbody
-          tr(v-for="(item, index) in data")
+          tr(v-for="(item, index) in transactions")
             td.tHistory__checkboxContainer
               Radio.tHistory__radio(isTable="", :name="item", :value="item", v-model="checked")
             td.tHistory__cell {{item.transactionId}}
@@ -42,7 +42,7 @@ TableLayout(
 </template>
 
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 import {getAccountTransactionCSV} from 'services/api/user';
 import {exportCSV} from 'services/misc';
 import {serverNotification} from 'services/notification.js';
@@ -51,10 +51,13 @@ import {DateTime} from 'luxon';
 import TableLayout from 'layouts/TableLayout';
 import Radio from 'components/Radio';
 import Loader from 'components/Loader';
+import * as User from 'services/api/user';
 
 export default {
   data() {
     return {
+      transactions: [],
+      transactionCount: 0,
       checked: undefined,
       status: [
         'Pending',
@@ -65,6 +68,8 @@ export default {
         'Authorizing',
         'Wallet',
       ],
+      page: 1,
+      limit: 10,
       sortBy: 'datetime',
       asc: false,
       loadingContent: false,
@@ -72,28 +77,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('user', {
-      data: 'getAccountTransactions',
-      totalItems: 'getAccountTransactionItems',
-      page: 'getAccountTransactionPage',
-      limit: 'getAccountTransactionLimit',
-    }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
     }),
     setPagesCount() {
-      return Math.ceil(this.totalItems / this.limit);
+      return Math.ceil(this.transactionCount / this.limit);
     },
   },
   methods: {
     ...mapMutations('modal', {
       openModal: 'open',
-    }),
-    ...mapMutations('user', [
-      'setAccountTransactionPage',
-    ]),
-    ...mapActions('user', {
-      getAccountTransactionHistory: 'getAccountTransactionHistory',
     }),
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
@@ -103,12 +96,14 @@ export default {
 
       this.isLoadingError = false;
       this.loadingContent = true;
-      this.getAccountTransactionHistory({
+      User.getAccountTransactionHistory({
         page: this.page,
         limit: this.limit,
         sortBy: this.sortBy,
         ascending: this.asc,
       }).then((response) => {
+        this.transactionCount = response.data.totalItems;
+        this.transactions = response.data.data;
         this.loadingContent = false;
         return response;
       }).catch((error) => {
@@ -137,7 +132,7 @@ export default {
       this.getUserTransactions();
     },
     changeActivePage(num) {
-      this.setAccountTransactionPage(num);
+      this.page = num;
       this.getUserTransactions();
     },
     getRepeat() {
@@ -158,8 +153,13 @@ export default {
     },
   },
   created() {
-    this.setAccountTransactionPage(1);
     this.getUserTransactions();
+    EventHub.$on('updateTransactions', () => {
+      this.getUserTransactions();
+    });
+  },
+  beforeDestroy() {
+    EventHub.$off('updateTransactions');
   },
   directives: {
     scrollbar,
