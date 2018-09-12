@@ -55,7 +55,7 @@ export default {
 <style lang="scss" scoped>
 @import 'variables';
 
-.index--dark .gridTile{
+.index--dark .gridTile__container{
   background-color: $background__dark_theme;
 }
 

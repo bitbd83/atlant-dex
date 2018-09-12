@@ -193,7 +193,7 @@ export default {
 <style lang='scss'>
 @import 'variables';
 
-.index--dark .buySell{
+.index--dark .buySell__container{
   background-color: $background__dark_toolbar;
 }
 
