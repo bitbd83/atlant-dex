@@ -89,7 +89,7 @@ export default {
         sortBy: this.sortBy,
         isSortAscending: this.asc,
         limit: this.limit,
-        // statuses: '0,1,2',
+        statuses: '0,1,2',
       }).then((alerts) => {
         this.alertsList = alerts.data.data;
         this.alertsCount = alerts.data.totalItems;
@@ -111,6 +111,7 @@ export default {
         this.loadingContent = false;
         if (this.alertsList.length === 1) this.page -= 1;
         this.getAlerts();
+        EventHub.$emit('deleteAlert', this.checked.id);
         this.checked = undefined;
       });
     },
