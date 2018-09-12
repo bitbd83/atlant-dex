@@ -99,7 +99,7 @@ export default {
       page: 1,
       sortBy: '',
       asc: false,
-      itemsOnPage: 7,
+      itemsOnPage: 10,
       loadingContent: false,
       isLoadingError: false,
     };
@@ -245,9 +245,16 @@ export default {
     EventHub.$on('appendAccountOrder', () => {
       this.getMyOrders();
     });
+    EventHub.$on('updateAccountOrder', (data) => {
+      // check if updated order is on current page
+      if (this.orders.find((item) => item.id === data.id)) {
+        this.getMyOrders();
+      }
+    });
   },
   beforeDestroy() {
     EventHub.$off('appendAccountOrder');
+    EventHub.$off('updateAccountOrder');
   },
   directives: {
     scrollbar,

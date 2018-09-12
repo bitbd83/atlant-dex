@@ -141,6 +141,7 @@ export default {
       });
       this.$hub.on('orderChanged', (data) => {
         this.changeOrderStatus(data);
+        EventHub.$emit('updateAccountOrder', data);
       });
       this.$hub.on('newTrade', (data) => {
         this.addNewTrade(data);
