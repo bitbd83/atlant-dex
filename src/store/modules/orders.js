@@ -18,6 +18,13 @@ export default {
     orders: [],
     limit: 23,
     trades: [],
+    placeOrder: {
+      isOpen: false,
+      type: 'market',
+      isBuy: false,
+      amount: '',
+      price: '',
+    },
   },
   getters: {
     getActiveOrders(state) {
@@ -44,6 +51,21 @@ export default {
     },
   },
   mutations: {
+    setOrderPrice(state, price) {
+      state.placeOrder.price = price;
+    },
+    setOrderAmount(state, amount) {
+      state.placeOrder.amount = amount;
+    },
+    setOrderSide(state, isBuy) {
+      state.placeOrder.isBuy = isBuy;
+    },
+    setOrderType(state, type) {
+      state.placeOrder.type = type;
+    },
+    setOrderOpenStatus(state, isOpen) {
+      state.placeOrder.isOpen = isOpen;
+    },
     setDashboardOrdersType(state, data) {
       state.dashboardOrdersType = data;
     },

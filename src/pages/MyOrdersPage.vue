@@ -99,7 +99,7 @@ export default {
       page: 1,
       sortBy: 'action',
       asc: false,
-      itemsOnPage: 10,
+      itemsOnPage: 5,
       loadingContent: false,
       isLoadingError: false,
     };
@@ -115,14 +115,9 @@ export default {
     setPagesCount() {
       return Math.ceil(this.totalItems / this.itemsOnPage);
     },
-    // isCancelActive() {
-    //   return (this.checked.status == 0 || this.checked.status == 1);
-    // },
   },
   methods: {
-    ...mapMutations('modal', {
-      openModal: 'open',
-    }),
+    ...mapMutations('page', ['close']),
     ...mapActions('orders', [
       'getAccountOrders',
       'getTradesForOrder',
@@ -204,17 +199,18 @@ export default {
     },
     getRepeat() {
       if (this.checked == undefined) return false;
-      this.openModal({
-        name: 'modalBuySell',
-        data: {
-          baseCurrency: this.checked.baseCurrency,
-          quoteCurrency: this.checked.quoteCurrency,
-          totalQuantity: this.checked.totalQuantity,
-          price: this.checked.price,
-          isBuy: !this.checked.side,
-          type: this.checked.type,
-        },
-      });
+      // this.openModal({
+      //   name: 'modalBuySell',
+      //   data: {
+      //     baseCurrency: this.checked.baseCurrency,
+      //     quoteCurrency: this.checked.quoteCurrency,
+      //     totalQuantity: this.checked.totalQuantity,
+      //     price: this.checked.price,
+      //     isBuy: !this.checked.side,
+      //     type: this.checked.type,
+      //   },
+      // });
+      this.close();
     },
     getExport() {
       getOrdersCSV({
@@ -233,21 +229,9 @@ export default {
     },
   },
   watch: {
-    asc() {
-      this.page = 1;
-    },
     orderFilter() {
       this.page = 1;
       this.getMyOrders();
-    },
-    setPageNum() {
-      this.getAccountTradeHistory;
-    },
-    setPagesCount() {
-      this.getAccountTradeHistory;
-    },
-    dataType() {
-      this.getAccountTradeHistory;
     },
     isLoggedIn() {
       this.getMyOrders();
@@ -311,7 +295,6 @@ export default {
   &__trades {
     height: 30px;
     font-size: 11px;
-    /*background-color: rgba(#000, .1);*/
     font-weight: normal;
   }
   &__guidline {

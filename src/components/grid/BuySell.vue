@@ -14,17 +14,17 @@
         .buySell__info #[.buySell__infoLabel Fee] #[span {{(fee * 100) | currency('', 2, { thousandsSeparator: ',', decimalSeparator: '.'}) }}%]
   .buySell__buttons
     .buySell__quantity(:class="{'buySell__quantity--expand' : open}")
-      IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline v-model="amount" type="number")
+      IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline :value="amount" @change="setOrderAmount" type="number")
       .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
-      Icon.buySell__close(v-show="open" id="cross" @click="toggleMain(false)")
+      Icon.buySell__close(v-show="open" id="cross" @click="setOrderOpenStatus(false)")
   .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
     .buySell__types
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setType('market')") Market
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setType('limit')") Limit
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setOrderType('market')") Market
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setOrderType('limit')") Limit
     .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
       .buySell__label Limit price
       .buySell__inputContainer
-        IInput.buySell__input(center no-underline v-model="price" type="number")
+        IInput.buySell__input(center no-underline :value="price" @change="setOrderPrice" type="number")
     .buySell__field
       .buySell__label Total amount
       .buySell__inputContainer
@@ -47,12 +47,6 @@ import Loader from 'components/Loader';
 export default {
   data() {
     return {
-      open: false,
-      type: 'market',
-      isBuy: false,
-      amount: '',
-      price: '',
-      total: 0,
       loading: false,
     };
   },
@@ -61,6 +55,13 @@ export default {
       bid: (state) => state.pairInfo.bid,
       ask: (state) => state.pairInfo.ask,
       fee: (state) => state.pairInfo.makerFee,
+    }),
+    ...mapState('orders', {
+      open: (state) => state.placeOrder.isOpen,
+      type: (state) => state.placeOrder.type,
+      isBuy: (state) => state.placeOrder.isBuy,
+      amount: (state) => state.placeOrder.amount,
+      price: (state) => state.placeOrder.price,
     }),
     ...mapGetters('membership', {
       isLoggedIn: 'isLoggedIn',
@@ -92,23 +93,24 @@ export default {
       void element.offsetWidth;
       element.classList.add('buySell__quantity--invalid');
     },
-    ...mapActions('orders', {
-      placeOrder: 'placeOrder',
-    }),
     ...mapMutations('modal', {
       openModal: 'open',
     }),
-    toggleMain(isOpen) {
-      this.open = isOpen;
-    },
-    setType(type) {
-      this.type = type;
-    },
+    ...mapMutations('orders', [
+      'setOrderPrice',
+      'setOrderAmount',
+      'setOrderSide',
+      'setOrderType',
+      'setOrderOpenStatus',
+    ]),
+    ...mapActions('orders', {
+      placeOrder: 'placeOrder',
+    }),
     startTransaction(isBuy) {
       if (!this.open) {
         if (this.amount > 0) {
-          this.toggleMain(true);
-          this.isBuy = isBuy;
+          this.setOrderOpenStatus(true);
+          this.setOrderSide(isBuy);
         } else {
           notification({
             title: 'Negative or zero value:',
@@ -140,9 +142,8 @@ export default {
       .then(
         () => {
           this.isDone = true;
-          this.amount = '';
-          this.total = 0;
-          this.open = false;
+          this.setOrderAmount('');
+          this.setOrderOpenStatus(false);
           this.loading = false;
         }
       )
@@ -156,20 +157,20 @@ export default {
   },
   watch: {
     isBuy() {
-      this.price = this.getPrice;
+      this.setOrderPrice(this.getPrice);
     },
     type() {
-      this.price = this.getPrice;
+      this.setOrderPrice(this.getPrice);
     },
     bid() {
-      if (this.type === 'market') this.price = this.getPrice;
+      if (this.type === 'market') this.setOrderPrice(this.getPrice); ;
     },
     ask() {
-      if (this.type === 'market') this.price = this.getPrice;
+      if (this.type === 'market') this.setOrderPrice(this.getPrice); ;
     },
   },
   created() {
-    this.price = this.getPrice;
+    this.setOrderPrice(this.getPrice);
   },
   mounted() {
     addTileToDashboard(
@@ -358,9 +359,6 @@ export default {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
     border-radius: 2px;
     background-color: #0248e9;
-  }
-  &__input {
-    // width: 100%;
   }
   &__totalAmount {
     width: 100%;
