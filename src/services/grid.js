@@ -11,7 +11,7 @@ export const addTileToDashboard = (vm, tile) => {
     tile.target,
     {
       type: 'top,left',
-      bounds: {top: 0, left: 0},
+      bounds: {top: -20, left: -20},
       trigger: tile.trigger,
       liveSnap: true,
       zIndexBoost: tile.isHideable,

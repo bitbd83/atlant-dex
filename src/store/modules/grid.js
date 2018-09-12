@@ -3,10 +3,10 @@
 // License (MS-RSL) that can be found in the LICENSE file.
 
 export const defaultData = new Map([
-  ['Chart', {name: 'Chart', height: 400, width: 740, x: 0, y: 0, isHidden: false}],
+  ['Chart', {name: 'Chart', height: 400, width: 740, x: -20, y: -20, isHidden: false}],
   ['History', {name: 'History', height: 300, width: 220, x: 1170, y: 450, isHidden: false}],
-  ['Orders', {name: 'Orders', height: 300, width: 700, x: 0, y: 450, isHidden: false}],
-  ['OrderBook', {name: 'OrderBook', height: 360, width: 340, x: 760, y: 0, isHidden: false}],
+  ['Orders', {name: 'Orders', height: 300, width: 700, x: -20, y: 450, isHidden: false}],
+  ['OrderBook', {name: 'OrderBook', height: 360, width: 340, x: 760, y: -20, isHidden: false}],
   ['TokenInfo', {name: 'TokenInfo', height: 400, width: 740, x: 0, y: 0, isHidden: true}],
   ['Photos', {name: 'Photos', height: 260, width: 780, x: 0, y: 0, isHidden: true}],
   ['Documents', {name: 'Documents', height: 280, width: 400, x: 0, y: 0, isHidden: true}],
