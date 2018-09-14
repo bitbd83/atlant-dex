@@ -104,7 +104,7 @@ export default {
     updateBook(state, data) {
       const newTop = (book, change, filter) => {
         if (change.data.price === 0) {
-          book = []; return;
+          return [];
         }
         book = book.filter((item) => filter(item.price, change.data.price));
         book.unshift(change.data);
