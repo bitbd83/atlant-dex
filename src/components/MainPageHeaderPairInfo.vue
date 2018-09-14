@@ -169,11 +169,11 @@ export default {
     height: 0;
     width: 150px;
     margin-top: 35px;
-    background-color: $background__grey_white;
+    background-color: transparent;
     top: 0;
     right: -64px;
     z-index: 1000000;
-    transition: height 1s ease-out;
+    // transition: height 1s ease-out;
   }
   &__dropdownItem {
     width: 100%;

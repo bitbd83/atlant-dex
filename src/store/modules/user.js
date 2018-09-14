@@ -45,7 +45,7 @@ export default {
     },
     notificationsOnPage: 10,
     notificationsCounter: 0,
-    theme: 'default',
+    theme: 'dark',
   },
   getters: {
     getNotifications(state) {

@@ -54,22 +54,22 @@ export default {
     },
     currencyHover(cur) {
       if (this.showOptions) {
-        TweenLite.to('.pairDropdown__icon--' + cur, 0.1, {width: 35, height: 35, paddingLeft: 0, opacity: 1});
-        TweenLite.to('.pairDropdown__label--' + cur, 0.1, {opacity: 1, fontSize: 14});
+        TweenLite.to('.pairDropdown__icon--' + cur, 0, {width: 35, height: 35, paddingLeft: 0, opacity: 1});
+        TweenLite.to('.pairDropdown__label--' + cur, 0, {opacity: 1, fontSize: 14});
       }
     },
     currencyUnhover(cur) {
-      TweenLite.to('.pairDropdown__icon--' + cur, 0.1, {width: 30, height: 25, paddingLeft: 5, opacity: 0.5});
-      TweenLite.to('.pairDropdown__label--' + cur, 0.1, {opacity: 0.5, fontSize: 11});
+      TweenLite.to('.pairDropdown__icon--' + cur, 0, {width: 30, height: 25, paddingLeft: 5, opacity: 0.5});
+      TweenLite.to('.pairDropdown__label--' + cur, 0, {opacity: 0.5, fontSize: 11});
     },
     dropOptions(curType) {
       let otherCurType = (curType === 'base') ? 'quote' : 'base';
-      TweenLite.to('.pairDropdown__option--' + otherCurType, 0.3, {transform: 'translateY(0)', opacity: 0, ease: Power0.easeNone});
-      TweenLite.to('.pairDropdown__container--' + otherCurType, 0.3, {height: '45px'});
+      TweenLite.to('.pairDropdown__option--' + otherCurType, 0.1, {transform: 'translateY(0)', opacity: 0, ease: Power0.easeNone});
+      TweenLite.to('.pairDropdown__container--' + otherCurType, 0.1, {height: '45px'});
       this.$emit('setShow', curType);
       if (this.showOptions) {
-        TweenLite.to('.pairDropdown__option--' + curType, 0.3, {transform: 'translateY(0)', opacity: 0, ease: Power0.easeNone});
-        TweenLite.to('.pairDropdown__container--' + curType, 0.3, {height: '45px'});
+        TweenLite.to('.pairDropdown__option--' + curType, 0.1, {transform: 'translateY(0)', opacity: 0, ease: Power0.easeNone});
+        TweenLite.to('.pairDropdown__container--' + curType, 0.1, {height: '45px'});
         TweenLite.to('.pairDropdown__label--option', 0, {opacity: 0, fontSize: 11});
         this.$emit('setShow', '');
       } else {
@@ -77,10 +77,10 @@ export default {
         TweenLite.to(document.getElementsByClassName('pairDropdown__container--' + curType)[0], 0, {height: (itemsCount + 1) * 40 + 15 + 'px'});
         for (let i in document.getElementsByClassName('pairDropdown__option--' + curType)) {
           if (i < 5) {
-            TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i], 0.3, {transform: 'translateY(' + ((parseInt(i) + 1) * 40 + 5) + 'px)', opacity: 1, ease: Power0.easeNone});
+            TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i], 0.1, {transform: 'translateY(' + ((parseInt(i) + 1) * 40 + 5) + 'px)', opacity: 1, ease: Power0.easeNone});
             TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i].querySelectorAll('.pairDropdown__icon--option')[0], 0, {width: 30, height: 25, paddingLeft: 5, opacity: 0.5});
             TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i].querySelectorAll('.pairDropdown__label--option')[0], 0, {opacity: 0, fontSize: 11});
-            TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i].querySelectorAll('.pairDropdown__label--option')[0], 0.5, {opacity: 0.5, fontSize: 11, delay: ((parseInt(i) + 1) * 0.2)});
+            TweenLite.to(document.getElementsByClassName('pairDropdown__option--' + curType)[i].querySelectorAll('.pairDropdown__label--option')[0], 0.5, {opacity: 0.5, fontSize: 11, delay: ((parseInt(i) + 1) * 0.1)});
           }
         };
         this.$emit('setShow', curType);

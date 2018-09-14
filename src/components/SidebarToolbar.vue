@@ -147,7 +147,7 @@ export default {
 }
 .toolbar {
   position: relative;
-  width: 55px;
+  width: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

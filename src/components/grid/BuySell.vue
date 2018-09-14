@@ -87,12 +87,12 @@ export default {
     },
   },
   methods: {
-    addInvalidQuantityBorder() {
-      let element = document.querySelector('.buySell__quantity');
-      element.classList.remove('buySell__quantity--invalid');
-      void element.offsetWidth;
-      element.classList.add('buySell__quantity--invalid');
-    },
+    // addInvalidQuantityBorder() {
+    //   let element = document.querySelector('.buySell__quantity');
+    //   element.classList.remove('buySell__quantity--invalid');
+    //   void element.offsetWidth;
+    //   element.classList.add('buySell__quantity--invalid');
+    // },
     ...mapActions('orders', {
       placeOrder: 'placeOrder',
     }),
@@ -116,7 +116,7 @@ export default {
             text: 'Please correct the value provided.',
             type: 'error',
           });
-          this.addInvalidQuantityBorder();
+          // this.addInvalidQuantityBorder();
           return false;
         };
       } else {
@@ -266,7 +266,7 @@ export default {
     width: 115px;
     height: 60px;
     font-size: 12px;
-    transition: width .4s ease-out;
+    // transition: width .4s ease-out;
     &--buy {
       left: 0;
       color: $color__white;
@@ -297,20 +297,20 @@ export default {
     justify-content: center;
     width: 120px;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.33);
-    transition: width .5s ease-out;
+    // transition: width .5s ease-out;
     &--expand {
       width: 100%;
-      transition: width .5s ease-out;
+      // transition: width .5s ease-out;
     }
-    &--invalid {
-      animation: borderAccent 1s linear 2;
-    }
+    // &--invalid {
+      // animation: borderAccent 1s linear 2;
+    // }
   }
   &__main {
     position: relative;
     width: 100%;
     height: 0;
-    transition: height .4s ease-out, padding .4s ease-out;
+    // transition: height .4s ease-out, padding .4s ease-out;
     &--open {
       padding: 23px;
     }
@@ -348,7 +348,7 @@ export default {
     &--limit {
       height: 0;
       margin: 0;
-      transition: height .4s ease-out;
+      // transition: height .4s ease-out;
     }
     &--showLimit {
       height: 79px;
@@ -364,9 +364,6 @@ export default {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15);
     border-radius: 2px;
     background-color: #0248e9;
-  }
-  &__input {
-    // width: 100%;
   }
   &__totalAmount {
     width: 100%;
@@ -386,7 +383,7 @@ export default {
     position: absolute;
     right: 40px;
     cursor: pointer;
-    animation: spin .5s linear;
+    // animation: spin .5s linear;
   }
   &__done {
     text-transform: uppercase;
@@ -401,6 +398,6 @@ export default {
   }
 }
 
-@keyframes spin { 0% { opacity: 0 } 100% { opacity: 1; -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-@keyframes borderAccent { 0% { background-color: transparent; } 100% { background-color: $color__red; } }
+// @keyframes spin { 0% { opacity: 0 } 100% { opacity: 1; -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+// @keyframes borderAccent { 0% { background-color: transparent; } 100% { background-color: $color__red; } }
 </style>
