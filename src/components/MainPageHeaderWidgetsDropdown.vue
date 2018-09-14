@@ -94,7 +94,7 @@ export default {
     hoverEnter(name) {
       let listHeight = 0;
       for (let item of document.querySelector('.widgetDropdown__list--' + name).children) {
-        listHeight += item.offsetHeight + 7; // TODO: remove hardcode for margin height
+        listHeight += item.offsetHeight + 7 + 35; // TODO: remove hardcode for margin and padding height
       };
       document.querySelector('.widgetDropdown__list--' + name).style.height = `${listHeight}px`;
     },
@@ -133,13 +133,13 @@ export default {
     overflow: hidden;
     height: 0;
     width: 100%;
-    margin-top: 35px;
-    background-color: $background__grey_white;
+    padding-top: 35px;
+    background-color: transparent;
     border-radius: 3px;
     top: -10px;
     left: 0;
     z-index: 1000000;
-    transition: height 0.5s ease-out;
+    // transition: height 0.5s ease-out;
   }
   &__item {
     width: 100%;
