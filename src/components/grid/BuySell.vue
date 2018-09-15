@@ -17,11 +17,11 @@
       IInput.buySell__input(v-show="!open", :placeholder="`${baseCurrency} Quantity`" center no-underline :value="amount" @change="setOrderAmount" type="number")
       .buySell__input(v-show="open") {{amount}} {{baseCurrency}}
       Icon.buySell__close(v-show="open" id="cross" @click="setOrderOpenStatus(false)")
-  .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + type]")
+  .buySell__main(:class="[{'buySell__main--open': open}, 'buySell__main--' + orderTypes[type]]")
     .buySell__types
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'market'}" @click="setOrderType('market')") Market
-      .buySell__typeBox(:class="{'buySell__typeBox--selected' : type === 'limit'}" @click="setOrderType('limit')") Limit
-    .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : type === 'limit'}" )
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : orderTypes[type] === 'market'}" @click="setOrderType(1)") Market
+      .buySell__typeBox(:class="{'buySell__typeBox--selected' : orderTypes[type] === 'limit'}" @click="setOrderType(0)") Limit
+    .buySell__field.buySell__field--limit(:class="{'buySell__field--showLimit' : orderTypes[type] === 'limit'}" )
       .buySell__label Limit price
       .buySell__inputContainer
         IInput.buySell__input(center no-underline :value="price" @change="setOrderPrice" type="number")
@@ -48,6 +48,10 @@ export default {
   data() {
     return {
       loading: false,
+      orderTypes: [
+        'limit',
+        'market',
+      ],
     };
   },
   computed: {
@@ -78,7 +82,7 @@ export default {
     },
     getTotal() {
       let total = 0;
-      if (this.type === 'market') {
+      if (this.orderTypes[this.type] === 'market') {
         total = this.isBuy ? this.ask * this.amount : this.bid * this.amount;
       } else {
         total = this.amount * this.price;
@@ -131,7 +135,7 @@ export default {
       };
       this.loading = true;
       this.placeOrder({
-        isMarketOrder: this.type === 'market',
+        isMarketOrder: this.orderTypes[this.type] === 'market',
         isSellOrder: !this.isBuy,
         baseCurrency: this.baseCurrency,
         quoteCurrency: this.quoteCurrency,
@@ -149,7 +153,6 @@ export default {
       )
       .catch(
         (err) => {
-          console.log(err);
           this.loading = false;
         }
       );
@@ -163,14 +166,11 @@ export default {
       this.setOrderPrice(this.getPrice);
     },
     bid() {
-      if (this.type === 'market') this.setOrderPrice(this.getPrice); ;
+      if (this.orderTypes[this.type] === 'market') this.setOrderPrice(this.getPrice); ;
     },
     ask() {
-      if (this.type === 'market') this.setOrderPrice(this.getPrice); ;
+      if (this.orderTypes[this.type] === 'market') this.setOrderPrice(this.getPrice); ;
     },
-  },
-  created() {
-    this.setOrderPrice(this.getPrice);
   },
   mounted() {
     addTileToDashboard(
