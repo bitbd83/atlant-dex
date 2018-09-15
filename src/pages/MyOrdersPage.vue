@@ -118,10 +118,18 @@ export default {
   },
   methods: {
     ...mapMutations('page', ['close']),
+    ...mapMutations('orders', [
+      'setOrderPrice',
+      'setOrderAmount',
+      'setOrderSide',
+      'setOrderType',
+      'setOrderOpenStatus',
+    ]),
     ...mapActions('orders', [
       'getAccountOrders',
       'getTradesForOrder',
     ]),
+    ...mapActions('tradeInfo', ['setPair']),
     setDate(isoTime) {
       return DateTime.fromISO(isoTime).toFormat('dd.LL.yyyy HH:mm');
     },
@@ -199,17 +207,12 @@ export default {
     },
     getRepeat() {
       if (this.checked == undefined) return false;
-      // this.openModal({
-      //   name: 'modalBuySell',
-      //   data: {
-      //     baseCurrency: this.checked.baseCurrency,
-      //     quoteCurrency: this.checked.quoteCurrency,
-      //     totalQuantity: this.checked.totalQuantity,
-      //     price: this.checked.price,
-      //     isBuy: !this.checked.side,
-      //     type: this.checked.type,
-      //   },
-      // });
+      this.setPair(`${this.checked.baseCurrency}_${this.checked.quoteCurrency}`);
+      this.setOrderPrice(this.checked.price),
+      this.setOrderAmount(this.checked.totalQuantity),
+      this.setOrderSide(this.checked.side === 0 ? true : false),
+      this.setOrderType(this.checked.type),
+      this.setOrderOpenStatus(true),
       this.close();
     },
     getExport() {

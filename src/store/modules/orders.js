@@ -20,7 +20,7 @@ export default {
     trades: [],
     placeOrder: {
       isOpen: false,
-      type: 'market',
+      type: 1,
       isBuy: false,
       amount: '',
       price: '',
